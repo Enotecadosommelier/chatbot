@@ -1,2 +1,6 @@
 streamlit
 openai
+fastapi
+uvicorn
+sqlalchemy
+pytest
