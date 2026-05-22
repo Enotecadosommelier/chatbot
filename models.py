@@ -1,69 +1,49 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, create_engine
+from sqlalchemy import Column, Integer, String, Float, DateTime, create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship, sessionmaker
+from sqlalchemy.orm import sessionmaker
 import datetime
+import os
 
 Base = declarative_base()
 
-class Ingrediente(Base):
-    __tablename__ = 'ingredientes'
-    id = Column(Integer, primary_key=True)
-    nome = Column(String, nullable=False)
-    categoria = Column(String)  # Alcoólico, Não-Alcoólico, Fruta, Guarnição, Insumo Artesanal
-    unidade = Column(String)    # ml, grama, unidade
-    custo_por_unidade = Column(Float)
-    fornecedor = Column(String)
-
-    composicoes = relationship("ComposicaoDrink", back_populates="ingrediente")
-
 class FichaTecnica(Base):
-    __tablename__ = 'fichas_tecnicas'
+    __tablename__ = '1_Fichas_Tecnicas'
     id = Column(Integer, primary_key=True)
-    nome = Column(String, nullable=False)
+    nome_drink = Column(String, nullable=False)
     categoria = Column(String)  # Signature, Classic, Zero-Proof
     preco_venda = Column(Float)
-    rendimento = Column(Integer, default=1)
-    descricao = Column(String)
-    copo_utilizado = Column(String)
+    receita_modo_preparo = Column(String)
 
-    composicao = relationship("ComposicaoDrink", back_populates="drink")
-    vendas = relationship("Venda", back_populates="drink")
-
-class ComposicaoDrink(Base):
-    __tablename__ = 'composicao_drink'
+class Insumo(Base):
+    __tablename__ = '2_Insumos'
     id = Column(Integer, primary_key=True)
-    id_drink = Column(Integer, ForeignKey('fichas_tecnicas.id'))
-    id_ingrediente = Column(Integer, ForeignKey('ingredientes.id'))
-    quantidade_utilizada = Column(Float)
-    fator_desperdicio = Column(Float, default=1.0)
+    nome_insumo = Column(String, nullable=False)
+    categoria_insumo = Column(String)  # Alcoólico, Não-Alcoólico, Fruta, Guarnição
+    volume_garrafa_ml = Column(Float)
+    custo_garrafa = Column(Float)
+    custo_por_ml = Column(Float)
 
-    drink = relationship("FichaTecnica", back_populates="composicao")
-    ingrediente = relationship("Ingrediente", back_populates="composicoes")
-
-class Funcionario(Base):
-    __tablename__ = 'funcionarios'
+class MovimentacaoEstoque(Base):
+    __tablename__ = '3_Movimentacao_Estoque'
     id = Column(Integer, primary_key=True)
-    nome = Column(String, nullable=False)
-    cargo = Column(String)
+    nome_bebida = Column(String, nullable=False)
+    qtd_almoxarifado_amox = Column(Float)
+    qtd_bar_hotel = Column(Float)
+    qtd_bar_praia = Column(Float)
+    custo_unitario_reposicao = Column(Float)
 
-    vendas = relationship("Venda", back_populates="funcionario")
-
-class Venda(Base):
-    __tablename__ = 'vendas_lancamentos'
-    id = Column(Integer, primary_key=True)
+class VendaHistorico(Base):
+    __tablename__ = '4_Historico_Vendas'
+    id_venda = Column(Integer, primary_key=True)
     data_hora = Column(DateTime, default=datetime.datetime.utcnow)
-    id_drink = Column(Integer, ForeignKey('fichas_tecnicas.id'))
+    nome_drink = Column(String)
     quantidade = Column(Integer)
-    id_funcionario = Column(Integer, ForeignKey('funcionarios.id'))
-    local_consumo = Column(String) # Pool Bar, Restaurante, Beach Club
-    id_quarto_hospede = Column(String)
-
-    drink = relationship("FichaTecnica", back_populates="vendas")
-    funcionario = relationship("Funcionario", back_populates="vendas")
+    nome_funcionario = Column(String)
+    local_consumo = Column(String)  # Pool Bar, Restaurante, Beach Club
 
 # Database setup
-SQLALCHEMY_DATABASE_URL = "sqlite:///./bar_management.db"
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./bar_management.db")
+engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False} if "sqlite" in DATABASE_URL else {})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def init_db():

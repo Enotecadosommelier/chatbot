@@ -1,0 +1,8 @@
+nome_insumo;categoria_insumo;custo_garrafa;id;volume_garrafa_ml;custo_por_ml
+Tequila Blanco;Alcoólico;35.0;1;750.0;0.04666666666666667
+Casamigos Blanco;Alcoólico;60.0;2;750.0;0.08
+Martini Fiero;Alcoólico;15.0;3;750.0;0.02
+Whispering Angel Rosé;Alcoólico;25.0;4;750.0;0.03333333333333333
+Pentire Adrift;Não-Alcoólico;30.0;5;700.0;0.04285714285714286
+Água de Coco;Não-Alcoólico;5.0;6;1000.0;0.005
+Limão Siciliano;Fruta;10.0;7;1000.0;0.01

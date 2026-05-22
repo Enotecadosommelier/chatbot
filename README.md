@@ -1,61 +1,63 @@
-# Sistema de Gestão de Bar - Hotel de Luxo
+# Bar Management System - Luxury Hotel (The Surf Lodge Model)
 
-Este projeto implementa um backend para gestão de fichas técnicas de drinks, controle de CMV e métricas de upselling, baseado no modelo do The Surf Lodge (Montauk).
+This project provides a comprehensive backend and data generation system for managing a luxury hotel bar. It integrates technical drink sheets, input costs, inventory control by location, and sales history.
 
-## 🚀 Como executar o projeto
+## 📊 Data Structure
 
-1.  **Instalar dependências:**
+The system is organized into four main entities, exported as semicolon-delimited CSVs for direct consumption by Power BI or Excel:
+
+1.  **1_Fichas_Tecnicas**: Drink recipes, categories, and sales prices.
+2.  **2_Insumos**: Detailed ingredient costs, bottle volumes, and calculated cost per ml.
+3.  **3_Movimentacao_Estoque**: Real-time stock levels across three locations (Almoxarifado, Bar Hotel, Praia) with replacement costs.
+4.  **4_Historico_Vendas**: Record of transactions including date, drink, quantity, server, and location.
+
+## 🚀 Setup & Execution
+
+1.  **Install dependencies:**
     ```bash
     pip install -r requirements.txt
     ```
 
-2.  **Popular o banco de dados (Mock Data):**
+2.  **Generate data & reports:**
+    Runs the simulation script that populates the database and generates CSV/TXT files.
     ```bash
-    python seed.py
+    python generate_hotel_data.py
     ```
 
-3.  **Executar a API (FastAPI):**
+3.  **Run the API:**
+    Exposes the data via FastAPI endpoints for dynamic integration.
     ```bash
     uvicorn main:app --reload
     ```
 
-4.  **Executar Testes:**
-    ```bash
-    PYTHONPATH=. pytest
-    ```
+## 📈 Power BI Integration
 
-## 📊 Integração com Power BI
+### API Endpoints
+- `GET /1_fichas_tecnicas`
+- `GET /2_insumos`
+- `GET /3_movimentacao_estoque`
+- `GET /4_historico_vendas`
+- `GET /v_ranking_upselling` (Aggregated for Power BI)
+- `GET /v_evolucao_vendas` (Aggregated for Power BI)
 
-A API fornece três endpoints principais para consumo no Power BI:
-- `GET /v_fichas_tecnicas_cmv`: Dados cadastrais e CMV teórico.
-- `GET /v_ranking_upselling`: Performance de vendas por funcionário e categoria.
-- `GET /v_evolucao_vendas`: Histórico diário por local de consumo.
+### DAX Formulas
 
-### Fórmulas DAX Recomendadas
+Use these formulas for advanced metrics:
 
-Para as análises no Power BI, utilize as seguintes métricas:
-
-**A) CMV Dinâmico Geral:**
+**A) Dynamic CMV (Cost of Goods Sold):**
 ```dax
 CMV_Dinamico = DIVIDE(SUM(v_fichas_tecnicas_cmv[Custo_Total]) * SUM(v_evolucao_vendas[Quantidade]), SUM(v_evolucao_vendas[Faturamento_Total]), 0)
 ```
 
-**B) Receita de Upselling (Vendas de drinks 'Signature'):**
+**B) Upselling Revenue (Signature Drinks):**
 ```dax
 Receita_Upselling = CALCULATE(SUM(v_evolucao_vendas[Faturamento_Total]), v_fichas_tecnicas_cmv[Categoria] = "Signature")
 ```
 
-**C) % de Conversão de Upselling por Funcionário:**
+**C) Upselling Conversion Rate per Employee:**
 ```dax
 Taxa_Upselling_Funcionario = DIVIDE([Receita_Upselling], SUM(v_evolucao_vendas[Faturamento_Total]), 0)
 ```
 
 ---
-
-## 🛠️ Estrutura do Banco de Dados
-
-- **Ingredientes**: Cadastro de insumos e custos.
-- **Fichas_Tecnicas**: Definição dos drinks e preços.
-- **Composicao_Drink**: Relacionamento N:N entre drinks e ingredientes com fator de desperdício.
-- **Vendas_Lancamentos**: Registro operacional de vendas.
-- **Funcionarios**: Cadastro da equipe.
+*Developed for high-end hospitality operations.*

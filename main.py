@@ -1,13 +1,13 @@
 from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
-from models import SessionLocal, init_db, FichaTecnica, Venda, Funcionario, Ingrediente, ComposicaoDrink
-from logic import calcular_custo_item, calcular_cmv_individual
 from sqlalchemy import func
+from models import SessionLocal, init_db, FichaTecnica, Venda, Funcionario, Ingrediente, ComposicaoDrink
+from logic import calcular_custo_item, calcular_cmv_teorico
 import datetime
 
 app = FastAPI()
 
-# Initialize Database
+# Initialize database
 init_db()
 
 # Dependency
@@ -20,15 +20,15 @@ def get_db():
 
 @app.get("/")
 def read_root():
-    return {"message": "Bar Management API for Power BI"}
+    return {"message": "Luxury Bar Management API"}
 
 @app.get("/v_fichas_tecnicas_cmv")
-def get_fichas_cmv(db: Session = Depends(get_db)):
+def get_fichas_tecnicas_cmv(db: Session = Depends(get_db)):
     drinks = db.query(FichaTecnica).all()
     results = []
     for drink in drinks:
         custo_total = 0
-        for comp in drink.composicao:
+        for comp in drink.composicoes:
             custo_total += calcular_custo_item(
                 comp.quantidade_utilizada,
                 comp.ingrediente.custo_por_unidade,
@@ -37,17 +37,17 @@ def get_fichas_cmv(db: Session = Depends(get_db)):
 
         results.append({
             "id": drink.id,
-            "nome": drink.nome,
+            "nome_drink": drink.nome,
             "categoria": drink.categoria,
             "preco_venda": drink.preco_venda,
             "custo_total": round(custo_total, 2),
-            "cmv_teorico": round(calcular_cmv_individual(custo_total, drink.preco_venda) * 100, 2)
+            "cmv_teorico": round(calcular_cmv_teorico(custo_total, drink.preco_venda) * 100, 2)
         })
     return results
 
 @app.get("/v_ranking_upselling")
 def get_ranking_upselling(db: Session = Depends(get_db)):
-    # Vendas agrupadas por funcionário e por categoria de drink
+    # Group sales by employee and drink category
     query = (
         db.query(
             Funcionario.nome.label("funcionario"),
@@ -65,11 +65,11 @@ def get_ranking_upselling(db: Session = Depends(get_db)):
 
 @app.get("/v_evolucao_vendas")
 def get_evolucao_vendas(db: Session = Depends(get_db)):
-    # Histórico de vendas diárias por local de consumo
+    # Daily sales history by location
     query = (
         db.query(
             func.date(Venda.data_hora).label("data"),
-            Venda.local_consumo,
+            Venda.local_consumo.label("local_consumo"),
             func.sum(Venda.quantidade).label("quantidade"),
             func.sum(Venda.quantidade * FichaTecnica.preco_venda).label("faturamento_total")
         )
