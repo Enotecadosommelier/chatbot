@@ -1,63 +1,43 @@
-# Bar Management System - Luxury Hotel (The Surf Lodge Model)
+# Bar Management System - Financial Audit & Inventory
 
-This project provides a comprehensive backend and data generation system for managing a luxury hotel bar. It integrates technical drink sheets, input costs, inventory control by location, and sales history.
+This system manages luxury bar operations with advanced financial auditing features, including operational waste margins and net revenue calculations.
 
-## 📊 Data Structure
+## 📊 Core Data Structure (CSV/Semicolon)
 
-The system is organized into four main entities, exported as semicolon-delimited CSVs for direct consumption by Power BI or Excel:
+1.  **1_Fichas_Tecnicas**: Includes `Custo_Unitario_Base` and `Custo_Real_Com_Quebra` (+8%).
+2.  **2_Insumos**: Detailed costs and volumes per ingredient.
+3.  **3_Movimentacao_Estoque**: Stock levels by location.
+4.  **4_Historico_Vendas**: Includes alphanumeric IDs and `Faturamento_Liquido_Unid` (-10%).
 
-1.  **1_Fichas_Tecnicas**: Drink recipes, categories, and sales prices.
-2.  **2_Insumos**: Detailed ingredient costs, bottle volumes, and calculated cost per ml.
-3.  **3_Movimentacao_Estoque**: Real-time stock levels across three locations (Almoxarifado, Bar Hotel, Praia) with replacement costs.
-4.  **4_Historico_Vendas**: Record of transactions including date, drink, quantity, server, and location.
+## 🚀 Audit & Business Rules
 
-## 🚀 Setup & Execution
-
-1.  **Install dependencies:**
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-2.  **Generate data & reports:**
-    Runs the simulation script that populates the database and generates CSV/TXT files.
-    ```bash
-    python generate_hotel_data.py
-    ```
-
-3.  **Run the API:**
-    Exposes the data via FastAPI endpoints for dynamic integration.
-    ```bash
-    uvicorn main:app --reload
-    ```
+-   **Technical Waste (8%)**: Applied to base costs to account for pouring errors and breakages.
+-   **Net Revenue (90%)**: Calculated by deducting 10% (taxes/service) from the gross sales price.
+-   **Alphanumeric Requisitions**: Sales IDs now follow hotel group standards (e.g., `QKRDYYTL`).
 
 ## 📈 Power BI Integration
 
-### API Endpoints
-- `GET /1_fichas_tecnicas`
-- `GET /2_insumos`
-- `GET /3_movimentacao_estoque`
-- `GET /4_historico_vendas`
-- `GET /v_ranking_upselling` (Aggregated for Power BI)
-- `GET /v_evolucao_vendas` (Aggregated for Power BI)
+### Specialized Audit View
+-   `GET /v_auditoria_financeira_fb`: Consolidated view of sales with net revenue and costs including operational waste.
 
-### DAX Formulas
+### DAX Formulas for Power BI
 
-Use these formulas for advanced metrics:
+Use the following formulas for your dashboard:
 
-**A) Dynamic CMV (Cost of Goods Sold):**
+**A) CMV Dinâmico Geral (Com Margem de Quebra):**
 ```dax
-CMV_Dinamico = DIVIDE(SUM(v_fichas_tecnicas_cmv[Custo_Total]) * SUM(v_evolucao_vendas[Quantidade]), SUM(v_evolucao_vendas[Faturamento_Total]), 0)
+CMV_Dinamico = DIVIDE(SUM(v_auditoria_financeira_fb[custo_total_com_quebra]), SUM(v_auditoria_financeira_fb[faturamento_liquido_total]), 0)
 ```
 
-**B) Upselling Revenue (Signature Drinks):**
+**B) Receita de Upselling (Signature Drinks):**
 ```dax
-Receita_Upselling = CALCULATE(SUM(v_evolucao_vendas[Faturamento_Total]), v_fichas_tecnicas_cmv[Categoria] = "Signature")
+Receita_Upselling = CALCULATE(SUM(v_auditoria_financeira_fb[faturamento_liquido_total]), '1_Fichas_Tecnicas'[categoria] = "Signature")
 ```
 
-**C) Upselling Conversion Rate per Employee:**
+**C) Margem de Contribuição Operacional:**
 ```dax
-Taxa_Upselling_Funcionario = DIVIDE([Receita_Upselling], SUM(v_evolucao_vendas[Faturamento_Total]), 0)
+Margem_Operacional = SUM(v_auditoria_financeira_fb[faturamento_liquido_total]) - SUM(v_auditoria_financeira_fb[custo_total_com_quebra])
 ```
 
 ---
-*Developed for high-end hospitality operations.*
+*Built for advanced hospitality financial control.*

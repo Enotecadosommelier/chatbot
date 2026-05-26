@@ -13,6 +13,8 @@ class FichaTecnica(Base):
     categoria = Column(String)  # Signature, Classic, Zero-Proof
     preco_venda = Column(Float)
     receita_modo_preparo = Column(String)
+    custo_unitario_base = Column(Float)
+    custo_real_com_quebra = Column(Float)
 
 class Insumo(Base):
     __tablename__ = '2_Insumos'
@@ -34,12 +36,13 @@ class MovimentacaoEstoque(Base):
 
 class VendaHistorico(Base):
     __tablename__ = '4_Historico_Vendas'
-    id_venda = Column(Integer, primary_key=True)
+    id_venda = Column(String, primary_key=True) # Changed to String for alphanumeric codes
     data_hora = Column(DateTime, default=datetime.datetime.utcnow)
     nome_drink = Column(String)
     quantidade = Column(Integer)
     nome_funcionario = Column(String)
     local_consumo = Column(String)  # Pool Bar, Restaurante, Beach Club
+    faturamento_liquido_unid = Column(Float)
 
 # Database setup
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./bar_management.db")

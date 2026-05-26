@@ -1,101 +1,151 @@
-quantidade;id_venda;local_consumo;nome_drink;nome_funcionario;data_hora
-5;1;Pool Bar;Pink Flamingo;Carlos Oliveira;2026-05-13 23:06:35.501056
-5;2;Beach Club;Classic Margarita;Maria Santos;2026-05-13 02:06:35.501056
-4;3;Restaurante;Sun Drop;Maria Santos;2026-05-23 01:06:35.501056
-5;4;Pool Bar;Sun Drop;Carlos Oliveira;2026-05-12 17:06:35.501056
-2;5;Beach Club;Pink Flamingo;Maria Santos;2026-05-22 18:06:35.501056
-4;6;Pool Bar;Sun Drop;João Silva;2026-05-16 19:06:35.501056
-4;7;Restaurante;Sun Drop;Maria Santos;2026-05-22 21:06:35.501056
-4;8;Restaurante;Sun Drop;Carlos Oliveira;2026-05-20 17:06:35.501056
-4;9;Pool Bar;Pink Flamingo;João Silva;2026-05-17 21:06:35.501056
-3;10;Beach Club;Classic Margarita;João Silva;2026-05-21 20:06:35.501056
-2;11;Pool Bar;Classic Margarita;Carlos Oliveira;2026-05-13 22:06:35.501056
-1;12;Beach Club;The Surf Lodge Seasonal Tequila;João Silva;2026-05-22 22:06:35.501056
-3;13;Beach Club;Classic Margarita;Carlos Oliveira;2026-05-17 14:06:35.501056
-5;14;Pool Bar;The Surf Lodge Seasonal Tequila;Maria Santos;2026-05-14 20:06:35.501056
-1;15;Pool Bar;Sun Drop;João Silva;2026-05-15 20:06:35.501056
-5;16;Beach Club;Classic Margarita;João Silva;2026-05-15 02:06:35.501056
-3;17;Beach Club;Pink Flamingo;Carlos Oliveira;2026-05-18 01:06:35.501056
-5;18;Beach Club;The Surf Lodge Seasonal Tequila;João Silva;2026-05-21 15:06:35.501056
-2;19;Restaurante;The Surf Lodge Seasonal Tequila;João Silva;2026-05-18 15:06:35.501056
-1;20;Pool Bar;Pink Flamingo;Maria Santos;2026-05-18 17:06:35.501056
-2;21;Restaurante;Pink Flamingo;João Silva;2026-05-13 16:06:35.501056
-1;22;Restaurante;Classic Margarita;Maria Santos;2026-05-18 20:06:35.501056
-2;23;Restaurante;The Surf Lodge Seasonal Tequila;Carlos Oliveira;2026-05-20 16:06:35.501056
-5;24;Beach Club;Classic Margarita;João Silva;2026-05-18 00:06:35.501056
-2;25;Restaurante;Classic Margarita;Carlos Oliveira;2026-05-16 14:06:35.501056
-2;26;Beach Club;The Surf Lodge Seasonal Tequila;Maria Santos;2026-05-16 23:06:35.501056
-4;27;Pool Bar;The Surf Lodge Seasonal Tequila;Carlos Oliveira;2026-05-21 01:06:35.501056
-2;28;Pool Bar;Pink Flamingo;Maria Santos;2026-05-21 14:06:35.501056
-1;29;Restaurante;Classic Margarita;Carlos Oliveira;2026-05-13 23:06:35.501056
-2;30;Restaurante;Classic Margarita;Carlos Oliveira;2026-05-16 15:06:35.501056
-1;31;Pool Bar;Classic Margarita;Maria Santos;2026-05-19 15:06:35.501056
-5;32;Pool Bar;The Surf Lodge Seasonal Tequila;Maria Santos;2026-05-14 21:06:35.501056
-3;33;Pool Bar;The Surf Lodge Seasonal Tequila;Carlos Oliveira;2026-05-20 00:06:35.501056
-3;34;Beach Club;The Surf Lodge Seasonal Tequila;Maria Santos;2026-05-19 21:06:35.501056
-5;35;Restaurante;Classic Margarita;Carlos Oliveira;2026-05-21 21:06:35.501056
-1;36;Pool Bar;Pink Flamingo;João Silva;2026-05-18 17:06:35.501056
-4;37;Pool Bar;The Surf Lodge Seasonal Tequila;Carlos Oliveira;2026-05-12 14:06:35.501056
-3;38;Pool Bar;Classic Margarita;Carlos Oliveira;2026-05-20 22:06:35.501056
-5;39;Pool Bar;Pink Flamingo;Maria Santos;2026-05-16 16:06:35.501056
-5;40;Beach Club;Pink Flamingo;Maria Santos;2026-05-14 02:06:35.501056
-4;41;Pool Bar;Pink Flamingo;Maria Santos;2026-05-19 18:06:35.501056
-4;42;Pool Bar;The Surf Lodge Seasonal Tequila;João Silva;2026-05-13 21:06:35.501056
-2;43;Restaurante;Classic Margarita;João Silva;2026-05-13 01:06:35.501056
-5;44;Beach Club;Classic Margarita;João Silva;2026-05-17 16:06:35.501056
-5;45;Beach Club;The Surf Lodge Seasonal Tequila;Carlos Oliveira;2026-05-18 22:06:35.501056
-5;46;Pool Bar;Pink Flamingo;Carlos Oliveira;2026-05-15 01:06:35.501056
-5;47;Pool Bar;Classic Margarita;João Silva;2026-05-13 02:06:35.501056
-5;48;Beach Club;The Surf Lodge Seasonal Tequila;Carlos Oliveira;2026-05-20 16:06:35.501056
-4;49;Pool Bar;Sun Drop;João Silva;2026-05-21 21:06:35.501056
-5;50;Restaurante;The Surf Lodge Seasonal Tequila;João Silva;2026-05-17 02:06:35.501056
-4;51;Beach Club;The Surf Lodge Seasonal Tequila;Carlos Oliveira;2026-05-13 23:06:35.501056
-4;52;Pool Bar;The Surf Lodge Seasonal Tequila;Maria Santos;2026-05-12 16:06:35.501056
-2;53;Pool Bar;Classic Margarita;João Silva;2026-05-15 22:06:35.501056
-5;54;Restaurante;Sun Drop;Maria Santos;2026-05-13 18:06:35.501056
-1;55;Beach Club;The Surf Lodge Seasonal Tequila;João Silva;2026-05-19 23:06:35.501056
-5;56;Beach Club;The Surf Lodge Seasonal Tequila;João Silva;2026-05-16 22:06:35.501056
-1;57;Beach Club;The Surf Lodge Seasonal Tequila;Carlos Oliveira;2026-05-18 01:06:35.501056
-3;58;Beach Club;Sun Drop;Carlos Oliveira;2026-05-15 19:06:35.501056
-2;59;Restaurante;The Surf Lodge Seasonal Tequila;Maria Santos;2026-05-14 14:06:35.501056
-2;60;Restaurante;Pink Flamingo;João Silva;2026-05-15 20:06:35.501056
-1;61;Pool Bar;Classic Margarita;Carlos Oliveira;2026-05-20 17:06:35.501056
-3;62;Restaurante;Sun Drop;Carlos Oliveira;2026-05-20 00:06:35.501056
-2;63;Beach Club;The Surf Lodge Seasonal Tequila;Carlos Oliveira;2026-05-17 19:06:35.501056
-2;64;Pool Bar;The Surf Lodge Seasonal Tequila;João Silva;2026-05-17 14:06:35.501056
-4;65;Restaurante;Pink Flamingo;Carlos Oliveira;2026-05-13 23:06:35.501056
-5;66;Restaurante;Classic Margarita;Carlos Oliveira;2026-05-17 15:06:35.501056
-4;67;Pool Bar;Sun Drop;Carlos Oliveira;2026-05-17 00:06:35.501056
-3;68;Beach Club;Sun Drop;Carlos Oliveira;2026-05-14 23:06:35.501056
-1;69;Beach Club;Pink Flamingo;João Silva;2026-05-22 20:06:35.501056
-1;70;Restaurante;Sun Drop;Carlos Oliveira;2026-05-18 20:06:35.501056
-3;71;Restaurante;The Surf Lodge Seasonal Tequila;Carlos Oliveira;2026-05-20 15:06:35.501056
-5;72;Pool Bar;The Surf Lodge Seasonal Tequila;Carlos Oliveira;2026-05-19 00:06:35.501056
-1;73;Pool Bar;Classic Margarita;Carlos Oliveira;2026-05-19 16:06:35.501056
-2;74;Beach Club;Classic Margarita;Carlos Oliveira;2026-05-13 19:06:35.501056
-2;75;Pool Bar;Pink Flamingo;Carlos Oliveira;2026-05-12 15:06:35.501056
-3;76;Beach Club;Pink Flamingo;João Silva;2026-05-15 19:06:35.501056
-4;77;Pool Bar;Classic Margarita;Maria Santos;2026-05-13 01:06:35.501056
-4;78;Restaurante;Classic Margarita;Carlos Oliveira;2026-05-18 15:06:35.501056
-2;79;Restaurante;The Surf Lodge Seasonal Tequila;João Silva;2026-05-17 22:06:35.501056
-1;80;Pool Bar;Sun Drop;João Silva;2026-05-20 22:06:35.501056
-5;81;Restaurante;Sun Drop;João Silva;2026-05-14 02:06:35.501056
-5;82;Restaurante;Classic Margarita;João Silva;2026-05-17 02:06:35.501056
-4;83;Pool Bar;Pink Flamingo;Carlos Oliveira;2026-05-21 01:06:35.501056
-5;84;Restaurante;Pink Flamingo;Carlos Oliveira;2026-05-14 21:06:35.501056
-2;85;Beach Club;The Surf Lodge Seasonal Tequila;Maria Santos;2026-05-18 00:06:35.501056
-2;86;Restaurante;Classic Margarita;João Silva;2026-05-13 17:06:35.501056
-5;87;Restaurante;Sun Drop;Carlos Oliveira;2026-05-20 00:06:35.501056
-1;88;Pool Bar;Classic Margarita;João Silva;2026-05-14 02:06:35.501056
-1;89;Restaurante;Sun Drop;Maria Santos;2026-05-20 15:06:35.501056
-2;90;Pool Bar;The Surf Lodge Seasonal Tequila;Maria Santos;2026-05-17 20:06:35.501056
-2;91;Beach Club;The Surf Lodge Seasonal Tequila;Carlos Oliveira;2026-05-14 01:06:35.501056
-3;92;Restaurante;The Surf Lodge Seasonal Tequila;Maria Santos;2026-05-14 14:06:35.501056
-1;93;Restaurante;Sun Drop;Carlos Oliveira;2026-05-12 17:06:35.501056
-2;94;Beach Club;Sun Drop;Carlos Oliveira;2026-05-18 02:06:35.501056
-5;95;Beach Club;Pink Flamingo;Carlos Oliveira;2026-05-17 01:06:35.501056
-4;96;Restaurante;The Surf Lodge Seasonal Tequila;Maria Santos;2026-05-22 01:06:35.501056
-3;97;Restaurante;The Surf Lodge Seasonal Tequila;João Silva;2026-05-12 15:06:35.501056
-3;98;Pool Bar;The Surf Lodge Seasonal Tequila;Maria Santos;2026-05-12 23:06:35.501056
-3;99;Pool Bar;The Surf Lodge Seasonal Tequila;João Silva;2026-05-22 22:06:35.501056
-5;100;Pool Bar;Pink Flamingo;Maria Santos;2026-05-14 18:06:35.501056
+quantidade;id_venda;local_consumo;data_hora;nome_drink;nome_funcionario;faturamento_liquido_unid
+2;XZ2PPHGY;Beach Club;2026-05-24 13:34:06.858579;The Surf Lodge Seasonal Tequila;João Silva;21.6
+2;XDXDSX12;Pool Bar;2026-05-21 12:34:06.858579;Sun Drop;Carlos Oliveira;16.2
+2;LF5STHLO;Beach Club;2026-05-22 04:34:06.858579;Pink Flamingo;Maria Santos;19.8
+1;WXUI3TVB;Pool Bar;2026-05-27 08:34:06.858579;Sun Drop;Maria Santos;16.2
+1;3N591YAS;Beach Club;2026-05-22 03:34:06.858579;Classic Margarita;João Silva;16.2
+5;2X1DZ0Z1;Restaurante;2026-05-26 13:34:06.858579;Sun Drop;Carlos Oliveira;16.2
+4;APF8NBO2;Restaurante;2026-05-26 07:34:06.858579;Sun Drop;Carlos Oliveira;16.2
+2;U6B9L2E0;Restaurante;2026-05-19 13:34:06.858579;Pink Flamingo;Maria Santos;19.8
+5;YNM2ILJ4;Pool Bar;2026-05-21 03:34:06.858579;The Surf Lodge Seasonal Tequila;Maria Santos;21.6
+4;5R9CYHEG;Pool Bar;2026-05-25 03:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+3;GGFLQF3C;Restaurante;2026-05-21 03:34:06.858579;Classic Margarita;Maria Santos;16.2
+2;1A2Y0JCT;Beach Club;2026-05-19 06:34:06.858579;Sun Drop;Carlos Oliveira;16.2
+3;VHCEJMZE;Restaurante;2026-05-18 03:34:06.858579;Pink Flamingo;Maria Santos;19.8
+1;CIPP89FB;Restaurante;2026-05-24 09:34:06.858579;Pink Flamingo;Carlos Oliveira;19.8
+1;QNYQC4DQ;Beach Club;2026-05-18 08:34:06.858579;Pink Flamingo;João Silva;19.8
+2;NOG8HNYW;Restaurante;2026-05-25 13:34:06.858579;Sun Drop;João Silva;16.2
+5;2EDC51EQ;Restaurante;2026-05-26 07:34:06.858579;Sun Drop;Carlos Oliveira;16.2
+1;6JE38JMS;Beach Club;2026-05-22 06:34:06.858579;Classic Margarita;Carlos Oliveira;16.2
+4;CI7DCTJE;Restaurante;2026-05-17 04:34:06.858579;Pink Flamingo;Maria Santos;19.8
+2;UYX81Q54;Beach Club;2026-05-26 13:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+3;1KUXTF1S;Beach Club;2026-05-18 05:34:06.858579;Pink Flamingo;João Silva;19.8
+5;HOBQIMPK;Beach Club;2026-05-27 06:34:06.858579;Classic Margarita;Carlos Oliveira;16.2
+5;8C1I24I0;Pool Bar;2026-05-23 05:34:06.858579;Classic Margarita;Carlos Oliveira;16.2
+5;TBNZHXZB;Pool Bar;2026-05-26 13:34:06.858579;Classic Margarita;Maria Santos;16.2
+3;AC7KQAFF;Pool Bar;2026-05-27 08:34:06.858579;Sun Drop;Carlos Oliveira;16.2
+3;7PX7TMQL;Restaurante;2026-05-19 09:34:06.858579;The Surf Lodge Seasonal Tequila;João Silva;21.6
+2;CRNE3PJI;Pool Bar;2026-05-17 09:34:06.858579;Pink Flamingo;Carlos Oliveira;19.8
+4;GD49V0QT;Pool Bar;2026-05-25 10:34:06.858579;Pink Flamingo;Maria Santos;19.8
+2;4A1YIZOC;Pool Bar;2026-05-17 09:34:06.858579;Sun Drop;Carlos Oliveira;16.2
+4;5OZOT9P2;Beach Club;2026-05-20 03:34:06.858579;Classic Margarita;Carlos Oliveira;16.2
+2;WH6EMU3N;Pool Bar;2026-05-17 07:34:06.858579;Sun Drop;João Silva;16.2
+4;SKUVEFFM;Pool Bar;2026-05-21 04:34:06.858579;Classic Margarita;João Silva;16.2
+5;LG2P9H8Y;Pool Bar;2026-05-21 08:34:06.858579;Classic Margarita;João Silva;16.2
+4;7FXN1HJM;Beach Club;2026-05-26 14:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+1;TRO0PWUZ;Restaurante;2026-05-23 11:34:06.858579;The Surf Lodge Seasonal Tequila;Maria Santos;21.6
+2;G6TIIDMJ;Beach Club;2026-05-21 12:34:06.858579;Sun Drop;Maria Santos;16.2
+3;YJG7O5EZ;Beach Club;2026-05-25 06:34:06.858579;The Surf Lodge Seasonal Tequila;Maria Santos;21.6
+1;9LI3XQJ0;Beach Club;2026-05-21 02:34:06.858579;Classic Margarita;Maria Santos;16.2
+3;DMV1YZ4T;Pool Bar;2026-05-23 04:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+2;8K0BWJYX;Restaurante;2026-05-22 07:34:06.858579;Sun Drop;Maria Santos;16.2
+4;CCMG1SJW;Pool Bar;2026-05-24 05:34:06.858579;Sun Drop;João Silva;16.2
+5;PL30EXJS;Beach Club;2026-05-22 04:34:06.858579;Classic Margarita;Maria Santos;16.2
+1;4Y9A2L2A;Pool Bar;2026-05-25 10:34:06.858579;Pink Flamingo;Carlos Oliveira;19.8
+3;UBPFH4F6;Restaurante;2026-05-17 10:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+2;NVCFSVHL;Beach Club;2026-05-26 13:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+1;J779Z186;Pool Bar;2026-05-17 06:34:06.858579;Pink Flamingo;Carlos Oliveira;19.8
+4;4AOUJORF;Beach Club;2026-05-26 02:34:06.858579;Classic Margarita;Maria Santos;16.2
+2;A4O4M9QW;Beach Club;2026-05-26 14:34:06.858579;Classic Margarita;João Silva;16.2
+3;MT67ZGK0;Restaurante;2026-05-17 09:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+2;HR9BC1E3;Pool Bar;2026-05-22 08:34:06.858579;Classic Margarita;Maria Santos;16.2
+1;IASNPF34;Pool Bar;2026-05-26 10:34:06.858579;The Surf Lodge Seasonal Tequila;João Silva;21.6
+3;3472WLD6;Pool Bar;2026-05-25 13:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+1;U09YHHLK;Restaurante;2026-05-24 04:34:06.858579;Pink Flamingo;Carlos Oliveira;19.8
+5;6D5YJ9CX;Restaurante;2026-05-26 05:34:06.858579;Pink Flamingo;João Silva;19.8
+5;SW4FOJFU;Beach Club;2026-05-24 09:34:06.858579;The Surf Lodge Seasonal Tequila;Maria Santos;21.6
+1;OOIIXUWE;Restaurante;2026-05-24 04:34:06.858579;Pink Flamingo;Maria Santos;19.8
+3;BTGEFKPZ;Beach Club;2026-05-17 11:34:06.858579;Sun Drop;João Silva;16.2
+4;V395KTCV;Pool Bar;2026-05-18 14:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+1;ZN6038ZC;Beach Club;2026-05-24 06:34:06.858579;Classic Margarita;Maria Santos;16.2
+3;FV7SLHDM;Pool Bar;2026-05-17 14:34:06.858579;Sun Drop;Carlos Oliveira;16.2
+1;0494TWZ3;Beach Club;2026-05-20 02:34:06.858579;The Surf Lodge Seasonal Tequila;Maria Santos;21.6
+4;31X1PTD5;Beach Club;2026-05-18 10:34:06.858579;Pink Flamingo;Carlos Oliveira;19.8
+4;G3WFA6R9;Pool Bar;2026-05-22 08:34:06.858579;Sun Drop;João Silva;16.2
+4;GJEF72P6;Restaurante;2026-05-24 04:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+4;8J7ETVTK;Restaurante;2026-05-24 13:34:06.858579;The Surf Lodge Seasonal Tequila;Maria Santos;21.6
+5;DFC3MTW9;Pool Bar;2026-05-22 13:34:06.858579;Sun Drop;Maria Santos;16.2
+2;ZLA5NKDN;Pool Bar;2026-05-25 11:34:06.858579;Sun Drop;João Silva;16.2
+2;7ITOM64S;Restaurante;2026-05-21 06:34:06.858579;Sun Drop;João Silva;16.2
+2;O9O9EQSX;Pool Bar;2026-05-17 09:34:06.858579;The Surf Lodge Seasonal Tequila;Maria Santos;21.6
+3;6IE10E2W;Pool Bar;2026-05-27 09:34:06.858579;Sun Drop;Carlos Oliveira;16.2
+3;UV1MU1FR;Restaurante;2026-05-18 06:34:06.858579;The Surf Lodge Seasonal Tequila;João Silva;21.6
+5;6O1EYNI5;Beach Club;2026-05-17 11:34:06.858579;Pink Flamingo;João Silva;19.8
+5;RRBSHHED;Beach Club;2026-05-19 13:34:06.858579;Classic Margarita;Maria Santos;16.2
+3;325TN8UX;Restaurante;2026-05-19 03:34:06.858579;Classic Margarita;Maria Santos;16.2
+2;YYM5H5LQ;Pool Bar;2026-05-26 13:34:06.858579;Sun Drop;Maria Santos;16.2
+5;ETNKIZFY;Beach Club;2026-05-23 03:34:06.858579;Classic Margarita;João Silva;16.2
+2;TCWBVUXR;Restaurante;2026-05-17 06:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+1;TR33YQE3;Restaurante;2026-05-22 11:34:06.858579;Sun Drop;Carlos Oliveira;16.2
+2;HF4M4D3U;Beach Club;2026-05-26 07:34:06.858579;Pink Flamingo;Maria Santos;19.8
+2;MF9PK4H2;Beach Club;2026-05-22 03:34:06.858579;Pink Flamingo;Maria Santos;19.8
+5;LJTQ7APE;Beach Club;2026-05-24 02:34:06.858579;Classic Margarita;Maria Santos;16.2
+2;DLJZOYE9;Pool Bar;2026-05-23 09:34:06.858579;Sun Drop;Maria Santos;16.2
+1;P0BKVBNO;Pool Bar;2026-05-22 10:34:06.858579;Sun Drop;João Silva;16.2
+2;7SPM5L3E;Restaurante;2026-05-23 06:34:06.858579;The Surf Lodge Seasonal Tequila;Maria Santos;21.6
+5;FYKFOQB1;Pool Bar;2026-05-20 03:34:06.858579;Pink Flamingo;Carlos Oliveira;19.8
+1;BQOIQIHM;Beach Club;2026-05-23 10:34:06.858579;Classic Margarita;João Silva;16.2
+2;9L2MR0HF;Restaurante;2026-05-26 13:34:06.858579;Sun Drop;Carlos Oliveira;16.2
+5;JIOI4SFK;Beach Club;2026-05-22 08:34:06.858579;Pink Flamingo;Carlos Oliveira;19.8
+5;GFQ4Y32N;Pool Bar;2026-05-20 12:34:06.858579;Pink Flamingo;João Silva;19.8
+3;UNE7J1LW;Restaurante;2026-05-19 09:34:06.858579;Classic Margarita;Maria Santos;16.2
+4;KR96Z5XU;Pool Bar;2026-05-17 09:34:06.858579;Pink Flamingo;Maria Santos;19.8
+1;DXGKVOEJ;Pool Bar;2026-05-24 07:34:06.858579;Pink Flamingo;João Silva;19.8
+3;5EB68XSO;Restaurante;2026-05-25 04:34:06.858579;Sun Drop;Maria Santos;16.2
+4;QTD1CMSZ;Pool Bar;2026-05-23 13:34:06.858579;Classic Margarita;Carlos Oliveira;16.2
+1;KZ5HOW7X;Pool Bar;2026-05-21 03:34:06.858579;Pink Flamingo;João Silva;19.8
+1;TJV3XGLC;Restaurante;2026-05-25 13:34:06.858579;Sun Drop;Maria Santos;16.2
+3;1YS8EVJD;Restaurante;2026-05-23 09:34:06.858579;Pink Flamingo;João Silva;19.8
+2;9RLRB7S4;Beach Club;2026-05-23 07:34:06.858579;Classic Margarita;Carlos Oliveira;16.2
+3;DX6485PR;Beach Club;2026-05-27 13:34:06.858579;Pink Flamingo;Carlos Oliveira;19.8
+2;R4I8DLWF;Beach Club;2026-05-27 14:34:06.858579;Classic Margarita;Maria Santos;16.2
+5;DN776VKM;Beach Club;2026-05-26 10:34:06.858579;Pink Flamingo;Carlos Oliveira;19.8
+4;3OMCLJRF;Restaurante;2026-05-19 02:34:06.858579;Pink Flamingo;Maria Santos;19.8
+5;WPGDX9ZT;Pool Bar;2026-05-27 13:34:06.858579;The Surf Lodge Seasonal Tequila;João Silva;21.6
+4;8XHOHMV5;Restaurante;2026-05-20 10:34:06.858579;The Surf Lodge Seasonal Tequila;João Silva;21.6
+1;5VA39HDH;Restaurante;2026-05-24 02:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+4;X3Q0GRPF;Beach Club;2026-05-23 04:34:06.858579;Classic Margarita;Carlos Oliveira;16.2
+3;UPI9ZJ51;Pool Bar;2026-05-20 03:34:06.858579;Pink Flamingo;João Silva;19.8
+3;XRSY6B5I;Pool Bar;2026-05-17 08:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+5;XCA0WVGG;Beach Club;2026-05-17 05:34:06.858579;Pink Flamingo;João Silva;19.8
+3;KFS2LS15;Pool Bar;2026-05-22 13:34:06.858579;Classic Margarita;Maria Santos;16.2
+5;1DLM0CZV;Beach Club;2026-05-18 09:34:06.858579;Sun Drop;Maria Santos;16.2
+4;GI58408N;Restaurante;2026-05-20 12:34:06.858579;Classic Margarita;Carlos Oliveira;16.2
+5;ZRD4G9NP;Pool Bar;2026-05-20 11:34:06.858579;Classic Margarita;Carlos Oliveira;16.2
+5;MQS3Q7AG;Pool Bar;2026-05-24 10:34:06.858579;Pink Flamingo;Carlos Oliveira;19.8
+1;YWIOHCBN;Restaurante;2026-05-23 08:34:06.858579;The Surf Lodge Seasonal Tequila;Maria Santos;21.6
+2;NOD4UL0M;Beach Club;2026-05-27 03:34:06.858579;Sun Drop;Maria Santos;16.2
+3;MSFPTZQJ;Restaurante;2026-05-17 04:34:06.858579;The Surf Lodge Seasonal Tequila;Maria Santos;21.6
+3;U4Y4F4F7;Beach Club;2026-05-23 06:34:06.858579;Classic Margarita;João Silva;16.2
+3;SNH76XVL;Pool Bar;2026-05-27 12:34:06.858579;Classic Margarita;Maria Santos;16.2
+4;5BED7XPA;Pool Bar;2026-05-26 11:34:06.858579;Pink Flamingo;Maria Santos;19.8
+2;B09GA4Y5;Pool Bar;2026-05-25 13:34:06.858579;The Surf Lodge Seasonal Tequila;Maria Santos;21.6
+2;0HNIC8IO;Beach Club;2026-05-27 02:34:06.858579;Classic Margarita;João Silva;16.2
+5;DW4VD4II;Pool Bar;2026-05-20 03:34:06.858579;Classic Margarita;Carlos Oliveira;16.2
+2;PWTPHT95;Beach Club;2026-05-20 13:34:06.858579;Classic Margarita;Maria Santos;16.2
+1;VVBJEIAN;Restaurante;2026-05-27 04:34:06.858579;The Surf Lodge Seasonal Tequila;Maria Santos;21.6
+3;4TK6Q15T;Pool Bar;2026-05-19 08:34:06.858579;Sun Drop;João Silva;16.2
+3;YXCN7YNM;Pool Bar;2026-05-25 06:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+5;AVMHBFCA;Restaurante;2026-05-24 06:34:06.858579;Sun Drop;Maria Santos;16.2
+4;3P5WRIA3;Pool Bar;2026-05-24 12:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+5;6ERXF10F;Pool Bar;2026-05-24 06:34:06.858579;Sun Drop;Carlos Oliveira;16.2
+1;ZZ3SN489;Beach Club;2026-05-19 12:34:06.858579;Sun Drop;João Silva;16.2
+5;WKAT1S44;Beach Club;2026-05-21 13:34:06.858579;Sun Drop;Carlos Oliveira;16.2
+2;C6V5XW2H;Pool Bar;2026-05-21 11:34:06.858579;Sun Drop;Carlos Oliveira;16.2
+4;XNCARMJ3;Restaurante;2026-05-24 13:34:06.858579;Classic Margarita;Carlos Oliveira;16.2
+5;TMR6IGQ2;Restaurante;2026-05-17 03:34:06.858579;Pink Flamingo;Maria Santos;19.8
+3;LAYNVD8S;Beach Club;2026-05-21 14:34:06.858579;Pink Flamingo;Maria Santos;19.8
+1;195JNEIK;Beach Club;2026-05-22 06:34:06.858579;Classic Margarita;Carlos Oliveira;16.2
+4;R009F5MY;Restaurante;2026-05-26 11:34:06.858579;Classic Margarita;Carlos Oliveira;16.2
+4;NDZ2WA9E;Beach Club;2026-05-17 03:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+4;Z3I855XQ;Pool Bar;2026-05-17 09:34:06.858579;The Surf Lodge Seasonal Tequila;Carlos Oliveira;21.6
+1;Y68PN82L;Restaurante;2026-05-25 08:34:06.858579;Classic Margarita;João Silva;16.2
+2;EMLGR1CA;Restaurante;2026-05-18 11:34:06.858579;Pink Flamingo;Carlos Oliveira;19.8
+4;I39524B4;Restaurante;2026-05-18 06:34:06.858579;Sun Drop;João Silva;16.2
+4;9ZNOMG10;Pool Bar;2026-05-23 04:34:06.858579;The Surf Lodge Seasonal Tequila;Maria Santos;21.6
+3;OUDT3HZZ;Pool Bar;2026-05-25 08:34:06.858579;Classic Margarita;Maria Santos;16.2
+1;CA51M1V8;Pool Bar;2026-05-25 10:34:06.858579;Sun Drop;João Silva;16.2
+2;X1CZB8VN;Pool Bar;2026-05-19 08:34:06.858579;Pink Flamingo;João Silva;19.8
+1;6VEB1HJH;Restaurante;2026-05-27 05:34:06.858579;Pink Flamingo;Carlos Oliveira;19.8
+5;4H1HVADI;Pool Bar;2026-05-19 11:34:06.858579;Classic Margarita;Carlos Oliveira;16.2
+3;6U2CBYFB;Restaurante;2026-05-19 07:34:06.858579;Pink Flamingo;Carlos Oliveira;19.8

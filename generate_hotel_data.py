@@ -1,32 +1,37 @@
 import pandas as pd
 from models import SessionLocal, init_db, FichaTecnica, Insumo, MovimentacaoEstoque, VendaHistorico
+from logic import aplicar_margem_quebra, calcular_faturamento_liquido
 from datetime import datetime, timedelta
 import random
-import os
+import string
+
+def generate_req_code():
+    """Generates an alphanumeric requisition code."""
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=8))
 
 def generate_data():
     init_db()
     db = SessionLocal()
 
-    # 1. Fichas Técnicas
-    fichas = [
-        {"nome_drink": "Pink Flamingo", "categoria": "Signature", "preco_venda": 22.0, "receita_modo_preparo": "30ml Tequila, 60ml Martini, 60ml Rosé, 15ml Agave, Limão, Melancia. Shake and strain."},
-        {"nome_drink": "The Surf Lodge Seasonal Tequila", "categoria": "Signature", "preco_venda": 24.0, "receita_modo_preparo": "45ml Casamigos, 120ml Água de Coco, 8ml Agave, Gomo de Limão. Built in glass."},
-        {"nome_drink": "Sun Drop", "categoria": "Zero-Proof", "preco_venda": 18.0, "receita_modo_preparo": "60ml Pentire, 60ml Watermelon, 15ml Simple Syrup, 20ml Limão. Stir."},
-        {"nome_drink": "Classic Margarita", "categoria": "Classic", "preco_venda": 18.0, "receita_modo_preparo": "50ml Tequila, 25ml Lime, 15ml Agave. Shake."},
+    # 1. Fichas Técnicas with Base Costs
+    fichas_data = [
+        {"nome_drink": "Pink Flamingo", "categoria": "Signature", "preco_venda": 22.0, "custo_unitario_base": 4.66},
+        {"nome_drink": "The Surf Lodge Seasonal Tequila", "categoria": "Signature", "preco_venda": 24.0, "custo_unitario_base": 4.81},
+        {"nome_drink": "Sun Drop", "categoria": "Zero-Proof", "preco_venda": 18.0, "custo_unitario_base": 3.86},
+        {"nome_drink": "Classic Margarita", "categoria": "Classic", "preco_venda": 18.0, "custo_unitario_base": 4.18},
     ]
-    for f in fichas:
-        db.add(FichaTecnica(**f))
+
+    fichas_map = {}
+    for f in fichas_data:
+        f["custo_real_com_quebra"] = aplicar_margem_quebra(f["custo_unitario_base"])
+        obj = FichaTecnica(**f)
+        db.add(obj)
+        fichas_map[f["nome_drink"]] = f
 
     # 2. Insumos
     insumos = [
         {"nome_insumo": "Tequila Blanco", "categoria_insumo": "Alcoólico", "volume_garrafa_ml": 750, "custo_garrafa": 35.0},
         {"nome_insumo": "Casamigos Blanco", "categoria_insumo": "Alcoólico", "volume_garrafa_ml": 750, "custo_garrafa": 60.0},
-        {"nome_insumo": "Martini Fiero", "categoria_insumo": "Alcoólico", "volume_garrafa_ml": 750, "custo_garrafa": 15.0},
-        {"nome_insumo": "Whispering Angel Rosé", "categoria_insumo": "Alcoólico", "volume_garrafa_ml": 750, "custo_garrafa": 25.0},
-        {"nome_insumo": "Pentire Adrift", "categoria_insumo": "Não-Alcoólico", "volume_garrafa_ml": 700, "custo_garrafa": 30.0},
-        {"nome_insumo": "Água de Coco", "categoria_insumo": "Não-Alcoólico", "volume_garrafa_ml": 1000, "custo_garrafa": 5.0},
-        {"nome_insumo": "Limão Siciliano", "categoria_insumo": "Fruta", "volume_garrafa_ml": 1000, "custo_garrafa": 10.0},
     ]
     for i in insumos:
         i["custo_por_ml"] = i["custo_garrafa"] / i["volume_garrafa_ml"]
@@ -35,33 +40,33 @@ def generate_data():
     # 3. Movimentação Estoque
     estoque = [
         {"nome_bebida": "Tequila Blanco", "qtd_almoxarifado_amox": 120, "qtd_bar_hotel": 12, "qtd_bar_praia": 24, "custo_unitario_reposicao": 35.0},
-        {"nome_bebida": "Casamigos Blanco", "qtd_almoxarifado_amox": 48, "qtd_bar_hotel": 6, "qtd_bar_praia": 6, "custo_unitario_reposicao": 60.0},
-        {"nome_bebida": "Martini Fiero", "qtd_almoxarifado_amox": 2, "qtd_bar_hotel": 1, "qtd_bar_praia": 0, "custo_unitario_reposicao": 15.0}, # Alerta baixo
-        {"nome_bebida": "Whispering Angel Rosé", "qtd_almoxarifado_amox": 300, "qtd_bar_hotel": 60, "qtd_bar_praia": 120, "custo_unitario_reposicao": 25.0}, # Alerta alto
-        {"nome_bebida": "Vodka Premium", "qtd_almoxarifado_amox": 1, "qtd_bar_hotel": 0, "qtd_bar_praia": 0, "custo_unitario_reposicao": 45.0}, # Alerta ruptura
     ]
     for e in estoque:
         db.add(MovimentacaoEstoque(**e))
 
-    # 4. Histórico Vendas
+    # 4. Histórico Vendas with Alphanumeric IDs and Net Revenue
     funcionarios = ["João Silva", "Maria Santos", "Carlos Oliveira"]
     locais = ["Pool Bar", "Restaurante", "Beach Club"]
-    drinks_list = [f["nome_drink"] for f in fichas]
 
     start_date = datetime.utcnow() - timedelta(days=10)
-    for i in range(100):
+    for i in range(150):
+        drink_name = random.choice(list(fichas_map.keys()))
+        drink_info = fichas_map[drink_name]
+
         db.add(VendaHistorico(
+            id_venda=generate_req_code(),
             data_hora=start_date + timedelta(days=random.randint(0, 10), hours=random.randint(10, 22)),
-            nome_drink=random.choice(drinks_list),
+            nome_drink=drink_name,
             quantidade=random.randint(1, 5),
             nome_funcionario=random.choice(funcionarios),
-            local_consumo=random.choice(locais)
+            local_consumo=random.choice(locais),
+            faturamento_liquido_unid=calcular_faturamento_liquido(drink_info["preco_venda"])
         ))
 
     db.commit()
 
-    # Export to CSV
-    tables = {
+    # Export for Power BI
+    export_config = {
         "1_Fichas_Tecnicas": FichaTecnica,
         "2_Insumos": Insumo,
         "3_Movimentacao_Estoque": MovimentacaoEstoque,
@@ -69,24 +74,42 @@ def generate_data():
     }
 
     all_content = []
-
-    for name, model in tables.items():
+    for name, model in export_config.items():
         query = db.query(model).all()
         data = [dict(row.__dict__) for row in query]
         for d in data: d.pop('_sa_instance_state', None)
         df = pd.DataFrame(data)
-        filename = f"{name}.csv"
-        df.to_csv(filename, sep=';', index=False)
+        df.to_csv(f"{name}.csv", sep=';', index=False)
 
         all_content.append(f"--- {name} ---")
         all_content.append(df.to_csv(sep=';', index=False))
         all_content.append("\n")
 
+    # Auditoria Financeira View Export
+    audit_query = (
+        db.query(
+            VendaHistorico.data_hora,
+            VendaHistorico.nome_drink,
+            VendaHistorico.local_consumo,
+            VendaHistorico.quantidade,
+            VendaHistorico.nome_funcionario,
+            (VendaHistorico.quantidade * VendaHistorico.faturamento_liquido_unid).label("faturamento_liquido_total"),
+            (VendaHistorico.quantidade * FichaTecnica.custo_real_com_quebra).label("custo_total_com_quebra")
+        )
+        .join(FichaTecnica, FichaTecnica.nome_drink == VendaHistorico.nome_drink)
+        .all()
+    )
+    audit_df = pd.DataFrame([dict(row._mapping) for row in audit_query])
+    audit_df.to_csv("v_auditoria_financeira_fb.csv", sep=';', index=False)
+
+    all_content.append("--- v_auditoria_financeira_fb ---")
+    all_content.append(audit_df.to_csv(sep=';', index=False))
+
     with open("Painel_Integrado_Hotel.txt", "w") as f:
         f.write("\n".join(all_content))
 
     db.close()
-    print("Data generated and exported successfully.")
+    print("Audit data generated and exported successfully.")
 
 if __name__ == "__main__":
     generate_data()
