@@ -1,3 +1,5 @@
 nome_insumo;categoria_insumo;custo_garrafa;id;volume_garrafa_ml;custo_por_ml
-Tequila Blanco;Alcoólico;35.0;1;750.0;0.04666666666666667
-Casamigos Blanco;Alcoólico;60.0;2;750.0;0.08
+Tequila Blanco;Alcoólico;30.0;1;750.0;0.04
+Casamigos Blanco;Alcoólico;30.0;2;750.0;0.04
+Martini Fiero;Alcoólico;30.0;3;750.0;0.04
+Whispering Angel Rosé;Alcoólico;30.0;4;750.0;0.04

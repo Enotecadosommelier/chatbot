@@ -1,5 +1,5 @@
-receita_modo_preparo;preco_venda;custo_real_com_quebra;categoria;nome_drink;id;custo_unitario_base
-;22.0;5.032800000000001;Signature;Pink Flamingo;1;4.66
-;24.0;5.1948;Signature;The Surf Lodge Seasonal Tequila;2;4.81
-;18.0;4.1688;Zero-Proof;Sun Drop;3;3.86
-;18.0;4.5144;Classic;Classic Margarita;4;4.18
+receita_modo_preparo;preco_venda;custo_real_com_quebra;nome_drink;id;categoria;custo_unitario_base
+;22.0;5.032800000000001;Pink Flamingo;1;Signature;4.66
+;24.0;5.1948;The Surf Lodge Seasonal Tequila;2;Signature;4.81
+;18.0;4.1688;Sun Drop;3;Zero-Proof;3.86
+;18.0;4.5144;Classic Margarita;4;Classic;4.18

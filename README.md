@@ -1,43 +1,29 @@
 # Bar Management System - Financial Audit & Inventory
 
-This system manages luxury bar operations with advanced financial auditing features, including operational waste margins and net revenue calculations.
+This system manages luxury bar operations with advanced financial auditing features, including operational waste margins, net revenue calculations, and 12-month seasonality simulation.
 
 ## 📊 Core Data Structure (CSV/Semicolon)
 
 1.  **1_Fichas_Tecnicas**: Includes `Custo_Unitario_Base` and `Custo_Real_Com_Quebra` (+8%).
 2.  **2_Insumos**: Detailed costs and volumes per ingredient.
-3.  **3_Movimentacao_Estoque**: Stock levels by location.
-4.  **4_Historico_Vendas**: Includes alphanumeric IDs and `Faturamento_Liquido_Unid` (-10%).
+3.  **3_Movimentacao_Estoque**: Stock levels by location (Current State).
+4.  **4_Historico_Vendas**: Full 12-month transaction history with seasonality.
+5.  **estoque_mensal_referencia**: Monthly snapshot of initial stock for auditing purposes.
 
-## 🚀 Audit & Business Rules
+## 🚀 Audit & Seasonality Rules
 
 -   **Technical Waste (8%)**: Applied to base costs to account for pouring errors and breakages.
 -   **Net Revenue (90%)**: Calculated by deducting 10% (taxes/service) from the gross sales price.
--   **Alphanumeric Requisitions**: Sales IDs now follow hotel group standards (e.g., `QKRDYYTL`).
+-   **Annual Simulation**: Sales history covers 12 months with high/low season variations.
+    -   **High Season (1.5x volume)**: Dec, Jan, Feb, Jul.
+    -   **Low Season (0.4x volume)**: Apr, May, Aug, Sep.
+-   **Monthly Inventory Control**: Recorded on the 1st day of each month.
 
 ## 📈 Power BI Integration
 
-### Specialized Audit View
--   `GET /v_auditoria_financeira_fb`: Consolidated view of sales with net revenue and costs including operational waste.
-
-### DAX Formulas for Power BI
-
-Use the following formulas for your dashboard:
-
-**A) CMV Dinâmico Geral (Com Margem de Quebra):**
-```dax
-CMV_Dinamico = DIVIDE(SUM(v_auditoria_financeira_fb[custo_total_com_quebra]), SUM(v_auditoria_financeira_fb[faturamento_liquido_total]), 0)
-```
-
-**B) Receita de Upselling (Signature Drinks):**
-```dax
-Receita_Upselling = CALCULATE(SUM(v_auditoria_financeira_fb[faturamento_liquido_total]), '1_Fichas_Tecnicas'[categoria] = "Signature")
-```
-
-**C) Margem de Contribuição Operacional:**
-```dax
-Margem_Operacional = SUM(v_auditoria_financeira_fb[faturamento_liquido_total]) - SUM(v_auditoria_financeira_fb[custo_total_com_quebra])
-```
+### Specialized Audit Views
+-   `GET /v_auditoria_financeira_fb`: Consolidated view of sales with net revenue and adjusted costs.
+-   `GET /estoque_mensal_referencia`: Monthly stock snapshots for "Slow Moving" analysis.
 
 ---
 *Built for advanced hospitality financial control.*

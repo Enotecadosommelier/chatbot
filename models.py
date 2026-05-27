@@ -36,13 +36,23 @@ class MovimentacaoEstoque(Base):
 
 class VendaHistorico(Base):
     __tablename__ = '4_Historico_Vendas'
-    id_venda = Column(String, primary_key=True) # Changed to String for alphanumeric codes
+    id_venda = Column(String, primary_key=True)
     data_hora = Column(DateTime, default=datetime.datetime.utcnow)
     nome_drink = Column(String)
     quantidade = Column(Integer)
     nome_funcionario = Column(String)
     local_consumo = Column(String)  # Pool Bar, Restaurante, Beach Club
     faturamento_liquido_unid = Column(Float)
+
+class Estoque_Inicial_Mensal(Base):
+    __tablename__ = 'estoque_mensal_referencia'
+    id = Column(Integer, primary_key=True)
+    mes_referencia = Column(Integer)
+    ano_referencia = Column(Integer)
+    nome_bebida = Column(String)
+    qtd_inicial_amox = Column(Float)
+    qtd_inicial_bar_hotel = Column(Float)
+    qtd_inicial_bar_praia = Column(Float)
 
 # Database setup
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./bar_management.db")
