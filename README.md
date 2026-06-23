@@ -1,19 +1,29 @@
-# 💬 Chatbot template
+# Bar Management System - Financial Audit & Inventory
 
-A simple Streamlit app that shows how to build a chatbot using OpenAI's GPT-3.5.
+This system manages luxury bar operations with advanced financial auditing features, including operational waste margins, net revenue calculations, and 12-month seasonality simulation.
 
-[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://chatbot-template.streamlit.app/)
+## 📊 Core Data Structure (CSV/Semicolon)
 
-### How to run it on your own machine
+1.  **1_Fichas_Tecnicas**: Includes `Custo_Unitario_Base` and `Custo_Real_Com_Quebra` (+8%).
+2.  **2_Insumos**: Detailed costs and volumes per ingredient.
+3.  **3_Movimentacao_Estoque**: Stock levels by location (Current State).
+4.  **4_Historico_Vendas**: Full 12-month transaction history with seasonality.
+5.  **estoque_mensal_referencia**: Monthly snapshot of initial stock for auditing purposes.
 
-1. Install the requirements
+## 🚀 Audit & Seasonality Rules
 
-   ```
-   $ pip install -r requirements.txt
-   ```
+-   **Technical Waste (8%)**: Applied to base costs to account for pouring errors and breakages.
+-   **Net Revenue (90%)**: Calculated by deducting 10% (taxes/service) from the gross sales price.
+-   **Annual Simulation**: Sales history covers 12 months with high/low season variations.
+    -   **High Season (1.5x volume)**: Dec, Jan, Feb, Jul.
+    -   **Low Season (0.4x volume)**: Apr, May, Aug, Sep.
+-   **Monthly Inventory Control**: Recorded on the 1st day of each month.
 
-2. Run the app
+## 📈 Power BI Integration
 
-   ```
-   $ streamlit run streamlit_app.py
-   ```
+### Specialized Audit Views
+-   `GET /v_auditoria_financeira_fb`: Consolidated view of sales with net revenue and adjusted costs.
+-   `GET /estoque_mensal_referencia`: Monthly stock snapshots for "Slow Moving" analysis.
+
+---
+*Built for advanced hospitality financial control.*
