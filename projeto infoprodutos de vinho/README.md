@@ -11,7 +11,10 @@ projeto-vinho/
 │   └── identidade-visual.md        ← Paleta cores, fontes, tom de voz, logo
 ├── 02-produtos/
 │   ├── esteira-completa.md         ← Todos os produtos + configuração Hotmart
-│   └── sumario-ebook-vol1.md       ← Sumário detalhado do Ebook Vol.1 (92 páginas)
+│   ├── sumario-ebook-vol1.md       ← Sumário detalhado do Ebook Vol.1 (92 páginas)
+│   ├── ebook-vol1-manuscrito-completo.md  ← Manuscrito completo, pronto para diagramação
+│   ├── lead-magnet-5-vinhos.md     ← Isca gratuita completa
+│   └── bonus-manual-bar-em-casa.md ← Order bump completo (R$17)
 ├── 03-conteudo/
 │   └── calendario-editorial-90-dias.md  ← Instagram + YouTube, semana a semana
 ├── 04-copy/
@@ -22,7 +25,8 @@ projeto-vinho/
 │   ├── biblioteca-mestre-faqs.md   ← FAQs + Harmonizações do dia a dia
 │   └── dores-do-leigo.md           ← Dores, avatar, frases reais do público
 └── 06-operacoes/
-    └── automacao-instagram-manychat.md ← Funil completo ManyChat + roteiros Reels
+    ├── automacao-instagram-manychat.md ← Funil completo ManyChat + roteiros Reels
+    └── configuracao-hotmart-passo-a-passo.md ← Valores exatos para cadastrar produto/order bump/upsell na Hotmart
 ```
 
 ---
@@ -30,16 +34,19 @@ projeto-vinho/
 ## Prioridades de Execução
 
 ### FASE 1 — Produto (Semanas 1–2)
-- [ ] Diagramar ebook no Canva (usar sumário em `02-produtos/sumario-ebook-vol1.md`)
+- [x] Escrever manuscrito completo do ebook (`02-produtos/ebook-vol1-manuscrito-completo.md`)
+- [x] Escrever lead magnet gratuito completo (`02-produtos/lead-magnet-5-vinhos.md`)
+- [x] Escrever Order Bump "Manual do Bar em Casa" completo (`02-produtos/bonus-manual-bar-em-casa.md`)
+- [ ] Diagramar ebook no Canva (texto pronto — falta só a diagramação visual, passos em `06-operacoes/configuracao-hotmart-passo-a-passo.md#passo-5`)
 - [ ] Criar capa profissional + mockup 3D
-- [ ] Criar lead magnet gratuito (mini-guia 5 vinhos)
-- [ ] Configurar produto na Hotmart
-- [ ] Configurar Order Bump (Manual do Bar em Casa)
+- [ ] Configurar produto na Hotmart (valores exatos prontos em `06-operacoes/configuracao-hotmart-passo-a-passo.md`)
+- [ ] Configurar Order Bump na tela de checkout (valores exatos no mesmo arquivo acima)
 
 ### FASE 2 — Vendas (Semana 3)
 - [ ] Publicar página de vendas (usar copy em `04-copy/pagina-de-vendas-hotmart.md`)
 - [ ] Criar sequência de emails no Mailchimp (usar `04-copy/sequencia-7-emails.md`)
 - [ ] Configurar ManyChat no Instagram (usar `06-operacoes/automacao-instagram-manychat.md`)
+- [ ] Publicar o Sommelier Virtual (chatbot) como isca de captura de lead — ver `../streamlit_app.py`
 
 ### FASE 3 — Conteúdo (Semanas 4–16)
 - [ ] Gravar primeiros 7 Reels (roteiros em `06-operacoes/automacao-instagram-manychat.md`)
