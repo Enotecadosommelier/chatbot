@@ -45,14 +45,17 @@ fun UsageBarChart(
             .height(rowHeightDp * stats.size),
     ) {
         val labelColumnWidth = 130.dp.toPx()
-        val chartWidth = size.width - labelColumnWidth
+        // Reservada à direita para o valor (ex: "2h 14m") — sem isso, a barra do maior valor
+        // ocupa 100% da largura e empurra seu próprio rótulo para fora do Canvas.
+        val valueColumnWidth = 56.dp.toPx()
+        val trackWidth = size.width - labelColumnWidth - valueColumnWidth
         val barHeightPx = barHeightDp.toPx()
         val rowHeightPx = rowHeightDp.toPx()
 
         stats.forEachIndexed { index, stat ->
             val top = index * rowHeightPx
             val fraction = stat.totalTimeInForegroundMillis.toFloat() / maxMillis.toFloat()
-            val barWidth = chartWidth * fraction
+            val barWidth = trackWidth * fraction
 
             // Rótulo (nome do app), truncado se necessário.
             val labelLayout = textMeasurer.measure(
@@ -68,7 +71,7 @@ fun UsageBarChart(
             drawRoundRect(
                 color = trackColor,
                 topLeft = Offset(labelColumnWidth, top),
-                size = Size(chartWidth, barHeightPx),
+                size = Size(trackWidth, barHeightPx),
                 cornerRadius = CornerRadius(8.dp.toPx()),
             )
 
@@ -84,17 +87,18 @@ fun UsageBarChart(
             drawRoundRect(
                 color = trackColor,
                 topLeft = Offset(labelColumnWidth, top),
-                size = Size(chartWidth, barHeightPx),
+                size = Size(trackWidth, barHeightPx),
                 cornerRadius = CornerRadius(8.dp.toPx()),
                 style = Stroke(width = 1.dp.toPx()),
             )
 
-            // Valor formatado (ex: "1h 24m") ao final da barra.
+            // Valor formatado (ex: "1h 24m"), em posição fixa dentro da coluna reservada —
+            // sempre visível, mesmo quando a barra ocupa 100% do trilho.
             val valueLayout = textMeasurer.measure(text = formatDuration(stat.totalTimeInForegroundMillis), style = valueStyle)
             drawText(
                 textLayoutResult = valueLayout,
                 topLeft = Offset(
-                    x = labelColumnWidth + barWidth.coerceAtLeast(4.dp.toPx()) + 8.dp.toPx(),
+                    x = labelColumnWidth + trackWidth + 8.dp.toPx(),
                     y = top + (barHeightPx - valueLayout.size.height) / 2f,
                 ),
             )
