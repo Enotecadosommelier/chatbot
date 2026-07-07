@@ -11,6 +11,7 @@ import com.focozen.app.presentation.onboarding.OnboardingAccessibilityScreen
 import com.focozen.app.presentation.onboarding.OnboardingOverlayScreen
 import com.focozen.app.presentation.onboarding.OnboardingUsageAccessScreen
 import com.focozen.app.presentation.paywall.PaywallScreen
+import com.focozen.app.presentation.settings.SettingsScreen
 import com.focozen.app.presentation.usagereport.UsageReportScreen
 
 @Composable
@@ -51,6 +52,7 @@ fun FocoZenNavHost(navController: NavHostController = rememberNavController()) {
                 onOpenAppSelection = { navController.navigate(FocoZenDestinations.APP_SELECTION) },
                 onOpenUsageReport = { navController.navigate(FocoZenDestinations.USAGE_REPORT) },
                 onOpenPaywall = { navController.navigate(FocoZenDestinations.PAYWALL) },
+                onOpenSettings = { navController.navigate(FocoZenDestinations.SETTINGS) },
             )
         }
 
@@ -64,6 +66,13 @@ fun FocoZenNavHost(navController: NavHostController = rememberNavController()) {
 
         composable(FocoZenDestinations.PAYWALL) {
             PaywallScreen(onPurchaseCompleted = { navController.popBackStack() })
+        }
+
+        composable(FocoZenDestinations.SETTINGS) {
+            SettingsScreen(
+                onBack = { navController.popBackStack() },
+                onManageAppSelection = { navController.navigate(FocoZenDestinations.APP_SELECTION) },
+            )
         }
     }
 }

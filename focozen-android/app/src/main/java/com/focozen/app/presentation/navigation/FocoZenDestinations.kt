@@ -8,4 +8,5 @@ object FocoZenDestinations {
     const val APP_SELECTION = "app_selection"
     const val USAGE_REPORT = "usage_report"
     const val PAYWALL = "paywall"
+    const val SETTINGS = "settings"
 }

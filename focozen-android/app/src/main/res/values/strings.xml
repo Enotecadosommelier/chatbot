@@ -39,4 +39,27 @@
     <string name="paywall_yearly">Anual (melhor custo-benefício)</string>
     <string name="paywall_cta_start_trial">Começar teste grátis de 7 dias</string>
     <string name="paywall_terms">A cobrança começa automaticamente após o período de teste, salvo cancelamento.</string>
+
+    <!-- Home -->
+    <string name="home_tagline">Menos distração, mais foco.</string>
+    <string name="home_action_app_selection">Escolher apps a bloquear</string>
+    <string name="home_action_usage_report">Ver relatório de uso</string>
+    <string name="home_action_paywall">Assinar FocoZen</string>
+    <string name="home_action_settings">Configurações</string>
+    <string name="home_accessibility_warning_title">O bloqueio está pausado</string>
+    <string name="home_accessibility_warning_desc">O serviço de acessibilidade do FocoZen foi desativado — alguns aparelhos fazem isso sozinhos para economizar bateria. Reative para os apps bloqueados voltarem a funcionar.</string>
+    <string name="home_accessibility_warning_action">Reativar</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Configurações</string>
+    <string name="settings_permissions_section">Permissões</string>
+    <string name="settings_permission_usage_access">Acesso a estatísticas de uso</string>
+    <string name="settings_permission_overlay">Sobreposição de tela</string>
+    <string name="settings_permission_accessibility">Serviço de acessibilidade</string>
+    <string name="settings_permission_action_fix">Corrigir</string>
+    <string name="settings_blocked_apps_section">Bloqueio</string>
+    <string name="settings_blocked_apps_count">%d app(s) bloqueado(s)</string>
+    <string name="settings_manage_selection">Gerenciar seleção de apps</string>
+    <string name="settings_subscription_section">Assinatura</string>
+    <string name="settings_manage_subscription">Gerenciar assinatura</string>
 </resources>

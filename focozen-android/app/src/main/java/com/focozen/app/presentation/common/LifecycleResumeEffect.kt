@@ -1,4 +1,4 @@
-package com.focozen.app.presentation.onboarding
+package com.focozen.app.presentation.common
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -8,11 +8,11 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 
 /**
- * Reexecuta [onResume] sempre que a tela volta ao primeiro plano — usado para reler o estado
- * da permissão quando o usuário volta das Configurações do sistema (Etapa 2).
+ * Reexecuta [onResume] sempre que a tela volta ao primeiro plano — usado para reler estado que só
+ * muda fora do app (permissões concedidas/revogadas nas Configurações do sistema).
  */
 @Composable
-fun OnboardingLifecycleResumeEffect(onResume: () -> Unit) {
+fun LifecycleResumeEffect(onResume: () -> Unit) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val currentOnResume by rememberUpdatedState(onResume)
 

@@ -7,6 +7,13 @@ focozen-android/   # app Kotlin + Jetpack Compose (Clean Architecture)
 landing-page/      # site estático de captura de e-mail (HTML/CSS/JS puro)
 ```
 
+Além das 9 etapas originais, o app tem uma tela de **Configurações** (ícone de engrenagem na
+Home) com o status de cada permissão sensível e um botão para corrigir a que estiver faltando,
+a contagem de apps bloqueados com atalho para editá-la, e um link para gerenciar a assinatura na
+Play Store. A Home também mostra um aviso quando o serviço de acessibilidade é desativado sozinho
+pelo sistema (comum em alguns fabricantes, por economia de bateria) — sem isso, o bloqueio para de
+funcionar silenciosamente e o usuário não teria como saber por quê.
+
 > **Nota sobre este ambiente:** este código foi escrito em um ambiente de nuvem sem o Android
 > SDK instalado e sem acesso ao repositório Maven do Google (`dl.google.com`/`maven.google.com`),
 > então **não foi possível rodar `./gradlew build` aqui**. Antes de considerar o app pronto, abra

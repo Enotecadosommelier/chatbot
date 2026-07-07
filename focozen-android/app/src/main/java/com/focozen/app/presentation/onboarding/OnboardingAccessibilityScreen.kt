@@ -13,6 +13,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.focozen.app.R
 import com.focozen.app.data.analytics.OnboardingStep
 import com.focozen.app.di.rememberAppContainer
+import com.focozen.app.presentation.common.LifecycleResumeEffect
 
 @Composable
 fun OnboardingAccessibilityScreen(
@@ -27,7 +28,7 @@ fun OnboardingAccessibilityScreen(
 
     val isGranted by viewModel.isPermissionGranted.collectAsStateWithLifecycle()
 
-    OnboardingLifecycleResumeEffect(onResume = { viewModel.refreshPermissionState() })
+    LifecycleResumeEffect(onResume = { viewModel.refreshPermissionState() })
 
     OnboardingPermissionScreen(
         icon = Icons.Filled.Accessibility,
