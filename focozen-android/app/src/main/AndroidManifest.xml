@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!--
+        PACKAGE_USAGE_STATS: permissão especial (não é solicitada em runtime por diálogo padrão).
+        O usuário precisa habilitá-la manualmente em Ajustes > Acesso a dados de uso, através da
+        tela de onboarding (Settings.ACTION_USAGE_ACCESS_SETTINGS). Usada para ler o tempo de uso
+        de cada app (UsageStatsManager) e montar o relatório da Etapa 5.
+    -->
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+    <!--
+        SYSTEM_ALERT_WINDOW: permissão especial de "sobreposição". Necessária para desenhar a tela
+        de fricção (overlay) por cima de outros apps quando o usuário abre um app bloqueado.
+        Concedida via Settings.ACTION_MANAGE_OVERLAY_PERMISSION.
+    -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- Usado pelo Firebase Analytics/Crashlytics para enviar eventos e relatórios de erro. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <application
+        android:name=".FocoZenApplication"
+        android:allowBackup="false"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.FocoZen"
+        tools:targetApi="35">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/Theme.FocoZen">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+            AccessibilityService: é a permissão mais sensível do app. Ela é o que permite ao
+            FocoZen "ver" qual app está em primeiro plano (TYPE_WINDOW_STATE_CHANGED) para decidir
+            se deve mostrar a tela de bloqueio. Não é usada para ler conteúdo de tela, digitação ou
+            dados pessoais — apenas o nome do pacote em primeiro plano. Isso deve ficar claro na
+            tela de onboarding e na Play Store (formulário de permissões sensíveis).
+        -->
+        <service
+            android:name=".service.FocoZenAccessibilityService"
+            android:exported="true"
+            android:label="@string/accessibility_service_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+    </application>
+
+</manifest>
