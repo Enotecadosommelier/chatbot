@@ -17,6 +17,29 @@ landing-page/      # site estático de captura de e-mail (HTML/CSS/JS puro)
 
 ---
 
+## 0. Testes automatizados
+
+O projeto tem duas suítes de teste:
+
+- **Testes de unidade** (`app/src/test/`) — rodam na JVM, sem precisar de emulador. Cobrem os use
+  cases do domínio, os repositórios (com fakes no lugar do Room/PackageManager) e os ViewModels
+  (com fakes no lugar dos repositórios reais). Rode com:
+  ```
+  ./gradlew testDebugUnitTest
+  ```
+- **Testes instrumentados** (`app/src/androidTest/`) — precisam de um dispositivo ou emulador
+  Android real. Hoje cobrem o `BlockedAppDao` com um banco Room em memória. Rode com:
+  ```
+  ./gradlew connectedDebugAndroidTest
+  ```
+
+Não testado ainda por ser arriscado sem poder compilar neste ambiente: `BillingManager` constrói
+um `BillingClient` de verdade no construtor, o que tornaria um teste de unidade frágil sem antes
+refatorar para injeção de dependência. A lógica de negócio da tela de Paywall já está coberta
+indiretamente pelo `PaywallViewModelTest`, que usa um `FakeBillingRepository`.
+
+---
+
 ## 1. Como testar as permissões do app (use um dispositivo físico, não emulador)
 
 As três permissões sensíveis do FocoZen (acesso a estatísticas de uso, sobreposição de tela e
