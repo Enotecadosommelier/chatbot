@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">FocoZen</string>
+    <string name="accessibility_service_label">FocoZen — Bloqueio de apps</string>
+    <string name="accessibility_service_description">Permite que o FocoZen detecte quando você abre um app bloqueado e mostre a tela de fricção. O FocoZen não lê o conteúdo da tela, textos digitados ou dados pessoais — apenas o nome do app em primeiro plano.</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_usage_title">Ver quanto tempo você usa cada app</string>
+    <string name="onboarding_usage_desc">O FocoZen precisa de acesso às estatísticas de uso do sistema para montar seu relatório de tempo de tela e mostrar quais apps mais consomem o seu foco. Esses dados ficam só no seu aparelho.</string>
+    <string name="onboarding_overlay_title">Mostrar a tela de pausa na hora certa</string>
+    <string name="onboarding_overlay_desc">Para exibir uma tela de fricção quando você abrir um app bloqueado, o FocoZen precisa da permissão de sobreposição (aparecer por cima de outros apps).</string>
+    <string name="onboarding_accessibility_title">Detectar quando um app bloqueado é aberto</string>
+    <string name="onboarding_accessibility_desc">O serviço de acessibilidade avisa o FocoZen quando você troca de app, para saber se deve mostrar a tela de bloqueio. Nenhum conteúdo de tela é lido ou armazenado.</string>
+    <string name="onboarding_action_open_settings">Abrir configuração</string>
+    <string name="onboarding_action_continue">Continuar</string>
+    <string name="onboarding_action_skip">Pular por agora</string>
+    <string name="onboarding_permission_granted">Permissão já concedida</string>
+
+    <!-- App selection -->
+    <string name="app_selection_title">Quais apps você quer bloquear?</string>
+    <string name="app_selection_subtitle">Selecione os apps que mais tiram seu foco</string>
+    <string name="app_selection_save">Salvar seleção</string>
+
+    <!-- Blocking overlay -->
+    <string name="block_overlay_title">Respire fundo.</string>
+    <string name="block_overlay_message">Você definiu %1$s como um app que tira seu foco. Espere %2$ds antes de decidir.</string>
+    <string name="block_overlay_continue">Continuar mesmo assim</string>
+    <string name="block_overlay_back">Voltar ao que importa</string>
+
+    <!-- Usage report -->
+    <string name="usage_report_title">Seu tempo de tela</string>
+    <string name="usage_report_last_24h">Últimas 24h</string>
+    <string name="usage_report_last_7d">Últimos 7 dias</string>
+
+    <!-- Paywall -->
+    <string name="paywall_title">Desbloqueie o FocoZen completo</string>
+    <string name="paywall_trial">7 dias grátis, cancele quando quiser</string>
+    <string name="paywall_weekly">Semanal</string>
+    <string name="paywall_yearly">Anual (melhor custo-benefício)</string>
+    <string name="paywall_cta_start_trial">Começar teste grátis de 7 dias</string>
+    <string name="paywall_terms">A cobrança começa automaticamente após o período de teste, salvo cancelamento.</string>
+
+    <!-- Home -->
+    <string name="home_tagline">Menos distração, mais foco.</string>
+    <string name="home_action_app_selection">Escolher apps a bloquear</string>
+    <string name="home_action_usage_report">Ver relatório de uso</string>
+    <string name="home_action_paywall">Assinar FocoZen</string>
+    <string name="home_action_settings">Configurações</string>
+    <string name="home_accessibility_warning_title">O bloqueio está pausado</string>
+    <string name="home_accessibility_warning_desc">O serviço de acessibilidade do FocoZen foi desativado — alguns aparelhos fazem isso sozinhos para economizar bateria. Reative para os apps bloqueados voltarem a funcionar.</string>
+    <string name="home_accessibility_warning_action">Reativar</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Configurações</string>
+    <string name="settings_permissions_section">Permissões</string>
+    <string name="settings_permission_usage_access">Acesso a estatísticas de uso</string>
+    <string name="settings_permission_overlay">Sobreposição de tela</string>
+    <string name="settings_permission_accessibility">Serviço de acessibilidade</string>
+    <string name="settings_permission_action_fix">Corrigir</string>
+    <string name="settings_blocked_apps_section">Bloqueio</string>
+    <string name="settings_blocked_apps_count">%d app(s) bloqueado(s)</string>
+    <string name="settings_manage_selection">Gerenciar seleção de apps</string>
+    <string name="settings_subscription_section">Assinatura</string>
+    <string name="settings_manage_subscription">Gerenciar assinatura</string>
+</resources>
