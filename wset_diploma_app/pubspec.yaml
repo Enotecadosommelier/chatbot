@@ -1,0 +1,62 @@
+name: wset_diploma_app
+description: >
+  The most complete study companion for WSET Diploma in Wines (Level 4)
+  candidates — adaptive quizzes, spaced-repetition flashcards, full mock
+  exams, a SAT tasting simulator, and a growing question bank across
+  D1-D6, built offline-first with Firebase + Supabase sync.
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: '>=3.19.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State management
+  flutter_riverpod: ^2.5.1
+
+  # Offline-first local persistence
+  sqflite: ^2.3.3+1
+  path: ^1.9.0
+  path_provider: ^2.1.3
+  shared_preferences: ^2.2.3
+
+  # Cloud sync & backend
+  supabase_flutter: ^2.5.6
+  firebase_core: ^2.31.0
+  firebase_auth: ^4.19.5
+  cloud_firestore: ^4.17.4
+
+  # Networking (AI explanation service, content sync)
+  http: ^1.2.1
+  connectivity_plus: ^6.0.3
+
+  # UI
+  fl_chart: ^0.68.0
+  cached_network_image: ^3.3.1
+  flutter_svg: ^2.0.10+1
+
+  # Utilities
+  uuid: ^4.4.0
+  intl: ^0.19.0
+  collection: ^1.18.0
+
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  mocktail: ^1.0.3
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/grapes/
+    - assets/images/regions/
+    - assets/images/soils/
+    - assets/images/maps/
+    - assets/images/aromas/
