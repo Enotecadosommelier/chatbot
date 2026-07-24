@@ -22,7 +22,8 @@ projeto-vinho/
 │   ├── biblioteca-mestre-faqs.md   ← FAQs + Harmonizações do dia a dia
 │   └── dores-do-leigo.md           ← Dores, avatar, frases reais do público
 └── 06-operacoes/
-    └── automacao-instagram-manychat.md ← Funil completo ManyChat + roteiros Reels
+    ├── automacao-instagram-manychat.md ← Funil completo ManyChat + roteiros Reels
+    └── automacao-recuperacao-pedidos-manychat.md ← Recuperação de pedidos com pagamento pendente (PIX/Boleto/Cartão)
 ```
 
 ---
