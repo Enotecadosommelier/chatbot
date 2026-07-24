@@ -21,9 +21,20 @@ projeto-vinho/
 │   ├── biblioteca-mestre-uvas.md   ← Fichas de 10 uvas (tintas e brancas)
 │   ├── biblioteca-mestre-faqs.md   ← FAQs + Harmonizações do dia a dia
 │   └── dores-do-leigo.md           ← Dores, avatar, frases reais do público
-└── 06-operacoes/
-    ├── automacao-instagram-manychat.md ← Funil completo ManyChat + roteiros Reels
-    └── automacao-recuperacao-pedidos-manychat.md ← Recuperação de pedidos com pagamento pendente (PIX/Boleto/Cartão)
+├── 06-operacoes/
+│   ├── automacao-instagram-manychat.md ← Funil completo ManyChat + roteiros Reels
+│   └── automacao-recuperacao-pedidos-manychat.md ← Recuperação de pedidos com pagamento pendente (PIX/Boleto/Cartão)
+└── 07-relacionamento-whatsapp-manychat/
+    ├── 00-arquitetura-geral.md          ← Visão geral, fluxograma Mermaid, tags, campos
+    ├── 01-fluxo1-vinho-da-semana.md     ← Vinho da Semana (terça)
+    ├── 02-fluxo2-harmonizacao-semana.md ← Harmonização da Semana (quinta)
+    ├── 03-fluxo3-escola-do-vinho.md     ← Escola do Vinho (sexta, alternado)
+    ├── 04-fluxo4-descubra-mundo-vinho.md← Descubra o Mundo do Vinho (sexta, alternado)
+    ├── 05-calendario-anual.md           ← 156 conteúdos únicos, semana a semana
+    ├── 06-integracao-json-api.md        ← JSON de referência Shopify/RD Station
+    ├── manychat_setup.py                ← Script para criar Tags/Custom Fields via API
+    ├── 07-checklist-implementacao.md    ← Checklist do zero ao ar
+    └── 08-manual-operacional-iniciante.md ← Manual sem conhecimento técnico
 ```
 
 ---
