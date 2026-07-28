@@ -1,0 +1,434 @@
+<title>Carteira Institucional de Criptoativos — Comitê Quantitativo</title>
+<style>
+  :root{
+    --ink:#1B2430;
+    --paper:#EFF1EE;
+    --paper-raised:#FFFFFF;
+    --line:#D8DBD5;
+    --muted:#5B6570;
+    --accent:#1F6F5C;
+    --accent-soft:#DCEAE5;
+    --gold:#9C7A32;
+    --gold-soft:#F1E9D3;
+    --risk:#A63B2E;
+    --risk-soft:#F5E1DD;
+    --mono-bg:#E7EAE4;
+  }
+  :root[data-theme="dark"]{
+    --ink:#E9ECE7;
+    --paper:#11151A;
+    --paper-raised:#171C22;
+    --line:#2B323A;
+    --muted:#9AA4AC;
+    --accent:#4FB99E;
+    --accent-soft:#173029;
+    --gold:#D8B45E;
+    --gold-soft:#2B2413;
+    --risk:#E1786B;
+    --risk-soft:#301A17;
+    --mono-bg:#1B2129;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --ink:#E9ECE7;
+      --paper:#11151A;
+      --paper-raised:#171C22;
+      --line:#2B323A;
+      --muted:#9AA4AC;
+      --accent:#4FB99E;
+      --accent-soft:#173029;
+      --gold:#D8B45E;
+      --gold-soft:#2B2413;
+      --risk:#E1786B;
+      --risk-soft:#301A17;
+      --mono-bg:#1B2129;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family: ui-sans-serif, "Public Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+  .serif{ font-family: ui-serif, Georgia, "Iowan Old Style", "Times New Roman", serif; }
+  .mono, .num{ font-family: ui-monospace, "SF Mono", "Cascadia Code", Consolas, monospace; font-variant-numeric: tabular-nums; }
+
+  a{ color:var(--accent); }
+
+  .topbar{
+    position:sticky; top:0; z-index:10;
+    background:color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    max-width:920px; margin:0 auto; padding:12px 24px;
+    display:flex; gap:18px; align-items:center; flex-wrap:wrap;
+  }
+  .brand{ font-size:13px; letter-spacing:.04em; text-transform:uppercase; color:var(--muted); white-space:nowrap;}
+  .navlinks{ display:flex; gap:14px; flex-wrap:wrap; font-size:13px; }
+  .navlinks a{ text-decoration:none; color:var(--muted); }
+  .navlinks a:hover{ color:var(--accent); }
+
+  main{ max-width:920px; margin:0 auto; padding:0 24px 96px; }
+
+  .cover{ padding:56px 0 36px; border-bottom:1px solid var(--line); }
+  .eyebrow{ font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); margin-bottom:14px; font-weight:600;}
+  h1.title{ font-size:40px; line-height:1.08; margin:0 0 14px; text-wrap:balance; font-weight:600; }
+  .subtitle{ color:var(--muted); font-size:16px; max-width:640px; margin:0 0 28px; }
+
+  .stat-row{ display:flex; gap:1px; background:var(--line); border:1px solid var(--line); border-radius:10px; overflow:hidden; flex-wrap:wrap;}
+  .stat{ flex:1 1 140px; background:var(--paper-raised); padding:16px 18px; }
+  .stat-label{ font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); margin-bottom:6px;}
+  .stat-value{ font-size:22px; font-weight:600; }
+  .stat-value.small{font-size:16px;}
+
+  section{ padding:40px 0; border-bottom:1px solid var(--line); }
+  section:last-of-type{ border-bottom:none; }
+  h2{ font-size:26px; margin:0 0 6px; font-weight:600; text-wrap:balance;}
+  h3{ font-size:17px; margin:26px 0 10px; font-weight:600; }
+  .section-kicker{ font-size:12px; text-transform:uppercase; letter-spacing:.1em; color:var(--muted); margin:0 0 8px;}
+  p{ margin:0 0 14px; max-width:70ch; }
+  ul, ol{ margin:0 0 14px; padding-left:1.3em; }
+  li{ margin-bottom:6px; max-width:66ch; }
+
+  .table-wrap{ overflow-x:auto; border:1px solid var(--line); border-radius:10px; margin:16px 0 22px; }
+  table{ border-collapse:collapse; width:100%; min-width:640px; font-size:13.5px; }
+  th, td{ text-align:left; padding:9px 12px; border-bottom:1px solid var(--line); white-space:nowrap; }
+  th{ background:var(--mono-bg); font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); font-weight:600; }
+  tr:last-child td{ border-bottom:none; }
+  td.num, th.num{ text-align:right; }
+  .tag{ display:inline-block; font-size:11px; padding:2px 8px; border-radius:999px; font-weight:600; }
+  .tag-keep{ background:var(--accent-soft); color:var(--accent); }
+  .tag-out{ background:var(--risk-soft); color:var(--risk); }
+  .tag-watch{ background:var(--gold-soft); color:var(--gold); }
+
+  .alloc-bar{ display:flex; height:38px; border-radius:8px; overflow:hidden; border:1px solid var(--line); margin:18px 0 14px;}
+  .alloc-seg{ display:flex; align-items:center; justify-content:center; font-size:11px; color:#fff; font-weight:600; }
+  .alloc-legend{ display:flex; flex-wrap:wrap; gap:10px 18px; font-size:12.5px; margin-bottom:22px; }
+  .alloc-legend span.dot{ display:inline-block; width:9px; height:9px; border-radius:2px; margin-right:6px; }
+
+  .card-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:14px; margin:16px 0 6px; }
+  .card{ background:var(--paper-raised); border:1px solid var(--line); border-radius:10px; padding:16px 18px; }
+  .card h4{ margin:0 0 10px; font-size:14px; }
+  .card .row{ display:flex; justify-content:space-between; font-size:13px; padding:3px 0; }
+  .card .row .k{ color:var(--muted); }
+
+  .range-chart{ position:relative; height:34px; background:var(--mono-bg); border-radius:6px; margin:10px 0 4px; }
+  .range-fill{ position:absolute; top:8px; bottom:8px; background:var(--accent-soft); border-radius:4px; }
+  .range-marker{ position:absolute; top:2px; bottom:2px; width:2px; background:var(--ink); opacity:.55; }
+  .range-marker.zero{ background:var(--muted); opacity:.4; }
+  .range-marker.p50{ background:var(--accent); width:3px; opacity:1; }
+  .range-marker.var{ background:var(--risk); width:2px; opacity:.85; }
+  .range-labels{ display:flex; justify-content:space-between; font-size:11px; color:var(--muted); margin-bottom:20px;}
+
+  .risk-list{ list-style:none; padding:0; margin:16px 0; counter-reset:risk; }
+  .risk-item{ counter-increment:risk; display:grid; grid-template-columns:34px 1fr; gap:12px; padding:12px 0; border-bottom:1px solid var(--line); }
+  .risk-item:last-child{ border-bottom:none; }
+  .risk-item::before{ content:counter(risk); font-family: ui-monospace, monospace; color:var(--risk); font-weight:700; font-size:15px; }
+  .risk-item .rtitle{ font-weight:600; margin-bottom:3px; }
+  .risk-item .rmit{ color:var(--muted); font-size:13.5px; }
+  .risk-item .rmit b{ color:var(--ink); font-weight:600; }
+
+  .rule-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; margin:16px 0; }
+  .rule-card{ background:var(--paper-raised); border:1px solid var(--line); border-left:3px solid var(--accent); border-radius:8px; padding:14px 16px; }
+  .rule-card.warn{ border-left-color:var(--risk); }
+  .rule-card h4{ margin:0 0 6px; font-size:13.5px; text-transform:uppercase; letter-spacing:.04em; }
+  .rule-card p{ margin:0; font-size:13.5px; color:var(--muted); }
+
+  .callout{ background:var(--gold-soft); border:1px solid var(--gold); border-radius:10px; padding:16px 18px; margin:18px 0; font-size:13.5px; }
+  .callout.danger{ background:var(--risk-soft); border-color:var(--risk); }
+  .callout strong{ display:block; margin-bottom:4px; }
+
+  .committee{ display:flex; flex-wrap:wrap; gap:8px; margin:14px 0 4px; }
+  .committee span{ font-size:12px; background:var(--mono-bg); border-radius:999px; padding:5px 12px; color:var(--muted); }
+
+  footer{ padding:30px 0 10px; color:var(--muted); font-size:12px; }
+  footer p{ max-width:none; }
+</style>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand serif">Comitê Quantitativo · Cripto</div>
+    <nav class="navlinks">
+      <a href="#mercado">Mercado</a>
+      <a href="#filtro">Filtro</a>
+      <a href="#carteira">Carteira</a>
+      <a href="#simulacao">Simulação</a>
+      <a href="#cenarios">Cenários</a>
+      <a href="#bitradex">BitradeX</a>
+      <a href="#risco">Regras</a>
+      <a href="#alertas">Alertas</a>
+    </nav>
+  </div>
+</div>
+
+<main>
+  <section class="cover">
+    <div class="eyebrow">Relatório de Alocação · 12 de julho de 2026</div>
+    <h1 class="title serif">Carteira institucional de criptoativos: preservação de capital com crescimento controlado</h1>
+    <p class="subtitle">Construída por um comitê multidisciplinar simulado, com o mandato explícito de <strong>maximizar retorno ajustado ao risco</strong> — não o lucro máximo. Rendimento consistente, liquidez alta, drawdown controlado e exposição sempre limitada.</p>
+
+    <div class="committee">
+      <span>Gestor de Hedge Fund</span><span>Especialista em Blockchain</span><span>Quant Trader</span>
+      <span>Analista On-chain</span><span>Economista Macro</span><span>Gestão de Risco</span>
+      <span>Dev. Python</span><span>IA aplicada a mercados</span><span>Auditoria de Segurança</span>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat"><div class="stat-label">Capital inicial</div><div class="stat-value num">R$ 5.000,00</div></div>
+      <div class="stat"><div class="stat-label">Cotação USDT/BRL usada</div><div class="stat-value num">R$ 5,25</div></div>
+      <div class="stat"><div class="stat-label">Capital convertido</div><div class="stat-value num">≈ 952,38 USDT</div></div>
+      <div class="stat"><div class="stat-label">Reserva em stablecoin</div><div class="stat-value num">25%</div></div>
+      <div class="stat"><div class="stat-label">Teto por ativo</div><div class="stat-value num">20%</div></div>
+    </div>
+  </section>
+
+  <section id="mercado">
+    <div class="section-kicker">01 — Panorama de mercado</div>
+    <h2 class="serif">O que os dados dizem hoje</h2>
+    <p>Preços e capitalizações levantados via agregadores públicos (CoinGecko, CoinMarketCap, CoinDesk, MetaMask) em 12/07/2026. São valores <strong>aproximados e voláteis por natureza</strong> — confirme a cotação ao vivo na sua corretora antes de qualquer execução. Sharpe, Beta e Volatilidade anualizada são <strong>estimativas do comitê</strong> baseadas no regime de mercado 2024–2026, não medições de série histórica exata.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr>
+          <th>Ativo</th><th class="num">Preço (US$)</th><th class="num">Market Cap</th><th class="num">Vol. 24h</th>
+          <th class="num">Vol. anual. (est.)</th><th class="num">Beta (vs BTC)</th><th class="num">Correl. BTC</th><th>Narrativa / rede</th>
+        </tr></thead>
+        <tbody>
+          <tr><td>BTC</td><td class="num mono">64.200</td><td class="num mono">1,29 T</td><td class="num mono">15,0 B</td><td class="num mono">~50%</td><td class="num mono">1,00</td><td class="num mono">1,00</td><td>Reserva de valor, dominância 56,9%</td></tr>
+          <tr><td>ETH</td><td class="num mono">1.796</td><td class="num mono">~218 B</td><td class="num mono">~9,0 B</td><td class="num mono">~65%</td><td class="num mono">1,15</td><td class="num mono">0,85</td><td>L1 líder, ETFs, L2s (Arbitrum/Base)</td></tr>
+          <tr><td>BNB</td><td class="num mono">580</td><td class="num mono">~84 B</td><td class="num mono">~1,8 B</td><td class="num mono">~55%</td><td class="num mono">0,90</td><td class="num mono">0,75</td><td>Exchange-token, upgrade Maxwell</td></tr>
+          <tr><td>SOL</td><td class="num mono">77,7</td><td class="num mono">~43 B</td><td class="num mono">~2,5 B</td><td class="num mono">~85%</td><td class="num mono">1,45</td><td class="num mono">0,70</td><td>L1 alta performance, upgrade Alpenglow</td></tr>
+          <tr><td>XRP</td><td class="num mono">1,11</td><td class="num mono">~65 B</td><td class="num mono">~1,2 B</td><td class="num mono">~70%</td><td class="num mono">1,05</td><td class="num mono">0,55</td><td>Pagamentos, catalisadores regulatórios</td></tr>
+          <tr><td>LINK</td><td class="num mono">8,05</td><td class="num mono">~5,6 B</td><td class="num mono">0,17 B</td><td class="num mono">~75%</td><td class="num mono">1,25</td><td class="num mono">0,65</td><td>Oráculos, infraestrutura institucional</td></tr>
+          <tr><td>AVAX</td><td class="num mono">6,73</td><td class="num mono">2,90 B</td><td class="num mono">0,16 B</td><td class="num mono">~90%</td><td class="num mono">1,40</td><td class="num mono">0,68</td><td>Subnets, mcap comprimido vs. ciclo anterior</td></tr>
+          <tr><td>SUI</td><td class="num mono">0,745</td><td class="num mono">3,02 B</td><td class="num mono">0,20 B</td><td class="num mono">~100%</td><td class="num mono">1,60</td><td class="num mono">0,60</td><td>L1 emergente, alta volatilidade</td></tr>
+          <tr><td>AAVE</td><td class="num mono">~90</td><td class="num mono">1,46 B</td><td class="num mono">0,28 B</td><td class="num mono">~80%</td><td class="num mono">1,30</td><td class="num mono">0,60</td><td>DeFi blue-chip, "real yield"</td></tr>
+          <tr><td>ATOM</td><td class="num mono">1,59</td><td class="num mono">0,82 B</td><td class="num mono">baixo</td><td class="num mono">~85%</td><td class="num mono">1,20</td><td class="num mono">0,55</td><td>Ecossistema fragmentado, apps saindo do hub</td></tr>
+          <tr><td>INJ</td><td class="num mono">5,01</td><td class="num mono">0,49 B</td><td class="num mono">0,09 B</td><td class="num mono">~110%</td><td class="num mono">1,55</td><td class="num mono">0,50</td><td>Nicho (perp DEX infra), liquidez rasa</td></tr>
+          <tr><td>ADA</td><td class="num mono">0,166</td><td class="num mono">~5,9 B</td><td class="num mono">baixo</td><td class="num mono">~65%</td><td class="num mono">0,95</td><td class="num mono">0,60</td><td>Dev. lento, TVL pequeno vs. mcap</td></tr>
+          <tr><td>DOT</td><td class="num mono">0,877</td><td class="num mono">baixo</td><td class="num mono">baixo</td><td class="num mono">~75%</td><td class="num mono">1,00</td><td class="num mono">0,55</td><td>Narrativa de parachains perdeu tração</td></tr>
+          <tr><td>NEAR</td><td class="num mono">1,98</td><td class="num mono">~2,3 B</td><td class="num mono">baixo</td><td class="num mono">~90%</td><td class="num mono">1,35</td><td class="num mono">0,60</td><td>L1 redundante frente a SOL/AVAX na carteira</td></tr>
+          <tr><td>TAO</td><td class="num mono">306,5</td><td class="num mono">1,85 B</td><td class="num mono">moderado</td><td class="num mono">~110%</td><td class="num mono">1,50</td><td class="num mono">0,55</td><td>Bittensor — rede de IA descentralizada (subnets de treino/inferência)</td></tr>
+          <tr><td>RENDER</td><td class="num mono">1,44</td><td class="num mono">~0,75 B</td><td class="num mono">moderado</td><td class="num mono">~105%</td><td class="num mono">1,40</td><td class="num mono">0,55</td><td>GPU descentralizada p/ renderização e IA — migrou p/ Solana em 07/2026</td></tr>
+          <tr><td>AKT</td><td class="num mono">0,472</td><td class="num mono">0,17 B</td><td class="num mono">muito baixo</td><td class="num mono">~120%</td><td class="num mono">1,45</td><td class="num mono">0,50</td><td>Akash — cloud de compute descentralizado, liquidez rasa</td></tr>
+          <tr><td>USDT</td><td class="num mono">1,00</td><td class="num mono">~120 B</td><td class="num mono">alto</td><td class="num mono">~0,5%</td><td class="num mono">0,00</td><td class="num mono">0,00</td><td>Stablecoin de reserva/caixa</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout">
+      <strong>Adendo — narrativa de "IA + água/energia": vale entrar em compute descentralizado?</strong>
+      Datacenters de IA consomem grandes volumes de água para resfriamento, e ~2/3 dos novos datacenters desde 2022 estão em regiões com estresse hídrico. A tese de compute de IA descentralizado (Bittensor/TAO, Render, Akash/AKT) é agregar GPUs ociosas espalhadas geograficamente como alternativa aos hiperescaladores centralizados. Das três opções, apenas <strong>TAO</strong> passa no filtro de liquidez/market cap do comitê (~US$ 1,85 B, bem acima do piso de ~US$ 1 B usado para BTC–SUI); RENDER fica na fronteira (~US$ 0,75 B, similar ao AAVE) e <strong>AKT é reprovado</strong> (~US$ 0,17 B, volume diário na casa de milhões — mesmo padrão que excluiu INJ e ATOM). Importante: isso é uma tese de infraestrutura de IA, não um hedge direto contra consumo de água — nenhum desses tokens mede ou compensa água consumida.
+    </div>
+  </section>
+
+  <section id="filtro">
+    <div class="section-kicker">02 — Filtro quantitativo</div>
+    <h2 class="serif">Removendo o que não passa no crivo de robustez</h2>
+    <p>Aplicando os critérios de exclusão (baixo volume, liquidez rasa, inflação/tokenomics fracos, narrativa dependente de marketing), quatro ativos saem do núcleo da carteira:</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Ativo</th><th>Status</th><th>Motivo da exclusão</th></tr></thead>
+        <tbody>
+          <tr><td>ATOM</td><td><span class="tag tag-out">Fora</span></td><td>Market cap de apenas ~US$ 822 M, liquidez rasa, ecossistema Cosmos perdendo app-chains relevantes.</td></tr>
+          <tr><td>INJ</td><td><span class="tag tag-out">Fora</span></td><td>Menor market cap do grupo (~US$ 489 M), uso de nicho, maior risco idiossincrático sem prêmio de retorno claro.</td></tr>
+          <tr><td>DOT</td><td><span class="tag tag-out">Fora</span></td><td>Narrativa de parachains sem tração recente, preço deprimido, atividade de desenvolvimento relativa em queda.</td></tr>
+          <tr><td>NEAR</td><td><span class="tag tag-out">Fora</span></td><td>Exposição redundante — funcionalmente sobrepõe SOL/AVAX no portfólio sem diversificar risco real.</td></tr>
+          <tr><td>ADA</td><td><span class="tag tag-watch">Watchlist</span></td><td>Cap ainda relevante, mas TVL baixo frente ao market cap e momentum fraco — mantido fora do núcleo, elegível para sleeve tático futuro.</td></tr>
+          <tr><td>AKT</td><td><span class="tag tag-out">Fora</span></td><td>Avaliado para a tese de "compute de IA descentralizado", mas reprovado: market cap de ~US$ 0,17 B e volume diário na casa de milhões — mesmo padrão de reprovação de INJ/ATOM.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Os nove ativos restantes — <strong>BTC, ETH, BNB, SOL, XRP, LINK, AVAX, AAVE, SUI</strong> — cobrem funções distintas (reserva de valor, contratos inteligentes, exchange-utility, pagamentos, oráculos, DeFi) sem redundância excessiva. A eles se soma um décimo ativo satélite, <strong>TAO (Bittensor)</strong>, incluído a pedido do usuário como exposição à tese de compute de IA descentralizado (ver adendo na seção de mercado) — o único dos três candidatos avaliados (TAO, RENDER, AKT) que passa no filtro de liquidez/market cap do comitê com folga. Somados à reserva em USDT, os dez ativos compõem 100% da carteira.</p>
+  </section>
+
+  <section id="carteira">
+    <div class="section-kicker">03 — Carteira recomendada</div>
+    <h2 class="serif">Alocação — R$ 5.000,00 / 952,38 USDT</h2>
+    <p>Pesos definidos por <strong>risk parity</strong> (inverso da volatilidade) com teto rígido de 20% por ativo, ajustado por convicção qualitativa (rede, liquidez, tokenomics) e uma reserva estratégica de caixa de 25% em USDT. Versão atualizada: abriu-se espaço para <strong>TAO</strong> reduzindo 1 p.p. de AVAX e 1 p.p. de SUI, mantendo o perfil de risco agregado praticamente inalterado.</p>
+
+    <div class="alloc-bar">
+      <div class="alloc-seg" style="width:25%;background:#5B6570;">USDT 25%</div>
+      <div class="alloc-seg" style="width:18%;background:#9C7A32;">BTC 18%</div>
+      <div class="alloc-seg" style="width:15%;background:#1F6F5C;">ETH 15%</div>
+      <div class="alloc-seg" style="width:10%;background:#3D8F7A;">BNB 10%</div>
+      <div class="alloc-seg" style="width:9%;background:#5CA695;">SOL 9%</div>
+      <div class="alloc-seg" style="width:7%;background:#7FBBAD;">XRP 7%</div>
+      <div class="alloc-seg" style="width:6%;background:#A6CDC3;color:#1B2430;">LINK 6%</div>
+      <div class="alloc-seg" style="width:4%;background:#C7574A;">AVAX</div>
+      <div class="alloc-seg" style="width:3%;background:#D98F84;color:#1B2430;">AAVE</div>
+      <div class="alloc-seg" style="width:2%;background:#6B4FA0;color:#fff;">TAO</div>
+      <div class="alloc-seg" style="width:1%;background:#E9BDB6;color:#1B2430;"></div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Ativo</th><th class="num">Peso</th><th class="num">R$</th><th class="num">USDT</th><th>Função na carteira</th></tr></thead>
+        <tbody>
+          <tr><td>USDT (caixa)</td><td class="num mono">25%</td><td class="num mono">1.250,00</td><td class="num mono">238,10</td><td>Reserva estratégica, munição para quedas, redução de vol. total</td></tr>
+          <tr><td>BTC</td><td class="num mono">18%</td><td class="num mono">900,00</td><td class="num mono">171,43</td><td>Núcleo de menor volatilidade relativa e maior liquidez do universo cripto</td></tr>
+          <tr><td>ETH</td><td class="num mono">15%</td><td class="num mono">750,00</td><td class="num mono">142,86</td><td>Beta de contratos inteligentes, exposição a L2s e ETFs</td></tr>
+          <tr><td>BNB</td><td class="num mono">10%</td><td class="num mono">500,00</td><td class="num mono">95,24</td><td>Fluxo de exchange, utilidade real (fees, launchpad), boa liquidez</td></tr>
+          <tr><td>SOL</td><td class="num mono">9%</td><td class="num mono">450,00</td><td class="num mono">85,71</td><td>Alta performance/adoção, contrapeso de crescimento</td></tr>
+          <tr><td>XRP</td><td class="num mono">7%</td><td class="num mono">350,00</td><td class="num mono">66,67</td><td>Baixa correlação via catalisadores próprios (regulatório/pagamentos)</td></tr>
+          <tr><td>LINK</td><td class="num mono">6%</td><td class="num mono">300,00</td><td class="num mono">57,14</td><td>Infraestrutura crítica (oráculos), exposição institucional indireta</td></tr>
+          <tr><td>AVAX</td><td class="num mono">4%</td><td class="num mono">200,00</td><td class="num mono">38,10</td><td>Satélite de crescimento, subnets institucionais (reduzido 1 p.p. para abrir espaço a TAO)</td></tr>
+          <tr><td>AAVE</td><td class="num mono">3%</td><td class="num mono">150,00</td><td class="num mono">28,57</td><td>Exposição a DeFi com fluxo de receita real (yield do protocolo)</td></tr>
+          <tr><td>TAO</td><td class="num mono">2%</td><td class="num mono">100,00</td><td class="num mono">19,05</td><td>Satélite — compute de IA descentralizado (tese de água/energia); único candidato do tema aprovado no filtro de liquidez</td></tr>
+          <tr><td>SUI</td><td class="num mono">1%</td><td class="num mono">50,00</td><td class="num mono">9,52</td><td>Posição-satélite residual, alta convicção de crescimento/alto risco (reduzida 1 p.p. para abrir espaço a TAO)</td></tr>
+          <tr><td><strong>Total</strong></td><td class="num mono"><strong>100%</strong></td><td class="num mono"><strong>5.000,00</strong></td><td class="num mono"><strong>952,38</strong></td><td>—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="color:var(--muted); font-size:13px;">Nenhum ativo de risco excede 20% (teto rígido do mandato). BTC + ETH somam 33% (núcleo), oito ativos somam 42% (satélites diversificados, incluindo TAO), e 25% permanece em caixa — a única posição verdadeiramente descorrelacionada em cenários de crash.</p>
+  </section>
+
+  <section id="simulacao">
+    <div class="section-kicker">04 — Simulação de Monte Carlo</div>
+    <h2 class="serif">100.000 cenários por horizonte</h2>
+    <p>Simulação de trajetória correlacionada (movimento geom. browniano, matriz de correlação entre os 10 ativos + USDT, 100.000 caminhos por horizonte) usando retorno esperado e volatilidade anualizados estimados pelo comitê — já com TAO incluído. Resultado expresso como variação do valor total da carteira.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <h4>30 dias</h4>
+        <div class="range-chart"><div class="range-fill" style="left:28.9%;width:19.5%;"></div><div class="range-marker zero" style="left:37.5%;"></div><div class="range-marker p50" style="left:37.6%;"></div><div class="range-marker var" style="left:26.7%;"></div></div>
+        <div class="row"><span class="k">P10 / P50 / P90</span><span class="num">-13,8% / +0,1% / +17,3%</span></div>
+        <div class="row"><span class="k">VaR 95% / ES 95%</span><span class="num">-17,3% / -20,9%</span></div>
+        <div class="row"><span class="k">Prob. retorno &gt; 0</span><span class="num">50,3%</span></div>
+        <div class="row"><span class="k">Drawdown médio / pior 5%</span><span class="num">-11,6% / -21,1%</span></div>
+      </div>
+      <div class="card">
+        <h4>90 dias</h4>
+        <div class="range-chart"><div class="range-fill" style="left:23.9%;width:34.3%;"></div><div class="range-marker zero" style="left:37.5%;"></div><div class="range-marker p50" style="left:37.8%;"></div><div class="range-marker var" style="left:20.7%;"></div></div>
+        <div class="row"><span class="k">P10 / P50 / P90</span><span class="num">-21,8% / +0,5% / +33,0%</span></div>
+        <div class="row"><span class="k">VaR 95% / ES 95%</span><span class="num">-26,9% / -31,8%</span></div>
+        <div class="row"><span class="k">Prob. retorno &gt; 0</span><span class="num">50,9%</span></div>
+        <div class="row"><span class="k">Drawdown médio / pior 5%</span><span class="num">-20,2% / -33,7%</span></div>
+      </div>
+      <div class="card">
+        <h4>180 dias</h4>
+        <div class="range-chart"><div class="range-fill" style="left:19.5%;width:49.6%;"></div><div class="range-marker zero" style="left:37.5%;"></div><div class="range-marker p50" style="left:38.0%;"></div><div class="range-marker var" style="left:15.8%;"></div></div>
+        <div class="row"><span class="k">P10 / P50 / P90</span><span class="num">-28,8% / +0,7% / +50,7%</span></div>
+        <div class="row"><span class="k">VaR 95% / ES 95%</span><span class="num">-34,7% / -40,3%</span></div>
+        <div class="row"><span class="k">Prob. retorno &gt; 0</span><span class="num">51,0%</span></div>
+        <div class="row"><span class="k">Drawdown médio / pior 5%</span><span class="num">-27,7% / -43,6%</span></div>
+      </div>
+      <div class="card">
+        <h4>365 dias</h4>
+        <div class="range-chart"><div class="range-fill" style="left:14.6%;width:74.6%;"></div><div class="range-marker zero" style="left:37.5%;"></div><div class="range-marker p50" style="left:38.7%;"></div><div class="range-marker var" style="left:10.4%;"></div></div>
+        <div class="row"><span class="k">P10 / P50 / P90</span><span class="num">-36,7% / +1,9% / +82,7%</span></div>
+        <div class="row"><span class="k">VaR 95% / ES 95%</span><span class="num">-43,4% / -49,2%</span></div>
+        <div class="row"><span class="k">Prob. retorno &gt; 0</span><span class="num">51,8%</span></div>
+        <div class="row"><span class="k">Drawdown médio / pior 5%</span><span class="num">-36,9% / -54,6%</span></div>
+      </div>
+    </div>
+    <div class="range-labels"><span>faixa exibida: -60% a +100%</span><span><span style="color:var(--accent);">■</span> P50 &nbsp; <span style="color:var(--risk);">■</span> VaR 95%</span></div>
+
+    <div class="callout">
+      <strong>Leitura honesta do resultado: o retorno mediano fica perto de zero em todos os horizontes.</strong>
+      Isso não é erro de modelo — é <em>volatility drag</em>: em ativos de alta volatilidade, o crescimento composto mediano é sistematicamente menor que o retorno médio esperado. É exatamente por isso que o mandato prioriza volatility targeting, reserva de caixa e rebalanceamento, e não "comprar e esperar a média".
+    </div>
+
+    <h3>Testes de estresse (choque instantâneo)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Cenário</th><th class="num">Impacto na carteira</th><th>Por que a carteira absorve o choque</th></tr></thead>
+        <tbody>
+          <tr><td>Crash de -50% nos ativos de risco</td><td class="num mono">-37,5%</td><td>75% da carteira está em cripto; 25% em USDT permanece intacto</td></tr>
+          <tr><td>Crash de -80% nos ativos de risco</td><td class="num mono">-60,0%</td><td>Mesmo em colapso severo, a reserva preserva parte relevante do capital</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="cenarios">
+    <div class="section-kicker">05 — Cenários narrativos</div>
+    <h2 class="serif">Pessimista, provável e otimista por horizonte</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Horizonte</th><th>Pessimista (P10)</th><th>Provável (P50)</th><th>Otimista (P90)</th></tr></thead>
+        <tbody>
+          <tr><td>30 dias</td><td>Correção de curto prazo, notícia macro negativa; carteira cai a ~R$ 4.305</td><td>Mercado lateral; carteira ~R$ 5.004</td><td>Rali de curto prazo; carteira ~R$ 5.865</td></tr>
+          <tr><td>90 dias</td><td>Perna de baixa confirmada; carteira ~R$ 3.894</td><td>Consolidação; carteira ~R$ 5.018</td><td>Início de tendência de alta; carteira ~R$ 6.640</td></tr>
+          <tr><td>180 dias</td><td>Bear market estabelecido; carteira ~R$ 3.555</td><td>Recuperação gradual; carteira ~R$ 5.033</td><td>Bull market em formação; carteira ~R$ 7.557</td></tr>
+          <tr><td>365 dias</td><td>Ciclo de baixa prolongado; carteira ~R$ 3.163</td><td>Crescimento moderado; carteira ~R$ 5.071</td><td>Bull market maduro; carteira ~R$ 9.152</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>Nos três cenários, a perda máxima provável fica contida pela reserva de 25% em USDT e pelo teto de 20% por ativo — mesmo no P10 de 365 dias, a carteira preserva ~63% do capital nominal, sem contar qualquer rebalanceamento tático que normalmente reduziria ainda mais a perda.</p>
+  </section>
+
+  <section id="bitradex">
+    <div class="section-kicker">06 — Avaliação da BitradeX</div>
+    <h2 class="serif">Produtos "AI Daily" a "AI 360": vale a pena?</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Produto</th><th>Liquidez</th><th>Prazo</th><th>Retorno anunciado</th><th>Risco</th></tr></thead>
+        <tbody>
+          <tr><td>AI Daily</td><td>Alta — saque a qualquer momento</td><td>Sem trava</td><td>Variável, cresce com permanência</td><td>Mercado + contraparte</td></tr>
+          <tr><td>AI 30</td><td>Baixa durante o prazo</td><td>30 dias</td><td>Moderado</td><td>Contraparte + iliquidez temporária</td></tr>
+          <tr><td>AI 90</td><td>Baixa</td><td>90 dias</td><td>Moderado-alto</td><td>Contraparte + iliquidez</td></tr>
+          <tr><td>AI 180</td><td>Muito baixa</td><td>180 dias</td><td>Alto</td><td>Contraparte + iliquidez prolongada</td></tr>
+          <tr><td>AI 360</td><td>Nenhuma</td><td>360 dias</td><td class="mono">até 180% a.a. (anunciado)</td><td><span class="tag tag-out">Muito alto</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout danger">
+      <strong>Retornos passados não garantem retornos futuros — e um retorno anunciado de até 180% a.a. é, por si só, um sinal de alerta.</strong>
+      Nenhuma estratégia quantitativa institucional sustenta esse patamar de forma consistente sem risco extremo embutido. O registro da BitradeX como Money Services Business (MSB) na FinCEN é um <strong>registro de transmissão de dinheiro</strong> — não uma licença de gestão de investimentos, não envolve auditoria da estratégia do bot, e não oferece seguro de depósito (como FDIC/SIPC). Avaliações públicas mostram experiências mistas, incluindo relatos de dificuldades de saque. Esse padrão (retorno fixo muito acima do mercado + iliquidez crescente por prazo + ausência de transparência da estratégia) é estruturalmente idêntico ao de esquemas Ponzi/HYIP, mesmo quando a plataforma é legítima em sua operação.
+    </div>
+    <p><strong>Recomendação do comitê: 0% de alocação da carteira de preservação de capital na BitradeX.</strong> O mandato deste portfólio é preservação e retorno ajustado ao risco — incompatível com produtos de risco de contraparte não auditável e retorno anunciado nesse patamar. Se o usuário quiser testar a plataforma, isso deve ser feito com capital de especulação separado, fora desta carteira, em valor que possa ser perdido integralmente, começando pelo produto "AI Daily" (maior liquidez, menor trava) e nunca no "AI 360".</p>
+  </section>
+
+  <section id="risco">
+    <div class="section-kicker">07 — Regras objetivas de monitoramento</div>
+    <h2 class="serif">Gestão de risco não é opinião, é gatilho</h2>
+    <div class="rule-grid">
+      <div class="rule-card"><h4>Comprar</h4><p>Peso real de um ativo cai mais de 5 p.p. abaixo do peso-alvo (aporte de rebalanceamento), ou ativo do núcleo cai &gt;20% do topo recente sem mudança de tese.</p></div>
+      <div class="rule-card warn"><h4>Vender / reduzir</h4><p>Peso real ultrapassa o teto de 20% (ou peso-alvo +5 p.p.) — realiza lucro parcial trazendo de volta ao alvo.</p></div>
+      <div class="rule-card"><h4>Rebalancear</h4><p>Calendário trimestral fixo, ou a qualquer momento em que qualquer posição desvie mais de ±5 p.p. do peso-alvo.</p></div>
+      <div class="rule-card warn"><h4>Reduzir exposição</h4><p>Drawdown da carteira ultrapassa -15% (aprox. o P5 do modelo) ou volatilidade implícita cripto sobe acima do percentil 80 histórico.</p></div>
+      <div class="rule-card"><h4>Aumentar caixa</h4><p>Indicadores macro sinalizam aperto de liquidez global (juros/DXY subindo) ou dominância de USDT/USDC em alta acentuada (fuga para stable).</p></div>
+      <div class="rule-card"><h4>Aproveitar quedas</h4><p>Destinar até 30% da reserva USDT em compras escalonadas: 1/3 em -20%, 1/3 em -35%, 1/3 em -50% do topo recente.</p></div>
+      <div class="rule-card warn"><h4>Stop por volatilidade</h4><p>Stop dinâmico = múltiplo do ATR(14d) por ativo — nunca uma % fixa, para se ajustar à volatilidade real de cada moeda.</p></div>
+    </div>
+  </section>
+
+  <section id="alertas">
+    <div class="section-kicker">08 — Os 20 maiores riscos</div>
+    <h2 class="serif">Ordenados por severidade, com mitigação objetiva</h2>
+    <ol class="risk-list">
+      <li class="risk-item"><div><div class="rtitle">Risco de contraparte de exchange</div><div class="rmit"><b>Mitigação:</b> usar corretoras regulamentadas e mover parte relevante para carteira fria (self-custody).</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Risco de contraparte em plataformas de "yield com IA" (ex.: BitradeX)</div><div class="rmit"><b>Mitigação:</b> excluir do capital de preservação; se usar, capital de risco isolado e mínimo.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Crash geral de mercado (-50% a -80%)</div><div class="rmit"><b>Mitigação:</b> reserva de 25% em USDT, diversificação entre 9 ativos, teto de 20%.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Evento Black Swan sistêmico (hack de ponte, falha de protocolo)</div><div class="rmit"><b>Mitigação:</b> evitar pontes cross-chain desnecessárias, priorizar protocolos auditados.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Depeg de stablecoin (USDT perder paridade)</div><div class="rmit"><b>Mitigação:</b> monitorar transparência de reservas da Tether; considerar dividir reserva com USDC.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Risco regulatório (novas normas BR/CVM/BC, tributação)</div><div class="rmit"><b>Mitigação:</b> acompanhar Lei 14.478/22 e regras da CVM; manter registro fiscal de operações.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Risco cambial na conversão BRL→USDT</div><div class="rmit"><b>Mitigação:</b> considerar conversão escalonada (DCA) em vez de conversão única no dia.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Concentração residual em BTC+ETH (33% do núcleo)</div><div class="rmit"><b>Mitigação:</b> rebalanceamento trimestral disciplinado para manter os pesos-alvo.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Iliquidez em ativos satélite (AVAX, AAVE, SUI, TAO) em estresse</div><div class="rmit"><b>Mitigação:</b> limitar cada satélite a ≤5%, priorizar pares com maior profundidade de book. TAO em especial tem volume concentrado em poucas exchanges.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Ataques hacker a exchanges/contratos (ex.: exploits DeFi em AAVE)</div><div class="rmit"><b>Mitigação:</b> usar apenas protocolos auditados, acompanhar alertas de segurança on-chain.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Erro humano/operacional (phishing, perda de chave, 2FA fraco)</div><div class="rmit"><b>Mitigação:</b> 2FA por hardware, cold storage para a maior parte do capital.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Volatility drag corroendo o crescimento composto</div><div class="rmit"><b>Mitigação:</b> volatility targeting e rebalanceamento sistemático (visto na seção de simulação).</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Correlação entre criptoativos sobe para perto de 1 em crashes</div><div class="rmit"><b>Mitigação:</b> tratar USDT como a única diversificação real em pânico, não os altcoins entre si.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Unlocks/emissões futuras pressionando o preço</div><div class="rmit"><b>Mitigação:</b> monitorar calendários de unlock (SUI, AVAX) e a dinâmica de emissão por subnet do TAO, reduzindo exposição antes de eventos relevantes.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Opacidade de bots de terceiros (estratégia caixa-preta)</div><div class="rmit"><b>Mitigação:</b> exposição mínima/simbólica, nunca capital de preservação.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Impossibilidade de vender rápido em pânico generalizado</div><div class="rmit"><b>Mitigação:</b> priorizar ativos com maior volume/profundidade, evitar posições grandes em moedas finas.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Premissas do modelo de Monte Carlo não se repetirem</div><div class="rmit"><b>Mitigação:</b> tratar simulações como cenários ilustrativos, revisar premissas de vol/retorno trimestralmente.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Mudança estrutural de mercado (ETFs, entrada institucional alterando correlações)</div><div class="rmit"><b>Mitigação:</b> revisão trimestral da matriz de correlação e betas.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Risco fiscal (apuração incorreta de ganho de capital)</div><div class="rmit"><b>Mitigação:</b> manter extratos detalhados, consultar contador especializado em criptoativos.</div></div></li>
+      <li class="risk-item"><div><div class="rtitle">Viés comportamental (pânico em quedas, ganância em altas)</div><div class="rmit"><b>Mitigação:</b> seguir as regras objetivas da seção 07 à risca, sem decisões discricionárias emocionais.</div></div></li>
+    </ol>
+  </section>
+
+  <footer>
+    <p><strong>Metodologia e fontes:</strong> preços e capitalizações via CoinGecko, CoinMarketCap, CoinDesk e MetaMask (busca web em 12/07/2026, TAO/RENDER/AKT atualizados em 25–28/07/2026); cotação USDT/BRL agregada de Binance, Kraken, TabTrader e Wise. Estimativas de volatilidade, Sharpe, beta e correlação são construções do comitê para fins de modelagem, não séries históricas medidas diretamente. A simulação de Monte Carlo (100.000 caminhos por horizonte, GBM correlacionado) foi executada localmente em Python/NumPy.</p>
+    <p><strong>Aviso:</strong> este documento é uma análise educacional/quantitativa e não constitui recomendação de investimento personalizada. Criptoativos são voláteis e podem resultar em perda total do capital. Retornos passados não garantem retornos futuros.</p>
+  </footer>
+</main>
