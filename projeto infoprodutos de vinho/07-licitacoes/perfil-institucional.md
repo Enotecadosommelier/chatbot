@@ -11,9 +11,9 @@
 
 | Campo | Dado |
 |---|---|
-| Razão social | [PREENCHER] |
+| Razão social | Enoteca do Sommelier Comércio de Alimentos e Bebidas LTDA |
 | Nome fantasia | Vino Bianco Store |
-| CNPJ | [PREENCHER] |
+| CNPJ | 24.014.603/0001-00 |
 | Inscrição Estadual | [PREENCHER] |
 | CNAE principal | [PREENCHER — ex.: 47.23-7-00 Comércio varejista de bebidas] |
 | CNAE secundário | [PREENCHER — ex.: 46.35-4-99 Comércio atacadista de bebidas] |
@@ -89,8 +89,8 @@ alcoólico, embalagem, validade).*
 
 ## 6. Contato para cotações e propostas
 
-**Vino Bianco Store**
+**Enoteca do Sommelier Comércio de Alimentos e Bebidas LTDA** (Vino Bianco Store)
 [PREENCHER — endereço completo]
-CNPJ: [PREENCHER]
+CNPJ: 24.014.603/0001-00
 E-mail: contato@vinobianco.com.br
 WhatsApp: [PREENCHER]

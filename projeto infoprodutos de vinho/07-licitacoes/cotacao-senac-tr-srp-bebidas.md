@@ -95,8 +95,8 @@ condições estabelecidas no Termo de Referência em anexo.
 
 | Campo | Dado |
 |---|---|
-| Razão social | [PREENCHER] |
-| CNPJ | [PREENCHER] |
+| Razão social | Enoteca do Sommelier Comércio de Alimentos e Bebidas LTDA |
+| CNPJ | 24.014.603/0001-00 |
 | Endereço | [PREENCHER] |
 | Telefone / E-mail | [PREENCHER] |
 | Representante legal | [PREENCHER] |
@@ -136,7 +136,8 @@ Qualquer dúvida, permanecemos à disposição.
 Atenciosamente,
 
 **[PREENCHER — Nome do representante legal]**
-Vino Bianco Store
+Enoteca do Sommelier Comércio de Alimentos e Bebidas LTDA (Vino Bianco Store)
+CNPJ: 24.014.603/0001-00
 [Assinatura]
 
 ---
