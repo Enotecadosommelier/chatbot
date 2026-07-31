@@ -21,8 +21,13 @@ projeto-vinho/
 │   ├── biblioteca-mestre-uvas.md   ← Fichas de 10 uvas (tintas e brancas)
 │   ├── biblioteca-mestre-faqs.md   ← FAQs + Harmonizações do dia a dia
 │   └── dores-do-leigo.md           ← Dores, avatar, frases reais do público
-└── 06-operacoes/
-    └── automacao-instagram-manychat.md ← Funil completo ManyChat + roteiros Reels
+├── 06-operacoes/
+│   └── automacao-instagram-manychat.md ← Funil completo ManyChat + roteiros Reels
+└── 07-licitacoes/
+    ├── projeto-vinobianco-licitacoes.md     ← Estratégia para o mercado de licitações/compras institucionais
+    ├── perfil-institucional.md              ← Perfil institucional para anexar a propostas
+    ├── modelo-cotacao-resposta-tr.md        ← Template genérico de resposta a Termos de Referência
+    └── cotacao-senac-tr-srp-bebidas.md      ← Rascunho de cotação para o TR SRP do Senac (prazo 03/08/2026)
 ```
 
 ---
@@ -45,6 +50,12 @@ projeto-vinho/
 - [ ] Gravar primeiros 7 Reels (roteiros em `06-operacoes/automacao-instagram-manychat.md`)
 - [ ] Seguir calendário editorial (`03-conteudo/calendario-editorial-90-dias.md`)
 - [ ] Usar Biblioteca Mestre como base de conhecimento para todos os posts
+
+### FASE 5 — Licitações e Compras Institucionais (nova frente B2B, paralela)
+- [ ] Responder cotação urgente do Senac (`07-licitacoes/cotacao-senac-tr-srp-bebidas.md`, prazo 03/08/2026)
+- [ ] Levantar documentação jurídica/fiscal/sanitária (`07-licitacoes/projeto-vinobianco-licitacoes.md`, seção 4)
+- [ ] Preencher e diagramar `07-licitacoes/perfil-institucional.md` em papel timbrado
+- [ ] Cadastrar a Vino Bianco como fornecedor no Senac-DN, SICAF e demais entidades do Sistema S
 
 ---
 
