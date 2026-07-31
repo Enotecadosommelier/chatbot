@@ -80,6 +80,31 @@ Sistema S como prova de capacidade de entrega.
 
 ---
 
+## 3.1. Enquadramento e limite de capacidade — checar antes de cada processo
+
+> Sinalizado pelo usuário sobre o pedido do Senac: o volume/valor deste pedido está "em cima do
+> permitido para a empresa". Antes de confirmar participação em qualquer cotação, validar:
+
+- [ ] **Enquadramento tributário** (MEI, ME/Simples Nacional ou EPP) e o teto de faturamento anual
+      correspondente — um MEI, por exemplo, tem teto de receita bruta anual e restrições para
+      operar com bebidas alcoólicas e para fornecer a determinados entes; um pedido pontual
+      grande pode aproximar a empresa do limite do ano.
+- [ ] **Capacidade de estoque/fluxo de caixa**: a Enoteca do Sommelier consegue comprar do
+      importador/distribuidor, receber e entregar o volume solicitado (ex.: 288 Acqua Panna + 312
+      San Pellegrino + 23 Porto Messias) dentro do prazo de 5 dias sem comprometer o capital de
+      giro ou o estoque de venda ao consumidor final?
+- [ ] **Licença/alvará para o volume**: o alvará sanitário e o registro junto ao MAPA (bebidas
+      alcoólicas) cobrem o volume de revenda institucional pretendido, ou é preciso atualizar o
+      enquadramento junto aos órgãos?
+
+**Recomendação:** se o pedido do Senac ultrapassar o que o enquadramento atual permite, é mais
+seguro (a) cotar apenas uma fração dos lotes/quantidades que cabem no limite, (b) declinar esta
+rodada específica e usar o tempo para regularizar o enquadramento (ex.: migrar de MEI para ME),
+ou (c) buscar uma parceria/representação para viabilizar o volume sem expor a empresa a risco
+fiscal ou de descumprimento de entrega. Fica registrado aqui como ponto de atenção permanente
+para as próximas cotações — sempre checar o enquadramento tributário e a capacidade de entrega
+**antes** de confirmar uma proposta, não depois.
+
 ## 4. Checklist de documentação para virar fornecedor apto
 
 > Preencher/confirmar cada item com a razão social real da Vino Bianco antes de participar de

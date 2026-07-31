@@ -1,9 +1,13 @@
 # Perfil Institucional — Vino Bianco Store
 ## Documento-modelo para anexar a cotações, cadastros de fornecedor e propostas institucionais
 
+> **Versão diagramada disponível:** `assets/perfil-institucional.pdf` (fonte editável em
+> `assets/perfil-institucional.html`) — já aplica a identidade visual (cores, tipografia) descrita
+> em `01-marca/identidade-visual.md` e os dados confirmados da empresa. Este arquivo `.md` é a
+> fonte de conteúdo; atualize aqui primeiro e depois peça a regeneração do PDF.
+>
 > **Como usar:** preencher todos os campos `[PREENCHER]` com dados reais e verificados antes de
-> enviar a qualquer instituição. Depois de preenchido, diagramar em papel timbrado (logo, CNPJ,
-> endereço) conforme identidade visual em `01-marca/identidade-visual.md` e exportar em PDF.
+> enviar a qualquer instituição.
 
 ---
 

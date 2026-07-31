@@ -25,9 +25,12 @@ projeto-vinho/
 │   └── automacao-instagram-manychat.md ← Funil completo ManyChat + roteiros Reels
 └── 07-licitacoes/
     ├── projeto-vinobianco-licitacoes.md     ← Estratégia para o mercado de licitações/compras institucionais
-    ├── perfil-institucional.md              ← Perfil institucional para anexar a propostas
+    ├── perfil-institucional.md              ← Perfil institucional (conteúdo-fonte) para anexar a propostas
     ├── modelo-cotacao-resposta-tr.md        ← Template genérico de resposta a Termos de Referência
-    └── cotacao-senac-tr-srp-bebidas.md      ← Rascunho de cotação para o TR SRP do Senac (prazo 03/08/2026)
+    ├── cotacao-senac-tr-srp-bebidas.md      ← Rascunho de cotação para o TR SRP do Senac (prazo 03/08/2026)
+    └── assets/
+        ├── perfil-institucional.html/.pdf   ← Perfil institucional diagramado (cores/tipografia da marca)
+        └── papel-timbrado-modelo.html/.pdf  ← Papel timbrado-base para futuras cartas-proposta
 ```
 
 ---
@@ -52,10 +55,13 @@ projeto-vinho/
 - [ ] Usar Biblioteca Mestre como base de conhecimento para todos os posts
 
 ### FASE 5 — Licitações e Compras Institucionais (nova frente B2B, paralela)
-- [ ] Responder cotação urgente do Senac (`07-licitacoes/cotacao-senac-tr-srp-bebidas.md`, prazo 03/08/2026)
+- [x] Perfil institucional e papel timbrado diagramados (`07-licitacoes/assets/`)
+- [ ] Avaliar se a Enoteca do Sommelier tem enquadramento/capacidade para o pedido do Senac antes
+      de enviar (ver nota de capacidade em `projeto-vinobianco-licitacoes.md`, seção 4)
+- [ ] Responder cotação do Senac (`07-licitacoes/cotacao-senac-tr-srp-bebidas.md`), se decidido seguir
 - [ ] Levantar documentação jurídica/fiscal/sanitária (`07-licitacoes/projeto-vinobianco-licitacoes.md`, seção 4)
-- [ ] Preencher e diagramar `07-licitacoes/perfil-institucional.md` em papel timbrado
-- [ ] Cadastrar a Vino Bianco como fornecedor no Senac-DN, SICAF e demais entidades do Sistema S
+- [ ] Preencher endereço, telefone e IE em `07-licitacoes/perfil-institucional.md` e regenerar o PDF
+- [ ] Cadastrar a Enoteca do Sommelier como fornecedor no Senac-DN, SICAF e demais entidades do Sistema S
 
 ---
 
