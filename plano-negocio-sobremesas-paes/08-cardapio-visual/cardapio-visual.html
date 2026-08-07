@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Cardápio Artesanal - Casa Recheada</title>
+<style>
+  @page { size: A4; margin: 0; }
+  html, body {
+    margin: 0; padding: 0;
+    width: 1000px;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    background: #fbf3e3;
+    color: #4a2c1a;
+  }
+  .page { box-sizing: border-box; width: 1000px; padding: 60px 70px; }
+  header { text-align: center; margin-bottom: 10px; }
+  .kicker {
+    font-family: Helvetica, Arial, sans-serif;
+    letter-spacing: 6px; text-transform: uppercase;
+    font-size: 18px; color: #a8632c; font-weight: 600;
+  }
+  h1 { font-size: 64px; color: #6b2c14; margin: 6px 0 4px 0; }
+  .tagline { font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-style: italic; color: #7a3b1e; margin-bottom: 30px; }
+  h2.section {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 30px; color: #7a3b1e;
+    border-bottom: 3px solid #d9a441;
+    padding-bottom: 8px; margin-top: 40px; margin-bottom: 18px;
+  }
+  .item {
+    display: flex; justify-content: space-between; align-items: baseline;
+    padding: 12px 0; border-bottom: 1px dashed #d9c19a;
+  }
+  .item .name { font-size: 24px; font-weight: bold; color: #4a2c1a; }
+  .item .desc { font-family: Helvetica, Arial, sans-serif; font-size: 16px; color: #8a6a4a; display:block; margin-top: 4px; }
+  .item .price { font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: bold; color: #a8632c; white-space: nowrap; padding-left: 20px; }
+  .kits {
+    margin-top: 30px; background: #f3e2bd; border-radius: 16px; padding: 20px 30px;
+  }
+  footer {
+    margin-top: 40px; text-align: center;
+    font-family: Helvetica, Arial, sans-serif; font-size: 18px; color: #6b2c14;
+  }
+  footer .wa { font-weight: bold; font-size: 22px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="kicker">Feito em casa • Bairro</div>
+    <h1>Cardápio Artesanal</h1>
+    <div class="tagline">"Feito em casa com sabor artesanal" — Casa Recheada</div>
+  </header>
+
+  <h2 class="section">🥖 Pães Recheados</h2>
+  <div class="item">
+    <div><div class="name">Frango + Queijo</div><span class="desc">Bastonete italiano, frango desfiado, queijo e requeijão</span></div>
+    <div class="price">R$ 7,00</div>
+  </div>
+  <div class="item">
+    <div><div class="name">Calabresa + Queijo</div><span class="desc">Calabresa temperada com cebola e queijo derretido</span></div>
+    <div class="price">R$ 6,50</div>
+  </div>
+  <div class="item">
+    <div><div class="name">Presunto + Queijo</div><span class="desc">Clássico, generoso, sempre quentinho</span></div>
+    <div class="price">R$ 6,50</div>
+  </div>
+  <div class="item">
+    <div><div class="name">Rúcula + Queijo</div><span class="desc">Rúcula fresca, queijo e toque de tomate seco</span></div>
+    <div class="price">R$ 7,50</div>
+  </div>
+
+  <h2 class="section">🍰 Sobremesas Gourmet</h2>
+  <div class="item">
+    <div><div class="name">Mousse de Chocolate</div><span class="desc">Cremoso, no ponto, chocolate meio amargo</span></div>
+    <div class="price">R$ 12,00</div>
+  </div>
+  <div class="item">
+    <div><div class="name">Mousse de Maracujá</div><span class="desc">Azedinho na medida certa</span></div>
+    <div class="price">R$ 11,00</div>
+  </div>
+  <div class="item">
+    <div><div class="name">Mousse de Limão</div><span class="desc">Refrescante, leve, super pedido</span></div>
+    <div class="price">R$ 11,00</div>
+  </div>
+  <div class="item">
+    <div><div class="name">Banoffee no Pote</div><span class="desc">Bolacha, doce de leite, banana e chantilly</span></div>
+    <div class="price">R$ 14,00</div>
+  </div>
+  <div class="item">
+    <div><div class="name">Pavê no Pote</div><span class="desc">Camadas de biscoito e creme, finalizado com chocolate</span></div>
+    <div class="price">R$ 11,00</div>
+  </div>
+
+  <div class="kits">
+    <h2 class="section" style="margin-top:0; border:none;">🎁 Kits e Combos</h2>
+    <div class="item"><div class="name">Kit Lanche — 2 pães + 1 sobremesa</div><div class="price">R$ 24,00</div></div>
+    <div class="item" style="border:none;"><div class="name">Kit Família — 4 pães + 4 sobremesas</div><div class="price">R$ 68,00</div></div>
+  </div>
+
+  <footer>
+    <p>Faça seu pedido pelo WhatsApp e receba em casa em até 2h.</p>
+    <p class="wa">📱 (XX) XXXXX-XXXX</p>
+  </footer>
+</div>
+</body>
+</html>
