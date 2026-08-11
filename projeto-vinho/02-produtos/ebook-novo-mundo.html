@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ebook Premium — Vinhos do Novo Mundo · Vino Bianco Store</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap');
+  :root {
+    --b:#6B1A2B; --bd:#4a1220; --d:#C9A84C; --dl:#e8c96a;
+    --ow:#F5F0E8; --ow2:#EDE6D6; --ci:#3a3a3a; --cc:#777;
+    --verde:#2d6a4f; --azul:#1d3557; --laranja:#e76f51;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Lato',sans-serif;background:#111;color:var(--ci)}
+  .page{width:210mm;min-height:297mm;margin:0 auto 16px;position:relative;overflow:hidden;page-break-after:always}
+
+  /* CAPA */
+  .capa{background:linear-gradient(150deg,#1a3a1a 0%,#0d2b0d 40%,#1a4a1a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 44px;min-height:297mm;position:relative}
+  .capa::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 60% 40%,rgba(201,168,76,.18) 0%,transparent 65%)}
+  .capa-borda{position:absolute;inset:18px;border:1px solid rgba(201,168,76,.35);pointer-events:none}
+  .capa-borda::before{content:'';position:absolute;inset:6px;border:1px solid rgba(201,168,76,.15)}
+  .capa-selo{background:var(--d);color:#1a3a1a;font-size:10px;font-weight:900;letter-spacing:4px;text-transform:uppercase;padding:8px 30px;margin-bottom:44px;position:relative}
+  .capa-globo{font-size:90px;margin-bottom:24px;position:relative;filter:drop-shadow(0 0 30px rgba(201,168,76,.3))}
+  .capa h1{font-family:'Playfair Display',serif;font-size:52px;color:#fff;line-height:1.1;margin-bottom:14px;position:relative}
+  .capa h1 em{color:var(--d);font-style:normal}
+  .capa h1 small{display:block;font-size:22px;color:rgba(255,255,255,.6);margin-top:6px;font-weight:400}
+  .capa-sub{font-size:13px;color:rgba(255,255,255,.55);letter-spacing:3px;text-transform:uppercase;margin-bottom:50px;position:relative}
+  .capa-div{width:60px;height:1px;background:var(--d);margin:0 auto 44px;position:relative}
+  .capa-paises{position:relative;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:380px;margin-bottom:50px}
+  .capa-pais{background:rgba(255,255,255,.07);border:1px solid rgba(201,168,76,.25);padding:8px 16px;font-size:11px;color:rgba(255,255,255,.8);letter-spacing:1px}
+  .capa-autor{position:relative}
+  .capa-autor p{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase}
+  .capa-autor strong{font-family:'Playfair Display',serif;font-size:19px;color:var(--d);display:block;margin-top:4px}
+
+  /* PAGINAS */
+  .p{background:var(--ow);padding:48px 54px 70px;min-height:297mm;position:relative}
+  .pd{background:var(--bd);padding:48px 54px 70px;min-height:297mm;position:relative}
+  .pv{padding:48px 54px 70px;min-height:297mm;position:relative}
+
+  .hdr{display:flex;align-items:flex-end;gap:14px;margin-bottom:32px;padding-bottom:18px;border-bottom:2px solid var(--d)}
+  .hdr .n{font-family:'Playfair Display',serif;font-size:56px;line-height:1;color:var(--d);opacity:.22}
+  .hdr .t .lb{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--b);font-weight:700;margin-bottom:3px}
+  .hdr .t h2{font-family:'Playfair Display',serif;font-size:25px;color:var(--bd);line-height:1.2}
+  .hdr-c .t .lb{color:rgba(255,255,255,.45)}
+  .hdr-c .t h2{color:#fff}
+  .hdr-c{border-bottom-color:rgba(201,168,76,.35)}
+  .hdr-c .n{color:var(--d);opacity:.35}
+
+  .rod{position:absolute;bottom:22px;left:54px;right:54px;display:flex;justify-content:space-between;font-size:8.5px;color:rgba(0,0,0,.2);letter-spacing:1px;text-transform:uppercase;border-top:1px solid rgba(0,0,0,.08);padding-top:9px}
+  .rod-c{color:rgba(255,255,255,.2);border-top-color:rgba(255,255,255,.1)}
+
+  /* SUMARIO */
+  .sum-item{display:flex;align-items:center;gap:0;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+  .sum-item .sum-n{font-family:'Playfair Display',serif;font-size:20px;color:var(--d);min-width:44px;opacity:.6}
+  .sum-item .sum-t{flex:1}
+  .sum-item .sum-t h3{font-family:'Playfair Display',serif;font-size:14px;color:var(--bd);margin-bottom:2px}
+  .sum-item .sum-t p{font-size:10.5px;color:var(--cc)}
+  .sum-item .sum-pg{font-size:10px;color:var(--cc);min-width:28px;text-align:right}
+
+  /* PAIS HERO */
+  .pais-hero{padding:32px;margin-bottom:22px;position:relative;overflow:hidden}
+  .pais-hero::before{content:'';position:absolute;inset:0;opacity:.06;border-radius:2px}
+  .ph-arg::before{background:linear-gradient(135deg,#74acdf,#fff,#f6b40e)}
+  .ph-chi::before{background:linear-gradient(135deg,#d52b1e,#fff,#d52b1e)}
+  .ph-bra::before{background:linear-gradient(135deg,#009c3b,#ffdf00,#002776)}
+  .ph-usa::before{background:linear-gradient(135deg,#b22234,#fff,#3c3b6e)}
+  .ph-aus::before{background:linear-gradient(135deg,#00008b,#fff,#ff0000)}
+  .ph-nz::before{background:linear-gradient(135deg,#00247d,#fff,#cc142b)}
+  .ph-sa::before{background:linear-gradient(135deg,#007a4d,#fff,#001489)}
+  .ph-uy::before{background:linear-gradient(135deg,#fff,#5599d1)}
+  .pais-hero .ph-top{display:flex;align-items:center;gap:16px;margin-bottom:16px;position:relative}
+  .pais-hero .ph-flag{font-size:36px}
+  .pais-hero .ph-info h2{font-family:'Playfair Display',serif;font-size:22px;color:var(--bd)}
+  .pais-hero .ph-info .ph-sub{font-size:10px;letter-spacing:2px;color:var(--cc);text-transform:uppercase}
+  .pais-hero .ph-stats{display:flex;gap:20px;position:relative}
+  .ph-stat{text-align:center}
+  .ph-stat .sv{font-family:'Playfair Display',serif;font-size:22px;color:var(--b);line-height:1}
+  .ph-stat .sl{font-size:9px;color:var(--cc);letter-spacing:1px;text-transform:uppercase;margin-top:2px}
+
+  /* UVAS GRID */
+  .uvas-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+  .uva-card{background:#fff;padding:14px;border-top:3px solid var(--d)}
+  .uva-card h4{font-family:'Playfair Display',serif;font-size:14px;color:var(--bd);margin-bottom:4px}
+  .uva-card p{font-size:11px;color:var(--ci);line-height:1.55}
+  .uva-card .harm{font-size:10px;color:var(--b);font-weight:700;margin-top:7px;padding-top:7px;border-top:1px solid var(--ow2)}
+
+  /* VINHO DESTAQUE */
+  .vinhos-lista{margin:12px 0}
+  .vinho-item{display:flex;gap:14px;padding:12px 0;border-bottom:1px solid rgba(0,0,0,.07);align-items:flex-start}
+  .vinho-item:last-child{border-bottom:none}
+  .vi-num{font-family:'Playfair Display',serif;font-size:24px;color:var(--d);opacity:.45;min-width:32px;line-height:1}
+  .vi-info h4{font-family:'Playfair Display',serif;font-size:14px;color:var(--bd);margin-bottom:3px}
+  .vi-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px}
+  .vtag{font-size:8.5px;background:var(--b);color:#fff;padding:2px 7px;letter-spacing:.8px;text-transform:uppercase}
+  .vtag.g{background:var(--verde)}
+  .vtag.a{background:var(--azul)}
+  .vtag.d{background:var(--d);color:var(--bd)}
+  .vi-info p{font-size:11px;color:var(--ci);line-height:1.5}
+
+  /* BOX */
+  .box{padding:16px 20px;margin:14px 0}
+  .box-b{background:var(--b);color:#fff}
+  .box-d{background:var(--d);color:var(--bd)}
+  .box-v{background:#1a3a1a;color:#fff}
+  .box strong{font-size:9px;letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:6px;opacity:.75}
+  .box p{font-size:11.5px;line-height:1.65}
+
+  /* MAPA TEXTO */
+  .regioes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:14px 0}
+  .regiao{background:#fff;padding:13px;border-left:3px solid var(--d)}
+  .regiao h4{font-size:12px;font-weight:700;color:var(--b);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+  .regiao p{font-size:10.5px;color:var(--ci);line-height:1.5}
+
+  /* HARMONIZACAO GRID */
+  .harm-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+  .harm-card{background:#fff;padding:16px;display:flex;gap:12px;align-items:flex-start}
+  .harm-icon{font-size:24px;flex-shrink:0}
+  .harm-card h4{font-size:12px;font-weight:700;color:var(--bd);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+  .harm-card p{font-size:10.5px;color:var(--ci);line-height:1.5}
+
+  /* COMPARATIVO */
+  .comparativo{width:100%;border-collapse:collapse;font-size:11px;margin:14px 0}
+  .comparativo th{background:var(--b);color:#fff;padding:9px 12px;text-align:left;font-size:9px;letter-spacing:1.5px;text-transform:uppercase}
+  .comparativo td{padding:9px 12px;border-bottom:1px solid rgba(0,0,0,.07);background:#fff;color:var(--ci)}
+  .comparativo tr:nth-child(even) td{background:var(--ow2)}
+  .comparativo td:first-child{font-weight:700;color:var(--b);font-size:10px}
+
+  /* GUIA COMPRA */
+  .guia-steps{margin:12px 0}
+  .gs{display:flex;gap:16px;align-items:flex-start;margin-bottom:16px}
+  .gs-num{width:36px;height:36px;background:var(--b);color:#fff;font-family:'Playfair Display',serif;font-size:18px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .gs-t h4{font-size:13px;font-weight:700;color:var(--bd);margin-bottom:3px}
+  .gs-t p{font-size:11px;color:var(--ci);line-height:1.6}
+
+  /* CTA FINAL */
+  .cta-page{background:linear-gradient(150deg,#1a3a1a,#0d2b0d);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 54px;min-height:297mm;position:relative}
+  .cta-page::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,168,76,.12) 0%,transparent 70%)}
+  .cta-page h2{font-family:'Playfair Display',serif;font-size:34px;color:#fff;margin-bottom:14px;position:relative}
+  .cta-page h2 span{color:var(--d)}
+  .cta-page p{font-size:14px;color:rgba(255,255,255,.7);max-width:460px;line-height:1.7;margin-bottom:32px;position:relative}
+  .cta-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;max-width:500px;position:relative;margin-bottom:36px}
+  .cta-card{border:1px solid rgba(201,168,76,.3);padding:18px 14px;text-align:center}
+  .cta-card.hl{border-color:var(--d);background:rgba(201,168,76,.1)}
+  .cta-preco{font-family:'Playfair Display',serif;font-size:24px;color:var(--d);margin-bottom:3px}
+  .cta-nome{font-size:9px;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+  .cta-card p{font-size:9.5px;color:rgba(255,255,255,.45);line-height:1.5}
+  .cta-social{position:relative;text-align:center}
+  .cta-social .ig{font-family:'Playfair Display',serif;font-size:20px;color:var(--d);margin-bottom:6px}
+  .cta-social p{font-size:11px;color:rgba(255,255,255,.5)}
+  .cta-rodape{position:relative;margin-top:44px;padding-top:24px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(255,255,255,.3);letter-spacing:1.5px;text-transform:uppercase}
+
+  @media print{body{background:#fff}.page{margin:0;width:100%}@page{size:A4;margin:0}}
+</style>
+</head>
+<body>
+
+<!-- PG 1: CAPA -->
+<div class="page">
+<div class="capa">
+  <div class="capa-borda"></div>
+  <div class="capa-selo">Ebook Premium · Edição Exclusiva 2025</div>
+  <div class="capa-globo">🌍</div>
+  <h1>Vinhos do<br><em>Novo Mundo</em><small>O Guia Definitivo</small></h1>
+  <p class="capa-sub">Argentina · Chile · Brasil · EUA · Austrália · Nova Zelândia · África do Sul</p>
+  <div class="capa-div"></div>
+  <div class="capa-paises">
+    <span class="capa-pais">🇦🇷 Argentina</span>
+    <span class="capa-pais">🇨🇱 Chile</span>
+    <span class="capa-pais">🇧🇷 Brasil</span>
+    <span class="capa-pais">🇺🇸 EUA</span>
+    <span class="capa-pais">🇦🇺 Austrália</span>
+    <span class="capa-pais">🇳🇿 Nova Zelândia</span>
+    <span class="capa-pais">🇿🇦 África do Sul</span>
+    <span class="capa-pais">🇺🇾 Uruguai</span>
+  </div>
+  <div class="capa-autor">
+    <p>Curadoria exclusiva por</p>
+    <strong>Jorge Berto · Vino Bianco Store</strong>
+  </div>
+</div>
+</div>
+
+<!-- PG 2: APRESENTAÇÃO -->
+<div class="page">
+<div class="p">
+  <div class="hdr">
+    <div class="n">02</div>
+    <div class="t"><div class="lb">Apresentação</div><h2>Por Que o Novo Mundo Revolucionou o Vinho?</h2></div>
+  </div>
+  <p style="font-size:13px;line-height:1.8;color:var(--ci);margin-bottom:18px">Por séculos, a França e a Europa ditaram as regras do vinho. Os estilos, as denominações, as castas — tudo nasceu no Velho Mundo. Mas a partir dos anos 1970 e 1980, algo extraordinário aconteceu: um grupo de países que poucos levavam a sério começou a produzir vinhos que chocaram o mundo.</p>
+  <p style="font-size:13px;line-height:1.8;color:var(--ci);margin-bottom:18px">Em 1976, o <strong>Julgamento de Paris</strong> — uma prova cega histórica — colocou vinhos californianos acima dos mais renomados Bordeaux e Borgonhas franceses. O mundo do vinho nunca mais foi o mesmo.</p>
+  <p style="font-size:13px;line-height:1.8;color:var(--ci);margin-bottom:24px">Hoje, o Novo Mundo representa mais de <strong>40% da produção mundial de vinhos</strong> e domina os mercados de massa com excelente qualidade e preços acessíveis. Mas vai muito além: Argentina, Chile e Austrália produzem ícones que competem com os melhores do planeta.</p>
+
+  <div class="box box-v">
+    <strong>O que você vai aprender neste guia</strong>
+    <p>As 8 principais nações produtoras do Novo Mundo, suas regiões, uvas emblemáticas, estilos únicos e os melhores vinhos para cada ocasião — com guia completo de harmonização e compra.</p>
+  </div>
+
+  <div class="regioes" style="margin-top:20px">
+    <div class="regiao">
+      <h4>🌡 Clima Quente</h4>
+      <p>Vinhos mais encorpados, frutados e alcoólicos. Maior concentração de açúcar nas uvas.</p>
+    </div>
+    <div class="regiao">
+      <h4>🏔 Alta Altitude</h4>
+      <p>Amplitude térmica preserva acidez e frescor. Gera vinhos elegantes e complexos.</p>
+    </div>
+    <div class="regiao">
+      <h4>🌊 Influência Marítima</h4>
+      <p>Vinhos frescos, minerais e aromáticos. Costeiras da NZ, CA e SA.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;background:#fff;padding:20px;border-left:4px solid var(--d)">
+    <p style="font-size:12px;font-family:'Playfair Display',serif;font-style:italic;color:var(--bd);line-height:1.7">"O Novo Mundo não copiou o Velho Mundo — ele o reinventou. Levou a tradição europeia, adaptou ao seu terroir único e criou uma identidade própria, frutada, acessível e surpreendentemente complexa."</p>
+    <p style="font-size:10px;color:var(--cc);margin-top:8px;letter-spacing:1px;text-transform:uppercase">— Jorge Berto, Vino Bianco Store</p>
+  </div>
+
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 3: SUMÁRIO -->
+<div class="page">
+<div class="p">
+  <div class="hdr">
+    <div class="n">03</div>
+    <div class="t"><div class="lb">Sumário</div><h2>O Que Você Vai Encontrar</h2></div>
+  </div>
+  <div>
+    <div class="sum-item"><div class="sum-n">04</div><div class="sum-t"><h3>Argentina — O Império do Malbec</h3><p>Mendoza, Salta, Patagônia · Malbec, Torrontés, Cabernet</p></div><div class="sum-pg">pg 4</div></div>
+    <div class="sum-item"><div class="sum-n">06</div><div class="sum-t"><h3>Chile — A Terra dos Contrastes</h3><p>Maipo, Colchagua, Casablanca · Cabernet, Carménère, Sauvignon</p></div><div class="sum-pg">pg 6</div></div>
+    <div class="sum-item"><div class="sum-n">08</div><div class="sum-t"><h3>Brasil — O Gigante Acordado</h3><p>Serra Gaúcha, Campanha, Vale do São Francisco</p></div><div class="sum-pg">pg 8</div></div>
+    <div class="sum-item"><div class="sum-n">10</div><div class="sum-t"><h3>EUA — Da Califórnia ao Oregon</h3><p>Napa Valley, Sonoma, Oregon, Washington</p></div><div class="sum-pg">pg 10</div></div>
+    <div class="sum-item"><div class="sum-n">12</div><div class="sum-t"><h3>Austrália — O Continente do Shiraz</h3><p>Barossa, Clare, Yarra Valley, Margaret River</p></div><div class="sum-pg">pg 12</div></div>
+    <div class="sum-item"><div class="sum-n">14</div><div class="sum-t"><h3>Nova Zelândia — Pureza e Precisão</h3><p>Marlborough, Central Otago, Hawke's Bay</p></div><div class="sum-pg">pg 14</div></div>
+    <div class="sum-item"><div class="sum-n">15</div><div class="sum-t"><h3>África do Sul — O Cabo das Descobertas</h3><p>Stellenbosch, Swartland, Franschhoek</p></div><div class="sum-pg">pg 15</div></div>
+    <div class="sum-item"><div class="sum-n">16</div><div class="sum-t"><h3>Uruguai — O Segredo da América do Sul</h3><p>Tannat, Colônia, Canelones, Maldonado</p></div><div class="sum-pg">pg 16</div></div>
+    <div class="sum-item"><div class="sum-n">17</div><div class="sum-t"><h3>Harmonizações do Novo Mundo</h3><p>Guia completo de combinações por estilo</p></div><div class="sum-pg">pg 17</div></div>
+    <div class="sum-item"><div class="sum-n">18</div><div class="sum-t"><h3>Guia de Compra — Como Escolher</h3><p>Por orçamento, ocasião e perfil de paladar</p></div><div class="sum-pg">pg 18</div></div>
+    <div class="sum-item"><div class="sum-n">19</div><div class="sum-t"><h3>Os 10 Ícones do Novo Mundo</h3><p>Os vinhos que mudaram a percepção global</p></div><div class="sum-pg">pg 19</div></div>
+    <div class="sum-item"><div class="sum-n">20</div><div class="sum-t"><h3>Continue Aprendendo</h3><p>Próximos passos na sua jornada vinícola</p></div><div class="sum-pg">pg 20</div></div>
+  </div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 4-5: ARGENTINA -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">04</div><div class="t"><div class="lb">Capítulo 01 · Argentina</div><h2>O Império do Malbec</h2></div></div>
+  <div class="pais-hero ph-arg">
+    <div class="ph-top"><div class="ph-flag">🇦🇷</div><div class="ph-info"><h2>Argentina</h2><div class="ph-sub">3ª maior produtora do hemisfério sul · 1,2M hectolitros/ano</div></div></div>
+    <div class="ph-stats">
+      <div class="ph-stat"><div class="sv">220.000</div><div class="sl">Hectares de vinha</div></div>
+      <div class="ph-stat"><div class="sv">900-1.500m</div><div class="sl">Altitude média</div></div>
+      <div class="ph-stat"><div class="sv">1853</div><div class="sl">Malbec introduzido</div></div>
+      <div class="ph-stat"><div class="sv">+130</div><div class="sl">Países exportadores</div></div>
+    </div>
+  </div>
+  <p style="font-size:11.5px;line-height:1.7;margin-bottom:14px">A Argentina é o maior produtor do hemisfério sul e o país que transformou o Malbec — uma uva francesa quase esquecida — no fenômeno global que conhecemos hoje. A alta altitude dos Andes (900 a 1.500m) cria uma amplitude térmica única: dias quentes para maturar a uva e noites frias para preservar acidez e aromas. O resultado? Vinhos de cor profunda, aromas intensos de frutas negras e violeta, com taninos macios e um toque de especiaria inconfundível.</p>
+  <div class="regioes">
+    <div class="regiao"><h4>🏔 Mendoza</h4><p>Maior região. Luján de Cuyo e Vale de Uco são os epicentros do Malbec premium.</p></div>
+    <div class="regiao"><h4>☀️ Salta</h4><p>Vinhas a 3.000m de altitude. Torrontés aromático e Malbec de alta altitude inigualáveis.</p></div>
+    <div class="regiao"><h4>❄️ Patagônia</h4><p>Rio Negro e Neuquén. Vinhos frescos, elegantes e com boa acidez. Pinot Noir excelente.</p></div>
+  </div>
+  <div class="uvas-grid">
+    <div class="uva-card"><h4>🍇 Malbec</h4><p>Amora, violeta, ameixa, chocolate amargo. Taninos macios, cor densa e final longo. O rei absoluto.</p><div class="harm">🍽 Picanha · Churrasco · Costela · Queijo gouda</div></div>
+    <div class="uva-card"><h4>🍇 Torrontés</h4><p>Floral intenso, damasco, pêssego, rosa. A única uva branca genuinamente argentina. Aromático e refrescante.</p><div class="harm">🍽 Frutos do mar · Comida asiática · Queijo de cabra</div></div>
+    <div class="uva-card"><h4>🍇 Cabernet Sauvignon</h4><p>Cassis, pimentão, tabaco, cedro. Estruturado e de longa vida. Complementa o Malbec na maioria dos blends.</p><div class="harm">🍽 Cordeiro · Costela · Queijos curados</div></div>
+    <div class="uva-card"><h4>🍇 Bonarda</h4><p>Cereja, ameixa, terra, especiaria. Segunda uva mais plantada. Pouco conhecida mas excelente custo-benefício.</p><div class="harm">🍽 Pizza · Hambúrguer · Embutidos · Massas</div></div>
+  </div>
+  <div class="box box-b"><strong>🏆 Vinhos Ícone da Argentina</strong><p>Catena Zapata Adrianna Vineyard, Achaval Ferrer Quimera, Zuccardi Valle de Uco, Clos de los Siete (Michel Rolland), Dominio del Plata Clos de Siete. Acima de 95 pontos Parker e Wine Spectator.</p></div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 6-7: CHILE -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">06</div><div class="t"><div class="lb">Capítulo 02 · Chile</div><h2>A Terra dos Contrastes Extremos</h2></div></div>
+  <div class="pais-hero ph-chi">
+    <div class="ph-top"><div class="ph-flag">🇨🇱</div><div class="ph-info"><h2>Chile</h2><div class="ph-sub">A vinícola mais longa do mundo · 4.300km de costa</div></div></div>
+    <div class="ph-stats">
+      <div class="ph-stat"><div class="sv">130.000</div><div class="sl">Hectares de vinha</div></div>
+      <div class="ph-stat"><div class="sv">5ª</div><div class="sl">Exportadora mundial</div></div>
+      <div class="ph-stat"><div class="sv">1548</div><div class="sl">Primeiras vinhas</div></div>
+      <div class="ph-stat"><div class="sv">Filoxera</div><div class="sl">Nunca atingiu o Chile</div></div>
+    </div>
+  </div>
+  <p style="font-size:11.5px;line-height:1.7;margin-bottom:14px">O Chile é único: vinhas confinadas entre o Oceano Pacífico a oeste, a Cordilheira dos Andes a leste, o deserto do Atacama ao norte e a Antártica ao sul. Esta geografia isolada protegeu o país da Filoxera — a praga que devastou os vinhedos europeus no século XIX. Aqui ainda existem vinhas com mais de 150 anos com raízes originais, algo praticamente inexistente no mundo. O resultado são vinhos com identidade única e impressionante diversidade de estilos.</p>
+  <div class="regioes">
+    <div class="regiao"><h4>🏙 Vale do Maipo</h4><p>"Bordeaux do Chile". Capital do Cabernet Sauvignon premium. Don Melchor nasce aqui.</p></div>
+    <div class="regiao"><h4>🌄 Colchagua</h4><p>Carménère, Malbec e Syrah encorpados e frutados. Vinhos de excelente qualidade.</p></div>
+    <div class="regiao"><h4>🌊 Casablanca</h4><p>Influência do Pacífico. Sauvignon Blanc e Chardonnay frescos, aromáticos e minerais.</p></div>
+  </div>
+  <div class="uvas-grid">
+    <div class="uva-card"><h4>🍇 Cabernet Sauvignon</h4><p>Cassis, cedro, tabaco, pimentão. Estruturado e elegante. Os melhores competem com Bordeaux.</p><div class="harm">🍽 Carnes vermelhas · Cordeiro · Queijos curados</div></div>
+    <div class="uva-card"><h4>🍇 Carménère</h4><p>Uva identidade do Chile. Pimentão vermelho, ameixa, especiaria. Suave e frutado. Único no mundo.</p><div class="harm">🍽 Frango grelhado · Massas · Salmão · Porco</div></div>
+    <div class="uva-card"><h4>🍇 Sauvignon Blanc</h4><p>Maracujá, limão, ervas, mineral. Casablanca e San Antonio produzem os melhores. Fresco e vibrante.</p><div class="harm">🍽 Frutos do mar · Saladas · Queijo de cabra · Ostras</div></div>
+    <div class="uva-card"><h4>🍇 Pinot Noir</h4><p>Cereja, framboesa, floral. Regiões frias como Bío Bío produzem Pinots elegantes e de boa acidez.</p><div class="harm">🍽 Salmão · Aves · Cogumelos · Atum</div></div>
+  </div>
+  <div class="box box-b"><strong>🏆 Ícones Chilenos</strong><p>Don Melchor (Concha y Toro), Almaviva (Rothschild × Concha y Toro), Seña, Casa Real (Santa Rita), Montes Alpha M. Vinhos que valem de R$200 a R$2.000.</p></div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 8-9: BRASIL -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">08</div><div class="t"><div class="lb">Capítulo 03 · Brasil</div><h2>O Gigante Acordado</h2></div></div>
+  <div class="pais-hero ph-bra">
+    <div class="ph-top"><div class="ph-flag">🇧🇷</div><div class="ph-info"><h2>Brasil</h2><div class="ph-sub">14ª posição mundial · 90.000 hectares de uvas</div></div></div>
+    <div class="ph-stats">
+      <div class="ph-stat"><div class="sv">1.200m</div><div class="sl">Altitude Serra Gaúcha</div></div>
+      <div class="ph-stat"><div class="sv">1875</div><div class="sl">Imigrantes italianos</div></div>
+      <div class="ph-stat"><div class="sv">500+</div><div class="sl">Vinícolas no RS</div></div>
+      <div class="ph-stat"><div class="sv">30+</div><div class="sl">Países exportadores</div></div>
+    </div>
+  </div>
+  <p style="font-size:11.5px;line-height:1.7;margin-bottom:14px">O Brasil é o mais jovem dos grandes produtores do Novo Mundo, mas nos últimos 20 anos protagonizou uma revolução silenciosa. A Serra Gaúcha — especialmente o Vale dos Vinhedos, primeira indicação geográfica brasileira — produziu vinhos reconhecidos internacionalmente. A Campanha Gaúcha, com influência dos pampas uruguaios, e o Vale do São Francisco, no nordeste (o único produtor tropical de vinhos finos do mundo), completam um mosaico surpreendente.</p>
+  <div class="regioes">
+    <div class="regiao"><h4>🍇 Serra Gaúcha</h4><p>Vale dos Vinhedos, Bento Gonçalves, Garibaldi. Berço do vinho brasileiro. Espumantes excepcionais pelo método tradicional.</p></div>
+    <div class="regiao"><h4>🌾 Campanha Gaúcha</h4><p>Fronteira com o Uruguai. Clima mais seco. Cabernet, Tannat e Merlot com mais estrutura e elegância.</p></div>
+    <div class="regiao"><h4>☀️ Vale do São Francisco</h4><p>Bahia/Pernambuco. Vinhos tropicais únicos. Duas safras por ano. Petite Syrah, Syrah e rosés surpreendentes.</p></div>
+  </div>
+  <div class="uvas-grid">
+    <div class="uva-card"><h4>🍾 Chardonnay/Pinot Noir</h4><p>Base dos espumantes brasileiros. Método tradicional com a melhor cuvée de Serra Gaúcha. Referência sul-americana.</p><div class="harm">🍽 Frutos do mar · Frango · Aperitivo · Festas</div></div>
+    <div class="uva-card"><h4>🍇 Cabernet Franc</h4><p>Pimenta, framboesa, violeta. Destaque crescente na Campanha. Elegante e com personalidade distinta.</p><div class="harm">🍽 Frango grelhado · Porco · Massas · Embutidos</div></div>
+    <div class="uva-card"><h4>🍇 Tannat</h4><p>Herdada do Uruguai. Alta concentração, taninos firmes, amora e especiaria. Excelente potencial de guarda.</p><div class="harm">🍽 Costela · Carnes de caça · Queijos fortes</div></div>
+    <div class="uva-card"><h4>🍇 Syrah Tropical</h4><p>São Francisco. Pimenta, frutas negras e especiaria. Único estilo tropical. Dois verões por ano na mesma vinha.</p><div class="harm">🍽 Churrasco · Carnes grelhadas · Embutidos</div></div>
+  </div>
+  <div class="box box-b"><strong>🏆 Referências Brasileiras</strong><p>Miolo Cuvée Giuseppe (espumante), Cave Geisse Terroir (espumante), Pizzato DNA 99 (Merlot), Don Guerino Terroir (Cabernet Franc), Guaspari Espaço (Syrah-VSF), Aurora Millésime.</p></div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 10-11: EUA -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">10</div><div class="t"><div class="lb">Capítulo 04 · EUA</div><h2>Da Califórnia ao Pacífico Noroeste</h2></div></div>
+  <div class="pais-hero ph-usa">
+    <div class="ph-top"><div class="ph-flag">🇺🇸</div><div class="ph-info"><h2>Estados Unidos</h2><div class="ph-sub">4ª maior produtora mundial · Napa Valley, o vale mais valioso do mundo</div></div></div>
+    <div class="ph-stats">
+      <div class="ph-stat"><div class="sv">430.000</div><div class="sl">Hectares de vinha</div></div>
+      <div class="ph-stat"><div class="sv">1976</div><div class="sl">Julgamento de Paris</div></div>
+      <div class="ph-stat"><div class="sv">R$15.000</div><div class="sl">Preço médio Screaming Eagle</div></div>
+      <div class="ph-stat"><div class="sv">50</div><div class="sl">Estados produtores</div></div>
+    </div>
+  </div>
+  <p style="font-size:11.5px;line-height:1.7;margin-bottom:14px">Os EUA produzem vinhos em todos os 50 estados, mas é a Califórnia que coloca o país no cenário mundial de excelência. Napa Valley é o vale mais famoso do Novo Mundo — e talvez o mais caro por hectare de terra do planeta. O Cabernet Sauvignon californiano rivaliza com os melhores Bordeaux. Oregon, com seu clima mais fresco, produz Pinot Noir de classe borgonhesa.</p>
+  <div class="regioes">
+    <div class="regiao"><h4>🌟 Napa Valley</h4><p>Cabernet Sauvignon supremo. Opulent, concentrated, age-worthy. Opus One, Screaming Eagle, Harlan Estate.</p></div>
+    <div class="regiao"><h4>🌊 Sonoma</h4><p>Mais diverso que Napa. Pinot Noir, Chardonnay e Zinfandel excelentes. Melhor custo-benefício.</p></div>
+    <div class="regiao"><h4>🌲 Oregon</h4><p>Willamette Valley. Pinot Noir elegante e de alta acidez. O "Borgonha do Novo Mundo" por excelência.</p></div>
+  </div>
+  <div class="uvas-grid">
+    <div class="uva-card"><h4>🍇 Cabernet Sauvignon (Napa)</h4><p>Cassis, tabaco, chocolate, cedro. Encorpado, concentrado, pode envelhecer por décadas. O ápice do Cabernet mundial.</p><div class="harm">🍽 Picanha · Cordeiro · Queijos curados · Wagyu</div></div>
+    <div class="uva-card"><h4>🍇 Chardonnay</h4><p>Em carvalho: manteiga, baunilha, tostado, mel. O estilo californiano influenciou o mundo todo nos anos 1980-90.</p><div class="harm">🍽 Lagosta · Frango ao creme · Risotos · Massas</div></div>
+    <div class="uva-card"><h4>🍇 Pinot Noir (Oregon)</h4><p>Cereja, framboesa, especiaria suave, cogumelo. Elegância européia com fruta do Novo Mundo.</p><div class="harm">🍽 Salmão · Pato · Cogumelo · Aves recheadas</div></div>
+    <div class="uva-card"><h4>🍇 Zinfandel</h4><p>Amora, alcaçuz, pimenta, frutas vermelhas maduras. Uva emblemática americana. Alta graduação e personalidade única.</p><div class="harm">🍽 Porco grelhado · BBQ · Embutidos · Queijos fortes</div></div>
+  </div>
+  <div class="box box-b"><strong>🏆 Lendas Americanas</strong><p>Opus One (R$1.500+), Screaming Eagle (R$15.000+), Harlan Estate, Caymus Cabernet Special Selection, Duckhorn Merlot Three Palms, Kosta Browne Pinot Noir.</p></div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 12-13: AUSTRÁLIA -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">12</div><div class="t"><div class="lb">Capítulo 05 · Austrália</div><h2>O Continente do Shiraz Poderoso</h2></div></div>
+  <div class="pais-hero ph-aus">
+    <div class="ph-top"><div class="ph-flag">🇦🇺</div><div class="ph-info"><h2>Austrália</h2><div class="ph-sub">6ª exportadora mundial · Barossa Valley, a mais icônica região</div></div></div>
+    <div class="ph-stats">
+      <div class="ph-stat"><div class="sv">145.000</div><div class="sl">Hectares de vinha</div></div>
+      <div class="ph-stat"><div class="sv">1844</div><div class="sl">Fundação Penfolds</div></div>
+      <div class="ph-stat"><div class="sv">160+</div><div class="sl">Anos vinhas velhas Barossa</div></div>
+      <div class="ph-stat"><div class="sv">65+</div><div class="sl">Países exportadores</div></div>
+    </div>
+  </div>
+  <p style="font-size:11.5px;line-height:1.7;margin-bottom:14px">A Austrália produziu o Novo Mundo mais confiante e consistente. Barossa Valley abriga algumas das vinhas mais antigas do mundo — Shiraz centenárias que sobreviveram à Filoxera por isolamento geográfico. O Grange da Penfolds, criado em 1951, é chamado de "o Petrus do Hemisfério Sul". Mas a Austrália vai além do Shiraz: Chardonnay de Margaret River, Pinot Noir de Yarra Valley e Riesling de Clare Valley estão entre os melhores do mundo.</p>
+  <div class="regioes">
+    <div class="regiao"><h4>🌡 Barossa Valley</h4><p>Shiraz encorpado, concentrado, de vinhas centenárias. O Grange nasce aqui. Referência mundial.</p></div>
+    <div class="regiao"><h4>❄️ Yarra Valley</h4><p>Clima frio de Victoria. Pinot Noir elegante, Chardonnay refinado. "A Borgonha australiana".</p></div>
+    <div class="regiao"><h4>🌊 Margaret River</h4><p>WA. Cabernet e Chardonnay de classe mundial. Leeuwin Estate Art Series é o ícone local.</p></div>
+  </div>
+  <div class="uvas-grid">
+    <div class="uva-card"><h4>🍇 Shiraz (Syrah)</h4><p>Amora, pimenta, chocolate, defumado, alcaçuz. Poderoso e concentrado no Barossa. Elegante no Eden Valley. Símbolo nacional.</p><div class="harm">🍽 Costela · Cordeiro · Carnes de caça · Churrasco</div></div>
+    <div class="uva-card"><h4>🍇 Cabernet Sauvignon</h4><p>Margaret River produz Cabernets que rivalizam com Bordeaux. Estruturado, elegante, de longa vida.</p><div class="harm">🍽 Bife · Cordeiro assado · Queijos curados</div></div>
+    <div class="uva-card"><h4>🍇 Chardonnay</h4><p>Margaret River e Adelaide Hills. Longe do estilo amanteigado dos anos 90. Hoje elegante e mineral.</p><div class="harm">🍽 Frango · Lagosta · Risotos · Peixes nobres</div></div>
+    <div class="uva-card"><h4>🍇 Riesling</h4><p>Clare Valley e Eden Valley. Os melhores Rieslings fora da Europa. Cítrico, mineral, seco e de longuíssima vida.</p><div class="harm">🍽 Frutos do mar · Porco · Comida asiática</div></div>
+  </div>
+  <div class="box box-b"><strong>🏆 Ícones Australianos</strong><p>Penfolds Grange (Shiraz), Henschke Hill of Grace (Shiraz), Leeuwin Estate Art Series (Chardonnay), Torbreck RunRig (Shiraz), Yering Station Reserve (Pinot Noir).</p></div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 14: NZ + AFRICA DO SUL + URUGUAI -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">14</div><div class="t"><div class="lb">Capítulos 06 · 07 · 08</div><h2>Nova Zelândia · África do Sul · Uruguai</h2></div></div>
+
+  <div style="margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:24px">🇳🇿</span><h3 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--bd)">Nova Zelândia — Pureza e Precisão</h3></div>
+    <p style="font-size:11.5px;line-height:1.7;margin-bottom:10px">Marlborough criou o estilo moderno do Sauvignon Blanc: explosivo, tropical, com maracujá, groselha e pimentão branco. Central Otago é a região de Pinot Noir mais ao sul do mundo — vinhos de elegância impressionante. Hawke's Bay produz Syrah e Cabernet de nível internacional.</p>
+    <div class="box box-v" style="margin:8px 0"><strong>Uvas ícone</strong><p>Sauvignon Blanc (Cloudy Bay, Kim Crawford), Pinot Noir (Felton Road, Ata Rangi), Syrah (Te Mata). Harmonize com: frutos do mar, saladas, aves, queijos frescos.</p></div>
+  </div>
+
+  <div style="margin-bottom:20px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:24px">🇿🇦</span><h3 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--bd)">África do Sul — O Cabo das Descobertas</h3></div>
+    <p style="font-size:11.5px;line-height:1.7;margin-bottom:10px">Stellenbosch e Franschhoek produzem vinhos de classe mundial. A uva Pinotage — cruzamento único entre Pinot Noir e Cinsaut, criada aqui em 1925 — é o símbolo nacional. Chenin Blanc (localmente chamado Steen) produz vinhos extraordinários a preços acessíveis. O país tem o perfil de terroir mais diverso do Novo Mundo.</p>
+    <div class="box box-v" style="margin:8px 0"><strong>Uvas ícone</strong><p>Pinotage (Kanonkop), Chenin Blanc (Ken Forrester), Cabernet (Meerlust Rubicon). Harmonize: churrasco, carnes de caça, queijos curados.</p></div>
+  </div>
+
+  <div>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px"><span style="font-size:24px">🇺🇾</span><h3 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--bd)">Uruguai — O Segredo da América do Sul</h3></div>
+    <p style="font-size:11.5px;line-height:1.7;margin-bottom:10px">O menor grande produtor do Novo Mundo esconde uma joia: o Tannat. Uva originária do sudoeste da França, o Uruguai a transformou em símbolo nacional. Canelones, Colônia e Maldonado produzem Tannat de alta concentração e longevidade. Pesquisas comprovam que é a uva com maior quantidade de polifenóis antioxidantes do mundo.</p>
+    <div class="box box-v" style="margin:8px 0"><strong>Uvas ícone</strong><p>Tannat (Bodega Bouza, Pisano, Juanicó), Albariño, Merlot. Harmonize: carnes, costela, queijos fortes, chocolates amargos.</p></div>
+  </div>
+
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 17: HARMONIZAÇÕES -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">17</div><div class="t"><div class="lb">Guia Prático</div><h2>Harmonizações do Novo Mundo</h2></div></div>
+  <div class="harm-grid">
+    <div class="harm-card"><div class="harm-icon">🥩</div><div><h4>Churrasco Brasileiro</h4><p>Malbec argentino (Mendoza) ou Cabernet chileno. A combinação mais clássica e segura da América do Sul. Taninos macios do Malbec são perfeitos com gordura da carne.</p></div></div>
+    <div class="harm-card"><div class="harm-icon">🐟</div><div><h4>Frutos do Mar</h4><p>Sauvignon Blanc neozelandês ou Albariño chileno. A acidez e mineralidade cortam a gordura e realçam a doçura do marisco. Temperatura: 8-10°C.</p></div></div>
+    <div class="harm-card"><div class="harm-icon">🍝</div><div><h4>Massas com Molho</h4><p>Carménère chileno para molhos à base de tomate. Zinfandel californiano para molhos de carne. A acidez do vinho equilibra a acidez do tomate.</p></div></div>
+    <div class="harm-card"><div class="harm-icon">🧀</div><div><h4>Tábua de Queijos</h4><p>Queijos frescos: Sauvignon Blanc. Queijos curados: Cabernet ou Shiraz. Queijos azuis: Torrontés aromático ou Riesling australiano semi-seco.</p></div></div>
+    <div class="harm-card"><div class="harm-icon">🍕</div><div><h4>Pizza e Massas Simples</h4><p>Bonarda argentina ou Merlot chileno. Vinhos frutados, leves e de boa acidez funcionam perfeitamente. Evite vinhos muito tânicos com pizza.</p></div></div>
+    <div class="harm-card"><div class="harm-icon">🍫</div><div><h4>Sobremesas</h4><p>Tannat uruguaio com chocolate amargo (70%+). Torrontés com frutas secas. Shiraz australiano com brownie. A regra: vinho sempre mais doce que a sobremesa.</p></div></div>
+    <div class="harm-card"><div class="harm-icon">🥗</div><div><h4>Pratos Leves e Saladas</h4><p>Sauvignon Blanc chileno ou Chardonnay sem carvalho. Frescos, cítricos e sem taninos. Perfeitos para almoços e dias quentes.</p></div></div>
+    <div class="harm-card"><div class="harm-icon">🍣</div><div><h4>Culinária Asiática</h4><p>Gewürztraminer argentino ou Riesling australiano semi-seco para Thai, japonesa e chinesa. A doçura e o aroma contrabalanceiam temperos fortes e apimentados.</p></div></div>
+  </div>
+  <div class="box box-b" style="margin-top:12px"><strong>💡 Regra de Ouro</strong><p>Vinho e comida da mesma origem tendem a harmonizar perfeitamente. Malbec com churrasco argentino, Carménère com empanada chilena, Shiraz com BBQ australiano. A tradição local nunca mente.</p></div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 18: GUIA DE COMPRA -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">18</div><div class="t"><div class="lb">Guia Prático</div><h2>Como Comprar Vinhos do Novo Mundo</h2></div></div>
+
+  <table class="comparativo">
+    <tr><th>Orçamento</th><th>País Recomendado</th><th>Uva/Estilo</th><th>Ocasião</th></tr>
+    <tr><td>R$30-50</td><td>🇨🇱 Chile · 🇦🇺 Austrália</td><td>Cabernet, Merlot, Sauvignon Blanc</td><td>Dia a dia, custo-benefício máximo</td></tr>
+    <tr><td>R$50-100</td><td>🇦🇷 Argentina · 🇨🇱 Chile</td><td>Malbec Reserva, Carménère Gran Reserva</td><td>Jantar especial, presente</td></tr>
+    <tr><td>R$100-200</td><td>🇦🇷 Argentina · 🇺🇸 EUA</td><td>Malbec Single Vineyard, Pinot Noir Oregon</td><td>Comemoração, coleção</td></tr>
+    <tr><td>R$200-500</td><td>🇺🇸 EUA · 🇦🇺 Austrália</td><td>Napa Cabernet, Grange, Penfolds Bin 389</td><td>Presente especial, aniversário</td></tr>
+    <tr><td>R$500+</td><td>🇺🇸 EUA · 🇦🇷 Argentina</td><td>Opus One, Catena Adrianna, Screaming Eagle</td><td>Coleção premium, investimento</td></tr>
+  </table>
+
+  <div class="guia-steps" style="margin-top:16px">
+    <div class="gs"><div class="gs-num">1</div><div class="gs-t"><h4>Confie na Origem</h4><p>Malbec argentino e Carménère chileno raramente decepcionam. São uvas que encontraram no Novo Mundo o terroir ideal — muito melhor que na Europa.</p></div></div>
+    <div class="gs"><div class="gs-num">2</div><div class="gs-t"><h4>Leia as Categorias</h4><p>"Reserva", "Gran Reserva" e "Single Vineyard" indicam vinhos de maior qualidade. Custam mais, mas a diferença é real e percebida na taça.</p></div></div>
+    <div class="gs"><div class="gs-num">3</div><div class="gs-t"><h4>Atenção à Safra</h4><p>No Novo Mundo a safra importa menos que no Velho Mundo, pois o clima é mais previsível. Mas anos de La Niña na Argentina e Chile produzem vinhos excepcionais.</p></div></div>
+    <div class="gs"><div class="gs-num">4</div><div class="gs-t"><h4>Evite o Vinho Mais Barato</h4><p>A diferença de R$20 para R$50 é enorme em qualidade. Invista um pouco mais e a experiência será completamente diferente na taça.</p></div></div>
+  </div>
+
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 19: OS 10 ÍCONES -->
+<div class="page">
+<div class="pd">
+  <div class="hdr hdr-c"><div class="n">19</div><div class="t"><div class="lb" style="color:rgba(255,255,255,.45)">Os Maiores</div><h2 style="color:#fff">Os 10 Ícones do Novo Mundo</h2></div></div>
+  <div class="vinhos-lista">
+    <div class="vinho-item"><div class="vi-num">1</div><div class="vi-info"><h4 style="color:#fff">Penfolds Grange · Austrália</h4><div class="vi-tags"><span class="vtag">Shiraz</span><span class="vtag d">Barossa</span></div><p style="color:rgba(255,255,255,.7)">O ícone do hemisfério sul. Shiraz de vinhas centenárias, envelhecido em carvalho americano. Potente, complexo e capaz de envelhecer 50+ anos.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">2</div><div class="vi-info"><h4 style="color:#fff">Opus One · EUA</h4><div class="vi-tags"><span class="vtag">Cabernet Blend</span><span class="vtag d">Napa</span></div><p style="color:rgba(255,255,255,.7)">Parceria Mondavi × Rothschild. O Bordeaux da Califórnia. Cassis, grafite e especiaria em perfeita harmonia. Símbolo do Novo Mundo premium.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">3</div><div class="vi-info"><h4 style="color:#fff">Catena Zapata Adrianna · Argentina</h4><div class="vi-tags"><span class="vtag">Malbec</span><span class="vtag d">Mendoza</span></div><p style="color:rgba(255,255,255,.7)">O Malbec mais pontuado do mundo. Vinha a 1.500m de altitude, solos pedregosos. Violeta, frutas negras e mineralidade inigualável.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">4</div><div class="vi-info"><h4 style="color:#fff">Almaviva · Chile</h4><div class="vi-tags"><span class="vtag">Cabernet Blend</span><span class="vtag d">Maipo</span></div><p style="color:rgba(255,255,255,.7)">Parceria Concha y Toro × Barão Rothschild. O primeiro "Primeiro Grand Cru" do Chile. Elegância bordalesa com fruta do Novo Mundo.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">5</div><div class="vi-info"><h4 style="color:#fff">Cloudy Bay Sauvignon Blanc · Nova Zelândia</h4><div class="vi-tags"><span class="vtag">Sauvignon Blanc</span><span class="vtag d">Marlborough</span></div><p style="color:rgba(255,255,255,.7)">Criou o estilo Marlborough. O Sauvignon Blanc mais famoso do Novo Mundo. Maracujá, groselha e ervas que conquistaram o mundo.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">6</div><div class="vi-info"><h4 style="color:#fff">Felton Road Pinot Noir · Nova Zelândia</h4><div class="vi-tags"><span class="vtag">Pinot Noir</span><span class="vtag d">Central Otago</span></div><p style="color:rgba(255,255,255,.7)">O Pinot mais austral do mundo. Elegância borgonhesa com personalidade do Pacífico. Consistentemente 95+ pontos.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">7</div><div class="vi-info"><h4 style="color:#fff">Don Melchor · Chile</h4><div class="vi-tags"><span class="vtag">Cabernet Sauvignon</span><span class="vtag d">Puente Alto</span></div><p style="color:rgba(255,255,255,.7)">O Cabernet chileno mais famoso. Desde 1987, referência de excelência. Elegante, complexo e de longa guarda.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">8</div><div class="vi-info"><h4 style="color:#fff">Kanonkop Paul Sauer · África do Sul</h4><div class="vi-tags"><span class="vtag">Pinotage Blend</span><span class="vtag d">Stellenbosch</span></div><p style="color:rgba(255,255,255,.7)">O ícone sul-africano. Blend com Pinotage, Cabernet e Merlot. Complexidade e envelhecimento excepcionais.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">9</div><div class="vi-info"><h4 style="color:#fff">Zuccardi Valle de Uco · Argentina</h4><div class="vi-tags"><span class="vtag">Malbec</span><span class="vtag d">Mendoza</span></div><p style="color:rgba(255,255,255,.7)">Melhor vinícola do mundo pelo Wine Spectator 2019. Vinhedos em altitude com parcelas únicas de solo pedregoso.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">10</div><div class="vi-info"><h4 style="color:#fff">Leeuwin Estate Art Series Chardonnay · Austrália</h4><div class="vi-tags"><span class="vtag">Chardonnay</span><span class="vtag d">Margaret River</span></div><p style="color:rgba(255,255,255,.7)">O Chardonnay mais famoso da Austrália. Elegância, mineralidade e longevidade que rivais com os melhores Borgonhas Brancos.</p></div></div>
+  </div>
+  <div class="rod rod-c"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 20: CTA FINAL -->
+<div class="page">
+<div class="cta-page">
+  <div style="font-size:64px;margin-bottom:20px;position:relative">🌍</div>
+  <h2>Sua Jornada pelo<br><span>Novo Mundo</span> Começa Aqui</h2>
+  <p>Agora você conhece os países, as uvas, os estilos e os ícones. O próximo passo é experimentar — e eu estou aqui para guiar cada escolha.</p>
+  <div class="cta-grid">
+    <div class="cta-card"><div class="cta-preco">Grátis</div><div class="cta-nome">Conteúdo Diário</div><p>Instagram com dicas, harmonizações e novidades todo dia</p></div>
+    <div class="cta-card hl"><div class="cta-preco">R$57</div><div class="cta-nome">Ebook Velho Mundo</div><p>França, Itália, Espanha, Portugal — o guia completo europeu</p></div>
+    <div class="cta-card"><div class="cta-preco">R$97</div><div class="cta-nome">Curso Completo</div><p>Videoaulas, fichas de degustação e certificado</p></div>
+  </div>
+  <div class="cta-social"><div class="ig">@vinobiancostore</div><p>Siga no Instagram para conteúdo diário sobre vinhos do mundo todo</p></div>
+  <div class="cta-rodape">Vino Bianco Store · vendas@vinobianco.com.br · vinobianco.com.br</div>
+</div>
+</div>
+
+</body>
+</html>
