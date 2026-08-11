@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guia de Spirits & Destilados · Vino Bianco Store</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap');
+  :root{
+    --nv:#0F1D35;--nd:#071325;--am:#C8941E;--al:#E8B84B;
+    --ow:#F6F1E8;--ow2:#EDE5D4;--ci:#2D1F12;--cc:#7A6855;
+    --wh:#c0813a;--co:#722f37;--vd:#2c5282;--tq:#1a5c3a;
+    --ca:#145c28;--gr:#5a2d7a;--br:#8B6914;--lc:#4a3580
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Lato',sans-serif;background:#111;color:var(--ci)}
+  .page{width:210mm;min-height:297mm;margin:0 auto 16px;position:relative;overflow:hidden;page-break-after:always}
+  @page{size:A4;margin:0}
+  @media print{body{background:#fff}.page{margin:0;box-shadow:none}}
+
+  /* CAPA */
+  .capa{background:linear-gradient(160deg,#040c1a 0%,#0d1e38 40%,#1a0d05 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 44px;min-height:297mm;position:relative}
+  .capa::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 35%,rgba(200,148,30,.13) 0%,transparent 65%)}
+  .capa-borda{position:absolute;inset:18px;border:1px solid rgba(200,148,30,.38);pointer-events:none}
+  .capa-borda::before{content:'';position:absolute;inset:6px;border:1px solid rgba(200,148,30,.14)}
+  .capa-supra{font-family:'Courier New',monospace;font-size:9.5px;letter-spacing:5px;text-transform:uppercase;color:var(--am);margin-bottom:36px;position:relative}
+  .capa-icon{font-size:80px;margin-bottom:20px;position:relative;filter:drop-shadow(0 0 28px rgba(200,148,30,.3))}
+  .capa h1{font-family:'Playfair Display',serif;font-size:50px;color:#fff;line-height:1.08;margin-bottom:12px;position:relative}
+  .capa h1 em{color:var(--am);font-style:normal}
+  .capa-sub{font-size:12px;color:rgba(255,255,255,.45);letter-spacing:3.5px;text-transform:uppercase;margin-bottom:44px;position:relative}
+  .capa-linha{width:55px;height:1px;background:var(--am);margin:0 auto 40px}
+  .capa-cats{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;max-width:400px;margin-bottom:44px;position:relative}
+  .capa-cat{border:1px solid rgba(200,148,30,.28);padding:6px 14px;font-size:10px;color:rgba(255,255,255,.75);font-family:'Courier New',monospace;letter-spacing:1px}
+  .capa-rodape{position:relative;text-align:center}
+  .capa-rodape p{font-size:10px;color:rgba(255,255,255,.35);letter-spacing:2px;text-transform:uppercase}
+  .capa-rodape strong{font-family:'Playfair Display',serif;font-size:18px;color:var(--am);display:block;margin-top:4px}
+
+  /* PÁGINAS */
+  .p{background:var(--ow);padding:46px 52px 68px;min-height:297mm;position:relative}
+  .pd{background:var(--nd);padding:46px 52px 68px;min-height:297mm;position:relative}
+
+  /* HEADER */
+  .hdr{display:flex;align-items:flex-end;gap:14px;margin-bottom:28px;padding-bottom:16px;border-bottom:2px solid var(--am)}
+  .hdr .n{font-family:'Playfair Display',serif;font-size:54px;line-height:1;color:var(--am);opacity:.2}
+  .hdr .t .lb{font-family:'Courier New',monospace;font-size:8.5px;letter-spacing:3px;text-transform:uppercase;color:var(--nv);font-weight:700;margin-bottom:3px}
+  .hdr .t h2{font-family:'Playfair Display',serif;font-size:24px;color:var(--nd);line-height:1.2}
+  .hdr-d .t .lb{color:rgba(200,148,30,.7)}
+  .hdr-d .t h2{color:#fff}
+  .hdr-d{border-bottom-color:rgba(200,148,30,.35)}
+  .hdr-d .n{opacity:.3}
+
+  /* RODAPÉ */
+  .rod{position:absolute;bottom:20px;left:52px;right:52px;display:flex;justify-content:space-between;font-size:8px;color:rgba(0,0,0,.18);letter-spacing:1px;text-transform:uppercase;border-top:1px solid rgba(0,0,0,.07);padding-top:8px;font-family:'Courier New',monospace}
+  .rod-d{color:rgba(255,255,255,.18);border-top-color:rgba(255,255,255,.1)}
+
+  /* SUMÁRIO */
+  .sum-item{display:flex;align-items:center;padding:9px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+  .sum-n{font-family:'Playfair Display',serif;font-size:19px;color:var(--am);min-width:42px;opacity:.65}
+  .sum-t h3{font-family:'Playfair Display',serif;font-size:13.5px;color:var(--nd);margin-bottom:2px}
+  .sum-t p{font-family:'Courier New',monospace;font-size:9.5px;color:var(--cc)}
+  .sum-pg{font-family:'Courier New',monospace;font-size:9.5px;color:var(--cc);min-width:26px;text-align:right}
+
+  /* SPIRIT HERO */
+  .spirit-hero{display:flex;gap:0;margin-bottom:18px}
+  .sh-band{width:6px;background:var(--wh);flex-shrink:0;border-radius:2px 0 0 2px}
+  .sh-body{background:#fff;padding:18px 20px;flex:1;border-left:none}
+  .sh-top{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .sh-icon{font-size:30px}
+  .sh-info h3{font-family:'Playfair Display',serif;font-size:19px;color:var(--nd)}
+  .sh-info .sh-sub{font-family:'Courier New',monospace;font-size:9px;letter-spacing:1.5px;color:var(--cc);text-transform:uppercase}
+  .sh-stats{display:flex;gap:16px;flex-wrap:wrap}
+  .sh-stat .sv{font-family:'Playfair Display',serif;font-size:18px;color:var(--nv);line-height:1}
+  .sh-stat .sl{font-family:'Courier New',monospace;font-size:8px;color:var(--cc);letter-spacing:1px;text-transform:uppercase;margin-top:1px}
+
+  /* TIPOS GRID */
+  .tipos{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin:12px 0}
+  .tipo{background:#fff;padding:12px;border-top:3px solid var(--am)}
+  .tipo h4{font-family:'Courier New',monospace;font-size:9.5px;font-weight:700;color:var(--nv);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+  .tipo p{font-size:10.5px;color:var(--ci);line-height:1.5}
+
+  /* DICA DO GARÇOM */
+  .dica{background:var(--nd);color:#fff;padding:14px 18px;margin:12px 0;border-left:4px solid var(--am);position:relative}
+  .dica::before{content:'💡 DICA DO GARÇOM';font-family:'Courier New',monospace;font-size:8px;letter-spacing:3px;color:var(--am);display:block;margin-bottom:6px;opacity:.85}
+  .dica p{font-size:11px;line-height:1.65;color:rgba(255,255,255,.88)}
+  .dica strong{color:var(--al)}
+
+  /* SERVIÇO */
+  .servico{display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin:10px 0}
+  .srv{background:var(--ow2);padding:11px;border-radius:2px;text-align:center}
+  .srv-icon{font-size:20px;display:block;margin-bottom:5px}
+  .srv-label{font-family:'Courier New',monospace;font-size:8px;color:var(--cc);letter-spacing:1.5px;text-transform:uppercase;display:block;margin-bottom:3px}
+  .srv-val{font-size:11px;font-weight:700;color:var(--nd)}
+
+  /* BOX */
+  .box{padding:13px 17px;margin:10px 0}
+  .box-n{background:var(--nv);color:#fff}
+  .box-a{background:var(--am);color:var(--nd)}
+  .box-d{background:var(--ow2);color:var(--ci);border-left:4px solid var(--am)}
+  .box strong{font-family:'Courier New',monospace;font-size:8px;letter-spacing:2.5px;text-transform:uppercase;display:block;margin-bottom:5px;opacity:.75}
+  .box p{font-size:11px;line-height:1.65}
+
+  /* MARCAS GRID */
+  .marcas{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+  .marca{background:#fff;padding:12px;border-left:4px solid var(--am)}
+  .marca h4{font-family:'Playfair Display',serif;font-size:13.5px;color:var(--nd);margin-bottom:3px}
+  .marca p{font-size:10.5px;color:var(--ci);line-height:1.5}
+  .marca .harm{font-family:'Courier New',monospace;font-size:9px;color:var(--nv);font-weight:700;margin-top:6px;padding-top:6px;border-top:1px solid var(--ow2)}
+
+  /* VENDA */
+  .venda-step{display:flex;gap:14px;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+  .venda-step:last-child{border-bottom:none}
+  .vs-num{font-family:'Playfair Display',serif;font-size:26px;color:var(--am);opacity:.45;min-width:30px;line-height:1}
+  .vs-body h4{font-family:'Playfair Display',serif;font-size:13.5px;color:var(--nd);margin-bottom:3px}
+  .vs-body p{font-size:10.5px;color:var(--ci);line-height:1.55}
+  .vs-body .frase{font-style:italic;color:var(--nv);font-size:10.5px;margin-top:4px;padding-left:10px;border-left:2px solid var(--am)}
+
+  /* CERVEJA */
+  .cerv-card{display:flex;gap:14px;background:#fff;padding:16px;margin-bottom:12px;border-top:4px solid var(--br)}
+  .cerv-icon{font-size:36px;flex-shrink:0}
+  .cerv-body h3{font-family:'Playfair Display',serif;font-size:17px;color:var(--nd);margin-bottom:3px}
+  .cerv-body .cerv-sub{font-family:'Courier New',monospace;font-size:8.5px;letter-spacing:1.5px;color:var(--cc);text-transform:uppercase;margin-bottom:8px}
+  .cerv-body p{font-size:11px;color:var(--ci);line-height:1.6}
+  .cerv-tags{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}
+  .ctag{font-family:'Courier New',monospace;font-size:8px;background:var(--nv);color:#fff;padding:2px 7px;letter-spacing:.5px}
+  .ctag.a{background:var(--am);color:var(--nd)}
+
+  /* HARM TABLE */
+  .harm-tbl{width:100%;border-collapse:collapse;font-size:10.5px;margin:10px 0}
+  .harm-tbl th{background:var(--nv);color:#fff;padding:7px 10px;text-align:left;font-family:'Courier New',monospace;font-size:8px;letter-spacing:1.5px;text-transform:uppercase}
+  .harm-tbl td{padding:8px 10px;border-bottom:1px solid rgba(0,0,0,.06);background:#fff;color:var(--ci)}
+  .harm-tbl tr:nth-child(even) td{background:var(--ow2)}
+  .harm-tbl td:first-child{font-weight:700;color:var(--nv);font-size:10px}
+
+  /* GLOSSÁRIO */
+  .gloss-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+  .gloss-item{background:#fff;padding:10px 13px;border-left:3px solid var(--am)}
+  .gloss-item dt{font-family:'Courier New',monospace;font-size:9px;font-weight:700;color:var(--nv);letter-spacing:.8px;text-transform:uppercase;margin-bottom:3px}
+  .gloss-item dd{font-size:10px;color:var(--ci);line-height:1.45}
+
+  /* CTA FINAL */
+  .cta-dark{background:linear-gradient(150deg,#040c1a,#0d1e38);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 52px;min-height:297mm;position:relative}
+  .cta-dark::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(200,148,30,.11) 0%,transparent 70%)}
+  .cta-dark h2{font-family:'Playfair Display',serif;font-size:32px;color:#fff;margin-bottom:12px;position:relative}
+  .cta-dark h2 em{color:var(--am);font-style:normal}
+  .cta-dark p{font-size:13px;color:rgba(255,255,255,.65);max-width:440px;line-height:1.75;margin-bottom:30px;position:relative}
+</style>
+</head>
+<body>
+
+<!-- CAPA -->
+<div class="page">
+<div class="capa">
+  <div class="capa-borda"></div>
+  <div class="capa-supra">Vino Bianco Store · Treinamento Premium</div>
+  <div class="capa-icon">🥃</div>
+  <h1>Spirits &<br><em>Destilados</em><br><small style="display:block;font-size:22px;color:rgba(255,255,255,.5);margin-top:6px;font-weight:400">+ Cervejas Premium</small></h1>
+  <p class="capa-sub">Guia Completo para Garçons</p>
+  <div class="capa-linha"></div>
+  <div class="capa-cats">
+    <span class="capa-cat">🥃 Whiskey</span>
+    <span class="capa-cat">🍶 Cognac</span>
+    <span class="capa-cat">🫙 Vodka</span>
+    <span class="capa-cat">🌵 Tequila</span>
+    <span class="capa-cat">🍹 Cachaça</span>
+    <span class="capa-cat">🍷 Grappa</span>
+    <span class="capa-cat">🍸 Licores</span>
+    <span class="capa-cat">🍺 Cervejas</span>
+  </div>
+  <div class="capa-rodape">
+    <p>Desenvolvido por</p>
+    <strong>Vino Bianco Store</strong>
+  </div>
+</div>
+</div>
+
+<!-- PG 2: COMO USAR + SUMÁRIO -->
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">02</div><div class="t"><div class="lb">Apresentação</div><h2>Como Usar Este Guia</h2></div></div>
+  <p style="font-size:11.5px;line-height:1.75;margin-bottom:16px">Este guia foi criado para <strong>garçons, bartenders e promotores de vendas</strong> que precisam conhecer, descrever e vender spirits e cervejas premium com confiança. Cada seção traz a história do produto, como servi-lo corretamente, frases prontas para usar na abordagem e técnicas de upsell que aumentam o ticket médio da mesa.</p>
+  <div class="box box-d" style="margin-bottom:18px"><strong>Como cada página funciona</strong><p>🏷 <strong>Ficha do Produto</strong> — o que é, origem, álcool, estilo | 🥃 <strong>Tipos &amp; Marcas</strong> — os rótulos que o cliente vai pedir | 💡 <strong>Dica do Garçom</strong> — como vender mais | 🍽 <strong>Serviço</strong> — temperatura, taça e ritual correto</p></div>
+  <div style="margin-bottom:6px;font-family:'Courier New',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--nv)">Sumário</div>
+  <div class="sum-item"><div class="sum-n">04</div><div class="sum-t"><h3>O Mundo dos Destilados</h3><p>Como a destilação funciona · graus alcoólicos · categorias</p></div><div class="sum-pg">pg 04</div></div>
+  <div class="sum-item"><div class="sum-n">05</div><div class="sum-t"><h3>🥃 Whiskey / Whisky</h3><p>Scotch · Bourbon · Irlandês · Japonês · Como servir</p></div><div class="sum-pg">pg 05</div></div>
+  <div class="sum-item"><div class="sum-n">07</div><div class="sum-t"><h3>🍶 Cognac &amp; Armagnac</h3><p>Brandies franceses · XO · VSOP · Territórios</p></div><div class="sum-pg">pg 07</div></div>
+  <div class="sum-item"><div class="sum-n">08</div><div class="sum-t"><h3>🫙 Vodka — O Espírito Neutro</h3><p>Polônia · Rússia · França · Filtros e destilações</p></div><div class="sum-pg">pg 08</div></div>
+  <div class="sum-item"><div class="sum-n">09</div><div class="sum-t"><h3>🌵 Tequila &amp; Mezcal</h3><p>Blue Agave · Tipos de Tequila · Mezcal artesanal</p></div><div class="sum-pg">pg 09</div></div>
+  <div class="sum-item"><div class="sum-n">10</div><div class="sum-t"><h3>🍹 Cachaça — Orgulho Brasileiro</h3><p>Alambique vs. Industrial · Regiões · Envelhecimento</p></div><div class="sum-pg">pg 10</div></div>
+  <div class="sum-item"><div class="sum-n">11</div><div class="sum-t"><h3>🍷 Grappa &amp; Licores</h3><p>Grappa italiana · Amaretto · Cointreau · Baileys · Campari</p></div><div class="sum-pg">pg 11</div></div>
+  <div class="sum-item"><div class="sum-n">12</div><div class="sum-t"><h3>🍺 Cervejas Premium</h3><p>Corona · Stella Artois · Stella Artois Pure Gold</p></div><div class="sum-pg">pg 12</div></div>
+  <div class="sum-item"><div class="sum-n">14</div><div class="sum-t"><h3>📋 Guia de Serviço Correto</h3><p>Taças · Temperaturas · Gelo · Mise en place</p></div><div class="sum-pg">pg 14</div></div>
+  <div class="sum-item"><div class="sum-n">15</div><div class="sum-t"><h3>🍽 Harmonizações</h3><p>Destilados + comida · Cervejas + pratos · Ocasiões</p></div><div class="sum-pg">pg 15</div></div>
+  <div class="sum-item"><div class="sum-n">16</div><div class="sum-t"><h3>💰 Técnicas de Venda</h3><p>Upsell · Abordagem · Frases prontas · Ocasiões</p></div><div class="sum-pg">pg 16</div></div>
+  <div class="sum-item"><div class="sum-n">17</div><div class="sum-t"><h3>📖 Glossário do Garçom</h3><p>Termos técnicos que todo profissional deve saber</p></div><div class="sum-pg">pg 17</div></div>
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<!-- PG 4: O MUNDO DOS DESTILADOS -->
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">04</div><div class="t"><div class="lb">Fundamentos</div><h2>O Mundo dos Destilados</h2></div></div>
+  <p style="font-size:11.5px;line-height:1.75;margin-bottom:14px"><strong>Destilação</strong> é o processo de aquecer uma bebida fermentada e capturar o vapor alcoólico — concentrando o álcool e os aromas. Toda bebida destilada começa com uma base fermentada: grãos (whiskey), uva (cognac), agave (tequila), cana (cachaça, rum), batata ou grãos neutros (vodka). O resultado é uma bebida com 35–70% de álcool, rica em compostos aromáticos chamados <em>congêneres</em>, que dão personalidade e sabor.</p>
+  <div class="tipos" style="grid-template-columns:1fr 1fr">
+    <div class="tipo" style="border-top-color:var(--wh)"><h4>🥃 De Grão</h4><p>Whiskey, Bourbon, Gin, Vodka de trigo/centeio. Base de cereais fermentados e destilados. Estilo vai do neutro ao intensamente defumado.</p></div>
+    <div class="tipo" style="border-top-color:var(--co)"><h4>🍇 De Uva</h4><p>Cognac, Armagnac, Grappa, Pisco. Derivados do vinho ou bagaço. Os mais aromáticos e complexos do mundo dos destilados.</p></div>
+    <div class="tipo" style="border-top-color:var(--ca)"><h4>🌱 De Planta/Fruta</h4><p>Tequila (agave), Calvados (maçã), Cachaça (cana), Rum (melaço). Cada planta origem dá um perfil aromático único e inconfundível.</p></div>
+    <div class="tipo" style="border-top-color:var(--vd)"><h4>🌾 Neutros &amp; Compostos</h4><p>Vodka pura, Gin (vodka + botânicos), Licores (destilado + açúcar + aromas). Base neutra que recebe personalidade por adição de ingredientes.</p></div>
+  </div>
+  <div class="box box-d" style="margin-top:14px"><strong>A escala de álcool</strong><p><strong>Cerveja:</strong> 4–9% · <strong>Vinho:</strong> 11–15% · <strong>Vinho Fortificado:</strong> 16–22% · <strong>Destilados leves:</strong> 35–40% · <strong>Destilados fortes:</strong> 43–60% · <strong>Cask Strength:</strong> até 75%</p></div>
+  <div class="dica"><p>Quando o cliente perguntar <em>"qual a diferença entre um destilado e um vinho?"</em>, explique que <strong>a destilação concentra</strong> os aromas e o álcool — é como reduzir um molho para intensificar o sabor. Isso ajuda o leigo a entender sem jargão técnico.</p></div>
+  <div style="margin-top:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px">
+    <div style="background:#fff;padding:12px;border-top:2px solid var(--wh)"><div style="font-family:'Courier New',monospace;font-size:9px;font-weight:700;color:var(--wh);text-transform:uppercase;margin-bottom:5px">Pot Still</div><p style="font-size:10.5px;color:var(--ci)">Alambique de cobre. Destilação em batelada. Preserva mais aromas e gorduras. Usado no Cognac e Whisky de malte.</p></div>
+    <div style="background:#fff;padding:12px;border-top:2px solid var(--vd)"><div style="font-family:'Courier New',monospace;font-size:9px;font-weight:700;color:var(--vd);text-transform:uppercase;margin-bottom:5px">Column Still</div><p style="font-size:10.5px;color:var(--ci)">Destilação contínua em coluna. Produz álcool mais neutro. Base da Vodka e do Bourbon (parcialmente). Mais eficiente.</p></div>
+    <div style="background:#fff;padding:12px;border-top:2px solid var(--am)"><div style="font-family:'Courier New',monospace;font-size:9px;font-weight:700;color:var(--am);text-transform:uppercase;margin-bottom:5px">Maturação</div><p style="font-size:10.5px;color:var(--ci)">Barris de carvalho transformam o destilado bruto. Adicionam baunilha, caramelo, especiaria e cor. Quanto mais tempo, mais complexo.</p></div>
+  </div>
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<!-- PG 5-6: WHISKEY -->
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">05</div><div class="t"><div class="lb">Capítulo 01</div><h2>🥃 Whiskey — O Rei dos Destilados</h2></div></div>
+  <div class="spirit-hero">
+    <div class="sh-band" style="background:var(--wh)"></div>
+    <div class="sh-body">
+      <div class="sh-top"><div class="sh-icon">🥃</div><div class="sh-info"><h3>Whiskey / Whisky</h3><div class="sh-sub">Destilado de grão envelhecido em barril de carvalho · 40–60% ABV</div></div></div>
+      <div class="sh-stats">
+        <div class="sh-stat"><div class="sv">40–60%</div><div class="sl">Teor alcoólico</div></div>
+        <div class="sh-stat"><div class="sv">3–25+</div><div class="sl">Anos de maturação</div></div>
+        <div class="sh-stat"><div class="sv">5</div><div class="sl">Países produtores</div></div>
+        <div class="sh-stat"><div class="sv">US$</div><div class="sl">Mais vendido no mundo</div></div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:11px;line-height:1.7;margin-bottom:12px">Whisky (sem "e") é escocês ou japonês; Whiskey (com "e") é irlandês ou americano. A regra vem da grafia histórica de cada país. <strong>Barril de carvalho</strong> é obrigatório — sem ele, é simplesmente aguardente de grão.</p>
+  <div class="tipos">
+    <div class="tipo" style="border-top-color:#8B4513"><h4>🏴󠁧󠁢󠁳󠁣󠁴󠁿 Scotch</h4><p><strong>Single Malt</strong> (pura cevada, uma destilaria) ou <strong>Blend</strong>. Regiões: Highlands, Speyside, Islay (defumado), Lowlands. Mín. 3 anos em carril. Caráter: turfa, defumado, frutas.</p></div>
+    <div class="tipo" style="border-top-color:#B8860B"><h4>🇺🇸 Bourbon</h4><p>Mín. <strong>51% milho</strong>, barril novo de carvalho carbonizado. Sem mínimo de idade (straight = 2 anos). Kentucky é o coração. Doce, baunilha, caramelo, carvalho.</p></div>
+    <div class="tipo" style="border-top-color:#2E8B57"><h4>🇮🇪 Irlandês</h4><p>Triple distilled (3x destilado). Suave, leve, sem turfa. Mín. 3 anos. Jameson é o mais vendido do mundo. Perfeito para iniciantes. Acessível e versátil.</p></div>
+  </div>
+  <div class="tipos" style="grid-template-columns:1fr 1fr">
+    <div class="tipo" style="border-top-color:#C0392B"><h4>🇯🇵 Japonês</h4><p>Inspirado no Scotch, mas com precisão japonesa. Sutileza, equilíbrio e elegância. Suntory (Yamazaki, Hibiki) e Nikka dominam. Preços premium justificados.</p></div>
+    <div class="tipo" style="border-top-color:#6A5ACD"><h4>🇨🇦 Canadense</h4><p>Leve, suave, frequentemente com adição de centeio (rye). Crown Royal é o ícone. Muito acessível. Bom ponto de entrada para novos consumidores.</p></div>
+  </div>
+  <div class="dica"><p>Se o cliente hesitar entre Scotch e Bourbon, pergunte: <strong>"Prefere algo mais seco e complexo, ou mais doce e suave?"</strong> — Seco/complexo → Scotch Speyside. Doce/suave → Bourbon. Essa pergunta simples impressiona e orienta a venda.</p></div>
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">06</div><div class="t"><div class="lb">Capítulo 01 · Continuação</div><h2>Whiskey — Marcas &amp; Serviço</h2></div></div>
+  <div class="marcas">
+    <div class="marca" style="border-left-color:#8B4513"><h4>Johnnie Walker Black Label</h4><p>Scotch Blend · 12 anos · Defumado suave, frutas secas, baunilha. O blend mais vendido do mundo. Pronto para apresentar qualquer mesa ao Scotch.</p><div class="harm">🍽 Charque · Carne seca · Queijo Gouda · Chocolate amargo</div></div>
+    <div class="marca" style="border-left-color:#8B4513"><h4>Glenfiddich 12 anos</h4><p>Scotch Single Malt · Speyside · Pêra, maçã, mel, carvalho suave. O Single Malt mais vendido do mundo. Ideal para quem quer aprender o estilo.</p><div class="harm">🍽 Salmão defumado · Aves · Castanhas · Mel</div></div>
+    <div class="marca" style="border-left-color:#8B4513"><h4>Laphroaig 10 anos</h4><p>Scotch Single Malt · Islay · Intensamente defumado, turfa, iodo, alcaçuz. Para o iniciado — uma experiência polarizante e inesquecível.</p><div class="harm">🍽 Ostras · Frutos do mar · Queijos azuis fortes</div></div>
+    <div class="marca" style="border-left-color:#B8860B"><h4>Jack Daniel's Tennessee</h4><p>Tennessee Whiskey (filtrado em carvão de bordo). Suave, baunilha, caramelo, leve defumado. O mais pedido do Brasil. Símbolo americano global.</p><div class="harm">🍽 Churrasco · Costela BBQ · Hambúrguer artesanal</div></div>
+    <div class="marca" style="border-left-color:#B8860B"><h4>Buffalo Trace Bourbon</h4><p>Kentucky Straight Bourbon · Caramelo, baunilha, frutas vermelhas, pimenta. Excelente custo-benefício. Ótima indicação para quem pede algo diferente do Jack.</p><div class="harm">🍽 Costela · Pecan pie · Queijos americanos · BBQ</div></div>
+    <div class="marca" style="border-left-color:#C0392B"><h4>Hibiki Japanese Harmony</h4><p>Blend japonês · Floral, mel de laranjeira, carvalho Mizunara. Garrafa icônica de 24 facetas. Presente premium ideal para ocasiões especiais.</p><div class="harm">🍽 Sashimi · Wagyu · Frutas · Sobremesas japonesas</div></div>
+  </div>
+  <div class="servico">
+    <div class="srv"><span class="srv-icon">🥃</span><span class="srv-label">Taça Ideal</span><span class="srv-val">Rocks / Glencairn</span></div>
+    <div class="srv"><span class="srv-icon">🌡</span><span class="srv-label">Temperatura</span><span class="srv-val">Ambiente (18–22°C)</span></div>
+    <div class="srv"><span class="srv-icon">🧊</span><span class="srv-label">Gelo</span><span class="srv-val">1 cubo grande ou neat</span></div>
+  </div>
+  <div class="box box-n"><strong>Ritual de Serviço</strong><p>Sirva whiskey premium sempre <strong>neat</strong> (sem gelo) na primeira taça — deixe o cliente sentir o destilado puro. Ofereça gelo ou um pouco de água mineral à parte. <em>"Um pouco de água na verdade abre os aromas"</em> — essa frase converte o cliente para a experiência completa.</p></div>
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<!-- PG 7: COGNAC & ARMAGNAC -->
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">07</div><div class="t"><div class="lb">Capítulo 02</div><h2>🍶 Cognac &amp; Armagnac</h2></div></div>
+  <div class="spirit-hero">
+    <div class="sh-band" style="background:var(--co)"></div>
+    <div class="sh-body">
+      <div class="sh-top"><div class="sh-icon">🍶</div><div class="sh-info"><h3>Conhaque Francês</h3><div class="sh-sub">Brandy de uva da França · 40% ABV mínimo · Charente &amp; Gascogne</div></div></div>
+      <div class="sh-stats">
+        <div class="sh-stat"><div class="sv">VS/VSOP</div><div class="sl">Categorias principais</div></div>
+        <div class="sh-stat"><div class="sv">XO</div><div class="sl">Mín. 10 anos de idade</div></div>
+        <div class="sh-stat"><div class="sv">Ugni Blanc</div><div class="sl">Uva predominante</div></div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:11px;line-height:1.7;margin-bottom:12px">Cognac e Armagnac são <strong>brandies de uva</strong> — o vinho destilado e envelhecido em barril de carvalho francês (Limousin). A diferença: Cognac vem da região de Charente (dupla destilação em pot still, estilo mais suave e consistente); Armagnac vem de Gascogne (destilação única em colonne, mais rústico, intenso e artesanal — e geralmente mais barato para a qualidade).</p>
+  <div class="tipos">
+    <div class="tipo" style="border-top-color:var(--co)"><h4>VS (Very Special)</h4><p>Mínimo 2 anos. O mais jovem. Frutado, mais alcoólico na percepção. Ideal para drinques e cocktails. Hennessy VS é o ícone.</p></div>
+    <div class="tipo" style="border-top-color:var(--co)"><h4>VSOP</h4><p>Mínimo 4 anos. Mais equilibrado. Fruta, especiaria, carvalho inicial. Bébida entre sessões. Rémy Martin VSOP é o mais pedido.</p></div>
+    <div class="tipo" style="border-top-color:var(--co)"><h4>XO / Hors d'Âge</h4><p>Mínimo 10 anos. Complexidade extrema: damasco, tâmara, chocolate, couro, floral. Experiência de meditação. Hennessy XO, Rémy XO, Louis XIII.</p></div>
+  </div>
+  <div class="marcas" style="margin-top:12px">
+    <div class="marca" style="border-left-color:var(--co)"><h4>Hennessy VSOP</h4><p>O Cognac mais vendido do mundo. Frutas maduras, especiaria, baunilha, carvalho. Consistente e acessível. Perfeito para a mesa que quer status sem exagero.</p><div class="harm">🍽 Chocolate · Foie gras · Queijos · Sobremesas carameladas</div></div>
+    <div class="marca" style="border-left-color:var(--co)"><h4>Rémy Martin XO</h4><p>Grande Champagne Cognac. Frutas exóticas, gengibre, floral. Garrafa premium reconhecível. Presente de alto impacto visual e qualidade incomparável.</p><div class="harm">🍽 Trufas · Foie gras · Salmão defumado · Queijo Brie</div></div>
+  </div>
+  <div class="servico">
+    <div class="srv"><span class="srv-icon">🥃</span><span class="srv-label">Taça Ideal</span><span class="srv-val">Tulipa (não balão)</span></div>
+    <div class="srv"><span class="srv-icon">🌡</span><span class="srv-label">Temperatura</span><span class="srv-val">Ambiente · nunca gelado</span></div>
+    <div class="srv"><span class="srv-icon">🤲</span><span class="srv-label">Ritual</span><span class="srv-val">Aquecer com as mãos</span></div>
+  </div>
+  <div class="dica"><p>A taça balão (snifter grande) aquece demais o Cognac e exacerba o álcool. A <strong>taça tulipa</strong> concentra os aromas suavemente. Se o cliente pedir a balão tradicional, sirva — mas mencione discretamente que a tulipa permite sentir melhor os aromas. Isso demonstra conhecimento sem confrontar.</p></div>
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<!-- PG 8: VODKA -->
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">08</div><div class="t"><div class="lb">Capítulo 03</div><h2>🫙 Vodka — A Pureza Absoluta</h2></div></div>
+  <div class="spirit-hero">
+    <div class="sh-band" style="background:var(--vd)"></div>
+    <div class="sh-body">
+      <div class="sh-top"><div class="sh-icon">🫙</div><div class="sh-info"><h3>Vodka</h3><div class="sh-sub">Destilado neutro de grão ou batata · 37,5–50% ABV · origem eslava</div></div></div>
+      <div class="sh-stats">
+        <div class="sh-stat"><div class="sv">Neutro</div><div class="sl">Perfil aromático</div></div>
+        <div class="sh-stat"><div class="sv">3–5x</div><div class="sl">Destilações típicas</div></div>
+        <div class="sh-stat"><div class="sv">Séc. IX</div><div class="sl">Origem registrada</div></div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:11px;line-height:1.7;margin-bottom:12px">Vodka é o destilado mais <strong>versátil do mundo</strong> — base da maioria dos cocktails clássicos por sua neutralidade. Quanto mais destilada e filtrada (em carvão ativado), mais neutra e "limpa". Mas vodkas de qualidade de trigo, centeio ou batata têm nuances sutis que os apreciadores percebem.</p>
+  <div class="tipos">
+    <div class="tipo" style="border-top-color:var(--vd)"><h4>🇵🇱 Polonesa (Trigo/Centeio)</h4><p>Belvedere, Chopin. Textura cremosa, levemente adocicada (trigo) ou picante (centeio). As mais finas do mundo. Ideal para tomar pura ou com pepino.</p></div>
+    <div class="tipo" style="border-top-color:#4682B4"><h4>🇷🇺 Russa (Trigo)</h4><p>Stolichnaya, Russian Standard. Clássica, neutra, levemente mineral. Tradição secular. Temperatura de serviço faz toda diferença: deve ser gelada.</p></div>
+    <div class="tipo" style="border-top-color:#9B59B6"><h4>🇫🇷 Francesa (Trigo)</h4><p>Grey Goose. Suave, floral, muito limpa. Maior sucesso de marketing da história dos spirits. A vodka que transformou o destilado em produto de luxo.</p></div>
+  </div>
+  <div class="marcas">
+    <div class="marca" style="border-left-color:var(--vd)"><h4>Grey Goose</h4><p>Trigo da Picardia (França), destilada em coluna contínua. Muito suave e limpa. Símbolo de status nos anos 2000. Funciona bem em qualquer drinque premium.</p><div class="harm">🍸 Vodka Martini · Cosmopolitan · Pura gelada · Moscow Mule</div></div>
+    <div class="marca" style="border-left-color:var(--vd)"><h4>Belvedere</h4><p>Centeio polonês Dankowskie. Textura aveludada, leve nota de baunilha e creme. A escolha do conhecedor. Garrafa polida, presença de mesa impactante.</p><div class="harm">🍸 Pura com pepino · Vodka Tônica · Dirty Martini</div></div>
+  </div>
+  <div class="servico">
+    <div class="srv"><span class="srv-icon">🥂</span><span class="srv-label">Taça Ideal</span><span class="srv-val">Shot / Coupe / Highball</span></div>
+    <div class="srv"><span class="srv-icon">🌡</span><span class="srv-label">Temperatura</span><span class="srv-val">Muito gelada (-18° a -4°C)</span></div>
+    <div class="srv"><span class="srv-icon">🍋</span><span class="srv-label">Acompanhar</span><span class="srv-val">Limão · Pepino · Tônica</span></div>
+  </div>
+  <div class="dica"><p>O cliente que pede <em>"uma vodka boa"</em> geralmente quer impressionar. Sugira Grey Goose ou Belvedere mencionando a origem: <strong>"A Grey Goose é feita de trigo francês — é a mais suave que temos."</strong> Esse detalhe simples justifica o preço premium e eleva a percepção do garçom.</p></div>
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<!-- PG 9: TEQUILA & MEZCAL -->
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">09</div><div class="t"><div class="lb">Capítulo 04</div><h2>🌵 Tequila &amp; Mezcal</h2></div></div>
+  <div class="spirit-hero">
+    <div class="sh-band" style="background:var(--tq)"></div>
+    <div class="sh-body">
+      <div class="sh-top"><div class="sh-icon">🌵</div><div class="sh-info"><h3>Tequila &amp; Mezcal</h3><div class="sh-sub">Destilado de agave · México · 35–55% ABV · Denominação de origem</div></div></div>
+      <div class="sh-stats">
+        <div class="sh-stat"><div class="sv">Blue Agave</div><div class="sl">Planta de tequila</div></div>
+        <div class="sh-stat"><div class="sv">8–12 anos</div><div class="sl">Maturação da planta</div></div>
+        <div class="sh-stat"><div class="sv">5 estados</div><div class="sl">DO da Tequila</div></div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:11px;line-height:1.7;margin-bottom:12px"><strong>Tequila</strong> é feita exclusivamente de <em>Agave Azul Weber</em> (Blue Agave) no estado de Jalisco e adjacências. <strong>Mezcal</strong> pode usar qualquer das 30+ espécies de agave e é produzido em 9 estados — por isso tem sabor muito mais variado, geralmente defumado (as piñas do agave são assadas em fornos de terra antes de fermentar).</p>
+  <div class="tipos">
+    <div class="tipo" style="border-top-color:var(--tq)"><h4>Blanco / Silver</h4><p>Sem envelhecimento ou máx. 2 meses. Sabor puro de agave: herbáceo, cítrico, pimenta. O mais "fresco" e indicado para caipirinhas e Margaritas.</p></div>
+    <div class="tipo" style="border-top-color:var(--tq)"><h4>Reposado</h4><p>2 meses a 1 ano em barril. Equilíbrio entre agave fresco e madeira. Leve baunilha e especiaria. O estilo mais equilibrado e versátil para beber puro.</p></div>
+    <div class="tipo" style="border-top-color:var(--tq)"><h4>Añejo / Extra Añejo</h4><p>1 a 3 anos (Añejo) ou 3+ anos (Extra Añejo). Complexidade de whiskey. Caramelo, chocolate, couro. Tomar puro como um destilado premium de meditação.</p></div>
+  </div>
+  <div class="marcas">
+    <div class="marca" style="border-left-color:var(--tq)"><h4>Patrón Reposado</h4><p>100% Blue Agave · Jalisco. Herbal, baunilha, carvalho suave. O símbolo da tequila premium. Garrafa artesanal reconhecível. Eleva qualquer Margarita.</p><div class="harm">🍸 Margarita clássica · Tequila Sour · Puro com limão · Sal</div></div>
+    <div class="marca" style="border-left-color:var(--tq)"><h4>Don Julio 1942</h4><p>Añejo longa maturação. Caramelo, baunilha, carvalho, agave amadurecido. A tequila de "chegada" para quem quer o melhor. Status máximo na mesa.</p><div class="harm">🍸 Puro com gelo | On the rocks · Ou em copo de degustação</div></div>
+  </div>
+  <div class="dica"><p>Muitos clientes tomam tequila apenas em shot com sal e limão — a chamada <em>"margarita do pobre"</em>. Ofereça a alternativa: <strong>"O Don Julio 1942 é incrível puro, com gelo — como um whiskey premium, mas com personalidade própria."</strong> Essa frase converte o shot em consumo premium e aumenta o ticket.</p></div>
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<!-- PG 10: CACHAÇA -->
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">10</div><div class="t"><div class="lb">Capítulo 05</div><h2>🍹 Cachaça — Orgulho Brasileiro</h2></div></div>
+  <div class="spirit-hero">
+    <div class="sh-band" style="background:var(--ca)"></div>
+    <div class="sh-body">
+      <div class="sh-top"><div class="sh-icon">🍹</div><div class="sh-info"><h3>Cachaça</h3><div class="sh-sub">Aguardente de cana-de-açúcar fresca · Brasil · 38–48% ABV</div></div></div>
+      <div class="sh-stats">
+        <div class="sh-stat"><div class="sv">30k+</div><div class="sl">Marcas registradas</div></div>
+        <div class="sh-stat"><div class="sv">Séc. XVI</div><div class="sl">Primeira produção</div></div>
+        <div class="sh-stat"><div class="sv">Alambique</div><div class="sl">Produção artesanal</div></div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:11px;line-height:1.7;margin-bottom:12px">A cachaça é a <strong>única aguardente de cana do mundo feita a partir do caldo fresco da cana</strong> (o rum usa melaço, subproduto do açúcar). Isso dá à cachaça um perfil aromático único: floral, frutado, vegetal fresco. O envelhecimento em madeiras brasileiras (amburana, ipê, jequitibá) cria perfis impossíveis de obter em qualquer outro destilado do mundo.</p>
+  <div class="tipos" style="grid-template-columns:1fr 1fr">
+    <div class="tipo" style="border-top-color:var(--ca)"><h4>🏭 Industrial</h4><p>Column still, produção em grande escala. Sabor mais neutro e suave. Pirassununga 51, Ypióca, Velho Barreiro. Base da Caipirinha de bar. Preço acessível e consistente.</p></div>
+    <div class="tipo" style="border-top-color:#145c28"><h4>🏺 Alambique</h4><p>Pot still de cobre artesanal. Preserva aromas do caldo fresco. Envelhecida em madeiras brasileiras. Caipirinha premium. Bebida de autor. Vale provar pura.</p></div>
+    <div class="tipo" style="border-top-color:#2E8B57"><h4>🌱 Branca / Prata</h4><p>Sem envelhecimento ou máx. 12 meses em aço inox. Aromas frescos de cana, flores e frutas cítricas. A melhor base para Caipirinha.</p></div>
+    <div class="tipo" style="border-top-color:#8B4513"><h4>🪵 Envelhecida / Amarela</h4><p>Mín. 1 ano em barril. A madeira brasileira transforma: amburana dá canela/baunilha; bálsamo dá frutas tropicais. Tomar pura ou com gelo.</p></div>
+  </div>
+  <div class="marcas">
+    <div class="marca" style="border-left-color:var(--ca)"><h4>Leblon Cachaça</h4><p>Alambique de MG, envelhecida em barris de Cognac da Gascogne. Floral, tropical, suave. A cachaça mais exportada. Boa indicação para estrangeiros.</p><div class="harm">🍹 Caipirinha clássica · Pura gelada · On the rocks</div></div>
+    <div class="marca" style="border-left-color:var(--ca)"><h4>Novo Fogo Tanager</h4><p>Cachaça orgânica envelhecida em Amburana (madeira brasileira). Canela, baunilha, frutas tropicais. Única no mundo. Para quem quer explorar além da Caipirinha.</p><div class="harm">🍹 Pura · Old Fashioned brasileiro · Com mel e limão</div></div>
+  </div>
+  <div class="dica"><p>Quando o cliente pedir <em>"uma caipirinha boa"</em>, use a cachaça de alambique e mencione: <strong>"Fizemos com uma cachaça artesanal envelhecida — você vai sentir a diferença."</strong> Essa informação converte a caipirinha de R$20 para R$35 sem resistência.</p></div>
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<!-- PG 11: GRAPPA & LICORES -->
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">11</div><div class="t"><div class="lb">Capítulo 06 · 07</div><h2>🍷 Grappa &amp; Licores</h2></div></div>
+  <div class="spirit-hero">
+    <div class="sh-band" style="background:var(--gr)"></div>
+    <div class="sh-body">
+      <div class="sh-top"><div class="sh-icon">🍷</div><div class="sh-info"><h3>Grappa</h3><div class="sh-sub">Aguardente de bagaço de uva · Itália · 37,5–60% ABV</div></div></div>
+      <div class="sh-stats">
+        <div class="sh-stat"><div class="sv">Bagaço</div><div class="sl">Matéria-prima</div></div>
+        <div class="sh-stat"><div class="sv">DOC Italiano</div><div class="sl">Denominação de origem</div></div>
+        <div class="sh-stat"><div class="sv">37,5%+</div><div class="sl">Teor mínimo</div></div>
+      </div>
+    </div>
+  </div>
+  <p style="font-size:11px;line-height:1.7;margin-bottom:10px">Grappa é feita do <strong>bagaço</strong> (cascas, sementes e engaços) da uva após a prensagem do vinho. Historicamente a bebida dos pobres que aproveitavam o que sobrava — hoje é um destilado de luxo italiano, especialmente quando envelhecida. A Grappa di Barolo ou di Amarone são extraordinárias. Servida como digestivo, gelada em copo de shot ou à temperatura ambiente em tulipa.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+    <div style="background:#fff;padding:12px;border-top:3px solid var(--gr)">
+      <div style="font-family:'Courier New',monospace;font-size:9px;font-weight:700;color:var(--gr);text-transform:uppercase;margin-bottom:5px">Grappa Giovane</div>
+      <p style="font-size:10.5px;color:var(--ci)">Sem envelhecimento. Clara, agressiva, intensa. Digestivo pós-refeição italiana pesada. Temperatura: gelada (4–8°C).</p>
+    </div>
+    <div style="background:#fff;padding:12px;border-top:3px solid var(--gr)">
+      <div style="font-family:'Courier New',monospace;font-size:9px;font-weight:700;color:var(--gr);text-transform:uppercase;margin-bottom:5px">Grappa Invecchiata</div>
+      <p style="font-size:10.5px;color:var(--ci)">6 meses+ em barril. Cor âmbar, mais suave. Notas de baunilha, especiaria. Temperatura ambiente. Nível premium.</p>
+    </div>
+  </div>
+  <div style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:2px;color:var(--nv);margin-bottom:8px;text-transform:uppercase">Licores Essenciais</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin-bottom:10px">
+    <div style="background:#fff;padding:11px;border-left:4px solid #D4A017">
+      <div style="font-size:11px;font-weight:700;color:var(--nd);margin-bottom:3px">Amaretto</div>
+      <p style="font-size:10px;color:var(--ci);line-height:1.45">Amêndoa amarga, frutas, caramelo. Italia (Disaronno). Digestivo ou em drinks. Bom upsell para sobremesa.</p>
+    </div>
+    <div style="background:#fff;padding:11px;border-left:4px solid #FF6347">
+      <div style="font-size:11px;font-weight:700;color:var(--nd);margin-bottom:3px">Cointreau</div>
+      <p style="font-size:10px;color:var(--ci);line-height:1.45">Triple Sec de laranja. França. Base do Cosmopolitan e Margarita. Doce, cítrico, versátil. Premium essencial.</p>
+    </div>
+    <div style="background:#fff;padding:11px;border-left:4px solid #8B4513">
+      <div style="font-size:11px;font-weight:700;color:var(--nd);margin-bottom:3px">Baileys</div>
+      <p style="font-size:10px;color:var(--ci);line-height:1.45">Creme irlandês com whiskey. 17% ABV. Chantilly, chocolate, café. Digestivo acessível. Muito pedido pós-jantar.</p>
+    </div>
+    <div style="background:#fff;padding:11px;border-left:4px solid #DC143C">
+      <div style="font-size:11px;font-weight:700;color:var(--nd);margin-bottom:3px">Campari</div>
+      <p style="font-size:10px;color:var(--ci);line-height:1.45">Bitter italiano. Ervas, laranja, amargo. Base do Negroni e Aperol Spritz (Aperol é mais doce). Apéritivo clássico.</p>
+    </div>
+    <div style="background:#fff;padding:11px;border-left:4px solid #228B22">
+      <div style="font-size:11px;font-weight:700;color:var(--nd);margin-bottom:3px">Kahlúa</div>
+      <p style="font-size:10px;color:var(--ci);line-height:1.45">Licor de café do México. Base do White Russian e Espresso Martini. Doce, intenso, combina com sobremesas de chocolate.</p>
+    </div>
+    <div style="background:#fff;padding:11px;border-left:4px solid #6A5ACD">
+      <div style="font-size:11px;font-weight:700;color:var(--nd);margin-bottom:3px">Grand Marnier</div>
+      <p style="font-size:10px;color:var(--ci);line-height:1.45">Cognac + licor de laranja. Premium acima do Cointreau. Digestivo ou em cocktails refinados. Garrafa elegante de presente.</p>
+    </div>
+  </div>
+  <div class="dica"><p>Licores são a <strong>grande oportunidade de upsell no final da refeição</strong>. Quando a mesa pede café, sugira: <strong>"Posso trazer um Baileys ou um Amaretto para acompanhar? Combina muito bem."</strong> A taxa de conversão é alta porque o cliente já está satisfeito e num momento de prazer.</p></div>
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<!-- PG 12-13: CERVEJAS -->
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">12</div><div class="t"><div class="lb">Capítulo 08</div><h2>🍺 Cervejas Premium</h2></div></div>
+  <p style="font-size:11px;line-height:1.7;margin-bottom:14px">Cerveja premium não é apenas uma bebida — é uma <strong>experiência de marca</strong>. Corona, Stella Artois e Stella Pure Gold são marcas AB InBev posicionadas no segmento premium internacional. Conhecê-las em profundidade permite ao garçom recomendar com autoridade e elevar a percepção do serviço.</p>
+
+  <div class="cerv-card" style="border-top-color:#D4A017">
+    <div class="cerv-icon">🍺</div>
+    <div class="cerv-body">
+      <h3>Corona Extra</h3>
+      <div class="cerv-sub">Lager Pale · México · 4,5% ABV · Grupo Modelo / AB InBev</div>
+      <p>A cerveja mais exportada do México e uma das mais reconhecíveis do mundo. Lager suave, levemente maltada, muito refrescante — projetada para ser bebida com gelo e limão (ritual de marketing que virou símbolo cultural). Produzida desde 1925 na Cidade do México. Em 2023, foi a cerveja importada mais vendida nos EUA e Europa. A garrafa transparente é seu maior diferencial visual — a cerveja que "se vê de longe". Servida sempre muito gelada (2–4°C), preferencialmente com uma rodela de limão siciliano espremida diretamente na garrafa.</p>
+      <div class="cerv-tags">
+        <span class="ctag">Lager Premium</span>
+        <span class="ctag">México</span>
+        <span class="ctag a">4,5% ABV</span>
+        <span class="ctag">Garrafa transparente</span>
+        <span class="ctag">Com limão</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cerv-card" style="border-top-color:#C0392B">
+    <div class="cerv-icon">🌟</div>
+    <div class="cerv-body">
+      <h3>Stella Artois</h3>
+      <div class="cerv-sub">Pilsner Premium · Bélgica · 5% ABV · AB InBev</div>
+      <p>Uma das cervejas mais antigas e premiadas do mundo — a receita original data de 1366 em Leuven, Bélgica. Stella Artois é uma <strong>Pilsner</strong> com caráter europeu distinto: levemente amarga, malte suave, final seco e refrescante. O cálice de Stella Artois (taça afunilada com haste) é parte intencional da experiência — mantém a temperatura, preserva a carbonatação e realça os aromas. O ritual de serviço belga com 9 passos (ângulo de 45°, raspar a espuma com uma espátula, girar e completar) é um diferencial que garçons treinados podem executar para impressionar. Posicionada como <em>"a cerveja que faz a ocasião"</em>.</p>
+      <div class="cerv-tags">
+        <span class="ctag">Pilsner Europeia</span>
+        <span class="ctag">Bélgica</span>
+        <span class="ctag a">5% ABV</span>
+        <span class="ctag">Cálice exclusivo</span>
+        <span class="ctag">Ritual de 9 passos</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">13</div><div class="t"><div class="lb">Capítulo 08 · Continuação</div><h2>Stella Artois Pure Gold</h2></div></div>
+
+  <div class="cerv-card" style="border-top-color:#C8941E;margin-bottom:18px">
+    <div class="cerv-icon">✨</div>
+    <div class="cerv-body">
+      <h3>Stella Artois Pure Gold</h3>
+      <div class="cerv-sub">Lager Sem Glúten · Austrália → Global · 4,8% ABV · AB InBev</div>
+      <p>A Stella Artois Pure Gold foi desenvolvida na Austrália como resposta ao crescente mercado de consumidores sem glúten ou com intolerância ao trigo. Feita com <strong>100% de sorgo</strong> (no lugar da cevada/trigo), a Pure Gold mantém o sabor refrescante e suavemente maltado da Stella tradicional, mas sem nenhum glúten. É a cerveja premium perfeita para clientes celíacos, pessoas com sensibilidade ao glúten ou aqueles que simplesmente preferem opções mais leves. Garrafa dourada reconhecível — posicionamento de exclusividade dentro da família Stella.</p>
+      <div class="cerv-tags">
+        <span class="ctag">Sem Glúten</span>
+        <span class="ctag">100% Sorgo</span>
+        <span class="ctag a">4,8% ABV</span>
+        <span class="ctag">Premium inclusivo</span>
+        <span class="ctag">Austrália</span>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px">
+    <div style="background:#fff;padding:14px;border-top:3px solid #D4A017">
+      <div style="font-family:'Courier New',monospace;font-size:8.5px;font-weight:700;color:#D4A017;text-transform:uppercase;margin-bottom:6px">🍺 Corona</div>
+      <div style="font-size:10px;color:var(--ci);line-height:1.5"><strong>Taça:</strong> Própria garrafa transparente ou copo americano<br><strong>Temp:</strong> 2–4°C<br><strong>Ritual:</strong> Limão na garrafa<br><strong>Com:</strong> Pratos leves, frutos do mar, pizza, petiscos de verão</div>
+    </div>
+    <div style="background:#fff;padding:14px;border-top:3px solid #C0392B">
+      <div style="font-family:'Courier New',monospace;font-size:8.5px;font-weight:700;color:#C0392B;text-transform:uppercase;margin-bottom:6px">🌟 Stella Artois</div>
+      <div style="font-size:10px;color:var(--ci);line-height:1.5"><strong>Taça:</strong> Cálice Stella (afunilado com haste)<br><strong>Temp:</strong> 3–5°C<br><strong>Ritual:</strong> 9 passos belgas<br><strong>Com:</strong> Frutos do mar, queijos, mussel belga, carnes brancas</div>
+    </div>
+    <div style="background:#fff;padding:14px;border-top:3px solid #C8941E">
+      <div style="font-family:'Courier New',monospace;font-size:8.5px;font-weight:700;color:#C8941E;text-transform:uppercase;margin-bottom:6px">✨ Pure Gold</div>
+      <div style="font-size:10px;color:var(--ci);line-height:1.5"><strong>Taça:</strong> Cálice Stella ou garrafa dourada<br><strong>Temp:</strong> 3–5°C<br><strong>Ritual:</strong> Mesmo da Stella<br><strong>Com:</strong> Saladas, peixes, aves grelhadas, pratos leves</div>
+    </div>
+  </div>
+
+  <div class="dica"><p>Quando um cliente mencionar <em>"sou celíaco"</em> ou <em>"não posso tomar nada com glúten"</em>, a resposta certa é: <strong>"Temos a Stella Artois Pure Gold — é sem glúten, feita de sorgo, e tem o mesmo sabor premium da Stella."</strong> Esse cliente nunca espera encontrar uma opção boa — e você acaba de criar um momento memorável.</p></div>
+
+  <div class="box box-n" style="margin-top:10px"><strong>O Ritual Stella Artois em 5 passos essenciais</strong><p>① Copo limpo e gelado · ② Inclinar 45° e começar a servir · ③ Endireitar o copo gradualmente · ④ Deixar 2cm de espuma firme · ⑤ Limpar a borda do copo antes de entregar. A espuma não é erro — é proteção e aroma. Nunca peça desculpas pela espuma de uma Stella bem servida.</p></div>
+
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<!-- PG 14: GUIA DE SERVIÇO -->
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">14</div><div class="t"><div class="lb">Referência</div><h2>📋 Guia de Serviço Correto</h2></div></div>
+  <table class="harm-tbl">
+    <tr><th>Destilado</th><th>Taça/Copo</th><th>Temperatura</th><th>Gelo</th><th>Ritual</th></tr>
+    <tr><td>Scotch Single Malt</td><td>Glencairn / Tulipa</td><td>Ambiente 18–20°C</td><td>Opcional · 1 cubo</td><td>Neat primeiro, água à parte</td></tr>
+    <tr><td>Bourbon</td><td>Rocks (Old Fashioned)</td><td>Ambiente ou rocks</td><td>1–2 cubos grandes</td><td>Ou com água mineral</td></tr>
+    <tr><td>Whiskey Irlandês</td><td>Rocks ou Highball</td><td>Fresco (10–15°C)</td><td>Sim · ou tônica</td><td>Versátil, ótimo em drinks</td></tr>
+    <tr><td>Cognac / Armagnac</td><td>Tulipa pequena</td><td>Ambiente 20°C</td><td>Nunca</td><td>Aquecer com as mãos</td></tr>
+    <tr><td>Vodka pura</td><td>Shot / Coupe</td><td>Muito gelada −4°C</td><td>Nunca no shot puro</td><td>Geladeira ou freezer</td></tr>
+    <tr><td>Tequila Blanco</td><td>Shot / Caballito</td><td>Gelada 4–8°C</td><td>Não no shot</td><td>Sal no dorso da mão, limão</td></tr>
+    <tr><td>Tequila Añejo</td><td>Snifter / Tulipa</td><td>Ambiente</td><td>Opcional</td><td>Como um whiskey premium</td></tr>
+    <tr><td>Cachaça Branca</td><td>Copo baixo ou shot</td><td>Gelada</td><td>Na caipirinha</td><td>Caipirinha: muddler, limão</td></tr>
+    <tr><td>Cachaça Envelhecida</td><td>Rocks ou tulipa</td><td>Ambiente ou fresco</td><td>1 cubo opcional</td><td>Pura ou on the rocks</td></tr>
+    <tr><td>Grappa</td><td>Tulipa pequena / Shot</td><td>Gelada (giovane) / Amb. (velha)</td><td>Nunca</td><td>Digestivo pós-refeição</td></tr>
+    <tr><td>Licores doces</td><td>Shot / Coupe / Sobremesa</td><td>Ambiente ou levemente gelado</td><td>Opcional</td><td>Digestivo ou sobre sorvete</td></tr>
+    <tr><td>Corona</td><td>Garrafa / Copo americano</td><td>2–4°C</td><td>Não no copo</td><td>Limão na garrafa</td></tr>
+    <tr><td>Stella Artois</td><td>Cálice Stella</td><td>3–5°C</td><td>Nunca</td><td>Ritual 9 passos, espuma</td></tr>
+    <tr><td>Stella Pure Gold</td><td>Cálice Stella</td><td>3–5°C</td><td>Nunca</td><td>Mesmo ritual Stella</td></tr>
+  </table>
+  <div class="box box-d" style="margin-top:12px"><strong>Regra de ouro do serviço</strong><p>O gelo deve ser <strong>limpo, sem cheiro e em cubo grande</strong> — o cubo pequeno derrete rápido e dilui o destilado. Em destilados premium, prefira sempre oferecer a pedra de gelo (1 cubo grande de 4x4cm) ou gelo esférico. Isso demonstra cuidado técnico que o cliente premium percebe e valoriza.</p></div>
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<!-- PG 15: HARMONIZAÇÕES -->
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">15</div><div class="t"><div class="lb">Referência Prática</div><h2>🍽 Harmonizações de Destilados</h2></div></div>
+  <table class="harm-tbl" style="margin-bottom:14px">
+    <tr><th>Destilado</th><th>Harmoniza com</th><th>Por quê funciona</th></tr>
+    <tr><td>Scotch defumado (Islay)</td><td>Ostras, salmão defumado, queijo azul</td><td>O defumado espelha o defumado; sal e gordura equilibram o álcool</td></tr>
+    <tr><td>Scotch Speyside (suave)</td><td>Salmão grelhado, aves, castanhas, mel</td><td>Frutas e mel do whisky ampliam doçura natural da proteína</td></tr>
+    <tr><td>Bourbon</td><td>Churrasco, costela BBQ, pecan, chocolate</td><td>Caramelo e baunilha do Bourbon casam com açúcar da carne caramelizada</td></tr>
+    <tr><td>Cognac VSOP</td><td>Foie gras, queijo brie, frutos secos</td><td>Gordura do foie gras é cortada pela acidez do Cognac</td></tr>
+    <tr><td>Cognac XO</td><td>Chocolate amargo 70%+, trufas</td><td>Complexidade espelha complexidade; experiência de meditação</td></tr>
+    <tr><td>Vodka gelada</td><td>Caviar, salmão, pepino, arenque</td><td>Neutralidade não compete com sabores delicados; limpa o palato</td></tr>
+    <tr><td>Tequila Blanco</td><td>Ceviche, guacamole, tacos de peixe</td><td>Acidez e herbal combinam com cítrico e picante mexicano</td></tr>
+    <tr><td>Tequila Añejo</td><td>Mole, chocolates, carnes assadas</td><td>Complexidade amadeirada amplifica profundidade dos pratos</td></tr>
+    <tr><td>Cachaça branca</td><td>Petiscos, feijão tropeiro, coxinha</td><td>A leveza da caipirinha limpa frituras e salgadinhos</td></tr>
+    <tr><td>Cachaça envelhecida</td><td>Embutidos, carne de porco, defumados</td><td>Notas amadeiradas espelham defumados; equilíbrio com a gordura</td></tr>
+    <tr><td>Amaretto</td><td>Tiramisu, sobremesas de amêndoa, café</td><td>Amêndoa chama amêndoa; doçura combina com sobremesa italiana</td></tr>
+    <tr><td>Baileys</td><td>Café espresso, sorvete, brownie</td><td>Creme suaviza o amargo do café; chocolate e caramelo em harmonia</td></tr>
+    <tr><td>Campari</td><td>Aperitivo, frios, queijos semiduros</td><td>Amargo estimula apetite; ideal antes da refeição</td></tr>
+    <tr><td>Corona</td><td>Frutos do mar, tacos, pizza, petiscos</td><td>Leveza e frescor refrescam; limão amplifica o cítrico dos frutos do mar</td></tr>
+    <tr><td>Stella Artois</td><td>Mexilhões, queijos belgas, frango assado</td><td>Amargor suave da pilsner corta a gordura; par clássico belga</td></tr>
+  </table>
+  <div class="dica"><p>A <strong>regra simples de harmonização</strong> que funciona sempre: <em>"O semelhante chama o semelhante, o oposto se complementa."</em> Whisky defumado com salmão defumado = semelhante. Vodka neutra com caviar salgado = oposto que limpa. Essa lógica deixa qualquer garçom soar como sommelier.</p></div>
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<!-- PG 16: TÉCNICAS DE VENDA -->
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">16</div><div class="t"><div class="lb">Formação em Vendas</div><h2>💰 Técnicas de Venda para Garçons</h2></div></div>
+  <p style="font-size:11px;line-height:1.7;margin-bottom:14px">Um garçom bem treinado em spirits não vende bebida — ele <strong>vende experiência</strong>. A diferença entre um cliente que pede "uma dose de whiskey" e um que pede "um Glenfiddich 18 anos, por favor" é a conversa que aconteceu antes do pedido.</p>
+
+  <div class="venda-step">
+    <div class="vs-num">1</div>
+    <div class="vs-body"><h4>A Pergunta Qualificadora</h4>
+    <p>Antes de sugerir, descubra o perfil do cliente com 1–2 perguntas abertas. Isso evita erro e demonstra cuidado.</p>
+    <div class="frase">"O senhor prefere algo mais suave e frutado, ou gosta de destilados com mais caráter?"</div>
+    <div class="frase">"É para tomar puro ou misturado com algo?"</div></div>
+  </div>
+
+  <div class="venda-step">
+    <div class="vs-num">2</div>
+    <div class="vs-body"><h4>A Sugestão com Âncora</h4>
+    <p>Sempre sugira dois produtos — um premium e um mais acessível. O cliente tende a escolher o do meio ou sentir que está tomando uma decisão informada.</p>
+    <div class="frase">"Temos o Jameson, que é muito suave — e se quiser algo mais especial, o Glenfiddich 15 anos é excepcional."</div></div>
+  </div>
+
+  <div class="venda-step">
+    <div class="vs-num">3</div>
+    <div class="vs-body"><h4>O Detalhe que Justifica o Preço</h4>
+    <p>Um dado curioso sobre o produto transforma o preço alto em valor percebido. Memorize um detalhe por produto.</p>
+    <div class="frase">"O Don Julio 1942 é especial — cada piña de agave leva 12 anos pra amadurecer antes da colheita."</div>
+    <div class="frase">"O Glenfiddich tem o mesmo mestre destilador há mais de 30 anos — é um dos mais consistentes do mundo."</div></div>
+  </div>
+
+  <div class="venda-step">
+    <div class="vs-num">4</div>
+    <div class="vs-body"><h4>Upsell na Harmonização</h4>
+    <p>Destilado já pedido? Aumente o ticket com a harmonização. Leve o acompanhamento sem que o cliente precise pedir.</p>
+    <div class="frase">"Posso trazer um chocolate amargo para acompanhar o Cognac? Combina perfeitamente."</div>
+    <div class="frase">"Com o Scotch, tenho uma seleção de queijos curados que vai muito bem — quer que eu traga?"</div></div>
+  </div>
+
+  <div class="venda-step">
+    <div class="vs-num">5</div>
+    <div class="vs-body"><h4>A Sugestão de Digestivo</h4>
+    <p>No final da refeição, antes do café — o momento mais fácil de vender um destilado ou licor.</p>
+    <div class="frase">"Para fechar, o senhor gostaria de um Grappa, Amaretto ou um Cognac? É o complemento perfeito para a refeição."</div></div>
+  </div>
+
+  <div class="box box-a" style="margin-top:12px"><strong>Frases que aumentam a venda</strong><p>✔ "Você vai adorar" — transmite confiança | ✔ "É um dos preferidos aqui" — prova social | ✔ "Posso trazer para provar antes?" — elimina resistência | ✔ Nomear o produtor — "feito pelo mesmo mestre destilador há 30 anos" — eleva o produto</p></div>
+
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<!-- PG 17: GLOSSÁRIO -->
+<div class="page"><div class="p">
+  <div class="hdr"><div class="n">17</div><div class="t"><div class="lb">Referência</div><h2>📖 Glossário do Garçom</h2></div></div>
+  <div class="gloss-grid">
+    <div class="gloss-item"><dt>ABV (Alcohol By Volume)</dt><dd>Percentual de álcool em volume da bebida. 40% ABV significa 40ml de álcool puro em 100ml.</dd></div>
+    <div class="gloss-item"><dt>Aged / Envelhecido</dt><dd>Destilado que passou tempo em barril de carvalho. Cores âmbar, aromas de baunilha e especiaria vêm do barril.</dd></div>
+    <div class="gloss-item"><dt>Alambique (Pot Still)</dt><dd>Equipamento de cobre para destilação artesanal em batelada. Preserva mais aromas e "gordura" do destilado.</dd></div>
+    <div class="gloss-item"><dt>Añejo</dt><dd>Espanhol para "envelhecido". Na tequila: 1–3 anos em barril. Perfil mais complexo e suave que o reposado.</dd></div>
+    <div class="gloss-item"><dt>Barrel/Barril</dt><dd>Tonel de carvalho onde o destilado envelhece. Carvalho americano dá baunilha; carvalho francês dá especiaria.</dd></div>
+    <div class="gloss-item"><dt>Blended Whisky</dt><dd>Mix de whiskys de múltiplas destilarias. Mais consistente e acessível que o Single Malt. Johnnie Walker é blend.</dd></div>
+    <div class="gloss-item"><dt>Bourbon</dt><dd>Whiskey americano de mínimo 51% milho, envelhecido em barril novo de carvalho carbonizado. Produzido nos EUA.</dd></div>
+    <div class="gloss-item"><dt>Cask Strength</dt><dd>Destilado engarrafado direto do barril, sem diluição. Teor muito alto (55–70%). Para conhecedores.</dd></div>
+    <div class="gloss-item"><dt>Congêneres</dt><dd>Compostos aromáticos e de sabor produzidos durante a fermentação e destilação. Dão personalidade ao destilado.</dd></div>
+    <div class="gloss-item"><dt>Digestivo</dt><dd>Bebida servida após a refeição para facilitar a digestão. Grappa, Cognac, Amaretto, Fernet.</dd></div>
+    <div class="gloss-item"><dt>Double / Triple Distilled</dt><dd>Número de vezes que o líquido passou pelo alambique. Mais destilações = mais suave e neutro.</dd></div>
+    <div class="gloss-item"><dt>Finition / Finish</dt><dd>Período final de maturação em barril diferente (ex: barris de Sherry ou Porto). Adiciona camada de aroma.</dd></div>
+    <div class="gloss-item"><dt>Grain Whisky</dt><dd>Whisky feito de grãos múltiplos (trigo, milho), geralmente destilado em coluna. Base dos blends escoceses.</dd></div>
+    <div class="gloss-item"><dt>Neat</dt><dd>Destilado servido puro, sem gelo, sem mistura, em temperatura ambiente. A forma "correta" de provar um premium.</dd></div>
+    <div class="gloss-item"><dt>On the Rocks</dt><dd>Com gelo. "Rocks" = pedras (de gelo). O cubo grande derrete mais lento e dilui menos o destilado.</dd></div>
+    <div class="gloss-item"><dt>Peated / Turfa</dt><dd>Whisky defumado com turfa (musgo seco). Característico do Islay (Laphroaig, Ardbeg). Divisor de opiniões.</dd></div>
+    <div class="gloss-item"><dt>Piña</dt><dd>O coração do agave (parece uma abacaxi gigante). Assada para extrair os açúcares que serão fermentados.</dd></div>
+    <div class="gloss-item"><dt>Reposado</dt><dd>Tequila envelhecida entre 2 meses e 1 ano em barril. Mais suave que o Blanco, mais frutado que o Añejo.</dd></div>
+    <div class="gloss-item"><dt>Single Malt</dt><dd>Whisky de pura cevada malteada, de uma única destilaria. O estilo mais artesanal e complexo do Scotch.</dd></div>
+    <div class="gloss-item"><dt>Speyside</dt><dd>Região da Escócia às margens do Rio Spey. Whiskys mais suaves e frutados. Glenfiddich, Macallan, Glenlivet.</dd></div>
+    <div class="gloss-item"><dt>VSOP / XO</dt><dd>Categorias do Cognac por idade. VS = 2+ anos, VSOP = 4+ anos, XO = 10+ anos de maturação mínima.</dd></div>
+    <div class="gloss-item"><dt>Wash</dt><dd>Líquido fermentado (como uma cerveja fraca) que entra no alambique para ser destilado em whisky.</dd></div>
+  </div>
+  <div class="rod"><span>Vino Bianco Store · Treinamento</span><span>Spirits &amp; Destilados</span></div>
+</div></div>
+
+<!-- PG 18: CODA / ENCERRAMENTO -->
+<div class="page">
+<div class="cta-dark">
+  <div style="position:absolute;inset:18px;border:1px solid rgba(200,148,30,.3);pointer-events:none"></div>
+  <div style="position:relative;max-width:480px">
+    <div style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:4px;color:var(--am);margin-bottom:30px">VINO BIANCO STORE · TREINAMENTO</div>
+    <div style="font-size:60px;margin-bottom:20px">🥃</div>
+    <h2 style="font-family:'Playfair Display',serif;font-size:32px;color:#fff;margin-bottom:14px;line-height:1.2">O conhecimento é o<br><em style="color:var(--am)">melhor destilado</em></h2>
+    <p style="font-size:13px;color:rgba(255,255,255,.65);line-height:1.8;margin-bottom:30px">Um garçom que conhece seus produtos não precisa vender — ele <strong style="color:rgba(255,255,255,.85)">recomenda</strong>. E a recomendação de quem sabe é irresistível. Use este guia para dominar cada categoria, treinar suas frases e transformar cada mesa em uma experiência memorável.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:30px">
+      <div style="border:1px solid rgba(200,148,30,.3);padding:14px;text-align:center">
+        <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--am)">8</div>
+        <div style="font-family:'Courier New',monospace;font-size:8px;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase;margin-top:3px">Categorias</div>
+      </div>
+      <div style="border:1px solid rgba(200,148,30,.3);padding:14px;text-align:center">
+        <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--am)">20+</div>
+        <div style="font-family:'Courier New',monospace;font-size:8px;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase;margin-top:3px">Marcas</div>
+      </div>
+      <div style="border:1px solid rgba(200,148,30,.3);padding:14px;text-align:center">
+        <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--am)">∞</div>
+        <div style="font-family:'Courier New',monospace;font-size:8px;color:rgba(255,255,255,.4);letter-spacing:1px;text-transform:uppercase;margin-top:3px">Vendas possíveis</div>
+      </div>
+    </div>
+    <div style="font-family:'Courier New',monospace;font-size:9px;letter-spacing:2px;color:rgba(255,255,255,.3);text-transform:uppercase">vinobianco.com.br · @vinobiancostore</div>
+  </div>
+</div>
+</div>
+
+</body>
+</html>
