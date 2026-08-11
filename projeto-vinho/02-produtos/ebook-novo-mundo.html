@@ -55,7 +55,7 @@
 
   /* PAÍS LAYOUT */
   .pais-layout{display:flex;gap:20px;margin-bottom:18px}
-  .pais-mapa{flex-shrink:0;width:140px}
+  .pais-mapa{flex-shrink:0;width:155px}
   .pais-mapa svg{width:100%;height:auto;display:block}
   .pais-info{flex:1}
   .pais-flag{font-size:30px;margin-bottom:6px}
@@ -172,29 +172,45 @@
   <div class="hdr"><div class="n">03</div><div class="t"><div class="lb">Capítulo 01</div><h2>🇦🇷 Argentina — O Império do Malbec</h2></div></div>
   <div class="pais-layout">
     <div class="pais-mapa">
-      <!-- SVG Argentina -->
-      <svg viewBox="0 0 180 300" xmlns="http://www.w3.org/2000/svg">
-        <rect width="180" height="300" fill="#f0ebe0" rx="4"/>
-        <path d="M90,10 L110,20 L125,35 L130,55 L128,75 L135,90 L132,110 L128,130 L125,155 L118,178 L110,200 L100,220 L90,240 L82,258 L78,272 L75,285 L72,295 L70,298 L68,295 L66,280 L64,265 L62,250 L65,235 L70,218 L72,200 L68,182 L62,165 L58,148 L55,130 L52,112 L50,95 L52,78 L55,62 L58,45 L65,30 L75,15 Z" fill="#74acdf" stroke="#fff" stroke-width="1.5"/>
-        <!-- Mendoza region -->
-        <ellipse cx="72" cy="155" rx="16" ry="22" fill="rgba(107,26,43,0.35)" stroke="#6B1A2B" stroke-width="1.5"/>
-        <text x="72" y="152" text-anchor="middle" font-size="7" fill="#4a1220" font-weight="bold">Mendoza</text>
-        <!-- Salta region -->
-        <ellipse cx="95" cy="55" rx="14" ry="14" fill="rgba(201,168,76,0.35)" stroke="#C9A84C" stroke-width="1.5"/>
-        <text x="95" y="53" text-anchor="middle" font-size="6.5" fill="#5a3a00" font-weight="bold">Salta</text>
-        <!-- Patagonia region -->
-        <ellipse cx="70" cy="230" rx="15" ry="18" fill="rgba(45,106,79,0.3)" stroke="#2d6a4f" stroke-width="1.5"/>
-        <text x="70" y="228" text-anchor="middle" font-size="6" fill="#1a4a2a" font-weight="bold">Patagônia</text>
-        <!-- Labels -->
-        <text x="90" y="280" text-anchor="middle" font-size="8" fill="#333" font-weight="bold">ARGENTINA</text>
-        <circle cx="72" cy="155" r="3" fill="#6B1A2B"/>
-        <circle cx="95" cy="55" r="3" fill="#C9A84C"/>
-        <circle cx="70" cy="230" r="3" fill="#2d6a4f"/>
+      <svg viewBox="0 0 155 330" xmlns="http://www.w3.org/2000/svg" style="border-radius:5px;box-shadow:0 3px 10px rgba(0,0,0,0.2)">
+        <defs>
+          <linearGradient id="og-ar" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c5e8f8"/><stop offset="100%" stop-color="#76b4d6"/></linearGradient>
+          <linearGradient id="lg-ar" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#88bce2"/><stop offset="100%" stop-color="#5290c0"/></linearGradient>
+          <filter id="sh-ar"><feDropShadow dx="1.5" dy="2.5" stdDeviation="2.5" flood-color="rgba(0,30,70,0.35)"/></filter>
+        </defs>
+        <rect width="155" height="330" fill="url(#og-ar)" rx="5"/>
+        <line x1="0" y1="62" x2="155" y2="62" stroke="rgba(255,255,255,0.22)" stroke-width="0.5" stroke-dasharray="3,4"/>
+        <line x1="0" y1="155" x2="155" y2="155" stroke="rgba(255,255,255,0.22)" stroke-width="0.5" stroke-dasharray="3,4"/>
+        <line x1="0" y1="238" x2="155" y2="238" stroke="rgba(255,255,255,0.22)" stroke-width="0.5" stroke-dasharray="3,4"/>
+        <!-- Chile (neighbor, muted) -->
+        <path d="M10,12 L26,8 L32,22 L30,44 L28,68 L26,94 L24,120 L22,146 L20,172 L18,198 L17,222 L16,246 L15,268 L14,288 L13,308 L12,322 L9,318 L7,305 L7,282 L7,258 L7,234 L7,210 L7,186 L7,162 L7,138 L7,114 L7,90 L7,68 L7,46 L8,26 Z" fill="#b5c8dc" opacity="0.55"/>
+        <!-- Argentina main -->
+        <path d="M40,12 L66,8 L90,10 L112,16 L130,24 L142,36 L148,52 L150,70 L147,88 L152,104 L148,122 L142,140 L136,158 L128,174 L118,190 L106,204 L94,216 L84,228 L76,240 L70,252 L65,264 L62,274 L60,284 L58,294 L56,305 L54,312 L52,309 L48,298 L42,284 L36,268 L32,252 L30,238 L32,222 L36,206 L38,190 L34,173 L30,156 L26,140 L24,122 L24,103 L26,85 L28,68 L30,52 L34,36 L38,22 Z" fill="url(#lg-ar)" stroke="rgba(255,255,255,0.9)" stroke-width="1.5" filter="url(#sh-ar)"/>
+        <!-- Andes dashed line -->
+        <path d="M36,22 L30,52 L28,68 L26,85 L24,103 L24,122 L26,140 L30,156 L34,173 L38,190 L36,206 L32,222 L30,238 L32,252" stroke="rgba(200,225,255,0.65)" stroke-width="2" fill="none" stroke-dasharray="4,3"/>
+        <!-- Salta -->
+        <ellipse cx="100" cy="55" rx="22" ry="17" fill="rgba(201,168,76,0.28)" stroke="#C9A84C" stroke-width="1.6"/>
+        <rect x="80" y="47" width="40" height="13" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="100" y="57.5" text-anchor="middle" font-size="7.5" fill="#5a3800" font-weight="bold" font-family="Arial,sans-serif">Salta</text>
+        <!-- Mendoza -->
+        <ellipse cx="40" cy="152" rx="18" ry="24" fill="rgba(107,26,43,0.28)" stroke="#6B1A2B" stroke-width="1.6"/>
+        <rect x="20" y="144" width="42" height="13" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="41" y="154.5" text-anchor="middle" font-size="7.5" fill="#4a1220" font-weight="bold" font-family="Arial,sans-serif">Mendoza</text>
+        <!-- Patagônia -->
+        <ellipse cx="44" cy="238" rx="20" ry="20" fill="rgba(45,106,79,0.25)" stroke="#2d6a4f" stroke-width="1.6"/>
+        <rect x="24" y="230" width="42" height="13" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="45" y="240.5" text-anchor="middle" font-size="7" fill="#1a4a2a" font-weight="bold" font-family="Arial,sans-serif">Patagônia</text>
+        <circle cx="100" cy="55" r="3.5" fill="#C9A84C" stroke="#fff" stroke-width="1.2"/>
+        <circle cx="40" cy="152" r="3.5" fill="#6B1A2B" stroke="#fff" stroke-width="1.2"/>
+        <circle cx="44" cy="238" r="3.5" fill="#2d6a4f" stroke="#fff" stroke-width="1.2"/>
+        <rect x="68" y="316" width="76" height="13" rx="3" fill="rgba(0,28,65,0.6)"/>
+        <text x="106" y="325.5" text-anchor="middle" font-size="7.5" fill="#fff" font-weight="bold" font-family="Arial,sans-serif" letter-spacing="1">ARGENTINA</text>
+        <g transform="translate(142,18)"><circle r="9" fill="rgba(255,255,255,0.9)" stroke="rgba(0,40,100,0.2)" stroke-width="0.5"/><polygon points="0,-6 -2,-2 2,-2" fill="#003366" opacity="0.85"/><text x="0" y="5.5" text-anchor="middle" font-size="7" fill="#003366" font-weight="bold" font-family="Arial,sans-serif">N</text></g>
       </svg>
-      <div style="font-size:9px;color:var(--cc);text-align:center;margin-top:4px;line-height:1.4">
-        <span style="display:inline-block;width:8px;height:8px;background:rgba(107,26,43,0.5);margin-right:3px;vertical-align:middle"></span>Mendoza<br>
-        <span style="display:inline-block;width:8px;height:8px;background:rgba(201,168,76,0.5);margin-right:3px;vertical-align:middle"></span>Salta<br>
-        <span style="display:inline-block;width:8px;height:8px;background:rgba(45,106,79,0.4);margin-right:3px;vertical-align:middle"></span>Patagônia
+      <div style="font-size:8.5px;color:var(--cc);margin-top:5px;line-height:1.7">
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(201,168,76,0.6);border:1px solid #C9A84C;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Salta<br>
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(107,26,43,0.5);border:1px solid #6B1A2B;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Mendoza<br>
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(45,106,79,0.45);border:1px solid #2d6a4f;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Patagônia
       </div>
     </div>
     <div class="pais-info">
@@ -229,27 +245,45 @@
   <div class="hdr"><div class="n">05</div><div class="t"><div class="lb">Capítulo 02</div><h2>🇨🇱 Chile — Terra dos Contrastes Extremos</h2></div></div>
   <div class="pais-layout">
     <div class="pais-mapa">
-      <svg viewBox="0 0 80 320" xmlns="http://www.w3.org/2000/svg">
-        <rect width="80" height="320" fill="#f0ebe0" rx="4"/>
-        <path d="M38,8 L48,12 L56,22 L58,38 L56,55 L54,72 L52,90 L50,110 L48,130 L46,150 L44,170 L42,190 L40,210 L38,230 L36,250 L34,265 L32,278 L30,290 L28,305 L26,312 L24,308 L22,298 L20,285 L20,270 L22,255 L24,240 L26,225 L26,208 L24,190 L22,172 L20,155 L18,137 L16,118 L16,98 L18,80 L20,62 L22,45 L26,30 L30,18 L35,10 Z" fill="#d52b1e" stroke="#fff" stroke-width="1.5" opacity="0.7"/>
-        <!-- Maipo -->
-        <ellipse cx="30" cy="148" rx="11" ry="10" fill="rgba(107,26,43,0.4)" stroke="#6B1A2B" stroke-width="1.5"/>
-        <text x="30" y="146" text-anchor="middle" font-size="6" fill="#4a1220" font-weight="bold">Maipo</text>
-        <!-- Colchagua -->
-        <ellipse cx="28" cy="172" rx="11" ry="9" fill="rgba(201,168,76,0.4)" stroke="#C9A84C" stroke-width="1.5"/>
-        <text x="28" y="170" text-anchor="middle" font-size="5.5" fill="#5a3a00" font-weight="bold">Colchagua</text>
+      <svg viewBox="0 0 78 310" xmlns="http://www.w3.org/2000/svg" style="border-radius:5px;box-shadow:0 3px 10px rgba(0,0,0,0.2)">
+        <defs>
+          <linearGradient id="og-cl" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c5e8f8"/><stop offset="100%" stop-color="#76b4d6"/></linearGradient>
+          <linearGradient id="lg-cl" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#d63030"/><stop offset="100%" stop-color="#a02020"/></linearGradient>
+          <filter id="sh-cl"><feDropShadow dx="1.5" dy="2" stdDeviation="2" flood-color="rgba(80,0,0,0.3)"/></filter>
+        </defs>
+        <rect width="78" height="310" fill="url(#og-cl)" rx="5"/>
+        <line x1="0" y1="105" x2="78" y2="105" stroke="rgba(255,255,255,0.22)" stroke-width="0.5" stroke-dasharray="3,4"/>
+        <line x1="0" y1="188" x2="78" y2="188" stroke="rgba(255,255,255,0.22)" stroke-width="0.5" stroke-dasharray="3,4"/>
+        <!-- Argentina (right neighbor) -->
+        <rect x="60" y="5" width="18" height="290" fill="#b5c8dc" opacity="0.45" rx="1"/>
+        <!-- Chile main shape -->
+        <path d="M16,8 L36,5 L54,12 L63,26 L65,44 L62,65 L59,87 L56,109 L53,130 L51,150 L49,170 L47,189 L45,207 L42,224 L38,240 L33,255 L27,268 L21,280 L16,292 L12,300 L9,296 L7,284 L7,270 L7,254 L7,238 L7,221 L7,204 L7,187 L7,170 L7,153 L7,136 L7,119 L7,102 L7,85 L7,68 L7,52 L8,37 L11,24 Z" fill="url(#lg-cl)" stroke="rgba(255,255,255,0.88)" stroke-width="1.5" filter="url(#sh-cl)" opacity="0.92"/>
+        <!-- Atacama (north region label) -->
+        <rect x="8" y="48" width="44" height="10" rx="2" fill="rgba(180,100,80,0.15)" stroke="rgba(180,100,80,0.35)" stroke-width="0.8"/>
+        <text x="30" y="56.5" text-anchor="middle" font-size="6" fill="rgba(100,40,20,0.7)" font-family="Arial,sans-serif" font-style="italic">Atacama (seco)</text>
         <!-- Casablanca -->
-        <ellipse cx="24" cy="128" rx="10" ry="8" fill="rgba(29,53,87,0.35)" stroke="#1d3557" stroke-width="1.5"/>
-        <text x="24" y="126" text-anchor="middle" font-size="5" fill="#0a1a40" font-weight="bold">Casablanca</text>
-        <text x="40" y="310" text-anchor="middle" font-size="7" fill="#333" font-weight="bold">CHILE</text>
-        <circle cx="30" cy="148" r="2.5" fill="#6B1A2B"/>
-        <circle cx="28" cy="172" r="2.5" fill="#C9A84C"/>
-        <circle cx="24" cy="128" r="2.5" fill="#1d3557"/>
+        <ellipse cx="22" cy="110" rx="12" ry="8" fill="rgba(29,53,87,0.3)" stroke="#1d3557" stroke-width="1.4"/>
+        <rect x="5" y="102" width="40" height="11" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="25" y="111" text-anchor="middle" font-size="6" fill="#0a1a40" font-weight="bold" font-family="Arial,sans-serif">Casablanca</text>
+        <!-- Maipo -->
+        <ellipse cx="24" cy="132" rx="13" ry="9" fill="rgba(107,26,43,0.3)" stroke="#6B1A2B" stroke-width="1.4"/>
+        <rect x="8" y="125" width="34" height="11" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="25" y="134" text-anchor="middle" font-size="6.5" fill="#4a1220" font-weight="bold" font-family="Arial,sans-serif">Maipo</text>
+        <!-- Colchagua -->
+        <ellipse cx="24" cy="158" rx="13" ry="9" fill="rgba(201,168,76,0.3)" stroke="#C9A84C" stroke-width="1.4"/>
+        <rect x="4" y="151" width="46" height="11" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="27" y="160" text-anchor="middle" font-size="6" fill="#5a3a00" font-weight="bold" font-family="Arial,sans-serif">Colchagua</text>
+        <circle cx="22" cy="110" r="3" fill="#1d3557" stroke="#fff" stroke-width="1"/>
+        <circle cx="24" cy="132" r="3" fill="#6B1A2B" stroke="#fff" stroke-width="1"/>
+        <circle cx="24" cy="158" r="3" fill="#C9A84C" stroke="#fff" stroke-width="1"/>
+        <rect x="10" y="298" width="42" height="11" rx="3" fill="rgba(80,0,0,0.6)"/>
+        <text x="31" y="307" text-anchor="middle" font-size="7" fill="#fff" font-weight="bold" font-family="Arial,sans-serif" letter-spacing="0.5">CHILE</text>
+        <g transform="translate(66,18)"><circle r="8.5" fill="rgba(255,255,255,0.9)" stroke="rgba(80,0,0,0.2)" stroke-width="0.5"/><polygon points="0,-5.5 -1.8,-1.5 1.8,-1.5" fill="#660000" opacity="0.85"/><text x="0" y="5" text-anchor="middle" font-size="7" fill="#660000" font-weight="bold" font-family="Arial,sans-serif">N</text></g>
       </svg>
-      <div style="font-size:8.5px;color:var(--cc);text-align:center;margin-top:4px;line-height:1.5">
-        <span style="display:inline-block;width:7px;height:7px;background:rgba(107,26,43,0.5);margin-right:2px;vertical-align:middle"></span>Maipo<br>
-        <span style="display:inline-block;width:7px;height:7px;background:rgba(201,168,76,0.5);margin-right:2px;vertical-align:middle"></span>Colchagua<br>
-        <span style="display:inline-block;width:7px;height:7px;background:rgba(29,53,87,0.4);margin-right:2px;vertical-align:middle"></span>Casablanca
+      <div style="font-size:8.5px;color:var(--cc);margin-top:5px;line-height:1.7">
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(29,53,87,0.5);border:1px solid #1d3557;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Casablanca<br>
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(107,26,43,0.5);border:1px solid #6B1A2B;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Maipo<br>
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(201,168,76,0.55);border:1px solid #C9A84C;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Colchagua
       </div>
     </div>
     <div class="pais-info">
@@ -284,28 +318,40 @@
   <div class="hdr"><div class="n">07</div><div class="t"><div class="lb">Capítulo 03</div><h2>🇧🇷 Brasil — O Gigante Acordado</h2></div></div>
   <div class="pais-layout">
     <div class="pais-mapa">
-      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-        <rect width="200" height="200" fill="#f0ebe0" rx="4"/>
-        <path d="M50,10 L80,8 L110,12 L140,18 L165,28 L178,42 L182,60 L178,78 L170,92 L165,108 L168,122 L172,138 L168,150 L158,158 L145,162 L132,158 L120,152 L108,155 L96,165 L85,172 L75,178 L65,175 L58,165 L52,152 L48,138 L45,122 L42,106 L38,90 L35,75 L32,58 L35,42 L42,28 L48,18 Z" fill="#009c3b" stroke="#fff" stroke-width="1.5" opacity="0.75"/>
-        <!-- Serra Gaúcha -->
-        <ellipse cx="72" cy="158" rx="16" ry="12" fill="rgba(107,26,43,0.4)" stroke="#6B1A2B" stroke-width="1.5"/>
-        <text x="72" y="156" text-anchor="middle" font-size="5.5" fill="#4a1220" font-weight="bold">Serra Gaúcha</text>
-        <!-- Campanha -->
-        <ellipse cx="58" cy="170" rx="12" ry="8" fill="rgba(201,168,76,0.4)" stroke="#C9A84C" stroke-width="1.5"/>
-        <text x="58" y="168" text-anchor="middle" font-size="5" fill="#5a3a00" font-weight="bold">Campanha</text>
-        <!-- Vale SF -->
-        <ellipse cx="130" cy="85" rx="16" ry="11" fill="rgba(231,111,81,0.4)" stroke="#e76f51" stroke-width="1.5"/>
-        <text x="130" y="82" text-anchor="middle" font-size="5" fill="#8B2500" font-weight="bold">Vale do São</text>
-        <text x="130" y="90" text-anchor="middle" font-size="5" fill="#8B2500" font-weight="bold">Francisco</text>
-        <text x="100" y="194" text-anchor="middle" font-size="7.5" fill="#333" font-weight="bold">BRASIL</text>
-        <circle cx="72" cy="158" r="2.5" fill="#6B1A2B"/>
-        <circle cx="58" cy="170" r="2.5" fill="#C9A84C"/>
-        <circle cx="130" cy="85" r="2.5" fill="#e76f51"/>
+      <svg viewBox="0 0 210 192" xmlns="http://www.w3.org/2000/svg" style="border-radius:5px;box-shadow:0 3px 10px rgba(0,0,0,0.2)">
+        <defs>
+          <linearGradient id="og-br" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c5e8f8"/><stop offset="100%" stop-color="#76b4d6"/></linearGradient>
+          <linearGradient id="lg-br" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#22b04e"/><stop offset="100%" stop-color="#00762a"/></linearGradient>
+          <filter id="sh-br"><feDropShadow dx="2" dy="2.5" stdDeviation="2.5" flood-color="rgba(0,60,10,0.35)"/></filter>
+        </defs>
+        <rect width="210" height="192" fill="url(#og-br)" rx="5"/>
+        <!-- Brazil main shape (recognizable outline) -->
+        <path d="M36,14 L60,8 L88,10 L116,16 L140,26 L160,40 L172,58 L178,78 L178,100 L172,118 L162,134 L150,148 L136,160 L118,168 L98,174 L78,174 L58,170 L42,162 L30,150 L22,136 L16,120 L14,102 L16,84 L20,66 L26,50 L32,34 Z" fill="url(#lg-br)" stroke="rgba(255,255,255,0.88)" stroke-width="1.5" filter="url(#sh-br)"/>
+        <!-- Amazon mouth detail (NE indentation) -->
+        <path d="M136,160 L146,154 L155,145 L160,135 L162,122" stroke="rgba(255,255,255,0.4)" stroke-width="1" fill="none"/>
+        <!-- VSF region (NE coast, ~x=160,y=78) -->
+        <ellipse cx="162" cy="80" rx="18" ry="13" fill="rgba(231,111,81,0.3)" stroke="#c25c3a" stroke-width="1.5"/>
+        <rect x="136" y="72" width="52" height="11" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="162" y="81.5" text-anchor="middle" font-size="5.5" fill="#6a2000" font-weight="bold" font-family="Arial,sans-serif">Vale S. Francisco</text>
+        <!-- Serra Gaúcha (S, right) -->
+        <ellipse cx="100" cy="164" rx="20" ry="10" fill="rgba(107,26,43,0.3)" stroke="#6B1A2B" stroke-width="1.5"/>
+        <rect x="72" y="157" width="56" height="11" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="100" y="166" text-anchor="middle" font-size="5.5" fill="#4a1220" font-weight="bold" font-family="Arial,sans-serif">Serra Gaúcha</text>
+        <!-- Campanha (SW, near Uruguay border) -->
+        <ellipse cx="52" cy="166" rx="16" ry="9" fill="rgba(201,168,76,0.3)" stroke="#C9A84C" stroke-width="1.5"/>
+        <rect x="28" y="159" width="46" height="11" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="51" y="168" text-anchor="middle" font-size="5.5" fill="#5a3a00" font-weight="bold" font-family="Arial,sans-serif">Campanha</text>
+        <circle cx="162" cy="80" r="3" fill="#c25c3a" stroke="#fff" stroke-width="1"/>
+        <circle cx="100" cy="164" r="3" fill="#6B1A2B" stroke="#fff" stroke-width="1"/>
+        <circle cx="52" cy="166" r="3" fill="#C9A84C" stroke="#fff" stroke-width="1"/>
+        <rect x="78" y="102" width="54" height="13" rx="3" fill="rgba(0,60,10,0.45)"/>
+        <text x="105" y="112" text-anchor="middle" font-size="8" fill="rgba(255,255,255,0.95)" font-weight="bold" font-family="Arial,sans-serif" letter-spacing="1">BRASIL</text>
+        <g transform="translate(196,16)"><circle r="8.5" fill="rgba(255,255,255,0.9)" stroke="rgba(0,80,0,0.2)" stroke-width="0.5"/><polygon points="0,-5.5 -1.8,-1.5 1.8,-1.5" fill="#006600" opacity="0.85"/><text x="0" y="5" text-anchor="middle" font-size="7" fill="#006600" font-weight="bold" font-family="Arial,sans-serif">N</text></g>
       </svg>
-      <div style="font-size:8.5px;color:var(--cc);text-align:center;margin-top:4px;line-height:1.5">
-        <span style="display:inline-block;width:7px;height:7px;background:rgba(107,26,43,0.5);margin-right:2px;vertical-align:middle"></span>Serra Gaúcha<br>
-        <span style="display:inline-block;width:7px;height:7px;background:rgba(201,168,76,0.5);margin-right:2px;vertical-align:middle"></span>Campanha<br>
-        <span style="display:inline-block;width:7px;height:7px;background:rgba(231,111,81,0.5);margin-right:2px;vertical-align:middle"></span>Vale do S. Francisco
+      <div style="font-size:8.5px;color:var(--cc);margin-top:5px;line-height:1.7">
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(231,111,81,0.55);border:1px solid #c25c3a;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Vale S. Francisco<br>
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(107,26,43,0.5);border:1px solid #6B1A2B;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Serra Gaúcha<br>
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(201,168,76,0.55);border:1px solid #C9A84C;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Campanha
       </div>
     </div>
     <div class="pais-info">
@@ -340,29 +386,50 @@
   <div class="hdr"><div class="n">09</div><div class="t"><div class="lb">Capítulo 04</div><h2>🇺🇸 EUA — Da Califórnia ao Pacífico Noroeste</h2></div></div>
   <div class="pais-layout">
     <div class="pais-mapa">
-      <svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
-        <rect width="220" height="160" fill="#f0ebe0" rx="4"/>
-        <path d="M15,35 L40,25 L70,20 L100,18 L130,20 L158,25 L180,35 L195,50 L200,68 L198,85 L190,98 L178,108 L160,115 L140,118 L118,120 L95,118 L72,115 L52,110 L35,100 L22,88 L15,72 L12,55 Z" fill="#b22234" stroke="#fff" stroke-width="1.5" opacity="0.65"/>
+      <!-- West Coast USA: California + Oregon + Washington -->
+      <svg viewBox="0 0 155 200" xmlns="http://www.w3.org/2000/svg" style="border-radius:5px;box-shadow:0 3px 10px rgba(0,0,0,0.2)">
+        <defs>
+          <linearGradient id="og-us" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c5e8f8"/><stop offset="100%" stop-color="#76b4d6"/></linearGradient>
+          <linearGradient id="lg-ca" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#b22234"/><stop offset="100%" stop-color="#881828"/></linearGradient>
+          <filter id="sh-us"><feDropShadow dx="1.5" dy="2" stdDeviation="2.5" flood-color="rgba(60,0,0,0.3)"/></filter>
+        </defs>
+        <rect width="155" height="200" fill="url(#og-us)" rx="5"/>
+        <!-- Pacific label -->
+        <text x="8" y="148" font-size="6" fill="rgba(255,255,255,0.55)" font-family="Arial,sans-serif" font-style="italic" transform="rotate(-90,8,148)">Oceano Pacífico</text>
+        <!-- Nevada/Arizona (right, neighbor) -->
+        <path d="M128,35 L148,42 L155,65 L155,145 L130,175 L140,155 L145,128 L148,100 L148,75 L145,50 Z" fill="#c0cdd8" opacity="0.55"/>
+        <!-- Washington (top strip) -->
+        <path d="M10,10 L118,10 L125,22 L112,30 L85,32 L10,34 Z" fill="#9b2234" stroke="rgba(255,255,255,0.75)" stroke-width="1" opacity="0.82"/>
+        <text x="62" y="25" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.88)" font-family="Arial,sans-serif">Washington</text>
+        <!-- Oregon (middle band) -->
+        <path d="M10,34 L85,32 L112,30 L125,22 L130,38 L128,62 L10,68 Z" fill="#c83030" stroke="rgba(255,255,255,0.75)" stroke-width="1" opacity="0.88"/>
+        <text x="66" y="54" text-anchor="middle" font-size="7.5" fill="rgba(255,255,255,0.9)" font-family="Arial,sans-serif">Oregon</text>
+        <!-- California (main block) -->
+        <path d="M10,68 L128,62 L130,38 L142,52 L146,78 L146,106 L143,132 L138,156 L128,175 L115,190 L100,197 L85,197 L10,197 Z" fill="url(#lg-ca)" stroke="rgba(255,255,255,0.8)" stroke-width="1.5" filter="url(#sh-us)" opacity="0.92"/>
+        <text x="95" y="185" text-anchor="middle" font-size="7" fill="rgba(255,255,255,0.75)" font-family="Arial,sans-serif">Califórnia</text>
+        <!-- Willamette Valley (Oregon wine) -->
+        <ellipse cx="32" cy="50" rx="15" ry="10" fill="rgba(45,106,79,0.3)" stroke="#2d6a4f" stroke-width="1.4"/>
+        <rect x="6" y="43" width="52" height="11" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="32" y="52" text-anchor="middle" font-size="6" fill="#1a4a2a" font-weight="bold" font-family="Arial,sans-serif">Willamette/OR</text>
+        <!-- Sonoma (N Cal coast) -->
+        <ellipse cx="22" cy="92" rx="13" ry="9" fill="rgba(201,168,76,0.32)" stroke="#C9A84C" stroke-width="1.4"/>
+        <rect x="5" y="85" width="36" height="11" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="23" y="94" text-anchor="middle" font-size="6.5" fill="#5a3a00" font-weight="bold" font-family="Arial,sans-serif">Sonoma</text>
         <!-- Napa Valley -->
-        <ellipse cx="30" cy="75" rx="16" ry="18" fill="rgba(107,26,43,0.4)" stroke="#6B1A2B" stroke-width="1.5"/>
-        <text x="30" y="72" text-anchor="middle" font-size="6" fill="#4a1220" font-weight="bold">Napa</text>
-        <text x="30" y="80" text-anchor="middle" font-size="6" fill="#4a1220" font-weight="bold">Valley</text>
-        <!-- Sonoma -->
-        <ellipse cx="22" cy="60" rx="12" ry="10" fill="rgba(201,168,76,0.4)" stroke="#C9A84C" stroke-width="1.5"/>
-        <text x="22" y="58" text-anchor="middle" font-size="5.5" fill="#5a3a00" font-weight="bold">Sonoma</text>
-        <!-- Oregon -->
-        <ellipse cx="28" cy="42" rx="14" ry="10" fill="rgba(45,106,79,0.4)" stroke="#2d6a4f" stroke-width="1.5"/>
-        <text x="28" y="40" text-anchor="middle" font-size="6" fill="#1a4a2a" font-weight="bold">Oregon</text>
-        <text x="110" y="148" text-anchor="middle" font-size="7.5" fill="#333" font-weight="bold">ESTADOS UNIDOS</text>
-        <circle cx="30" cy="75" r="2.5" fill="#6B1A2B"/>
-        <circle cx="22" cy="60" r="2.5" fill="#C9A84C"/>
-        <circle cx="28" cy="42" r="2.5" fill="#2d6a4f"/>
+        <ellipse cx="32" cy="112" rx="18" ry="12" fill="rgba(107,26,43,0.3)" stroke="#6B1A2B" stroke-width="1.5"/>
+        <rect x="10" y="105" width="44" height="11" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="32" y="114" text-anchor="middle" font-size="6.5" fill="#4a1220" font-weight="bold" font-family="Arial,sans-serif">Napa Valley</text>
+        <circle cx="32" cy="50" r="3" fill="#2d6a4f" stroke="#fff" stroke-width="1"/>
+        <circle cx="22" cy="92" r="3" fill="#C9A84C" stroke="#fff" stroke-width="1"/>
+        <circle cx="32" cy="112" r="3" fill="#6B1A2B" stroke="#fff" stroke-width="1"/>
+        <rect x="42" y="135" width="76" height="13" rx="3" fill="rgba(60,0,0,0.55)"/>
+        <text x="80" y="144.5" text-anchor="middle" font-size="7" fill="#fff" font-weight="bold" font-family="Arial,sans-serif" letter-spacing="0.5">ESTADOS UNIDOS</text>
+        <g transform="translate(143,18)"><circle r="8.5" fill="rgba(255,255,255,0.9)" stroke="rgba(80,0,0,0.2)" stroke-width="0.5"/><polygon points="0,-5.5 -1.8,-1.5 1.8,-1.5" fill="#660000" opacity="0.85"/><text x="0" y="5" text-anchor="middle" font-size="7" fill="#660000" font-weight="bold" font-family="Arial,sans-serif">N</text></g>
       </svg>
-      <div style="font-size:8.5px;color:var(--cc);text-align:center;margin-top:4px;line-height:1.5">
-        <span style="display:inline-block;width:7px;height:7px;background:rgba(107,26,43,0.5);margin-right:2px;vertical-align:middle"></span>Napa Valley<br>
-        <span style="display:inline-block;width:7px;height:7px;background:rgba(201,168,76,0.5);margin-right:2px;vertical-align:middle"></span>Sonoma<br>
-        <span style="display:inline-block;width:7px;height:7px;background:rgba(45,106,79,0.4);margin-right:2px;vertical-align:middle"></span>Oregon
-      </div>
+      <div style="font-size:8.5px;color:var(--cc);margin-top:5px;line-height:1.7">
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(107,26,43,0.5);border:1px solid #6B1A2B;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Napa Valley<br>
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(201,168,76,0.55);border:1px solid #C9A84C;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Sonoma<br>
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(45,106,79,0.45);border:1px solid #2d6a4f;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Oregon</div>
     </div>
     <div class="pais-info">
       <div class="pais-flag">🇺🇸</div>
@@ -396,30 +463,53 @@
   <div class="hdr"><div class="n">11</div><div class="t"><div class="lb">Capítulo 05</div><h2>🇦🇺 Austrália — O Continente do Shiraz</h2></div></div>
   <div class="pais-layout">
     <div class="pais-mapa">
-      <svg viewBox="0 0 220 190" xmlns="http://www.w3.org/2000/svg">
-        <rect width="220" height="190" fill="#f0ebe0" rx="4"/>
-        <path d="M30,50 L58,35 L90,28 L125,30 L158,38 L182,55 L195,75 L198,98 L192,118 L180,135 L162,148 L140,155 L115,158 L90,155 L68,148 L50,138 L35,122 L22,105 L18,85 L22,65 Z" fill="#00008B" stroke="#fff" stroke-width="1.5" opacity="0.55"/>
-        <!-- Barossa -->
-        <ellipse cx="148" cy="125" rx="20" ry="14" fill="rgba(107,26,43,0.45)" stroke="#6B1A2B" stroke-width="1.5"/>
-        <text x="148" y="123" text-anchor="middle" font-size="6" fill="#4a1220" font-weight="bold">Barossa</text>
-        <text x="148" y="131" text-anchor="middle" font-size="6" fill="#4a1220" font-weight="bold">Valley</text>
-        <!-- Yarra Valley -->
-        <ellipse cx="165" cy="148" rx="16" ry="10" fill="rgba(45,106,79,0.4)" stroke="#2d6a4f" stroke-width="1.5"/>
-        <text x="165" y="146" text-anchor="middle" font-size="5.5" fill="#1a4a2a" font-weight="bold">Yarra Valley</text>
-        <!-- Margaret River -->
-        <ellipse cx="38" cy="130" rx="16" ry="14" fill="rgba(201,168,76,0.4)" stroke="#C9A84C" stroke-width="1.5"/>
-        <text x="38" y="127" text-anchor="middle" font-size="5" fill="#5a3a00" font-weight="bold">Margaret</text>
-        <text x="38" y="134" text-anchor="middle" font-size="5" fill="#5a3a00" font-weight="bold">River</text>
-        <text x="110" y="180" text-anchor="middle" font-size="7.5" fill="#333" font-weight="bold">AUSTRÁLIA</text>
-        <circle cx="148" cy="125" r="2.5" fill="#6B1A2B"/>
-        <circle cx="165" cy="148" r="2.5" fill="#2d6a4f"/>
-        <circle cx="38" cy="130" r="2.5" fill="#C9A84C"/>
+      <svg viewBox="0 0 215 190" xmlns="http://www.w3.org/2000/svg" style="border-radius:5px;box-shadow:0 3px 10px rgba(0,0,0,0.2)">
+        <defs>
+          <linearGradient id="og-au" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c5e8f8"/><stop offset="100%" stop-color="#76b4d6"/></linearGradient>
+          <linearGradient id="lg-au" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d4a843"/><stop offset="100%" stop-color="#b8881e"/></linearGradient>
+          <filter id="sh-au"><feDropShadow dx="1.5" dy="2" stdDeviation="2.5" flood-color="rgba(80,50,0,0.35)"/></filter>
+        </defs>
+        <!-- Ocean bg -->
+        <rect width="215" height="190" fill="url(#og-au)" rx="5"/>
+        <!-- Indian Ocean label -->
+        <text x="12" y="155" font-size="5.5" fill="rgba(255,255,255,0.5)" font-family="Arial,sans-serif" font-style="italic">Oceano Índico</text>
+        <!-- Pacific Ocean label -->
+        <text x="178" y="80" font-size="5.5" fill="rgba(255,255,255,0.5)" font-family="Arial,sans-serif" font-style="italic" transform="rotate(90,178,80)">Pacífico</text>
+        <!-- Australia mainland path (simplified accurate shape) -->
+        <path d="M32,75 L28,60 L32,45 L42,32 L58,22 L78,18 L100,16 L122,18 L140,24 L155,34 L164,46 L168,58 L166,72 L158,82 L150,90 L152,102 L162,112 L170,125 L168,140 L158,155 L144,164 L128,168 L112,165 L98,158 L86,148 L78,136 L72,122 L62,112 L50,106 L38,100 L30,90 Z" fill="url(#lg-au)" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" filter="url(#sh-au)"/>
+        <!-- Cape York Peninsula (QLD north stub) -->
+        <path d="M152,34 L162,24 L168,32 L164,46 L155,34 Z" fill="url(#lg-au)" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
+        <!-- Tasmania (island, SE) -->
+        <path d="M125,172 L135,170 L140,178 L135,186 L125,186 L120,180 Z" fill="url(#lg-au)" stroke="rgba(255,255,255,0.7)" stroke-width="1"/>
+        <!-- State border lines (faint dashed) -->
+        <line x1="100" y1="16" x2="100" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" stroke-dasharray="3,3"/>
+        <line x1="40" y1="90" x2="165" y2="90" stroke="rgba(255,255,255,0.3)" stroke-width="0.8" stroke-dasharray="3,3"/>
+        <!-- Barossa Valley (SA — center-right) -->
+        <ellipse cx="108" cy="130" rx="22" ry="14" fill="rgba(107,26,43,0.28)" stroke="#6B1A2B" stroke-width="1.5"/>
+        <rect x="86" y="123" width="44" height="12" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="108" y="132" text-anchor="middle" font-size="6.5" fill="#4a1220" font-weight="bold" font-family="Arial,sans-serif">Barossa Valley</text>
+        <!-- Yarra Valley (VIC — far SE) -->
+        <ellipse cx="148" cy="150" rx="18" ry="11" fill="rgba(45,106,79,0.28)" stroke="#2d6a4f" stroke-width="1.5"/>
+        <rect x="127" y="143" width="42" height="12" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="148" y="152" text-anchor="middle" font-size="6.5" fill="#1a4a2a" font-weight="bold" font-family="Arial,sans-serif">Yarra Valley</text>
+        <!-- Margaret River (WA — far SW) -->
+        <ellipse cx="44" cy="138" rx="18" ry="12" fill="rgba(201,168,76,0.28)" stroke="#C9A84C" stroke-width="1.5"/>
+        <rect x="24" y="131" width="40" height="12" rx="3" fill="rgba(255,255,255,0.94)"/>
+        <text x="44" y="140" text-anchor="middle" font-size="6" fill="#5a3a00" font-weight="bold" font-family="Arial,sans-serif">Margaret River</text>
+        <!-- Dots -->
+        <circle cx="108" cy="130" r="3" fill="#6B1A2B" stroke="#fff" stroke-width="1"/>
+        <circle cx="148" cy="150" r="3" fill="#2d6a4f" stroke="#fff" stroke-width="1"/>
+        <circle cx="44" cy="138" r="3" fill="#C9A84C" stroke="#fff" stroke-width="1"/>
+        <!-- Country label -->
+        <rect x="60" y="26" width="72" height="14" rx="3" fill="rgba(80,50,0,0.55)"/>
+        <text x="96" y="36" text-anchor="middle" font-size="7" fill="#fff" font-weight="bold" font-family="Arial,sans-serif" letter-spacing="0.5">AUSTRÁLIA</text>
+        <!-- Compass -->
+        <g transform="translate(196,18)"><circle r="8.5" fill="rgba(255,255,255,0.9)" stroke="rgba(80,50,0,0.2)" stroke-width="0.5"/><polygon points="0,-5.5 -1.8,-1.5 1.8,-1.5" fill="#b8881e" opacity="0.85"/><text x="0" y="5" text-anchor="middle" font-size="7" fill="#b8881e" font-weight="bold" font-family="Arial,sans-serif">N</text></g>
       </svg>
-      <div style="font-size:8.5px;color:var(--cc);text-align:center;margin-top:4px;line-height:1.5">
-        <span style="display:inline-block;width:7px;height:7px;background:rgba(107,26,43,0.5);margin-right:2px;vertical-align:middle"></span>Barossa Valley<br>
-        <span style="display:inline-block;width:7px;height:7px;background:rgba(45,106,79,0.4);margin-right:2px;vertical-align:middle"></span>Yarra Valley<br>
-        <span style="display:inline-block;width:7px;height:7px;background:rgba(201,168,76,0.5);margin-right:2px;vertical-align:middle"></span>Margaret River
-      </div>
+      <div style="font-size:8.5px;color:var(--cc);margin-top:5px;line-height:1.7">
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(107,26,43,0.5);border:1px solid #6B1A2B;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Barossa Valley<br>
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(45,106,79,0.45);border:1px solid #2d6a4f;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Yarra Valley<br>
+        <span style="display:inline-block;width:9px;height:9px;background:rgba(201,168,76,0.55);border:1px solid #C9A84C;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Margaret River</div>
     </div>
     <div class="pais-info">
       <div class="pais-flag">🇦🇺</div>
@@ -454,19 +544,30 @@
 
   <!-- NZ -->
   <div style="display:flex;gap:16px;margin-bottom:18px;align-items:flex-start">
-    <svg width="90" height="110" viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-      <rect width="90" height="110" fill="#f0ebe0" rx="3"/>
+    <svg width="90" height="110" viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.18)">
+      <defs>
+        <linearGradient id="og-nz" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b8dff5"/><stop offset="100%" stop-color="#6aafd4"/></linearGradient>
+        <linearGradient id="lg-nz" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4e7cb8"/><stop offset="100%" stop-color="#2d5a8a"/></linearGradient>
+        <filter id="sh-nz"><feDropShadow dx="1" dy="1.5" stdDeviation="1.8" flood-color="rgba(0,30,80,0.3)"/></filter>
+      </defs>
+      <rect width="90" height="110" fill="url(#og-nz)" rx="4"/>
       <!-- North Island -->
-      <path d="M55,18 L65,25 L72,38 L70,52 L62,62 L52,68 L45,65 L40,55 L42,42 L48,30 Z" fill="#00247d" stroke="#fff" stroke-width="1" opacity="0.65"/>
-      <!-- South Island -->
-      <path d="M35,72 L50,70 L62,76 L68,88 L65,100 L55,105 L42,103 L30,96 L25,84 L28,74 Z" fill="#00247d" stroke="#fff" stroke-width="1" opacity="0.65"/>
-      <!-- Marlborough -->
-      <ellipse cx="58" cy="75" rx="10" ry="7" fill="rgba(107,26,43,0.45)" stroke="#6B1A2B" stroke-width="1"/>
-      <text x="58" y="73" text-anchor="middle" font-size="5" fill="#4a1220" font-weight="bold">Marlborough</text>
-      <!-- Central Otago -->
-      <ellipse cx="45" cy="95" rx="10" ry="7" fill="rgba(45,106,79,0.4)" stroke="#2d6a4f" stroke-width="1"/>
-      <text x="45" y="93" text-anchor="middle" font-size="4.5" fill="#1a4a2a" font-weight="bold">C. Otago</text>
-      <text x="45" y="106" text-anchor="middle" font-size="6" fill="#333" font-weight="bold">NZ</text>
+      <path d="M52,10 L62,16 L70,28 L72,42 L66,54 L58,64 L48,68 L40,62 L36,50 L38,36 L44,22 Z" fill="url(#lg-nz)" stroke="rgba(255,255,255,0.7)" stroke-width="1" filter="url(#sh-nz)"/>
+      <!-- South Island (wider, longer) -->
+      <path d="M28,72 L48,68 L66,72 L76,84 L74,98 L62,107 L46,108 L32,102 L22,90 L22,80 Z" fill="url(#lg-nz)" stroke="rgba(255,255,255,0.7)" stroke-width="1" filter="url(#sh-nz)"/>
+      <!-- Marlborough label -->
+      <ellipse cx="62" cy="74" rx="12" ry="7" fill="rgba(107,26,43,0.25)" stroke="#6B1A2B" stroke-width="1"/>
+      <rect x="46" y="69" width="32" height="10" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+      <text x="62" y="77" text-anchor="middle" font-size="5" fill="#4a1220" font-weight="bold" font-family="Arial,sans-serif">Marlborough</text>
+      <!-- Central Otago label -->
+      <ellipse cx="44" cy="96" rx="12" ry="7" fill="rgba(45,106,79,0.25)" stroke="#2d6a4f" stroke-width="1"/>
+      <rect x="28" y="91" width="32" height="10" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+      <text x="44" y="99" text-anchor="middle" font-size="5" fill="#1a4a2a" font-weight="bold" font-family="Arial,sans-serif">C. Otago</text>
+      <circle cx="62" cy="74" r="2.5" fill="#6B1A2B" stroke="#fff" stroke-width="0.8"/>
+      <circle cx="44" cy="96" r="2.5" fill="#2d6a4f" stroke="#fff" stroke-width="0.8"/>
+      <!-- Country label -->
+      <rect x="8" y="8" width="20" height="11" rx="2.5" fill="rgba(0,40,100,0.55)"/>
+      <text x="18" y="16.5" text-anchor="middle" font-size="6" fill="#fff" font-weight="bold" font-family="Arial,sans-serif">NZ</text>
     </svg>
     <div style="flex:1">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:22px">🇳🇿</span><h3 style="font-family:'Playfair Display',serif;font-size:17px;color:var(--bd)">Nova Zelândia — Pureza e Precisão</h3></div>
@@ -477,16 +578,30 @@
 
   <!-- África do Sul -->
   <div style="display:flex;gap:16px;margin-bottom:18px;align-items:flex-start">
-    <svg width="90" height="110" viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-      <rect width="90" height="110" fill="#f0ebe0" rx="3"/>
-      <path d="M20,15 L50,10 L72,20 L82,38 L80,58 L72,75 L60,88 L48,96 L38,92 L28,82 L18,68 L12,50 L12,32 Z" fill="#007a4d" stroke="#fff" stroke-width="1" opacity="0.65"/>
-      <!-- Stellenbosch -->
-      <ellipse cx="28" cy="80" rx="13" ry="9" fill="rgba(107,26,43,0.45)" stroke="#6B1A2B" stroke-width="1"/>
-      <text x="28" y="78" text-anchor="middle" font-size="5" fill="#4a1220" font-weight="bold">Stellenbosch</text>
-      <!-- Swartland -->
-      <ellipse cx="22" cy="62" rx="11" ry="8" fill="rgba(201,168,76,0.4)" stroke="#C9A84C" stroke-width="1"/>
-      <text x="22" y="60" text-anchor="middle" font-size="5" fill="#5a3a00" font-weight="bold">Swartland</text>
-      <text x="45" y="106" text-anchor="middle" font-size="6" fill="#333" font-weight="bold">ÁFRICA DO SUL</text>
+    <svg width="90" height="110" viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.18)">
+      <defs>
+        <linearGradient id="og-za" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b8dff5"/><stop offset="100%" stop-color="#6aafd4"/></linearGradient>
+        <linearGradient id="lg-za" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2e8b57"/><stop offset="100%" stop-color="#1a5c38"/></linearGradient>
+        <filter id="sh-za"><feDropShadow dx="1" dy="1.5" stdDeviation="1.8" flood-color="rgba(0,60,30,0.3)"/></filter>
+      </defs>
+      <rect width="90" height="110" fill="url(#og-za)" rx="4"/>
+      <!-- South Africa outline (roughly trapezoidal with southern cape) -->
+      <path d="M18,12 L52,8 L75,18 L84,36 L84,56 L76,74 L62,88 L48,97 L35,93 L22,80 L12,62 L8,44 L10,26 Z" fill="url(#lg-za)" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" filter="url(#sh-za)"/>
+      <!-- Cape of Good Hope stub -->
+      <path d="M35,93 L40,102 L45,106 L48,97 Z" fill="url(#lg-za)" stroke="rgba(255,255,255,0.6)" stroke-width="0.8"/>
+      <!-- Stellenbosch label -->
+      <ellipse cx="30" cy="82" rx="15" ry="9" fill="rgba(107,26,43,0.25)" stroke="#6B1A2B" stroke-width="1"/>
+      <rect x="14" y="77" width="32" height="10" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+      <text x="30" y="85" text-anchor="middle" font-size="5" fill="#4a1220" font-weight="bold" font-family="Arial,sans-serif">Stellenbosch</text>
+      <!-- Swartland label -->
+      <ellipse cx="22" cy="62" rx="14" ry="8" fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="1"/>
+      <rect x="8" y="57" width="28" height="10" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+      <text x="22" y="65" text-anchor="middle" font-size="5" fill="#5a3a00" font-weight="bold" font-family="Arial,sans-serif">Swartland</text>
+      <circle cx="30" cy="82" r="2.5" fill="#6B1A2B" stroke="#fff" stroke-width="0.8"/>
+      <circle cx="22" cy="62" r="2.5" fill="#C9A84C" stroke="#fff" stroke-width="0.8"/>
+      <!-- Country label -->
+      <rect x="36" y="10" width="38" height="11" rx="2.5" fill="rgba(0,60,30,0.55)"/>
+      <text x="55" y="18.5" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="bold" font-family="Arial,sans-serif">ÁFRICA DO SUL</text>
     </svg>
     <div style="flex:1">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:22px">🇿🇦</span><h3 style="font-family:'Playfair Display',serif;font-size:17px;color:var(--bd)">África do Sul — O Cabo das Descobertas</h3></div>
@@ -497,13 +612,25 @@
 
   <!-- Uruguai -->
   <div style="display:flex;gap:16px;align-items:flex-start">
-    <svg width="90" height="90" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-      <rect width="90" height="90" fill="#f0ebe0" rx="3"/>
-      <path d="M15,20 L45,15 L70,22 L78,40 L75,58 L62,70 L45,75 L28,70 L15,56 L12,38 Z" fill="#5599d1" stroke="#fff" stroke-width="1" opacity="0.7"/>
-      <!-- Canelones -->
-      <ellipse cx="40" cy="52" rx="16" ry="10" fill="rgba(107,26,43,0.4)" stroke="#6B1A2B" stroke-width="1"/>
-      <text x="40" y="50" text-anchor="middle" font-size="5.5" fill="#4a1220" font-weight="bold">Canelones</text>
-      <text x="45" y="84" text-anchor="middle" font-size="6" fill="#333" font-weight="bold">URUGUAI</text>
+    <svg width="90" height="90" viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.18)">
+      <defs>
+        <linearGradient id="og-uy" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b8dff5"/><stop offset="100%" stop-color="#6aafd4"/></linearGradient>
+        <linearGradient id="lg-uy" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5599d1"/><stop offset="100%" stop-color="#2d6aa8"/></linearGradient>
+        <filter id="sh-uy"><feDropShadow dx="1" dy="1.5" stdDeviation="1.8" flood-color="rgba(0,40,100,0.28)"/></filter>
+      </defs>
+      <rect width="90" height="90" fill="url(#og-uy)" rx="4"/>
+      <!-- Uruguay outline (sub-rectangular, N border with Brazil, Atlantic E, Río de la Plata S) -->
+      <path d="M12,16 L48,12 L72,18 L80,36 L78,56 L68,70 L50,78 L30,76 L14,64 L8,44 L10,28 Z" fill="url(#lg-uy)" stroke="rgba(255,255,255,0.75)" stroke-width="1.2" filter="url(#sh-uy)"/>
+      <!-- Canelones (south, near Montevideo) -->
+      <ellipse cx="38" cy="60" rx="16" ry="9" fill="rgba(107,26,43,0.25)" stroke="#6B1A2B" stroke-width="1"/>
+      <rect x="20" y="55" width="36" height="10" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+      <text x="38" y="63" text-anchor="middle" font-size="5.5" fill="#4a1220" font-weight="bold" font-family="Arial,sans-serif">Canelones</text>
+      <!-- Colônia (SW) -->
+      <ellipse cx="18" cy="60" rx="8" ry="6" fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="0.8"/>
+      <circle cx="38" cy="60" r="2.5" fill="#6B1A2B" stroke="#fff" stroke-width="0.8"/>
+      <!-- Country label -->
+      <rect x="32" y="10" width="34" height="11" rx="2.5" fill="rgba(0,40,100,0.55)"/>
+      <text x="49" y="18.5" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="bold" font-family="Arial,sans-serif">URUGUAI</text>
     </svg>
     <div style="flex:1">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:22px">🇺🇾</span><h3 style="font-family:'Playfair Display',serif;font-size:17px;color:var(--bd)">Uruguai — O Segredo da América do Sul</h3></div>
