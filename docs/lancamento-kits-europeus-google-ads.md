@@ -6,7 +6,7 @@
 
 | Kit | Preço | Posicionamento / composição | Opção 1 (recomendada) | Opção 2 | Opção 3 |
 |---|---|---|---|---|---|
-| Kit 1 | R$ 1.077 | Iniciação em grandes denominações: espumante + brancos + tintos clássicos (FR/IT/PT/ES) | **Grand Tour Europeu — 6 Terroirs Clássicos** | Primeiras Denominações do Velho Mundo | Rota dos Terroirs — Descoberta |
+| Kit 1 | R$ 1.309 | Iniciação em grandes denominações: espumante + brancos + tintos clássicos (FR/IT/PT/ES) | **Grand Tour Europeu — 6 Terroirs Clássicos** | Primeiras Denominações do Velho Mundo | Rota dos Terroirs — Descoberta |
 | Kit 2 | R$ 2.120 | Garrafas premiadas/pontuadas, Reservas e DOCG/AOC de destaque | **Medalhas da Europa — Seleção Premiada** | Crus & Reservas — Europa Laureada | Sélection du Sommelier — Rótulos Pontuados |
 | Kit 3 | R$ 3.107 | Super premium/colecionador: Crémant/Champagne, Bordeaux Château, ícones de guarda | **Cave Privée — Coleção Ícones da Europa** | Héritage — Grandes Châteaux & Domaines | Reserva do Colecionador — Velho Mundo |
 
@@ -84,7 +84,7 @@
 
 **Metas de rentabilidade**
 - Margem média ≈ 40% → ROAS de equilíbrio = 1 ÷ 0,40 = **250%**. Meta de lançamento: **ROAS ≥ 400%**; PMax tROAS inicial 350% após 30 conversões.
-- CPA máximo (lucro zero): Kit 1 ≈ R$ 430 · Kit 2 ≈ R$ 850 · Kit 3 ≈ R$ 1.240.
+- CPA máximo (lucro zero): Kit 1 ≈ R$ 520 · Kit 2 ≈ R$ 850 · Kit 3 ≈ R$ 1.240.
 
 **Divisão de orçamento por fase (exemplo com R$ 150/dia — ajustar proporcionalmente)**
 
@@ -105,7 +105,7 @@
 | Marca | "vino bianco store", "vinobianco" |
 
 - Negativas: barato, promoção atacado, receita, o que é, emprego, vaga, sem álcool, suave, garrafão, curso, harmonização (informacional), download.
-- RSA: 15 títulos (inclui "Kits a partir de R$ 1.077", "Até 6x sem juros", "Lote Limitado Kit Europa"), 4 descrições, sitelinks para cada kit, frase de destaque, extensão de preço (3 kits), extensão de promoção durante carrinho.
+- RSA: 15 títulos (inclui "Kits a partir de R$ 1.309", "Até 6x sem juros", "Lote Limitado Kit Europa"), 4 descrições, sitelinks para cada kit, frase de destaque, extensão de preço (3 kits), extensão de promoção durante carrinho.
 - Lance: Maximizar conversões na captação → tCPA após 30 conv. → Maximizar valor de conversão/tROAS no carrinho.
 
 **Performance Max**
@@ -170,7 +170,7 @@
 | `link` | URL do kit na LP/loja (mesmo domínio verificado) |
 | `image_link` | Fundo branco/neutro, todas as garrafas visíveis, sem texto, selo ou marca d'água, ≥ 800×800 |
 | `additional_image_link` | Garrafas individuais, caixa aberta |
-| `price` | 1077.00 BRL (idem demais) |
+| `price` | 1309.00 BRL (idem demais) |
 | `installment` | 6 parcelas (se exibido na página) |
 | `availability` | in_stock / out_of_stock |
 | `condition` | new |
