@@ -1,5 +1,7 @@
-# Lançamento Kits Europeus — Vino Bianco Store × Nova Fazendinha
+# Lançamento Kits Europeus — Vino Bianco Store
 
+
+> Fornecedor (Nova Fazendinha) é informação interna — não aparece em banner, LP, anúncio ou mensagem ao cliente.
 ## A. Nomenclatura dos kits
 
 | Kit | Preço | Posicionamento / composição | Opção 1 (recomendada) | Opção 2 | Opção 3 |
@@ -18,7 +20,7 @@
 
 | Fase | Datas | Ação | Meta |
 |---|---|---|---|
-| Pré-pré-lançamento | D-21 a D-15 | Aquecimento orgânico (Reels/Stories: bastidores Nova Fazendinha, abertura de caixas), enquete "qual país você prefere?" | Público de remarketing (vídeo/engajamento) |
+| Pré-pré-lançamento | D-21 a D-15 | Aquecimento orgânico (Reels/Stories: bastidores da curadoria, abertura de caixas), enquete "qual país você prefere?" | Público de remarketing (vídeo/engajamento) |
 | Captação (lista VIP) | D-14 a D-1 | LP de captura + isca: "Guia dos 12 Rótulos Europeus que Todo Apreciador Precisa Provar" + acesso a preço de lançamento | Leads 18+ com WhatsApp opt-in |
 | CPL 1 — Oportunidade | D-6 | Vídeo/live: origem dos vinhos, curadoria boutique, por que vinhos europeus de pequenos produtores | Consumo ≥ 40% da lista |
 | CPL 2 — Transformação | D-4 | Degustação guiada + harmonização (mostrar 2 garrafas de cada kit) | Desejo / prova |
@@ -46,11 +48,11 @@
 |---|---|
 | 0. Age gate | "Você tem 18 anos ou mais?" (obrigatório — CONAR Anexo P) |
 | 1. Hero / banner | Headline + subheadline + CTA + foto dos 3 kits lado a lado |
-| 2. Barra de confiança | Importação Nova Fazendinha · Entrega segura · 6x sem juros · Pix · Site seguro |
+| 2. Barra de confiança | Importação direta da Europa · Entrega segura · 6x sem juros · Pix · Site seguro |
 | 3. Problema/oportunidade | "Vinhos europeus de pequenos produtores raramente chegam ao Brasil — e quando chegam, esgotam." |
 | 4. Os 3 kits (cards) | Foto do kit, nome, composição garrafa a garrafa (país, uva, região, safra), notas de degustação, preço "de/por" apenas se o "de" for real, parcelamento, CTA individual |
 | 5. Comparativo | Tabela: nº garrafas, perfil, ocasião ideal, bônus |
-| 6. Curadoria | Quem seleciona, critérios, parceria Nova Fazendinha |
+| 6. Curadoria | Quem seleciona, critérios, origem de cada produtor |
 | 7. Prova social | Avaliações reais, fotos de clientes, UGC |
 | 8. Bônus + prazo | Contador ligado ao fechamento real |
 | 9. FAQ | Prazo/frete, temperatura no transporte, troca, NF, presente corporativo |
@@ -64,7 +66,7 @@
 **Banner (desktop 1920×800 / mobile 1080×1350)**
 - Visual: fundo escuro bordô/preto, 3 caixas de madeira abertas com garrafas em luz lateral quente, mapa sutil da Europa em linhas douradas.
 - Headline: **"A Europa inteira na sua taça — em 3 seleções de vinhos boutique."**
-- Subheadline: "Kits exclusivos Vino Bianco × Nova Fazendinha: rótulos de pequenos produtores da França, Itália, Portugal e Espanha. Lote limitado."
+- Subheadline: "Kits exclusivos Vino Bianco Store: rótulos de pequenos produtores da França, Itália, Portugal e Espanha. Lote limitado."
 - CTA captação: **"Quero entrar na Lista VIP"** · CTA venda: **"Escolher meu kit"**
 - Selo: "Até 6x sem juros · Frete grátis nas primeiras 48h"
 
@@ -103,7 +105,7 @@
 | Marca | "vino bianco store", "vinobianco" |
 
 - Negativas: barato, promoção atacado, receita, o que é, emprego, vaga, sem álcool, suave, garrafão, curso, harmonização (informacional), download.
-- RSA: 15 títulos (inclui "Kits a partir de R$ 1.077", "Até 6x sem juros", "Lote Limitado Nova Fazendinha"), 4 descrições, sitelinks para cada kit, frase de destaque, extensão de preço (3 kits), extensão de promoção durante carrinho.
+- RSA: 15 títulos (inclui "Kits a partir de R$ 1.077", "Até 6x sem juros", "Lote Limitado Kit Europa"), 4 descrições, sitelinks para cada kit, frase de destaque, extensão de preço (3 kits), extensão de promoção durante carrinho.
 - Lance: Maximizar conversões na captação → tCPA após 30 conv. → Maximizar valor de conversão/tROAS no carrinho.
 
 **Performance Max**
