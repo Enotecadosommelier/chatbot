@@ -7,7 +7,7 @@
 | Kit | Preço | Posicionamento / composição | Opção 1 (recomendada) | Opção 2 | Opção 3 |
 |---|---|---|---|---|---|
 | Kit 1 | R$ 1.077 | Iniciação em grandes denominações: espumante + brancos + tintos clássicos (FR/IT/PT/ES) | **Grand Tour Europeu — 6 Terroirs Clássicos** | Primeiras Denominações do Velho Mundo | Rota dos Terroirs — Descoberta |
-| Kit 2 | R$ 2.073 | Garrafas premiadas/pontuadas, Reservas e DOCG/AOC de destaque | **Medalhas da Europa — Seleção Premiada** | Crus & Reservas — Europa Laureada | Sélection du Sommelier — Rótulos Pontuados |
+| Kit 2 | R$ 2.120 | Garrafas premiadas/pontuadas, Reservas e DOCG/AOC de destaque | **Medalhas da Europa — Seleção Premiada** | Crus & Reservas — Europa Laureada | Sélection du Sommelier — Rótulos Pontuados |
 | Kit 3 | R$ 3.107 | Super premium/colecionador: Crémant/Champagne, Bordeaux Château, ícones de guarda | **Cave Privée — Coleção Ícones da Europa** | Héritage — Grandes Châteaux & Domaines | Reserva do Colecionador — Velho Mundo |
 
 - Não usar "Grand Cru", "Premiado" ou "Pontuado" sem que cada garrafa comprove (risco de reprovação por deturpação no Merchant Center e CDC art. 37).
@@ -84,7 +84,7 @@
 
 **Metas de rentabilidade**
 - Margem média ≈ 40% → ROAS de equilíbrio = 1 ÷ 0,40 = **250%**. Meta de lançamento: **ROAS ≥ 400%**; PMax tROAS inicial 350% após 30 conversões.
-- CPA máximo (lucro zero): Kit 1 ≈ R$ 430 · Kit 2 ≈ R$ 830 · Kit 3 ≈ R$ 1.240.
+- CPA máximo (lucro zero): Kit 1 ≈ R$ 430 · Kit 2 ≈ R$ 850 · Kit 3 ≈ R$ 1.240.
 
 **Divisão de orçamento por fase (exemplo com R$ 150/dia — ajustar proporcionalmente)**
 
