@@ -1,0 +1,18 @@
+Kit;Vinho no kit (página do site);Preço no kit;ID Merchant;Título no Merchant;Preço Merchant;Alerta
+Kit 1;Château La Borie Suze-la-Rousse 2023;310;1797;Château La Borie Côtes du Rhone Villages 2019;232,00;Safra e preço diferentes
+Kit 1;La Source Gabriel Rosé 2025;172;1638;Côtes de Provence La Source Gabriel Rosé 2023;175,00;Safra e preço diferentes
+Kit 1;Il Poggione Toscana Rosso 2023;196;1138;Rosso di Toscana IL Poggione 2021;196,00;Safra diferente
+Kit 1;Château La Verrière 2022;185;1650;Château La Verrière Bordeaux Supérieur 2020;185,00;Safra diferente
+Kit 1;Viña Olabarri Crianza 2019;178;1623;Vinã Olabarri Crianza 2019 Rioja;185,00;Preço diferente
+Kit 1;Crémant Bailly Lapierre Brut Réserve;268;1604;Crémant de Bourgogne Bailly Lapierre Brut Réserve;268,00;OK
+Kit 2;Ca' del Baio Langhe Nebbiolo;215;1658;Langhe D.O.C Nebbiollo Bric del Baio Cá del Baio 2022;235,00;Preço diferente
+Kit 2;Chablis 1er Cru Montmains 2023;407;—;não está no Merchant;—;Ausente no feed
+Kit 2;Moulin d'Issan;285;—;não está no Merchant;—;Ausente no feed
+Kit 2;Viña Olabarri Reserva;265;—;não está no Merchant (só Gran Reserva 2015 id 1625);—;Ausente no feed
+Kit 2;Connétable Talbot 2022;680;—;não está no Merchant;—;Ausente no feed
+Kit 3;Château Croix des Rouzes 2022;650;9753471863502552139;Château Croix des Rouzes 2019 - Pomerol;627,01;Safra e preço diferentes; ESGOTADO; ID fora do feed
+Kit 3;Il Grigio Chianti Classico Riserva 2021;430;1743;Chianti Clássico Gran Selezione 2017 - San Felice Il Grigio;689,86;Produto diferente (Gran Selezione x Riserva)
+Kit 3;Le Volte dell'Ornellaia;462;1408;Le Volte dell’Ornellaia Toscana IGT Rosso 2021;465,00;Preço diferente
+Kit 3;Le Petit Smith Haut Lafitte 2021;760;—;não está no Merchant;—;Ausente no feed
+Kit 3;Pouilly-Fuissé Quintessence 2023;475;—;não está no Merchant;—;Ausente no feed
+Kit 3;Vive-la-Joie Brut 2020;330;—;não está no Merchant;—;Ausente no feed
