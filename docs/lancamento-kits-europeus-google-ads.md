@@ -1,7 +1,7 @@
 # Lançamento Kits Europeus — Vino Bianco Store
 
 
-> Fornecedor (Nova Fazendinha) é informação interna — não aparece em banner, LP, anúncio ou mensagem ao cliente.
+> Dados de fornecedores são informação interna — nunca aparecem em banner, LP, anúncio, mensagem ao cliente ou neste repositório. Marca pública: Vino Bianco Store.
 ## A. Nomenclatura dos kits
 
 | Kit | Preço | Posicionamento / composição | Opção 1 (recomendada) | Opção 2 | Opção 3 |
@@ -232,7 +232,7 @@
 | 4 | LP → Vowt | Botão do kit abre checkout Vowt com SKU e parâmetros UTM/gclid na URL | SKU, UTM, gclid |
 | 5 | Vowt | Pagamento (Pix/cartão), emissão da NF-e | pedido, valor, SKU, CPF, endereço |
 | 6 | Vowt → webhook | Pedido aprovado dispara processo "Pedido Kit" no Fluig | ID pedido, SKU, cliente, gclid |
-| 7 | Fluig | Workflow: reserva de estoque → solicitação à Nova Fazendinha (se cross-docking) → separação da caixa → conferência → etiqueta/transportadora → rastreio | status por etapa |
+| 7 | Fluig | Workflow: reserva de estoque → solicitação ao fornecedor (se cross-docking) → separação da caixa → conferência → etiqueta/transportadora → rastreio | status por etapa |
 | 8 | Fluig → automação | Cada mudança de status dispara e-mail/WhatsApp ao cliente | código de rastreio |
 | 9 | Vowt/automação → Google | `purchase` server-side (GA4 Measurement Protocol) + importação de conversões offline no Ads com `gclid` | transaction_id, valor, gclid |
 | 10 | Fluig | Baixa de estoque atualiza `availability` no feed (MC) e o contador de escassez da LP | saldo por kit |
