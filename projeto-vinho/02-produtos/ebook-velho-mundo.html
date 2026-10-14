@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ebook Premium — Vinhos do Velho Mundo · Vino Bianco Store</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700;900&display=swap');
+  :root{--b:#6B1A2B;--bd:#4a1220;--d:#C9A84C;--dl:#e8c96a;--ow:#F5F0E8;--ow2:#EDE6D6;--ci:#3a3a3a;--cc:#777;--azul-fr:#003399;--verde-it:#009246;--vermelho-es:#c60b1e;--verde-pt:#006600}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'Lato',sans-serif;background:#111;color:var(--ci)}
+  .page{width:210mm;min-height:297mm;margin:0 auto 16px;position:relative;overflow:hidden;page-break-after:always}
+
+  /* CAPA */
+  .capa{background:linear-gradient(150deg,#1a0a05 0%,#2d0d08 50%,#1a0a05 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 44px;min-height:297mm;position:relative}
+  .capa::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,rgba(201,168,76,.15) 0%,transparent 65%)}
+  .capa-borda{position:absolute;inset:18px;border:1px solid rgba(201,168,76,.4);pointer-events:none}
+  .capa-borda::before{content:'';position:absolute;inset:6px;border:1px solid rgba(201,168,76,.15)}
+  .capa-selo{background:var(--d);color:#1a0a05;font-size:10px;font-weight:900;letter-spacing:4px;text-transform:uppercase;padding:8px 30px;margin-bottom:44px;position:relative}
+  .capa-icon{font-size:90px;margin-bottom:24px;position:relative;filter:drop-shadow(0 0 30px rgba(201,168,76,.25))}
+  .capa h1{font-family:'Playfair Display',serif;font-size:52px;color:#fff;line-height:1.1;margin-bottom:14px;position:relative}
+  .capa h1 em{color:var(--d);font-style:normal}
+  .capa h1 small{display:block;font-size:22px;color:rgba(255,255,255,.55);margin-top:6px;font-weight:400}
+  .capa-sub{font-size:13px;color:rgba(255,255,255,.5);letter-spacing:3px;text-transform:uppercase;margin-bottom:50px;position:relative}
+  .capa-div{width:60px;height:1px;background:var(--d);margin:0 auto 44px;position:relative}
+  .capa-paises{position:relative;display:flex;gap:10px;flex-wrap:wrap;justify-content:center;max-width:380px;margin-bottom:50px}
+  .capa-pais{background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.25);padding:8px 16px;font-size:11px;color:rgba(255,255,255,.8);letter-spacing:1px}
+  .capa-autor{position:relative}
+  .capa-autor p{font-size:11px;color:rgba(255,255,255,.4);letter-spacing:2px;text-transform:uppercase}
+  .capa-autor strong{font-family:'Playfair Display',serif;font-size:19px;color:var(--d);display:block;margin-top:4px}
+
+  /* PÁGINAS */
+  .p{background:var(--ow);padding:48px 54px 70px;min-height:297mm;position:relative}
+  .pd{background:var(--bd);padding:48px 54px 70px;min-height:297mm;position:relative}
+
+  .hdr{display:flex;align-items:flex-end;gap:14px;margin-bottom:32px;padding-bottom:18px;border-bottom:2px solid var(--d)}
+  .hdr .n{font-family:'Playfair Display',serif;font-size:56px;line-height:1;color:var(--d);opacity:.22}
+  .hdr .t .lb{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--b);font-weight:700;margin-bottom:3px}
+  .hdr .t h2{font-family:'Playfair Display',serif;font-size:25px;color:var(--bd);line-height:1.2}
+  .hdr-c .t .lb{color:rgba(255,255,255,.45)}
+  .hdr-c .t h2{color:#fff}
+  .hdr-c{border-bottom-color:rgba(201,168,76,.35)}
+  .hdr-c .n{opacity:.35}
+
+  .rod{position:absolute;bottom:22px;left:54px;right:54px;display:flex;justify-content:space-between;font-size:8.5px;color:rgba(0,0,0,.2);letter-spacing:1px;text-transform:uppercase;border-top:1px solid rgba(0,0,0,.08);padding-top:9px}
+  .rod-c{color:rgba(255,255,255,.2);border-top-color:rgba(255,255,255,.1)}
+
+  /* SUMARIO */
+  .sum-item{display:flex;align-items:center;gap:0;padding:10px 0;border-bottom:1px solid rgba(0,0,0,.06)}
+  .sum-item .sum-n{font-family:'Playfair Display',serif;font-size:20px;color:var(--d);min-width:44px;opacity:.6}
+  .sum-item .sum-t h3{font-family:'Playfair Display',serif;font-size:14px;color:var(--bd);margin-bottom:2px}
+  .sum-item .sum-t p{font-size:10.5px;color:var(--cc)}
+  .sum-item .sum-pg{font-size:10px;color:var(--cc);min-width:28px;text-align:right}
+
+  /* PAIS HERO */
+  .ph-layout{display:flex;gap:16px;margin-bottom:18px;align-items:flex-start}
+  .ph-mapa{flex-shrink:0;width:148px}
+  .ph-layout .pais-hero{margin-bottom:0;flex:1}
+  .pais-hero{padding:24px;margin-bottom:18px;background:#fff;border-left:5px solid var(--d)}
+  .ph-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+  .ph-flag{font-size:34px}
+  .ph-info h2{font-family:'Playfair Display',serif;font-size:21px;color:var(--bd)}
+  .ph-info .ph-sub{font-size:10px;letter-spacing:1.5px;color:var(--cc);text-transform:uppercase}
+  .ph-stats{display:flex;gap:18px;flex-wrap:wrap}
+  .ph-stat .sv{font-family:'Playfair Display',serif;font-size:20px;color:var(--b);line-height:1}
+  .ph-stat .sl{font-size:9px;color:var(--cc);letter-spacing:1px;text-transform:uppercase;margin-top:1px}
+
+  /* REGIÕES */
+  .regioes{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:14px 0}
+  .regiao{background:#fff;padding:13px;border-top:3px solid var(--b)}
+  .regiao h4{font-size:11px;font-weight:700;color:var(--b);margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+  .regiao p{font-size:10.5px;color:var(--ci);line-height:1.5}
+
+  /* UVAS */
+  .uvas-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+  .uva-card{background:#fff;padding:13px;border-left:4px solid var(--d)}
+  .uva-card h4{font-family:'Playfair Display',serif;font-size:14px;color:var(--bd);margin-bottom:4px}
+  .uva-card p{font-size:11px;color:var(--ci);line-height:1.55}
+  .uva-card .harm{font-size:10px;color:var(--b);font-weight:700;margin-top:7px;padding-top:7px;border-top:1px solid var(--ow2)}
+
+  /* VINHOS */
+  .vinho-item{display:flex;gap:14px;padding:11px 0;border-bottom:1px solid rgba(0,0,0,.07);align-items:flex-start}
+  .vinho-item:last-child{border-bottom:none}
+  .vi-num{font-family:'Playfair Display',serif;font-size:24px;color:var(--d);opacity:.45;min-width:30px;line-height:1}
+  .vi-info h4{font-family:'Playfair Display',serif;font-size:14px;color:var(--bd);margin-bottom:3px}
+  .vi-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:4px}
+  .vtag{font-size:8.5px;background:var(--b);color:#fff;padding:2px 7px;letter-spacing:.8px;text-transform:uppercase}
+  .vtag.d{background:var(--d);color:var(--bd)}
+  .vi-info p{font-size:10.5px;color:var(--ci);line-height:1.5}
+
+  /* BOX */
+  .box{padding:15px 19px;margin:12px 0}
+  .box-b{background:var(--b);color:#fff}
+  .box-d{background:var(--d);color:var(--bd)}
+  .box-e{background:#1a0a30;color:#fff}
+  .box strong{font-size:9px;letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:5px;opacity:.7}
+  .box p{font-size:11.5px;line-height:1.65}
+
+  /* DENOMINAÇÕES */
+  .den-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+  .den-card{background:#fff;padding:13px;border-top:3px solid}
+  .den-fr{border-top-color:var(--azul-fr)}
+  .den-it{border-top-color:var(--verde-it)}
+  .den-es{border-top-color:var(--vermelho-es)}
+  .den-pt{border-top-color:var(--verde-pt)}
+  .den-card h4{font-size:12px;font-weight:700;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+  .den-card p{font-size:10.5px;color:var(--ci);line-height:1.5}
+
+  /* COMPARATIVO */
+  .comparativo{width:100%;border-collapse:collapse;font-size:11px;margin:12px 0}
+  .comparativo th{background:var(--b);color:#fff;padding:9px 12px;text-align:left;font-size:9px;letter-spacing:1.5px;text-transform:uppercase}
+  .comparativo td{padding:9px 12px;border-bottom:1px solid rgba(0,0,0,.07);background:#fff;color:var(--ci)}
+  .comparativo tr:nth-child(even) td{background:var(--ow2)}
+  .comparativo td:first-child{font-weight:700;color:var(--b);font-size:10px}
+
+  /* HARM */
+  .harm-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+  .harm-card{background:#fff;padding:14px;display:flex;gap:12px;align-items:flex-start}
+  .harm-icon{font-size:22px;flex-shrink:0}
+  .harm-card h4{font-size:11.5px;font-weight:700;color:var(--bd);margin-bottom:3px;text-transform:uppercase;letter-spacing:.5px}
+  .harm-card p{font-size:10.5px;color:var(--ci);line-height:1.5}
+
+  /* CTA */
+  .cta-page{background:linear-gradient(150deg,#1a0505,#3a0a0a);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:60px 54px;min-height:297mm;position:relative}
+  .cta-page::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at center,rgba(201,168,76,.12) 0%,transparent 70%)}
+  .cta-page h2{font-family:'Playfair Display',serif;font-size:34px;color:#fff;margin-bottom:14px;position:relative}
+  .cta-page h2 span{color:var(--d)}
+  .cta-page p{font-size:14px;color:rgba(255,255,255,.7);max-width:460px;line-height:1.7;margin-bottom:32px;position:relative}
+  .cta-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;max-width:500px;position:relative;margin-bottom:36px}
+  .cta-card{border:1px solid rgba(201,168,76,.3);padding:18px 14px;text-align:center}
+  .cta-card.hl{border-color:var(--d);background:rgba(201,168,76,.1)}
+  .cta-preco{font-family:'Playfair Display',serif;font-size:24px;color:var(--d);margin-bottom:3px}
+  .cta-nome{font-size:9px;color:rgba(255,255,255,.5);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+  .cta-card p{font-size:9.5px;color:rgba(255,255,255,.45);line-height:1.5}
+
+  @media print{body{background:#fff}.page{margin:0;width:100%}@page{size:A4;margin:0}}
+</style>
+</head>
+<body>
+
+<!-- PG 1: CAPA -->
+<div class="page">
+<div class="capa">
+  <div class="capa-borda"></div>
+  <div class="capa-selo">Ebook Premium · Edição Exclusiva 2025</div>
+  <div class="capa-icon">🏰</div>
+  <h1>Vinhos do<br><em>Velho Mundo</em><small>A Tradição que Moldou a História</small></h1>
+  <p class="capa-sub">França · Itália · Espanha · Portugal · Alemanha · Grécia · Áustria</p>
+  <div class="capa-div"></div>
+  <div class="capa-paises">
+    <span class="capa-pais">🇫🇷 França</span>
+    <span class="capa-pais">🇮🇹 Itália</span>
+    <span class="capa-pais">🇪🇸 Espanha</span>
+    <span class="capa-pais">🇵🇹 Portugal</span>
+    <span class="capa-pais">🇩🇪 Alemanha</span>
+    <span class="capa-pais">🇬🇷 Grécia</span>
+    <span class="capa-pais">🇦🇹 Áustria</span>
+  </div>
+  <div class="capa-autor">
+    <p>Curadoria exclusiva por</p>
+    <strong>Jorge Berto · Vino Bianco Store</strong>
+  </div>
+</div>
+</div>
+
+<!-- PG 2: APRESENTAÇÃO -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">02</div><div class="t"><div class="lb">Apresentação</div><h2>O Berço da Civilização do Vinho</h2></div></div>
+  <p style="font-size:13px;line-height:1.8;margin-bottom:18px">O vinho nasceu no Velho Mundo. Há mais de 8.000 anos, nas encostas do Cáucaso (atual Geórgia), os primeiros agricultores cultivavam uvas silvestres. Os fenícios levaram a vinha para a Grécia. Os gregos ensinaram os romanos. Os romanos plantaram em toda a Europa. Os monges medievais aperfeiçoaram a viticultura. E a França codificou tudo em denominações, regras e hierarquias que até hoje definem os padrões mundiais.</p>
+  <p style="font-size:13px;line-height:1.8;margin-bottom:18px">O Velho Mundo representa a tradição. Aqui, o conceito de <strong>terroir</strong> — a influência única do solo, clima, relevo e cultura local no vinho — foi inventado e levado ao extremo. Um Borgonha branco não é simplesmente Chardonnay: é Chardonnay cultivada naquele hectare específico de Meursault, em solo calcáreo, com aquele microclima, colhida por aquelas mãos. É impossível replicar.</p>
+  <p style="font-size:13px;line-height:1.8;margin-bottom:20px">Por séculos, vinhos do Velho Mundo foram o padrão supremo de qualidade. Mesmo hoje, após a revolução do Novo Mundo, os ícones do Velho Mundo permanecem como referência: <strong>Château Pétrus, Romanée-Conti, Barolo, Brunello, Rioja Gran Reserva, Porto Vintage</strong> — nomes que encantam, intimidam e inspiram.</p>
+  <div class="box box-b"><strong>O que você vai aprender</strong><p>As 7 nações do Velho Mundo, suas denominações históricas, uvas autóctones únicas, estilos inconfundíveis e como ler — e entender — os rótulos europeus que raramente declaram a uva mas sempre contam uma história extraordinária.</p></div>
+  <div class="regioes" style="margin-top:18px">
+    <div class="regiao"><h4>🏛 Tradição Milenar</h4><p>Técnicas de vinificação aperfeiçoadas por séculos de monastérios, nobres e famílias vinícolas.</p></div>
+    <div class="regiao"><h4>🌍 Terroir Único</h4><p>Cada parcela tem identidade própria. Bordeaux e Borgonha, a 4h de distância, produzem vinhos completamente diferentes.</p></div>
+    <div class="regiao"><h4>📜 Denominações</h4><p>AOC, DOC, DO, DOQ — sistemas de controle de qualidade que garantem autenticidade e padrão.</p></div>
+  </div>
+  <div style="margin-top:18px;background:#fff;padding:18px;border-left:4px solid var(--d)">
+    <p style="font-size:12px;font-family:'Playfair Display',serif;font-style:italic;color:var(--bd);line-height:1.7">"O Velho Mundo não é melhor que o Novo Mundo. É diferente. É história, é tradição, é terroir acumulado por milênios. Entender o Velho Mundo é entender a alma do vinho."</p>
+    <p style="font-size:10px;color:var(--cc);margin-top:8px;letter-spacing:1px;text-transform:uppercase">— Jorge Berto, Vino Bianco Store</p>
+  </div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 3: SUMÁRIO -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">03</div><div class="t"><div class="lb">Sumário</div><h2>O Que Você Vai Encontrar</h2></div></div>
+  <div>
+    <div class="sum-item"><div class="sum-n">04</div><div class="sum-t"><h3>França — A Mãe de Todos os Vinhos</h3><p>Bordeaux, Borgonha, Champagne, Rhône, Loire, Alsácia, Provença</p></div><div class="sum-pg">pg 4</div></div>
+    <div class="sum-item"><div class="sum-n">07</div><div class="sum-t"><h3>Itália — O País das Mil Castas</h3><p>Piemonte, Toscana, Vêneto, Sicília · Barolo, Chianti, Amarone</p></div><div class="sum-pg">pg 7</div></div>
+    <div class="sum-item"><div class="sum-n">10</div><div class="sum-t"><h3>Espanha — Tradição e Inovação</h3><p>Rioja, Ribera del Duero, Priorat, Rías Baixas, Cava</p></div><div class="sum-pg">pg 10</div></div>
+    <div class="sum-item"><div class="sum-n">12</div><div class="sum-t"><h3>Portugal — O Terroir Atlântico</h3><p>Douro, Alentejo, Vinho Verde, Madeira, Porto</p></div><div class="sum-pg">pg 12</div></div>
+    <div class="sum-item"><div class="sum-n">14</div><div class="sum-t"><h3>Alemanha — O Paraíso do Riesling</h3><p>Mosela, Rheingau, Pfalz · Riesling nos seus infinitos estilos</p></div><div class="sum-pg">pg 14</div></div>
+    <div class="sum-item"><div class="sum-n">15</div><div class="sum-t"><h3>Grécia e Áustria — Joias Escondidas</h3><p>Assírtiko, Grüner Veltliner e as uvas que o mundo redescobre</p></div><div class="sum-pg">pg 15</div></div>
+    <div class="sum-item"><div class="sum-n">16</div><div class="sum-t"><h3>Como Ler Rótulos Europeus</h3><p>Denominações, classificações e o que cada termo significa</p></div><div class="sum-pg">pg 16</div></div>
+    <div class="sum-item"><div class="sum-n">17</div><div class="sum-t"><h3>Harmonizações Clássicas do Velho Mundo</h3><p>Combinações tradicionais que nunca falham</p></div><div class="sum-pg">pg 17</div></div>
+    <div class="sum-item"><div class="sum-n">18</div><div class="sum-t"><h3>Guia de Compra — Velho Mundo no Brasil</h3><p>Como encontrar e comprar por orçamento</p></div><div class="sum-pg">pg 18</div></div>
+    <div class="sum-item"><div class="sum-n">19</div><div class="sum-t"><h3>Os 10 Ícones do Velho Mundo</h3><p>Os vinhos que definiram a história e o padrão global</p></div><div class="sum-pg">pg 19</div></div>
+    <div class="sum-item"><div class="sum-n">20</div><div class="sum-t"><h3>Continue Sua Jornada</h3><p>Próximos passos com a Vino Bianco Store</p></div><div class="sum-pg">pg 20</div></div>
+  </div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 4-6: FRANÇA -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">04</div><div class="t"><div class="lb">Capítulo 01 · França</div><h2>A Mãe de Todos os Vinhos</h2></div></div>
+  <div class="ph-layout">
+    <div class="ph-mapa">
+      <svg viewBox="0 0 148 165" xmlns="http://www.w3.org/2000/svg" style="border-radius:5px;box-shadow:0 3px 10px rgba(0,0,0,0.2)">
+        <defs>
+          <linearGradient id="og-fr" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c5e8f8"/><stop offset="100%" stop-color="#76b4d6"/></linearGradient>
+          <linearGradient id="lg-fr" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#5470b8"/><stop offset="100%" stop-color="#2a3e8a"/></linearGradient>
+          <filter id="sh-fr"><feDropShadow dx="1.5" dy="2" stdDeviation="2.5" flood-color="rgba(0,20,80,0.32)"/></filter>
+        </defs>
+        <rect width="148" height="165" fill="url(#og-fr)" rx="5"/>
+        <!-- Spain neighbor (south, muted) -->
+        <path d="M14,148 L52,155 L92,157 L128,148 L140,140 L148,135 L148,165 L0,165 Z" fill="#c8c0b0" opacity="0.45"/>
+        <!-- Channel label -->
+        <text x="74" y="10" text-anchor="middle" font-size="5.5" fill="rgba(255,255,255,0.5)" font-family="Arial,sans-serif" font-style="italic">Canal da Mancha</text>
+        <!-- France hex-ish outline (simplified) -->
+        <path d="M36,14 L80,10 L120,22 L138,52 L136,90 L120,118 L98,138 L72,148 L42,142 L18,126 L8,96 L8,60 L16,34 Z" fill="url(#lg-fr)" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" filter="url(#sh-fr)"/>
+        <!-- Region labels with white bg rects -->
+        <!-- Champagne (NE top) -->
+        <ellipse cx="100" cy="42" rx="20" ry="12" fill="rgba(230,220,200,0.28)" stroke="#e8d5b7" stroke-width="1"/>
+        <rect x="79" y="36" width="42" height="11" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="100" y="44.5" text-anchor="middle" font-size="6" fill="#5a4a00" font-weight="bold" font-family="Arial,sans-serif">Champagne</text>
+        <!-- Bordeaux (SW) -->
+        <ellipse cx="34" cy="108" rx="20" ry="13" fill="rgba(70,40,100,0.25)" stroke="#722f37" stroke-width="1.2"/>
+        <rect x="16" y="102" width="36" height="11" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="34" y="110.5" text-anchor="middle" font-size="6" fill="#4a1a20" font-weight="bold" font-family="Arial,sans-serif">Bordeaux</text>
+        <!-- Borgonha (center-E) -->
+        <ellipse cx="108" cy="88" rx="20" ry="13" fill="rgba(107,26,43,0.25)" stroke="#6B1A2B" stroke-width="1.2"/>
+        <rect x="87" y="82" width="42" height="11" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="108" y="90.5" text-anchor="middle" font-size="6" fill="#4a1220" font-weight="bold" font-family="Arial,sans-serif">Borgonha</text>
+        <!-- Loire (center-W) -->
+        <ellipse cx="60" cy="72" rx="22" ry="11" fill="rgba(45,106,79,0.22)" stroke="#2d6a4f" stroke-width="1"/>
+        <rect x="43" y="66" width="34" height="11" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="60" y="74.5" text-anchor="middle" font-size="6" fill="#1a4a2a" font-weight="bold" font-family="Arial,sans-serif">Loire</text>
+        <!-- Rhône (SE) -->
+        <ellipse cx="108" cy="120" rx="18" ry="11" fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="1"/>
+        <rect x="91" y="114" width="34" height="11" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="108" y="122.5" text-anchor="middle" font-size="6" fill="#5a3a00" font-weight="bold" font-family="Arial,sans-serif">Rhône</text>
+        <!-- Dots -->
+        <circle cx="100" cy="42" r="2.5" fill="#e8d5b7" stroke="#8B6914" stroke-width="0.8"/>
+        <circle cx="34" cy="108" r="2.5" fill="#722f37" stroke="#fff" stroke-width="0.8"/>
+        <circle cx="108" cy="88" r="2.5" fill="#6B1A2B" stroke="#fff" stroke-width="0.8"/>
+        <circle cx="60" cy="72" r="2.5" fill="#2d6a4f" stroke="#fff" stroke-width="0.8"/>
+        <circle cx="108" cy="120" r="2.5" fill="#C9A84C" stroke="#fff" stroke-width="0.8"/>
+        <!-- Country label -->
+        <rect x="30" y="22" width="48" height="13" rx="3" fill="rgba(0,20,80,0.55)"/>
+        <text x="54" y="31.5" text-anchor="middle" font-size="7" fill="#fff" font-weight="bold" font-family="Arial,sans-serif" letter-spacing="0.5">FRANÇA</text>
+        <!-- Compass -->
+        <g transform="translate(134,15)"><circle r="8" fill="rgba(255,255,255,0.9)" stroke="rgba(0,20,80,0.2)" stroke-width="0.5"/><polygon points="0,-5 -1.8,-1.5 1.8,-1.5" fill="#2a3e8a" opacity="0.85"/><text x="0" y="5" text-anchor="middle" font-size="7" fill="#2a3e8a" font-weight="bold" font-family="Arial,sans-serif">N</text></g>
+      </svg>
+      <div style="font-size:8px;color:var(--cc);margin-top:5px;line-height:1.7">
+        <span style="display:inline-block;width:8px;height:8px;background:rgba(114,47,55,0.5);border:1px solid #722f37;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Bordeaux<br>
+        <span style="display:inline-block;width:8px;height:8px;background:rgba(107,26,43,0.5);border:1px solid #6B1A2B;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Borgonha<br>
+        <span style="display:inline-block;width:8px;height:8px;background:rgba(232,213,183,0.8);border:1px solid #8B6914;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Champagne</div>
+    </div>
+    <div class="pais-hero">
+    <div class="ph-top"><div class="ph-flag">🇫🇷</div><div class="ph-info"><h2>França</h2><div class="ph-sub">1ª posição mundial em prestígio · 7,5 bilhões de garrafas/ano</div></div></div>
+    <div class="ph-stats">
+      <div class="ph-stat"><div class="sv">750.000</div><div class="sl">Hectares de vinha</div></div>
+      <div class="ph-stat"><div class="sv">AOC 1935</div><div class="sl">Sistema criado</div></div>
+      <div class="ph-stat"><div class="sv">350+</div><div class="sl">Denominações de origem</div></div>
+      <div class="ph-stat"><div class="sv">3ª</div><div class="sl">Exportadora mundial</div></div>
+    </div>
+  </div>
+  </div>
+  <p style="font-size:11.5px;line-height:1.7;margin-bottom:14px">A França não é apenas o maior produtor de vinhos de prestígio — ela <em>inventou</em> os conceitos que o mundo inteiro adotou. O sistema AOC (Appellation d'Origine Contrôlée) criou as denominações de origem. O Bordeaux criou os <em>grands châteaux</em>. A Borgonha criou o culto ao <em>terroir</em> por parcela. O Champagne criou a segunda fermentação. A França é o DNA do vinho mundial.</p>
+  <div class="regioes">
+    <div class="regiao" style="border-top-color:#722f37"><h4>🏰 Bordeaux</h4><p>Cabernet, Merlot, Petit Verdot. Os Grand Cru Classés de 1855. Château Pétrus, Margaux, Latour. O padrão supremo do vinho tinto encorpado.</p></div>
+    <div class="regiao" style="border-top-color:#8B6914"><h4>🌿 Borgonha</h4><p>Pinot Noir e Chardonnay soberanos. Romanée-Conti, Meursault, Montrachet. Culto ao terroir por parcela. Os vinhos mais caros do mundo.</p></div>
+    <div class="regiao" style="border-top-color:#e8d5b7"><h4>🥂 Champagne</h4><p>Reims e Épernay. Pinot Noir, Chardonnay, Pinot Meunier. Método tradicional. Moët, Krug, Dom Pérignon, Cristal. O rei das celebrações.</p></div>
+  </div>
+  <div class="uvas-grid">
+    <div class="uva-card"><h4>🍇 Cabernet Sauvignon (Bordeaux)</h4><p>Cassis, cedro, tabaco, grafite. Blend com Merlot e Cabernet Franc. Pode envelhecer 50+ anos. Os Premiers Grands Crus são inalcançáveis.</p><div class="harm">🍽 Cordeiro assado · Entrecôte · Queijos curados · Foie gras</div></div>
+    <div class="uva-card"><h4>🍇 Pinot Noir (Borgonha)</h4><p>Cereja, rosa, terra, cogumelo, especiaria. Transparente ao terroir. Leve mas complexíssimo. Uma parcela ao lado da outra cria vinhos completamente distintos.</p><div class="harm">🍽 Coq au vin · Salmão · Pato · Cogumelos trufados</div></div>
+    <div class="uva-card"><h4>🍇 Chardonnay (Borgonha)</h4><p>Maçã, avelã, mel, mineralidade calcária. Chablis é cítrico e mineral. Meursault é amanteigado. Montrachet é transcendente. O branco perfeito.</p><div class="harm">🍽 Lagosta · Peixe nobre · Risoto trufado · Frango assado</div></div>
+    <div class="uva-card"><h4>🍇 Syrah (Rhône Norte)</h4><p>Pimenta, azeitona, amora, bacon, violeta. Hermitage e Côte-Rôtie são os Syrahs mais nobres do mundo. Elegantes, concentrados e de longa vida.</p><div class="harm">🍽 Javali · Cordeiro assado · Queijos fortes · Trufas</div></div>
+  </div>
+  <div class="box box-b"><strong>🏆 A Pirâmide Bordeaux 1855</strong><p>Premiers Grands Crus Classés: Château Margaux, Latour, Lafite Rothschild, Mouton Rothschild e Haut-Brion. Em Pomerol (não classificado): Pétrus. Preços de R$2.000 a R$100.000+.</p></div>
+  <div style="margin-top:14px">
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+      <div style="background:#fff;padding:12px;border-top:2px solid #8B6914"><div style="font-size:10px;font-weight:700;color:#8B6914;text-transform:uppercase;margin-bottom:6px">Alsácia</div><p style="font-size:10.5px;color:var(--ci)">Riesling, Gewürztraminer, Pinot Gris seco. Influência germânica. Aromáticos e secos únicos.</p></div>
+      <div style="background:#fff;padding:12px;border-top:2px solid #2d6a4f"><div style="font-size:10px;font-weight:700;color:#2d6a4f;text-transform:uppercase;margin-bottom:6px">Loire</div><p style="font-size:10.5px;color:var(--ci)">Muscadet, Sancerre (Sauvignon Blanc), Vouvray (Chenin). Frescos, minerais e aromáticos.</p></div>
+      <div style="background:#fff;padding:12px;border-top:2px solid var(--b)"><div style="font-size:10px;font-weight:700;color:var(--b);text-transform:uppercase;margin-bottom:6px">Provença</div><p style="font-size:10.5px;color:var(--ci)">Rosé pálido e elegante. O rosé mais famoso do mundo. Estilo provençal copiado globalmente.</p></div>
+    </div>
+  </div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 7-9: ITÁLIA -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">07</div><div class="t"><div class="lb">Capítulo 02 · Itália</div><h2>O País das Mil Castas</h2></div></div>
+  <div class="ph-layout">
+    <div class="ph-mapa">
+      <svg viewBox="0 0 100 200" xmlns="http://www.w3.org/2000/svg" style="border-radius:5px;box-shadow:0 3px 10px rgba(0,0,0,0.2)">
+        <defs>
+          <linearGradient id="og-it" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c5e8f8"/><stop offset="100%" stop-color="#76b4d6"/></linearGradient>
+          <linearGradient id="lg-it" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#6aab82"/><stop offset="100%" stop-color="#2e7a46"/></linearGradient>
+          <filter id="sh-it"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="rgba(0,60,20,0.32)"/></filter>
+        </defs>
+        <rect width="100" height="200" fill="url(#og-it)" rx="5"/>
+        <!-- Mediterranean label -->
+        <text x="50" y="192" text-anchor="middle" font-size="5" fill="rgba(255,255,255,0.5)" font-family="Arial,sans-serif" font-style="italic">Mar Mediterrâneo</text>
+        <!-- Italian boot shape (simplified) -->
+        <!-- North block (wider) -->
+        <path d="M10,18 L80,14 L90,28 L88,50 L80,62 L60,68 L38,68 L18,62 L8,50 L8,32 Z" fill="url(#lg-it)" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" filter="url(#sh-it)"/>
+        <!-- Peninsula (the boot) -->
+        <path d="M38,68 L60,68 L64,82 L68,100 L70,120 L68,140 L60,158 L52,168 L44,170 L36,162 L28,150 L24,136 L24,118 L26,98 L30,82 Z" fill="url(#lg-it)" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" filter="url(#sh-it)"/>
+        <!-- Boot toe (SE kick) -->
+        <path d="M60,158 L72,155 L78,162 L74,170 L65,172 L52,168 Z" fill="url(#lg-it)" stroke="rgba(255,255,255,0.7)" stroke-width="1"/>
+        <!-- Sicily (island) -->
+        <path d="M12,180 L34,176 L40,182 L36,190 L18,192 L10,188 Z" fill="url(#lg-it)" stroke="rgba(255,255,255,0.65)" stroke-width="1"/>
+        <!-- Piemonte (NW) -->
+        <ellipse cx="22" cy="38" rx="14" ry="10" fill="rgba(107,26,43,0.25)" stroke="#6B1A2B" stroke-width="1"/>
+        <rect x="7" y="32" width="30" height="11" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="22" y="40.5" text-anchor="middle" font-size="5.5" fill="#4a1220" font-weight="bold" font-family="Arial,sans-serif">Piemonte</text>
+        <!-- Vêneto (NE) -->
+        <ellipse cx="75" cy="40" rx="14" ry="10" fill="rgba(65,105,225,0.22)" stroke="#4169E1" stroke-width="1"/>
+        <rect x="61" y="34" width="28" height="11" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="75" y="42.5" text-anchor="middle" font-size="5.5" fill="#1a2a80" font-weight="bold" font-family="Arial,sans-serif">Vêneto</text>
+        <!-- Toscana (center boot) -->
+        <ellipse cx="42" cy="108" rx="18" ry="12" fill="rgba(139,26,26,0.25)" stroke="#8B1A1A" stroke-width="1"/>
+        <rect x="24" y="102" width="36" height="11" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="42" y="110.5" text-anchor="middle" font-size="5.5" fill="#5a1010" font-weight="bold" font-family="Arial,sans-serif">Toscana</text>
+        <!-- Dots -->
+        <circle cx="22" cy="38" r="2.5" fill="#6B1A2B" stroke="#fff" stroke-width="0.8"/>
+        <circle cx="75" cy="40" r="2.5" fill="#4169E1" stroke="#fff" stroke-width="0.8"/>
+        <circle cx="42" cy="108" r="2.5" fill="#8B1A1A" stroke="#fff" stroke-width="0.8"/>
+        <!-- Country label -->
+        <rect x="28" y="18" width="44" height="13" rx="3" fill="rgba(0,60,20,0.55)"/>
+        <text x="50" y="27.5" text-anchor="middle" font-size="7" fill="#fff" font-weight="bold" font-family="Arial,sans-serif" letter-spacing="0.5">ITÁLIA</text>
+        <!-- Compass -->
+        <g transform="translate(88,14)"><circle r="8" fill="rgba(255,255,255,0.9)" stroke="rgba(0,60,20,0.2)" stroke-width="0.5"/><polygon points="0,-5 -1.8,-1.5 1.8,-1.5" fill="#2e7a46" opacity="0.85"/><text x="0" y="5" text-anchor="middle" font-size="7" fill="#2e7a46" font-weight="bold" font-family="Arial,sans-serif">N</text></g>
+      </svg>
+      <div style="font-size:8px;color:var(--cc);margin-top:5px;line-height:1.7">
+        <span style="display:inline-block;width:8px;height:8px;background:rgba(107,26,43,0.5);border:1px solid #6B1A2B;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Piemonte<br>
+        <span style="display:inline-block;width:8px;height:8px;background:rgba(139,26,26,0.5);border:1px solid #8B1A1A;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Toscana<br>
+        <span style="display:inline-block;width:8px;height:8px;background:rgba(65,105,225,0.45);border:1px solid #4169E1;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Vêneto</div>
+    </div>
+    <div class="pais-hero">
+    <div class="ph-top"><div class="ph-flag">🇮🇹</div><div class="ph-info"><h2>Itália</h2><div class="ph-sub">2ª maior produtora mundial · mais de 500 castas autóctones</div></div></div>
+    <div class="ph-stats">
+      <div class="ph-stat"><div class="sv">700.000</div><div class="sl">Hectares de vinha</div></div>
+      <div class="ph-stat"><div class="sv">500+</div><div class="sl">Castas autóctones</div></div>
+      <div class="ph-stat"><div class="sv">DOCG</div><div class="sl">Máxima denominação</div></div>
+      <div class="ph-stat"><div class="sv">77</div><div class="sl">Regiões DOCG existentes</div></div>
+    </div>
+  </div>
+  </div>
+  <p style="font-size:11.5px;line-height:1.7;margin-bottom:14px">A Itália é o país mais fascinante do mundo vinícola. Com mais de 500 castas autóctones — uvas únicas que não existem em nenhum outro país — cada região italiana é um universo à parte. Do Nebbiolo estruturado do Piemonte ao Sangiovese ácido da Toscana, do Primitivo quente da Puglia ao Vermentino fresco da Sardenha. Explorar a Itália é uma vida inteira de descobertas.</p>
+  <div class="regioes">
+    <div class="regiao" style="border-top-color:#8B1A1A"><h4>🏔 Piemonte</h4><p>Barolo e Barbaresco (Nebbiolo). Barbera, Dolcetto, Moscato d'Asti. O "Bordeaux italiano". Taninos poderosos e longevidade extrema.</p></div>
+    <div class="regiao" style="border-top-color:#2E8B57"><h4>🌻 Toscana</h3><p>Chianti, Brunello di Montalcino, Vino Nobile. Super Tuscans (Sassicaia, Ornellaia). O coração do vinho italiano.</p></div>
+    <div class="regiao" style="border-top-color:#4169E1"><h4>🍾 Vêneto</h4><p>Amarone della Valpolicella (uvas passas secas). Prosecco (espumante). Soave (branco). Diversidade extraordinária em um só estado.</p></div>
+  </div>
+  <div class="uvas-grid">
+    <div class="uva-card"><h4>🍇 Nebbiolo (Barolo)</h4><p>Rosa, alcatrão, cereja, violeta, terra, tabaco. Alto tanino, alta acidez. Precisa de anos de garrafa. "O rei dos vinhos italianos".</p><div class="harm">🍽 Trufas · Risoto piemontês · Carne de caça · Parmesão</div></div>
+    <div class="uva-card"><h4>🍇 Sangiovese (Chianti/Brunello)</h4><p>Cereja ácida, couro, tomate seco, ervas, tabaco. Alta acidez e taninos firmes. Casamento perfeito com comida italiana. Identidade toscana.</p><div class="harm">🍽 Pizza · Bisteca fiorentina · Massas · Embutidos</div></div>
+    <div class="uva-card"><h4>🍇 Amarone (Corvina)</h4><p>Uvas secas por 3-4 meses antes de vinificar. Concentração extrema: ameixa seca, chocolate, café, especiaria. 16-17% álcool. Um vinho de meditação.</p><div class="harm">🍽 Ossobuco · Queijos muito curados · Risoto com trufas</div></div>
+    <div class="uva-card"><h4>🍇 Prosecco (Glera)</h4><p>Maçã verde, pêssego, flores brancas. Frisante e leve. Método Charmat. Mais frutado e acessível que o Champagne. O aperitivo italiano por excelência.</p><div class="harm">🍽 Aperitivo · Prosciutto · Frutos do mar · Carpaccio</div></div>
+  </div>
+  <div class="box box-b"><strong>🏆 Os Super Tuscans</strong><p>Nos anos 1970, produtores desafiaram as leis italianas misturando Cabernet Sauvignon com Sangiovese. Sassicaia (1968), Ornellaia, Masseto, Tignanello — classificados como simples "Vino da Tavola" mas vendidos por fortunas. Mudaram a Itália para sempre.</p></div>
+  <div class="den-grid" style="margin-top:14px">
+    <div class="den-card den-it"><h4 style="color:#009246">DOCG — Elite</h4><p>Máxima denominação italiana. Barolo, Brunello, Amarone, Chianti Classico DOCG. Controles rígidos de produção.</p></div>
+    <div class="den-card den-it"><h4 style="color:#009246">DOC — Qualidade</h4><p>Denominação de Origem Controlada. A grande maioria dos vinhos italianos de qualidade. Prosecco, Soave, Valpolicella.</p></div>
+    <div class="den-card den-it"><h4 style="color:#009246">IGT — Liberdade</h4><p>Indicazione Geografica Tipica. Mais flexível. Permite blends proibidos no DOC. É aqui que nascem os Super Tuscans.</p></div>
+    <div class="den-card den-it"><h4 style="color:#009246">Vino da Tavola</h4><p>Vinho de mesa. O mais básico. Mas atenção: o Sassicaia nasceu aqui antes de ganhar o DOC Bolgheri próprio.</p></div>
+  </div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 10-11: ESPANHA -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">10</div><div class="t"><div class="lb">Capítulo 03 · Espanha</div><h2>Tradição, Inovação e Paixão</h2></div></div>
+  <div class="ph-layout">
+    <div class="ph-mapa">
+      <svg viewBox="0 0 148 135" xmlns="http://www.w3.org/2000/svg" style="border-radius:5px;box-shadow:0 3px 10px rgba(0,0,0,0.2)">
+        <defs>
+          <linearGradient id="og-es" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c5e8f8"/><stop offset="100%" stop-color="#76b4d6"/></linearGradient>
+          <linearGradient id="lg-es" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#d44030"/><stop offset="100%" stop-color="#960818"/></linearGradient>
+          <filter id="sh-es"><feDropShadow dx="1.5" dy="2" stdDeviation="2.5" flood-color="rgba(100,0,10,0.32)"/></filter>
+        </defs>
+        <rect width="148" height="135" fill="url(#og-es)" rx="5"/>
+        <!-- France neighbor (north, muted) -->
+        <path d="M32,8 L95,8 L110,16 L105,24 L80,22 L55,24 L35,20 Z" fill="#c8c0b0" opacity="0.4"/>
+        <!-- Portugal neighbor (left, muted) -->
+        <path d="M8,30 L22,26 L22,86 L8,90 Z" fill="#c0c8c0" opacity="0.45"/>
+        <!-- Iberian Peninsula (Spain mainland) -->
+        <path d="M22,26 L95,18 L128,28 L138,46 L140,70 L135,92 L120,110 L95,118 L68,120 L42,114 L22,98 L14,80 L14,54 Z" fill="url(#lg-es)" stroke="rgba(255,255,255,0.75)" stroke-width="1.5" filter="url(#sh-es)"/>
+        <!-- Rioja (N center) -->
+        <ellipse cx="90" cy="44" rx="18" ry="11" fill="rgba(201,168,76,0.28)" stroke="#C9A84C" stroke-width="1.2"/>
+        <rect x="72" y="38" width="36" height="11" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="90" y="46.5" text-anchor="middle" font-size="6" fill="#5a3a00" font-weight="bold" font-family="Arial,sans-serif">Rioja</text>
+        <!-- Ribera del Duero (center) -->
+        <ellipse cx="72" cy="72" rx="24" ry="13" fill="rgba(107,26,43,0.25)" stroke="#6B1A2B" stroke-width="1.2"/>
+        <rect x="48" y="66" width="48" height="11" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="72" y="74.5" text-anchor="middle" font-size="5.5" fill="#4a1220" font-weight="bold" font-family="Arial,sans-serif">Ribera del Duero</text>
+        <!-- Rías Baixas (NW Galicia) -->
+        <ellipse cx="26" cy="44" rx="14" ry="10" fill="rgba(45,106,79,0.25)" stroke="#2d6a4f" stroke-width="1"/>
+        <rect x="10" y="38" width="32" height="11" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="26" y="46.5" text-anchor="middle" font-size="5.5" fill="#1a4a2a" font-weight="bold" font-family="Arial,sans-serif">Rías Baixas</text>
+        <!-- Dots -->
+        <circle cx="90" cy="44" r="2.5" fill="#C9A84C" stroke="#fff" stroke-width="0.8"/>
+        <circle cx="72" cy="72" r="2.5" fill="#6B1A2B" stroke="#fff" stroke-width="0.8"/>
+        <circle cx="26" cy="44" r="2.5" fill="#2d6a4f" stroke="#fff" stroke-width="0.8"/>
+        <!-- Country label -->
+        <rect x="50" y="100" width="60" height="13" rx="3" fill="rgba(100,0,10,0.55)"/>
+        <text x="80" y="109.5" text-anchor="middle" font-size="7" fill="#fff" font-weight="bold" font-family="Arial,sans-serif" letter-spacing="0.5">ESPANHA</text>
+        <!-- Compass -->
+        <g transform="translate(134,15)"><circle r="8" fill="rgba(255,255,255,0.9)" stroke="rgba(100,0,10,0.2)" stroke-width="0.5"/><polygon points="0,-5 -1.8,-1.5 1.8,-1.5" fill="#960818" opacity="0.85"/><text x="0" y="5" text-anchor="middle" font-size="7" fill="#960818" font-weight="bold" font-family="Arial,sans-serif">N</text></g>
+      </svg>
+      <div style="font-size:8px;color:var(--cc);margin-top:5px;line-height:1.7">
+        <span style="display:inline-block;width:8px;height:8px;background:rgba(201,168,76,0.55);border:1px solid #C9A84C;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Rioja<br>
+        <span style="display:inline-block;width:8px;height:8px;background:rgba(107,26,43,0.5);border:1px solid #6B1A2B;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Ribera del Duero<br>
+        <span style="display:inline-block;width:8px;height:8px;background:rgba(45,106,79,0.45);border:1px solid #2d6a4f;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Rías Baixas</div>
+    </div>
+    <div class="pais-hero">
+    <div class="ph-top"><div class="ph-flag">🇪🇸</div><div class="ph-info"><h2>Espanha</h2><div class="ph-sub">3ª maior superfície de vinhedos do mundo · 1M hectares</div></div></div>
+    <div class="ph-stats">
+      <div class="ph-stat"><div class="sv">970.000</div><div class="sl">Hectares de vinha</div></div>
+      <div class="ph-stat"><div class="sv">1ª</div><div class="sl">Em área de vinhedo</div></div>
+      <div class="ph-stat"><div class="sv">DO 1932</div><div class="sl">Primeiro sistema DO</div></div>
+      <div class="ph-stat"><div class="sv">70+</div><div class="sl">Denominações de Origem</div></div>
+    </div>
+  </div>
+  </div>
+  <p style="font-size:11.5px;line-height:1.7;margin-bottom:14px">A Espanha tem mais hectares de vinhedo que qualquer outro país do mundo, mas produzia menos vinho por ter vinhas muito espaçadas (um sistema de seca que economiza água). Por décadas, dormiu no esplendor de Rioja e Jerez. Mas nos anos 1990 e 2000, uma nova geração de produtores revolucionou a vinicultura espanhola: reduziram produção por hectare, vinificaram em pequenas barricas, e criaram vinhos modernos que chocaram o mundo.</p>
+  <div class="regioes">
+    <div class="regiao" style="border-top-color:#c60b1e"><h4>🍷 Rioja</h4><p>A região mais famosa da Espanha. Tempranillo com envelhecimento em carvalho americano. Reserva e Gran Reserva são referência mundial.</p></div>
+    <div class="regiao" style="border-top-color:#c60b1e"><h4>⚫ Ribera del Duero</h4><p>Tempranillo em altitude (900m). Vinhos mais estruturados que Rioja. Vega Sicilia Único é o ícone absoluto espanhol.</p></div>
+    <div class="regiao" style="border-top-color:#c60b1e"><h4>🌊 Rías Baixas</h4><p>Galícia. Albariño branco aromático. Salino, cítrico, floral. O branco espanhol mais elegante e reconhecido no mundo.</p></div>
+  </div>
+  <div class="uvas-grid">
+    <div class="uva-card"><h4>🍇 Tempranillo</h4><p>Cereja, couro, tabaco, baunilha (carvalho), frutas vermelhas. A uva mais nobre da Espanha. Rioja e Ribera del Duero levam ao ápice. Excelente custo-benefício nos Reservas.</p><div class="harm">🍽 Leitão assado · Cordeiro · Jamón ibérico · Manchego</div></div>
+    <div class="uva-card"><h4>🍇 Garnacha</h4><p>Framboesa, pimenta, alcaçuz, frutas vermelhas maduras. Priorat usa Garnacha velha para criar vinhos de concentração extrema e preço premium.</p><div class="harm">🍽 Costela · Porco · Queijos curados · Tapas de embutidos</div></div>
+    <div class="uva-card"><h4>🍇 Albariño</h4><p>Pêssego branco, limão, flores, mineralidade salina. Alta acidez e frescor. O vinho perfeito para frutos do mar. Rias Baixas, Galícia.</p><div class="harm">🍽 Polvo à galega · Frutos do mar · Ostras · Camarão</div></div>
+    <div class="uva-card"><h4>🍾 Cava</h4><p>Macabeo, Xarel-lo e Parellada. Método tradicional como o Champagne. Excelente custo-benefício. Fresco, biscuitado e versátil para celebrações.</p><div class="harm">🍽 Aperitivo · Frutos do mar · Tapas · Sobremesas leves</div></div>
+  </div>
+  <div class="box box-b"><strong>🏆 Ícones Espanhóis</strong><p>Vega Sicilia Único (Tempranillo, Ribera del Duero — o vinho mais lendário da Espanha), Pingus (Peter Sisseck, Ribera del Duero — R$3.000+), Alvaro Palacios L'Ermita (Priorat — Garnacha velha, R$2.000+).</p></div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 12-13: PORTUGAL -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">12</div><div class="t"><div class="lb">Capítulo 04 · Portugal</div><h2>O Terroir Atlântico e a Herança do Porto</h2></div></div>
+  <div class="ph-layout">
+    <div class="ph-mapa">
+      <svg viewBox="0 0 72 165" xmlns="http://www.w3.org/2000/svg" style="border-radius:5px;box-shadow:0 3px 10px rgba(0,0,0,0.2)">
+        <defs>
+          <linearGradient id="og-pt" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#c5e8f8"/><stop offset="100%" stop-color="#76b4d6"/></linearGradient>
+          <linearGradient id="lg-pt" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#2e8b4f"/><stop offset="100%" stop-color="#145c28"/></linearGradient>
+          <filter id="sh-pt"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="rgba(0,60,20,0.3)"/></filter>
+        </defs>
+        <rect width="72" height="165" fill="url(#og-pt)" rx="5"/>
+        <!-- Atlantic label -->
+        <text x="8" y="115" font-size="5" fill="rgba(255,255,255,0.5)" font-family="Arial,sans-serif" font-style="italic" transform="rotate(-90,8,115)">Atlântico</text>
+        <!-- Spain border (right, muted) -->
+        <path d="M55,12 L72,18 L72,148 L55,152 L50,142 L52,100 L52,60 L50,22 Z" fill="#c8c0b0" opacity="0.4"/>
+        <!-- Portugal strip (tall, thin) -->
+        <path d="M14,12 L50,10 L52,22 L52,60 L52,100 L50,142 L48,155 L36,160 L20,158 L10,148 L10,100 L10,60 L10,22 Z" fill="url(#lg-pt)" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" filter="url(#sh-pt)"/>
+        <!-- Vinho Verde (N) -->
+        <ellipse cx="28" cy="32" rx="18" ry="12" fill="rgba(45,106,79,0.25)" stroke="#2d6a4f" stroke-width="1"/>
+        <rect x="8" y="26" width="40" height="11" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="28" y="34.5" text-anchor="middle" font-size="5.5" fill="#1a4a2a" font-weight="bold" font-family="Arial,sans-serif">Vinho Verde</text>
+        <!-- Douro (center-N) -->
+        <ellipse cx="28" cy="72" rx="18" ry="12" fill="rgba(107,26,43,0.25)" stroke="#6B1A2B" stroke-width="1"/>
+        <rect x="10" y="66" width="36" height="11" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="28" y="74.5" text-anchor="middle" font-size="5.5" fill="#4a1220" font-weight="bold" font-family="Arial,sans-serif">Douro</text>
+        <!-- Alentejo (S) -->
+        <ellipse cx="28" cy="120" rx="18" ry="13" fill="rgba(201,168,76,0.25)" stroke="#C9A84C" stroke-width="1"/>
+        <rect x="10" y="114" width="36" height="11" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="28" y="122.5" text-anchor="middle" font-size="5.5" fill="#5a3a00" font-weight="bold" font-family="Arial,sans-serif">Alentejo</text>
+        <!-- Dots -->
+        <circle cx="28" cy="32" r="2.5" fill="#2d6a4f" stroke="#fff" stroke-width="0.8"/>
+        <circle cx="28" cy="72" r="2.5" fill="#6B1A2B" stroke="#fff" stroke-width="0.8"/>
+        <circle cx="28" cy="120" r="2.5" fill="#C9A84C" stroke="#fff" stroke-width="0.8"/>
+        <!-- Country label -->
+        <rect x="8" y="148" width="48" height="12" rx="2.5" fill="rgba(0,60,20,0.55)"/>
+        <text x="32" y="156.5" text-anchor="middle" font-size="6.5" fill="#fff" font-weight="bold" font-family="Arial,sans-serif" letter-spacing="0.5">PORTUGAL</text>
+        <!-- Compass -->
+        <g transform="translate(58,14)"><circle r="8" fill="rgba(255,255,255,0.9)" stroke="rgba(0,60,20,0.2)" stroke-width="0.5"/><polygon points="0,-5 -1.8,-1.5 1.8,-1.5" fill="#145c28" opacity="0.85"/><text x="0" y="5" text-anchor="middle" font-size="7" fill="#145c28" font-weight="bold" font-family="Arial,sans-serif">N</text></g>
+      </svg>
+      <div style="font-size:8px;color:var(--cc);margin-top:5px;line-height:1.7">
+        <span style="display:inline-block;width:8px;height:8px;background:rgba(45,106,79,0.45);border:1px solid #2d6a4f;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Vinho Verde<br>
+        <span style="display:inline-block;width:8px;height:8px;background:rgba(107,26,43,0.5);border:1px solid #6B1A2B;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Douro<br>
+        <span style="display:inline-block;width:8px;height:8px;background:rgba(201,168,76,0.55);border:1px solid #C9A84C;margin-right:3px;vertical-align:middle;border-radius:1px"></span>Alentejo</div>
+    </div>
+    <div class="pais-hero">
+    <div class="ph-top"><div class="ph-flag">🇵🇹</div><div class="ph-info"><h2>Portugal</h2><div class="ph-sub">Maior diversidade de castas autóctones por km² do mundo</div></div></div>
+    <div class="ph-stats">
+      <div class="ph-stat"><div class="sv">240.000</div><div class="sl">Hectares de vinha</div></div>
+      <div class="ph-stat"><div class="sv">250+</div><div class="sl">Castas autóctones</div></div>
+      <div class="ph-stat"><div class="sv">1756</div><div class="sl">1ª DO do mundo (Douro)</div></div>
+      <div class="ph-stat"><div class="sv">Porto</div><div class="sl">Criado no séc. XVII</div></div>
+    </div>
+  </div>
+  </div>
+  <p style="font-size:11.5px;line-height:1.7;margin-bottom:14px">Portugal é a grande revelação do século XXI no Velho Mundo. Por muito tempo à sombra de França, Itália e Espanha, o país acordou para o mundo com vinhos de extraordinária qualidade e preço acessível. A combinação única de castas autóctones (Touriga Nacional, Baga, Trincadeira, Alvarinho, Arinto) com terroirs de influência atlântica cria um perfil inconfundível: acidez vibrante, mineralidade marcada e personalidade distinta.</p>
+  <div class="regioes">
+    <div class="regiao" style="border-top-color:#006600"><h4>🏔 Douro</h4><p>Vale escarpado do Rio Douro. Touriga Nacional, Touriga Franca, Tinta Roriz. Vinhos secos premium e o lendário Porto.</p></div>
+    <div class="regiao" style="border-top-color:#006600"><h4>☀️ Alentejo</h4><p>Planície quente. Aragonez, Trincadeira, Alicante Bouschet. Vinhos encorpados, frutados e de ótimo custo-benefício.</p></div>
+    <div class="regiao" style="border-top-color:#006600"><h4>🌊 Vinho Verde</h4><p>Noroeste. Alvarinho, Loureiro. Leve, fresco, levemente frisante. 9-11% álcool. Perfeito para verão e frutos do mar.</p></div>
+  </div>
+  <div class="uvas-grid">
+    <div class="uva-card"><h4>🍇 Touriga Nacional</h4><p>Amora, violeta, especiaria, tabaco, alta concentração. A uva mais nobre de Portugal. Base do Porto Vintage e dos melhores tintos do Douro.</p><div class="harm">🍽 Carne de caça · Cordeiro · Queijos curados · Bacalhau à brás</div></div>
+    <div class="uva-card"><h4>🍇 Alvarinho</h4><p>Pêssego, limão, flores brancas, mineralidade atlântica. Em Monção e Melgaço produz os melhores Vinhos Verdes do mundo. Exportado como Albariño para Espanha.</p><div class="harm">🍽 Frutos do mar · Bacalhau · Polvo · Saladas</div></div>
+    <div class="uva-card"><h4>🍾 Porto Vintage</h4><p>Concentrado, doce, tânico. Apenas declarado em anos excepcionais (2-3 por década). Pode envelhecer 50-100 anos. Um tesouro líquido.</p><div class="harm">🍽 Queijo stilton · Chocolate amargo · Nozes · Sobremesas</div></div>
+    <div class="uva-card"><h4>🍾 Madeira</h4><p>Vinho fortificado único: aquecido intencionalmente durante meses. Acidez incrível preserva por séculos. Sercial, Verdelho, Bual e Malmsey são os estilos.</p><div class="harm">🍽 Foie gras · Queijos azuis · Consommé · Sobremesas</div></div>
+  </div>
+  <div class="box box-b"><strong>🏆 Portugal no Brasil</strong><p>Niepoort (Douro), Quinta do Crasto, Quinta Vale D. Maria, Esporão (Alentejo), Prats & Symington Chryseia. Portugal oferece qualidade européia a preços muito mais acessíveis que França e Itália.</p></div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 14: ALEMANHA + PG 15: GRÉCIA/ÁUSTRIA -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">14</div><div class="t"><div class="lb">Capítulos 05 · 06</div><h2>Alemanha · Grécia · Áustria</h2></div></div>
+
+  <div style="margin-bottom:20px">
+    <div style="display:flex;gap:14px;align-items:flex-start">
+      <svg viewBox="0 0 90 110" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:90px;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.18)">
+        <defs>
+          <linearGradient id="og-de" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b8dff5"/><stop offset="100%" stop-color="#6aafd4"/></linearGradient>
+          <linearGradient id="lg-de" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#4a4a4a"/><stop offset="100%" stop-color="#2a2a2a"/></linearGradient>
+          <filter id="sh-de"><feDropShadow dx="1" dy="1.5" stdDeviation="1.8" flood-color="rgba(0,0,0,0.3)"/></filter>
+        </defs>
+        <rect width="90" height="110" fill="url(#og-de)" rx="4"/>
+        <!-- Germany outline (simplified block) -->
+        <path d="M18,12 L62,10 L72,22 L75,38 L72,55 L68,70 L60,80 L48,88 L38,85 L28,75 L18,62 L12,48 L12,30 Z" fill="url(#lg-de)" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" filter="url(#sh-de)"/>
+        <!-- Mosela valley zigzag (river) -->
+        <path d="M20,55 Q28,50 32,58 Q38,65 45,60 Q52,55 55,62" stroke="#C9A84C" stroke-width="1.5" fill="none" opacity="0.8"/>
+        <!-- Mosela label -->
+        <rect x="12" y="45" width="32" height="10" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="28" y="53" text-anchor="middle" font-size="5.5" fill="#5a3a00" font-weight="bold" font-family="Arial,sans-serif">Mosela</text>
+        <!-- Rheingau label (NW) -->
+        <ellipse cx="22" cy="36" rx="12" ry="8" fill="rgba(107,26,43,0.22)" stroke="#6B1A2B" stroke-width="0.8"/>
+        <rect x="9" y="31" width="26" height="10" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+        <text x="22" y="39" text-anchor="middle" font-size="5" fill="#4a1220" font-weight="bold" font-family="Arial,sans-serif">Rheingau</text>
+        <circle cx="28" cy="55" r="2.5" fill="#C9A84C" stroke="#fff" stroke-width="0.8"/>
+        <circle cx="22" cy="36" r="2.5" fill="#6B1A2B" stroke="#fff" stroke-width="0.8"/>
+        <!-- Label -->
+        <rect x="26" y="90" width="40" height="11" rx="2.5" fill="rgba(20,20,20,0.55)"/>
+        <text x="46" y="98.5" text-anchor="middle" font-size="6" fill="#fff" font-weight="bold" font-family="Arial,sans-serif">ALEMANHA</text>
+      </svg>
+      <div style="flex:1">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:24px">🇩🇪</span><h3 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--bd)">Alemanha — O Paraíso do Riesling</h3></div>
+        <p style="font-size:11.5px;line-height:1.7;margin-bottom:10px">A Alemanha produz os Rieslings mais longevos e complexos do mundo. Plantadas em encostas íngremes sobre o Rio Mosela e seus afluentes, as vinhas alemãs sobrevivem graças ao reflexo da água no xisto que aquece as uvas no frio extremo. O sistema de classificação por teor de açúcar — Kabinett, Spätlese, Auslese, Beerenauslese, Trockenbeerenauslese — cria vinhos de seco a doce viscoso. Os TBAs podem custar R$5.000+ por garrafa.</p>
+      </div>
+    </div>
+    <div class="uvas-grid" style="margin-top:10px">
+      <div class="uva-card"><h4>🍇 Riesling Mosela (Seco)</h4><p>Limão, pêssego, xisto, floral. Alta acidez, leve em álcool (9-11%). Envelhece décadas e desenvolve o famoso aroma de "gasolina" — paradoxalmente muito elegante.</p><div class="harm">🍽 Frutos do mar · Culinária asiática · Porco · Frango</div></div>
+      <div class="uva-card"><h4>🍇 Riesling Auslese (Meio-Doce)</h4><p>Pêssego maduro, damasco, mel, especiaria. Levemente adocicado, acidez equilibra perfeitamente. Ótimo para iniciantes no Riesling e com foie gras.</p><div class="harm">🍽 Foie gras · Queijos azuis · Sobremesas · Speck</div></div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:14px;margin-bottom:14px;align-items:flex-start">
+    <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:90px;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.18)">
+      <defs>
+        <linearGradient id="og-gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b8dff5"/><stop offset="100%" stop-color="#6aafd4"/></linearGradient>
+        <linearGradient id="lg-gr" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#1a5cbf"/><stop offset="100%" stop-color="#0d3a8a"/></linearGradient>
+        <filter id="sh-gr"><feDropShadow dx="1" dy="1.5" stdDeviation="1.8" flood-color="rgba(0,30,80,0.3)"/></filter>
+      </defs>
+      <rect width="90" height="90" fill="url(#og-gr)" rx="4"/>
+      <!-- Greek mainland (simplified) -->
+      <path d="M15,10 L65,10 L72,22 L70,38 L60,50 L50,58 L40,60 L28,55 L18,42 L12,28 Z" fill="url(#lg-gr)" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" filter="url(#sh-gr)"/>
+      <!-- Peloponnese peninsula -->
+      <path d="M28,55 L40,60 L45,72 L40,80 L32,78 L25,68 L24,58 Z" fill="url(#lg-gr)" stroke="rgba(255,255,255,0.65)" stroke-width="1"/>
+      <!-- Santorini (small island, SE) -->
+      <circle cx="72" cy="68" r="7" fill="url(#lg-gr)" stroke="rgba(255,255,255,0.7)" stroke-width="1"/>
+      <text x="72" y="72" text-anchor="middle" font-size="5" fill="rgba(255,255,255,0.9)" font-family="Arial,sans-serif" font-weight="bold">SNT</text>
+      <!-- Santorini label -->
+      <rect x="50" y="60" width="30" height="10" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+      <text x="65" y="68" text-anchor="middle" font-size="5" fill="#1a2a6a" font-weight="bold" font-family="Arial,sans-serif">Santorini</text>
+      <!-- Country label -->
+      <rect x="18" y="78" width="38" height="10" rx="2.5" fill="rgba(0,30,100,0.55)"/>
+      <text x="37" y="86" text-anchor="middle" font-size="5.5" fill="#fff" font-weight="bold" font-family="Arial,sans-serif">GRÉCIA</text>
+    </svg>
+    <div style="flex:1">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:24px">🇬🇷</span><h3 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--bd)">Grécia — O Berço do Vinho Ocidental</h3></div>
+      <p style="font-size:11px;line-height:1.65;margin-bottom:8px">A Grécia produzia vinhos muito antes de Roma existir. Hoje voltou ao radar mundial graças ao <strong>Assírtiko</strong> de Santorini: branco vulcânico, mineral e ácido, de uvas cultivadas em krateri (cestas trançadas para proteger do vento). Também há o Xinomavro do norte, chamado de "o Barolo grego". Ótimo custo-benefício para quem quer explorar o diferente.</p>
+      <div class="box box-b" style="margin:0"><strong>Uvas Ícone</strong><p>Assírtiko (Domaine Sigalas, Estate Argyros de Santorini), Xinomavro (Kir-Yianni, Alpha Estate da Macedônia). Harmonize com frutos do mar gregos, queijo feta e pratos mediterrâneos.</p></div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:14px;align-items:flex-start">
+    <svg viewBox="0 0 90 90" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0;width:90px;border-radius:4px;box-shadow:0 2px 8px rgba(0,0,0,0.18)">
+      <defs>
+        <linearGradient id="og-at" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#b8dff5"/><stop offset="100%" stop-color="#6aafd4"/></linearGradient>
+        <linearGradient id="lg-at" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#cc2030"/><stop offset="100%" stop-color="#8a0a18"/></linearGradient>
+        <filter id="sh-at"><feDropShadow dx="1" dy="1.5" stdDeviation="1.8" flood-color="rgba(80,0,10,0.3)"/></filter>
+      </defs>
+      <rect width="90" height="90" fill="url(#og-at)" rx="4"/>
+      <!-- Austria (wider in E, narrow in W — alpine east) -->
+      <path d="M8,36 L32,30 L58,28 L80,32 L84,44 L80,56 L58,62 L32,64 L10,58 L6,48 Z" fill="url(#lg-at)" stroke="rgba(255,255,255,0.7)" stroke-width="1.2" filter="url(#sh-at)"/>
+      <!-- Wachau label (Danube strip) -->
+      <ellipse cx="55" cy="46" rx="18" ry="9" fill="rgba(45,106,79,0.22)" stroke="#2d6a4f" stroke-width="0.8"/>
+      <rect x="38" y="41" width="34" height="10" rx="2.5" fill="rgba(255,255,255,0.94)"/>
+      <text x="55" y="49" text-anchor="middle" font-size="5.5" fill="#1a4a2a" font-weight="bold" font-family="Arial,sans-serif">Wachau</text>
+      <circle cx="55" cy="46" r="2.5" fill="#2d6a4f" stroke="#fff" stroke-width="0.8"/>
+      <!-- Country label -->
+      <rect x="22" y="70" width="46" height="11" rx="2.5" fill="rgba(80,0,10,0.55)"/>
+      <text x="45" y="78.5" text-anchor="middle" font-size="6" fill="#fff" font-weight="bold" font-family="Arial,sans-serif">ÁUSTRIA</text>
+    </svg>
+    <div style="flex:1">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px"><span style="font-size:24px">🇦🇹</span><h3 style="font-family:'Playfair Display',serif;font-size:18px;color:var(--bd)">Áustria — Grüner Veltliner e Riesling Alpino</h3></div>
+      <p style="font-size:11px;line-height:1.65;margin-bottom:8px">A Áustria é o segredo mais bem guardado da Europa vinícola. O Grüner Veltliner — única no país — tem notas de pimenta branca, cítrico e ervas. Elegante, seco e de ótima acidez. Os Rieslings de Wachau rivalizam com os alemães. O Blaufränkisch tinto está em alta global.</p>
+      <div class="box box-b" style="margin:0"><strong>Uvas Ícone</strong><p>Grüner Veltliner (Nikolaihof, Prager, Hirsch), Riesling Smaragd (Rudi Pichler, F.X. Pichler). Harmonize com cozinha vienense, Wiener Schnitzel e peixes de água doce.</p></div>
+    </div>
+  </div>
+
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 16: COMO LER RÓTULOS EUROPEUS -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">16</div><div class="t"><div class="lb">Guia Essencial</div><h2>Como Ler Rótulos do Velho Mundo</h2></div></div>
+  <p style="font-size:12px;line-height:1.7;margin-bottom:16px;color:var(--ci)">Ao contrário do Novo Mundo, os rótulos europeus raramente declaram a uva. Eles declaram a <strong>denominação de origem</strong> — e você precisa saber que uva essa denominação usa.</p>
+  <table class="comparativo">
+    <tr><th>O que está no Rótulo</th><th>País</th><th>Significa / Uvas usuais</th><th>Estilo</th></tr>
+    <tr><td>Bordeaux Rouge</td><td>🇫🇷 França</td><td>Cabernet Sauvignon + Merlot</td><td>Encorpado, estruturado</td></tr>
+    <tr><td>Bourgogne Rouge</td><td>🇫🇷 França</td><td>100% Pinot Noir</td><td>Elegante, leve, floral</td></tr>
+    <tr><td>Chablis</td><td>🇫🇷 França</td><td>100% Chardonnay (sem carvalho)</td><td>Mineral, cítrico, seco</td></tr>
+    <tr><td>Chianti Classico</td><td>🇮🇹 Itália</td><td>≥80% Sangiovese</td><td>Ácido, cereja, couro</td></tr>
+    <tr><td>Barolo DOCG</td><td>🇮🇹 Itália</td><td>100% Nebbiolo</td><td>Tânico, floral, longa vida</td></tr>
+    <tr><td>Rioja Reserva</td><td>🇪🇸 Espanha</td><td>≥80% Tempranillo</td><td>Cereja, baunilha, couro</td></tr>
+    <tr><td>Rías Baixas</td><td>🇪🇸 Espanha</td><td>≥70% Albariño</td><td>Cítrico, floral, fresco</td></tr>
+    <tr><td>Douro Tinto</td><td>🇵🇹 Portugal</td><td>Touriga Nacional + blend</td><td>Concentrado, especiado</td></tr>
+    <tr><td>Mosel Riesling</td><td>🇩🇪 Alemanha</td><td>100% Riesling</td><td>Delicado, cítrico, mineral</td></tr>
+    <tr><td>Vinho Verde</td><td>🇵🇹 Portugal</td><td>Loureiro, Alvarinho, Arinto</td><td>Leve, fresco, frisante</td></tr>
+  </table>
+  <div class="den-grid" style="margin-top:16px">
+    <div class="den-card den-fr"><h4 style="color:var(--azul-fr)">🇫🇷 AOC/AOP</h4><p>Appellation d'Origine Protégée. Máxima qualidade francesa. Regula uvas, rendimento, vinificação por appellation.</p></div>
+    <div class="den-card den-it"><h4 style="color:var(--verde-it)">🇮🇹 DOCG/DOC/IGT</h4><p>DOCG é o topo. DOC é ótima qualidade. IGT é mais flexível mas abriga Super Tuscans iconicos.</p></div>
+    <div class="den-card den-es"><h4 style="color:var(--vermelho-es)">🇪🇸 DOCa/DO</h4><p>Rioja e Priorat têm DOCa (Calificada). Joven/Crianza/Reserva/Gran Reserva indicam tempo de envelhecimento.</p></div>
+    <div class="den-card den-pt"><h4 style="color:var(--verde-pt)">🇵🇹 DOC/IG</h4><p>Douro é o DOC mais famoso. "Quinta" indica vinho de uma única propriedade, como "Château" em Bordeaux.</p></div>
+  </div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 17: HARMONIZAÇÕES -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">17</div><div class="t"><div class="lb">Guia Prático</div><h2>Harmonizações Clássicas do Velho Mundo</h2></div></div>
+  <div class="harm-grid">
+    <div class="harm-card"><div class="harm-icon">🥩</div><div><h4>Carnes Nobres</h4><p>Bordeaux (Cabernet/Merlot) para costela e entrecôte. Barolo para caça e trufas. Rioja Gran Reserva para cordeiro assado. A regra: quanto mais nobre a carne, mais estruturado o vinho.</p></div></div>
+    <div class="harm-card"><div class="harm-icon">🐟</div><div><h4>Peixes e Frutos do Mar</h4><p>Chablis (Chardonnay mineral) para ostras. Alvarinho português para frutos do mar. Vinho Verde para peixe grelhado simples. Riesling alemão para salmão.</p></div></div>
+    <div class="harm-card"><div class="harm-icon">🍝</div><div><h4>Culinária Italiana</h4><p>Chianti Classico com pizza e massas ao tomate. Amarone com risoto trufado. Barolo com bisteca e trufas. Prosecco com carpaccio e prosciutto.</p></div></div>
+    <div class="harm-card"><div class="harm-icon">🧀</div><div><h4>Queijos Europeus</h4><p>Sauternes com Roquefort (combinação lendária). Porto com Stilton. Chablis com queijo de cabra fresco. Rioja Reserva com Manchego curado. Barolo com Parmesão.</p></div></div>
+    <div class="harm-card"><div class="harm-icon">🍄</div><div><h4>Cogumelos e Trufas</h4><p>Borgonha tinto (Pinot Noir) é o parceiro ideal de cogumelos e trufas. A Terra de Bourgogne tem a mesma função que a trufa de Périgord: ambos têm terroir como identidade.</p></div></div>
+    <div class="harm-card"><div class="harm-icon">🫒</div><div><h4>Culinária Mediterrânea</h4><p>Assírtiko grego com polvo e frutos do mar. Albariño espanhol com tapas. Rosé provençal com salada niçoise e petiscos leves. A culinária mediterrânea pede vinhos mediterrâneos.</p></div></div>
+    <div class="harm-card"><div class="harm-icon">🍮</div><div><h4>Sobremesas e Doces</h4><p>Sauternes (Bordeaux) para crème brûlée. Porto LBV com brownie e chocolate. Riesling Auslese com torta de frutas. Moscato d'Asti com panna cotta e sorvetes.</p></div></div>
+    <div class="harm-card"><div class="harm-icon">🧆</div><div><h4>Charcuterie e Embutidos</h4><p>Chianti para prosciutto. Cava para jamón ibérico. Borgonha branco para foie gras. Barolo com salame piemontês. A Itália e a Espanha criaram os embutidos E os vinhos que vão com eles.</p></div></div>
+  </div>
+  <div class="box box-b" style="margin-top:12px"><strong>💡 Princípio do Terroir</strong><p>No Velho Mundo, a regra mais simples é a mais sábia: vinho e comida da mesma região sempre combinam. Chianti com comida toscana. Borgonha com cozinha da Borgonha. Rioja com tapas riojanas. A tradição já fez o teste por séculos.</p></div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 18: GUIA DE COMPRA -->
+<div class="page">
+<div class="p">
+  <div class="hdr"><div class="n">18</div><div class="t"><div class="lb">Guia Prático</div><h2>Velho Mundo no Brasil — Como Comprar</h2></div></div>
+  <table class="comparativo">
+    <tr><th>Orçamento</th><th>País / Região</th><th>O que comprar</th><th>Ocasião</th></tr>
+    <tr><td>R$40-70</td><td>🇵🇹 Portugal · 🇪🇸 Espanha</td><td>Alentejo tinto, Rioja Crianza, Vinho Verde</td><td>Dia a dia com qualidade europeia</td></tr>
+    <tr><td>R$70-130</td><td>🇵🇹 Portugal · 🇮🇹 Itália</td><td>Douro tinto, Chianti Classico, Barbera d'Alba</td><td>Jantar especial, presente acessível</td></tr>
+    <tr><td>R$130-250</td><td>🇮🇹 Itália · 🇪🇸 Espanha</td><td>Barolo básico, Rioja Reserva, Brunello jovem</td><td>Comemoração, aniversário</td></tr>
+    <tr><td>R$250-600</td><td>🇫🇷 França · 🇮🇹 Itália</td><td>Borgonha Villages, Barolo Reserva, Bordeaux Cru Bourgeois</td><td>Coleção, presente premium</td></tr>
+    <tr><td>R$600+</td><td>🇫🇷 França</td><td>Premier Cru Bordeaux, Villages Borgonha, Premiers Crus</td><td>Investimento, experiência única de vida</td></tr>
+  </table>
+  <div style="margin-top:18px">
+    <h3 style="font-family:'Playfair Display',serif;font-size:16px;color:var(--bd);margin-bottom:12px">Melhores Custo-Benefício do Velho Mundo no Brasil</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div style="background:#fff;padding:14px;border-left:3px solid var(--verde-pt)"><h4 style="font-size:11px;font-weight:700;color:#006600;text-transform:uppercase;margin-bottom:5px">🇵🇹 Portugal</h4><p style="font-size:11px;color:var(--ci);line-height:1.6">Esporão Monte Velho (R$45), Herdade do Esporão Reserva (R$80), Quinta do Crasto (R$100). Qualidade européia a preço acessível. Melhor escolha para quem quer explorar o Velho Mundo.</p></div>
+      <div style="background:#fff;padding:14px;border-left:3px solid var(--vermelho-es)"><h4 style="font-size:11px;font-weight:700;color:#c60b1e;text-transform:uppercase;margin-bottom:5px">🇪🇸 Espanha</h4><p style="font-size:11px;color:var(--ci);line-height:1.6">Torres Gran Coronas (R$60), Beronia Rioja Reserva (R$90), Protos Reserva Ribera del Duero (R$120). Rioja Reserva é o ponto de entrada ideal para o Velho Mundo.</p></div>
+      <div style="background:#fff;padding:14px;border-left:3px solid var(--verde-it)"><h4 style="font-size:11px;font-weight:700;color:#009246;text-transform:uppercase;margin-bottom:5px">🇮🇹 Itália</h4><p style="font-size:11px;color:var(--ci);line-height:1.6">Chianti Classico Riserva (R$100-150), Barbera d'Asti (R$80), Dolcetto d'Alba (R$70). A Itália entrega complexidade incrível em faixas intermediárias.</p></div>
+      <div style="background:#fff;padding:14px;border-left:3px solid var(--azul-fr)"><h4 style="font-size:11px;font-weight:700;color:#003399;text-transform:uppercase;margin-bottom:5px">🇫🇷 França</h4><p style="font-size:11px;color:var(--ci);line-height:1.6">Crozes-Hermitage (Rhône, R$120), Mâcon Villages (Borgonha, R$100), Languedoc (R$60-80). A entrada mais acessível na França de qualidade.</p></div>
+    </div>
+  </div>
+  <div class="rod"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 19: OS 10 ÍCONES -->
+<div class="page">
+<div class="pd">
+  <div class="hdr hdr-c"><div class="n">19</div><div class="t"><div class="lb" style="color:rgba(255,255,255,.45)">Os Maiores</div><h2 style="color:#fff">Os 10 Ícones do Velho Mundo</h2></div></div>
+  <div>
+    <div class="vinho-item"><div class="vi-num">1</div><div class="vi-info"><h4 style="color:#fff">Romanée-Conti DRC · França</h4><div class="vi-tags"><span class="vtag">Pinot Noir</span><span class="vtag d">Borgonha</span></div><p style="color:rgba(255,255,255,.7)">O vinho mais caro e cobiçado do mundo. 1,8 hectares, 6.000 garrafas/ano. Uma garrafa pode superar R$150.000. A expressão suprema do Pinot Noir e do terroir borgonhês.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">2</div><div class="vi-info"><h4 style="color:#fff">Château Pétrus · França</h4><div class="vi-tags"><span class="vtag">Merlot</span><span class="vtag d">Pomerol, Bordeaux</span></div><p style="color:rgba(255,255,255,.7)">O Merlot mais famoso do mundo. Solo de argila azul única. 30.000 garrafas/ano. Veludo, ameixa, trufa, chocolate. A garrafa parte de R$30.000. Símbolo de status global.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">3</div><div class="vi-info"><h4 style="color:#fff">Sassicaia · Itália</h4><div class="vi-tags"><span class="vtag">Cabernet Blend</span><span class="vtag d">Bolgheri, Toscana</span></div><p style="color:rgba(255,255,255,.7)">O primeiro Super Tuscan (1968). Criado pelo Marchese Incisa della Rocchetta. Provou que a Itália podia fazer vinhos de classe bordalesa. DOC próprio desde 1994.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">4</div><div class="vi-info"><h4 style="color:#fff">Vega Sicilia Único · Espanha</h4><div class="vi-tags"><span class="vtag">Tempranillo Blend</span><span class="vtag d">Ribera del Duero</span></div><p style="color:rgba(255,255,255,.7)">O vinho lendário da Espanha. Envelhecido até 10 anos antes do lançamento. Só lançado em safras excepcionais. Cereja, couro, cedro e complexidade inigualável.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">5</div><div class="vi-info"><h4 style="color:#fff">Château Margaux · França</h4><div class="vi-tags"><span class="vtag">Cabernet Blend</span><span class="vtag d">Médoc, Bordeaux</span></div><p style="color:rgba(255,255,255,.7)">Primeiro Grand Cru Classé 1855. O Bordeaux mais feminino e elegante. Violeta, cassis e sedosidade inigualável. Referência absoluta de elegância bordalesa.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">6</div><div class="vi-info"><h4 style="color:#fff">Barolo Monfortino Conterno · Itália</h4><div class="vi-tags"><span class="vtag">Nebbiolo</span><span class="vtag d">Piemonte</span></div><p style="color:rgba(255,255,255,.7)">O Barolo mais tradicional e venerado. Giacomo Conterno só produz em safras excepcionais. Pode envelhecer 80+ anos. A alma piemontesa em sua forma mais pura.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">7</div><div class="vi-info"><h4 style="color:#fff">Niepoort Redoma · Portugal</h4><div class="vi-tags"><span class="vtag">Touriga Franca Blend</span><span class="vtag d">Douro</span></div><p style="color:rgba(255,255,255,.7)">O ícone moderno de Portugal. Dirk Niepoort revolucionou o Douro com vinhos elegantes e de terroir. Referência para o renascimento vinícola português.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">8</div><div class="vi-info"><h4 style="color:#fff">Dom Pérignon Vintage · França</h4><div class="vi-tags"><span class="vtag">Champagne</span><span class="vtag d">Épernay</span></div><p style="color:rgba(255,255,255,.7)">O Champagne mais famoso do mundo. Apenas safras excepcionais. Pão, nozes, flores brancas e cremosidade inigualável. Símbolo de celebração e luxo.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">9</div><div class="vi-info"><h4 style="color:#fff">Egon Müller Scharzhofberg TBA · Alemanha</h4><div class="vi-tags"><span class="vtag">Riesling</span><span class="vtag d">Mosela</span></div><p style="color:rgba(255,255,255,.7)">O vinho de sobremesa mais caro do mundo por garrafa. Riesling Trockenbeerenauslese: uvas atacadas por Botrytis, concentração extrema, produzido em minúsculas quantidades. Lendário.</p></div></div>
+    <div class="vinho-item"><div class="vi-num">10</div><div class="vi-info"><h4 style="color:#fff">Quinta do Crasto Vinha da Ponte · Portugal</h4><div class="vi-tags"><span class="vtag">Touriga Nacional</span><span class="vtag d">Douro Superior</span></div><p style="color:rgba(255,255,255,.7)">O vinho ícone de Portugal acessível ao Brasil. Vinhas pré-filoxera de mais de 80 anos. Concentração, elegância e terroir do Douro em sua expressão máxima.</p></div></div>
+  </div>
+  <div class="rod rod-c"><span>Vino Bianco Store · @vinobiancostore</span><span>vinobianco.com.br</span></div>
+</div>
+</div>
+
+<!-- PG 20: CTA FINAL -->
+<div class="page">
+<div class="cta-page">
+  <div style="font-size:64px;margin-bottom:20px;position:relative">🏰</div>
+  <h2>O <span>Velho Mundo</span><br>é seu Agora</h2>
+  <p>Você acabou de viajar por 8.000 anos de história vinícola — de Bordeaux a Barolo, de Rioja a Douro. Agora é hora de experimentar e criar suas próprias memórias com cada garrafa.</p>
+  <div style="position:relative;text-align:center;margin-bottom:30px">
+    <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--d);margin-bottom:8px">@vinobiancostore</div>
+    <p style="font-size:13px;color:rgba(255,255,255,.55)">Siga para conteúdo diário sobre os vinhos do Velho e Novo Mundo</p>
+  </div>
+  <div style="position:relative;padding-top:24px;border-top:1px solid rgba(255,255,255,.08);font-size:10px;color:rgba(255,255,255,.3);letter-spacing:1.5px;text-transform:uppercase;text-align:center">Vino Bianco Store · vendas@vinobianco.com.br · vinobianco.com.br</div>
+</div>
+</div>
+
+</body>
+</html>
