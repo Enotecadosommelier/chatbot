@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GEO vs SEO: Por que o Vino Bianco já aparece no ChatGPT | Blog Vino Bianco</title>
+<meta name="description" content="GEO (Generative Engine Optimization) está mudando como clientes encontram vinícolas. Saiba como o Vino Bianco está posicionado na pesquisa por IA e o que isso significa para você.">
+<meta property="og:title" content="GEO vs SEO: A Nova Era da Busca por Vinho">
+<meta property="og:description" content="Uma venda vinda do Rio de Janeiro via ChatGPT. Entenda por que a IA está substituindo o Google na jornada de compra de vinhos premium.">
+<meta property="og:type" content="article">
+<meta name="author" content="Vino Bianco — Enoteca do Sommelier">
+
+<style>
+  :root {
+    --b: #6B1A2B;
+    --d: #C9A84C;
+    --nv: #0F1D35;
+    --ow: #F5F0E8;
+    --txt: #1a1008;
+    --muted: #6b5c4a;
+    --card: #fff;
+    --border: #e2d9c8;
+    --geo: #0F4C81;
+    --seo: #2D6A4F;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ow: #0d0906;
+      --txt: #f0ead8;
+      --muted: #a89070;
+      --card: #1a130c;
+      --border: #3a2e20;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ow: #0d0906;
+    --txt: #f0ead8;
+    --muted: #a89070;
+    --card: #1a130c;
+    --border: #3a2e20;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { font-size: 17px; }
+  body {
+    background: var(--ow);
+    color: var(--txt);
+    font-family: 'Georgia', serif;
+    line-height: 1.75;
+  }
+
+  /* ── Header ── */
+  .site-header {
+    background: var(--b);
+    color: #fff;
+    text-align: center;
+    padding: 12px 16px;
+    font-family: 'Arial Narrow', Arial, sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .site-header span { color: var(--d); }
+
+  /* ── Hero ── */
+  .hero {
+    background: var(--nv);
+    color: #fff;
+    padding: 56px 16px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,168,76,.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    display: inline-block;
+    font-family: Arial, sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--d);
+    border: 1px solid rgba(201,168,76,.4);
+    padding: 4px 14px;
+    border-radius: 2px;
+    margin-bottom: 22px;
+  }
+  .hero h1 {
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    max-width: 680px;
+    margin: 0 auto 18px;
+  }
+  .hero h1 em { color: var(--d); font-style: normal; }
+  .hero-sub {
+    font-size: 1.05rem;
+    color: rgba(255,255,255,.75);
+    max-width: 560px;
+    margin: 0 auto 28px;
+    font-family: Arial, sans-serif;
+  }
+  .hero-date {
+    font-family: Arial, sans-serif;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,.45);
+    letter-spacing: 0.08em;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 740px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  /* ── Fact box ── */
+  .fact-box {
+    background: linear-gradient(135deg, var(--b) 0%, #9b2540 100%);
+    color: #fff;
+    border-radius: 6px;
+    padding: 28px 32px;
+    margin: 40px 0;
+    position: relative;
+  }
+  .fact-box::before {
+    content: '"';
+    position: absolute;
+    top: 8px; left: 18px;
+    font-size: 5rem;
+    color: rgba(201,168,76,.3);
+    font-family: Georgia, serif;
+    line-height: 1;
+  }
+  .fact-box p {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    position: relative;
+  }
+  .fact-box .fact-source {
+    font-family: Arial, sans-serif;
+    font-size: 0.75rem;
+    color: rgba(255,255,255,.55);
+    margin-top: 12px;
+    position: relative;
+  }
+
+  /* ── Article body ── */
+  .article { padding: 48px 0 60px; }
+  .article h2 {
+    font-size: 1.5rem;
+    color: var(--b);
+    margin: 44px 0 14px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--d);
+    line-height: 1.3;
+  }
+  .article h3 {
+    font-size: 1.1rem;
+    color: var(--nv);
+    margin: 28px 0 10px;
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+  }
+  .article p { margin-bottom: 18px; }
+  .article ul, .article ol {
+    margin: 0 0 18px 22px;
+  }
+  .article li { margin-bottom: 8px; }
+
+  /* ── Comparison table ── */
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 32px 0;
+    font-family: Arial, sans-serif;
+    font-size: 0.88rem;
+    overflow-x: auto;
+    display: block;
+  }
+  .compare-table th {
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
+  .compare-table th:first-child { background: var(--border); color: var(--muted); }
+  .compare-table th.th-seo { background: var(--seo); color: #fff; }
+  .compare-table th.th-geo { background: var(--geo); color: #fff; }
+  .compare-table td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    background: var(--card);
+    color: var(--txt);
+  }
+  .compare-table td:first-child {
+    font-weight: 600;
+    background: color-mix(in srgb, var(--border) 40%, var(--card));
+    color: var(--muted);
+    font-size: 0.82rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+  .compare-table tr:last-child td { border-bottom: none; }
+
+  /* ── Pillar cards ── */
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin: 28px 0 36px;
+  }
+  .pillar {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--geo);
+    border-radius: 4px;
+    padding: 20px 18px;
+  }
+  .pillar-num {
+    font-family: Arial, sans-serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--d);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .pillar h4 {
+    font-family: Arial, sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--geo);
+    margin-bottom: 8px;
+  }
+  .pillar p { font-size: 0.88rem; color: var(--muted); margin: 0; }
+
+  /* ── Action checklist ── */
+  .checklist {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--d);
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin: 32px 0;
+  }
+  .checklist h3 {
+    font-family: Arial, sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    margin: 0 0 16px;
+  }
+  .checklist ul { list-style: none; margin: 0; }
+  .checklist li {
+    padding: 8px 0 8px 32px;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+    font-size: 0.95rem;
+    margin: 0;
+  }
+  .checklist li:last-child { border-bottom: none; }
+  .checklist li::before {
+    content: '✓';
+    position: absolute; left: 0;
+    color: var(--seo);
+    font-weight: 900;
+    font-size: 1rem;
+  }
+
+  /* ── Highlight stat ── */
+  .stat-row {
+    display: flex;
+    gap: 16px;
+    margin: 32px 0;
+    flex-wrap: wrap;
+  }
+  .stat {
+    flex: 1;
+    min-width: 150px;
+    background: var(--nv);
+    color: #fff;
+    border-radius: 4px;
+    padding: 20px;
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: var(--d);
+    line-height: 1;
+    font-family: Arial, sans-serif;
+  }
+  .stat-label {
+    font-family: Arial, sans-serif;
+    font-size: 0.78rem;
+    color: rgba(255,255,255,.65);
+    margin-top: 6px;
+    line-height: 1.4;
+  }
+
+  /* ── CTA ── */
+  .cta-block {
+    background: var(--b);
+    color: #fff;
+    border-radius: 6px;
+    padding: 36px 32px;
+    text-align: center;
+    margin: 52px 0 32px;
+  }
+  .cta-block h2 {
+    font-size: 1.5rem;
+    color: #fff;
+    border: none;
+    margin: 0 0 12px;
+    padding: 0;
+  }
+  .cta-block p { color: rgba(255,255,255,.8); margin-bottom: 24px; font-size: 0.95rem; }
+  .btn {
+    display: inline-block;
+    background: var(--d);
+    color: var(--nv);
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 13px 28px;
+    border-radius: 3px;
+    text-decoration: none;
+  }
+
+  /* ── Footer ── */
+  .post-footer {
+    border-top: 1px solid var(--border);
+    padding: 28px 0;
+    font-family: Arial, sans-serif;
+    font-size: 0.82rem;
+    color: var(--muted);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .tag {
+    display: inline-block;
+    background: var(--border);
+    padding: 4px 12px;
+    border-radius: 2px;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  @media print {
+    .hero { background: var(--nv) !important; }
+    .fact-box { background: var(--b) !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <span>Vino Bianco</span> — Enoteca do Sommelier · Blog
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Tendências · Marketing Digital · IA</div>
+    <h1>GEO vs SEO: por que a <em>IA está recomendando</em> o Vino Bianco — e o que isso muda para você</h1>
+    <p class="hero-sub">Uma venda chegou do Rio de Janeiro via ChatGPT. Não foi por acidente. Entenda a nova era da descoberta de vinhos e como se posicionar nela.</p>
+    <div class="hero-date">Outubro 2025 · Por Vino Bianco — Enoteca do Sommelier</div>
+  </div>
+</section>
+
+<main class="container">
+  <article class="article">
+
+    <div class="fact-box">
+      <p>Semana passada recebemos um pedido vindo do Rio de Janeiro. O cliente não usou o Google. Ele perguntou ao ChatGPT onde encontrar vinhos premium com curadoria de sommelier — e a IA indicou o Vino Bianco.</p>
+      <div class="fact-source">Caso real · Vino Bianco, outubro 2025</div>
+    </div>
+
+    <p>Isso não é anedota. É o sinal mais claro de uma mudança estrutural no comportamento do consumidor de vinhos: a jornada de descoberta está migrando do Google para a inteligência artificial generativa.</p>
+
+    <p>Essa mudança tem nome: <strong>GEO — Generative Engine Optimization</strong>. E entender a diferença entre GEO e SEO pode ser o fator que determina quais enotecas e vinícolas serão recomendadas nos próximos anos — e quais ficarão invisíveis.</p>
+
+    <div class="stat-row">
+      <div class="stat">
+        <div class="stat-num">40%</div>
+        <div class="stat-label">dos viajantes norte-americanos já usam IA para planejar viagens de vinho</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">≈0</div>
+        <div class="stat-label">cliques extras necessários — a IA entrega a resposta diretamente</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3×</div>
+        <div class="stat-label">mais consultas por voz e linguagem natural versus palavras-chave curtas</div>
+      </div>
+    </div>
+
+    <h2>O que é GEO — e por que é diferente do SEO</h2>
+
+    <p>O SEO tradicional otimiza páginas para aparecer na lista de links azuis do Google. O objetivo é ranquear alto, ganhar cliques e atrair tráfego para o site.</p>
+
+    <p>O GEO é diferente. Quando alguém pergunta ao ChatGPT, Gemini ou Copilot <em>"onde encontrar um Borgonha Grand Cru em São Paulo?"</em>, a IA não lista links — ela <strong>faz uma recomendação direta</strong>. Ela sintetiza informações de diversas fontes confiáveis e nomeia negócios específicos.</p>
+
+    <p>Se o seu negócio não for visto como autoridade confiável por esses modelos de linguagem, você simplesmente não existe nessa resposta.</p>
+
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th></th>
+          <th class="th-seo">SEO Tradicional</th>
+          <th class="th-geo">GEO — IA Generativa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Como funciona</td>
+          <td>Lista links · usuário clica</td>
+          <td>Recomendação direta em texto</td>
+        </tr>
+        <tr>
+          <td>O que é priorizado</td>
+          <td>Palavras-chave, backlinks</td>
+          <td>Autoridade, consistência, confiança</td>
+        </tr>
+        <tr>
+          <td>Tipo de busca</td>
+          <td>"vinho borgonha sp"</td>
+          <td>"qual é a melhor enoteca em SP para presentear minha esposa?"</td>
+        </tr>
+        <tr>
+          <td>Canal de atualização</td>
+          <td>Crawl + indexação</td>
+          <td>Múltiplas plataformas confiáveis</td>
+        </tr>
+        <tr>
+          <td>Resultado</td>
+          <td>Posição na SERP</td>
+          <td>Menção ou não menção na resposta da IA</td>
+        </tr>
+        <tr>
+          <td>Ainda é necessário?</td>
+          <td colspan="2" style="text-align:center;font-style:italic;">Sim — GEO complementa, não substitui o SEO</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Os 5 pilares do GEO para enotecas e importadoras</h2>
+
+    <div class="pillars">
+      <div class="pillar">
+        <div class="pillar-num">01</div>
+        <h4>Identidade Clara</h4>
+        <p>Nome, localização, especialidade e proposta de valor consistentes em todas as plataformas.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">02</div>
+        <h4>Presença Multiplataforma</h4>
+        <p>Google Business Profile, Instagram, TripAdvisor, Vivino, Wine Searcher — cada um com dados precisos.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">03</div>
+        <h4>Conteúdo de Experiência</h4>
+        <p>Blog, FAQ e páginas que respondem perguntas reais: "quanto tempo dura a degustação?", "é para famílias?"</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">04</div>
+        <h4>Avaliações Autênticas</h4>
+        <p>Reviews que mencionam experiências específicas ensinam a IA o que torna seu negócio único.</p>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">05</div>
+        <h4>Dados Estruturados</h4>
+        <p>Schema.org com horários, preços, tipos de experiência e cardápio de vinhos legível por máquina.</p>
+      </div>
+    </div>
+
+    <h2>Por que o Vino Bianco já tem vantagem</h2>
+
+    <p>A venda do Rio de Janeiro via ChatGPT não foi sorte. Ela aconteceu porque ao longo dos últimos anos construímos ativos que os modelos de IA valorizam:</p>
+
+    <ul>
+      <li><strong>Curadoria especializada documentada</strong> — nosso catálogo tem descrições técnicas assinadas por sommelier, não apenas preços.</li>
+      <li><strong>Presença em plataformas de nicho</strong> — Vivino, Wine Searcher e grupos de sommeliers ampliam nossa autoridade no segmento.</li>
+      <li><strong>Conteúdo educativo consistente</strong> — ebooks, posts e treinamentos que demonstram expertise real.</li>
+      <li><strong>Avaliações específicas</strong> — clientes que descrevem a experiência de harmonização, não apenas "ótimo atendimento".</li>
+    </ul>
+
+    <div class="checklist">
+      <h3>Ações imediatas para reforçar seu GEO hoje</h3>
+      <ul>
+        <li>Pergunte ao ChatGPT: <em>"Qual enoteca você recomenda em [sua cidade] para vinhos de Borgonha?"</em> — anote se você aparece.</li>
+        <li>Atualize seu Google Business Profile com horários, fotos recentes e categorias corretas.</li>
+        <li>Publique uma FAQ respondendo as 10 perguntas mais comuns que clientes fazem.</li>
+        <li>Responda todas as avaliações recentes no Google, Vivino e TripAdvisor — a IA lê essas respostas.</li>
+        <li>Adicione schema de produto e negócio local ao seu site.</li>
+        <li>Escreva pelo menos um post de blog por mês descrevendo experiências reais (harmonizações, degustações, eventos).</li>
+        <li>Incentive clientes a mencionar vinho específico e ocasião nas avaliações.</li>
+      </ul>
+    </div>
+
+    <h2>O conteúdo que a IA aprende — e o que ela ignora</h2>
+
+    <p>Modelos generativos aprendem com conteúdo que <em>responde perguntas reais</em>. Páginas de produto com apenas preço e ficha técnica têm pouco valor para a IA. Já um post que descreve <strong>a sensação de abrir um Barolo de 2016 num jantar de aniversário</strong>, com a harmonização e o serviço correto, ensina ao modelo o contexto em que seu negócio deve ser recomendado.</p>
+
+    <h3>Perguntas que seu blog deveria responder (e que a IA usa como treino)</h3>
+    <ul>
+      <li>Qual vinho escolher para presentear alguém que não entende muito?</li>
+      <li>Qual é a diferença entre Pinot Noir da Borgonha e do Vale do Umpqua?</li>
+      <li>Como harmonizar vinho com feijoada?</li>
+      <li>Qual é o perfil de sabor de um Grüner Veltliner austríaco?</li>
+      <li>O Vino Bianco tem opções de vinho natural?</li>
+    </ul>
+
+    <p>Cada resposta publicada é um ativo de GEO. Quanto mais específica e útil, maior a chance de a IA citar seu negócio ao responder uma pergunta similar para um potencial cliente.</p>
+
+    <h2>A WSET, os cursos e a visibilidade na IA</h2>
+
+    <p>Nossa parceria com a WSET (Wine & Spirit Education Trust) — o certificado mais reconhecido globalmente na área de vinhos — também pesa no GEO. Quando a IA busca fontes confiáveis sobre educação em vinhos no Brasil, a menção à WSET em nosso conteúdo é um sinal forte de credibilidade.</p>
+
+    <p>O mesmo vale para referências a <strong>Gambero Rosso</strong>, <strong>Wine Spectator</strong>, <strong>Decanter</strong> e outras publicações de autoridade. Cada vez que nosso conteúdo contextualiza vinhos dentro do ecossistema global de referências, aumentamos a confiança que a IA deposita em nós como fonte.</p>
+
+    <h2>O que vem a seguir</h2>
+
+    <p>GEO é um trabalho de médio prazo — não existe atalho. Mas cada ação de conteúdo, cada avaliação respondida e cada dado estruturado publicado hoje é uma camada de autoridade que se acumula.</p>
+
+    <p>Nos próximos meses, o Vino Bianco estará lançando novas iniciativas de GEO:</p>
+    <ul>
+      <li>Expansão do blog com guias de regiões vinícolas por IA conversacional</li>
+      <li>Integração com plataformas de avaliação especializadas</li>
+      <li>Aplicativo educativo interativo de vinhos (em desenvolvimento)</li>
+      <li>Perguntas frequentes em formato otimizado para busca por voz</li>
+    </ul>
+
+    <p>A venda do Rio de Janeiro foi o primeiro sinal claro. Haverá muitos mais.</p>
+
+    <div class="cta-block">
+      <h2>Quer receber vinhos recomendados pela nossa curadoria?</h2>
+      <p>Assine nossa lista e seja o primeiro a saber sobre novas chegadas, harmonizações sazonais e eventos de degustação — o conteúdo que também alimenta nossa visibilidade nas IAs.</p>
+      <a href="https://vinobianco.com.br" class="btn">Conheça o Vino Bianco</a>
+    </div>
+
+    <div class="post-footer">
+      <span class="tag">GEO</span>
+      <span class="tag">SEO</span>
+      <span class="tag">IA</span>
+      <span class="tag">Marketing de Vinho</span>
+      <span class="tag">ChatGPT</span>
+      <span style="margin-left:auto">Vino Bianco — Enoteca do Sommelier · Out 2025</span>
+    </div>
+
+  </article>
+</main>
+
+</body>
+</html>

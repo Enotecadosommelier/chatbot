@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>Vino Bianco App — Quiz Interativo de Vinhos</title>
+<style>
+/* ═══════════════════════════════════════════
+   DESIGN SYSTEM
+═══════════════════════════════════════════ */
+:root {
+  --b:   #6B1A2B;   /* borgonha */
+  --d:   #C9A84C;   /* dourado */
+  --nv:  #0F1D35;   /* navy */
+  --ow:  #F5F0E8;   /* off-white */
+  --gr:  #2D6A4F;   /* verde */
+  --bg:  #0a0d14;
+  --card:#131928;
+  --card2:#1a2236;
+  --txt: #e8e0d0;
+  --muted:#8a9ab5;
+  --border:#2a3550;
+  --radius:12px;
+  --xs:0.72rem; --sm:0.85rem; --base:1rem; --lg:1.2rem; --xl:1.5rem; --xxl:2rem;
+}
+
+/* ── Reset ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);overflow:hidden}
+button{cursor:pointer;border:none;background:none;font:inherit;color:inherit}
+
+/* ── App Shell ── */
+#app{
+  height:100vh;
+  max-width:430px;
+  margin:0 auto;
+  display:flex;
+  flex-direction:column;
+  position:relative;
+  overflow:hidden;
+}
+#app::before{
+  content:'';
+  position:fixed;top:0;left:50%;transform:translateX(-50%);
+  width:430px;height:100vh;
+  background:radial-gradient(ellipse 60% 40% at 50% 0%, rgba(107,26,43,.35) 0%, transparent 60%);
+  pointer-events:none;z-index:0;
+}
+
+/* ── Screens ── */
+.screen{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;
+  opacity:0;pointer-events:none;transform:translateX(30px);
+  transition:opacity .3s ease,transform .3s ease;
+  z-index:1;
+  overflow-y:auto;
+}
+.screen.active{opacity:1;pointer-events:all;transform:translateX(0)}
+
+/* ═══════ WELCOME SCREEN ═══════ */
+#screen-welcome{
+  align-items:center;justify-content:center;
+  background:linear-gradient(160deg,#0a0d14 0%,#1a0810 100%);
+  padding:32px 24px;gap:0;text-align:center;
+}
+.welcome-logo{
+  width:90px;height:90px;border-radius:50%;
+  background:linear-gradient(135deg,var(--b),#9b2540);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.4rem;margin-bottom:24px;
+  box-shadow:0 0 40px rgba(107,26,43,.6);
+}
+.welcome-logo svg{width:50px;height:50px;fill:#fff}
+#screen-welcome h1{font-size:var(--xxl);font-weight:800;line-height:1.1;margin-bottom:8px}
+#screen-welcome h1 span{color:var(--d)}
+#screen-welcome p{color:var(--muted);font-size:var(--sm);max-width:300px;line-height:1.6;margin-bottom:32px}
+.level-badges{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:36px}
+.lbadge{
+  padding:6px 14px;border-radius:20px;font-size:var(--xs);font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;
+}
+.lbadge.l1{background:rgba(45,106,79,.25);color:#4ade80;border:1px solid rgba(45,106,79,.5)}
+.lbadge.l2{background:rgba(201,168,76,.2);color:var(--d);border:1px solid rgba(201,168,76,.4)}
+.lbadge.l3{background:rgba(107,26,43,.35);color:#f87171;border:1px solid rgba(107,26,43,.5)}
+.lbadge.l4{background:rgba(15,29,53,.8);color:#93c5fd;border:1px solid rgba(59,130,246,.4)}
+.btn-primary{
+  width:100%;padding:16px;border-radius:var(--radius);
+  background:linear-gradient(135deg,var(--b),#9b2540);
+  color:#fff;font-size:var(--base);font-weight:700;
+  letter-spacing:.04em;margin-bottom:12px;
+  box-shadow:0 4px 20px rgba(107,26,43,.5);
+  transition:transform .15s,box-shadow .15s;
+}
+.btn-primary:active{transform:scale(.97)}
+.btn-secondary{
+  width:100%;padding:14px;border-radius:var(--radius);
+  border:1px solid var(--border);color:var(--muted);
+  font-size:var(--sm);
+}
+
+/* ═══════ PROFILE SCREEN ═══════ */
+#screen-profile{padding:0;background:var(--bg)}
+.profile-header{
+  background:linear-gradient(135deg,var(--nv),#1a2d50);
+  padding:48px 24px 32px;text-align:center;
+}
+.avatar{
+  width:72px;height:72px;border-radius:50%;
+  background:linear-gradient(135deg,var(--b),var(--d));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;margin:0 auto 12px;
+}
+.profile-header h2{font-size:var(--xl);font-weight:800;margin-bottom:4px}
+.profile-header p{color:var(--muted);font-size:var(--sm)}
+.xp-bar-wrap{margin-top:20px}
+.xp-label{display:flex;justify-content:space-between;font-size:var(--xs);color:var(--muted);margin-bottom:6px}
+.xp-bar{height:8px;border-radius:4px;background:rgba(255,255,255,.1);overflow:hidden}
+.xp-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--b),var(--d));transition:width .6s ease}
+.profile-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-top:1px solid var(--border)}
+.pstat{background:var(--card);padding:20px 12px;text-align:center}
+.pstat-num{font-size:var(--xl);font-weight:800;color:var(--d)}
+.pstat-lbl{font-size:var(--xs);color:var(--muted);margin-top:4px}
+.section-title{padding:24px 20px 10px;font-size:var(--xs);font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted)}
+.menu-list{padding:0 16px 16px;display:flex;flex-direction:column;gap:10px}
+.menu-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px 16px;display:flex;align-items:center;gap:14px;
+  transition:background .15s;
+}
+.menu-card:active{background:var(--card2)}
+.menu-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.menu-card h3{font-size:var(--base);font-weight:700;margin-bottom:2px}
+.menu-card p{font-size:var(--xs);color:var(--muted)}
+.menu-card .arrow{margin-left:auto;color:var(--muted);font-size:1.2rem}
+
+/* ═══════ LEVEL SELECT ═══════ */
+#screen-levels{padding:0;background:var(--bg)}
+.screen-header{
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:52px 20px 20px;display:flex;align-items:center;gap:12px;
+}
+.back-btn{width:36px;height:36px;border-radius:50%;background:var(--card2);display:flex;align-items:center;justify-content:center;font-size:1.1rem}
+.screen-header h2{font-size:var(--lg);font-weight:800}
+.levels-grid{padding:20px 16px;display:flex;flex-direction:column;gap:14px}
+.level-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:20px 18px;display:flex;align-items:center;gap:16px;
+  position:relative;overflow:hidden;transition:transform .15s;
+}
+.level-card:active{transform:scale(.98)}
+.level-card.locked{opacity:.45;pointer-events:none}
+.level-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:4px}
+.level-card.lv1::before{background:#4ade80}
+.level-card.lv2::before{background:var(--d)}
+.level-card.lv3::before{background:#f87171}
+.level-card.lv4::before{background:#93c5fd}
+.lv-num{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:900;flex-shrink:0}
+.lv1 .lv-num{background:rgba(74,222,128,.15);color:#4ade80}
+.lv2 .lv-num{background:rgba(201,168,76,.15);color:var(--d)}
+.lv3 .lv-num{background:rgba(248,113,113,.15);color:#f87171}
+.lv4 .lv-num{background:rgba(147,197,253,.15);color:#93c5fd}
+.lv-info h3{font-size:var(--base);font-weight:700;margin-bottom:3px}
+.lv-info p{font-size:var(--xs);color:var(--muted)}
+.lv-stars{font-size:.9rem;margin-top:6px}
+.lock-icon{margin-left:auto;font-size:1.3rem;color:var(--muted)}
+
+/* ═══════ QUIZ SCREEN ═══════ */
+#screen-quiz{padding:0;background:var(--bg)}
+.quiz-topbar{
+  background:var(--card);border-bottom:1px solid var(--border);
+  padding:48px 16px 14px;
+  display:flex;align-items:center;gap:10px;
+}
+.quiz-progress-wrap{flex:1}
+.quiz-progress-label{font-size:var(--xs);color:var(--muted);margin-bottom:4px;display:flex;justify-content:space-between}
+.quiz-progress-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden}
+.quiz-progress-fill{height:100%;background:linear-gradient(90deg,var(--b),var(--d));transition:width .4s ease}
+.quiz-lives{display:flex;gap:3px;font-size:1.1rem}
+.quiz-body{padding:24px 20px;flex:1}
+.q-category{font-size:var(--xs);text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:8px;font-weight:700}
+.q-text{font-size:1.15rem;font-weight:700;line-height:1.45;margin-bottom:24px;color:var(--txt)}
+.q-img{
+  width:100%;height:140px;border-radius:10px;
+  background:var(--card2);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:3.5rem;margin-bottom:20px;
+}
+.options{display:flex;flex-direction:column;gap:10px}
+.opt-btn{
+  width:100%;text-align:left;padding:16px 18px;
+  border-radius:10px;border:1.5px solid var(--border);
+  background:var(--card);font-size:var(--sm);line-height:1.4;
+  transition:all .15s;
+  display:flex;align-items:center;gap:12px;
+}
+.opt-letter{
+  width:28px;height:28px;border-radius:50%;
+  background:var(--card2);display:flex;align-items:center;justify-content:center;
+  font-size:var(--xs);font-weight:700;flex-shrink:0;
+  transition:background .15s;
+}
+.opt-btn:active{transform:scale(.98)}
+.opt-btn.correct{border-color:#4ade80;background:rgba(74,222,128,.1)}
+.opt-btn.correct .opt-letter{background:#4ade80;color:#000}
+.opt-btn.wrong{border-color:#f87171;background:rgba(248,113,113,.1)}
+.opt-btn.wrong .opt-letter{background:#f87171;color:#000}
+.opt-btn.disabled{pointer-events:none}
+
+/* ═══════ FEEDBACK ═══════ */
+.feedback-panel{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:430px;
+  border-radius:24px 24px 0 0;padding:24px 20px;
+  z-index:50;transition:all .3s cubic-bezier(.34,1.56,.64,1);
+  transform:translateX(-50%) translateY(100%);
+}
+.feedback-panel.show{transform:translateX(-50%) translateY(0)}
+.feedback-panel.correct-fb{background:linear-gradient(135deg,#0d3320,#1a5c3a)}
+.feedback-panel.wrong-fb{background:linear-gradient(135deg,#3a0d0d,#6b1010)}
+.fb-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.fb-icon{font-size:1.8rem}
+.fb-title{font-size:var(--lg);font-weight:800}
+.feedback-panel.correct-fb .fb-title{color:#4ade80}
+.feedback-panel.wrong-fb .fb-title{color:#f87171}
+.fb-desc{font-size:var(--sm);color:rgba(255,255,255,.75);line-height:1.5;margin-bottom:20px}
+.btn-next{
+  width:100%;padding:14px;border-radius:10px;font-size:var(--base);font-weight:700;
+  letter-spacing:.04em;
+}
+.correct-fb .btn-next{background:#4ade80;color:#000}
+.wrong-fb .btn-next{background:#f87171;color:#000}
+
+/* ═══════ RESULT SCREEN ═══════ */
+#screen-result{
+  align-items:center;justify-content:center;text-align:center;
+  background:linear-gradient(160deg,#0a0d14,#1a0810);
+  padding:32px 24px;
+}
+.result-trophy{font-size:4rem;margin-bottom:16px;filter:drop-shadow(0 0 20px rgba(201,168,76,.6))}
+#screen-result h2{font-size:var(--xxl);font-weight:800;margin-bottom:8px}
+#screen-result h2 span{color:var(--d)}
+#screen-result .result-sub{font-size:var(--sm);color:var(--muted);margin-bottom:32px;max-width:300px}
+.score-circle{
+  width:120px;height:120px;border-radius:50%;margin:0 auto 28px;
+  background:conic-gradient(var(--d) var(--pct,0%), rgba(255,255,255,.1) 0%);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.score-circle::before{
+  content:'';position:absolute;inset:8px;border-radius:50%;
+  background:var(--bg);
+}
+.score-inner{position:relative;z-index:1;font-size:1.6rem;font-weight:900;color:var(--d)}
+.result-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;width:100%;margin-bottom:32px}
+.rs{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px 8px;text-align:center}
+.rs-num{font-size:var(--xl);font-weight:800;color:var(--d)}
+.rs-lbl{font-size:var(--xs);color:var(--muted);margin-top:4px}
+.xp-earned{
+  background:rgba(201,168,76,.15);border:1px solid rgba(201,168,76,.3);
+  border-radius:10px;padding:14px 20px;width:100%;margin-bottom:20px;
+  text-align:center;font-weight:700;color:var(--d);font-size:var(--base);
+}
+.result-actions{display:flex;flex-direction:column;gap:10px;width:100%}
+.btn-retry{
+  width:100%;padding:15px;border-radius:var(--radius);
+  background:linear-gradient(135deg,var(--b),#9b2540);
+  color:#fff;font-size:var(--base);font-weight:700;
+}
+.btn-home{
+  width:100%;padding:13px;border-radius:var(--radius);
+  border:1px solid var(--border);color:var(--muted);font-size:var(--sm);
+}
+
+/* ═══════ MAP SCREEN ═══════ */
+#screen-map{padding:0;background:var(--bg)}
+.map-container{padding:16px;flex:1}
+.map-tabs{display:flex;gap:8px;margin-bottom:16px;overflow-x:auto;padding-bottom:4px}
+.map-tab{
+  padding:8px 16px;border-radius:20px;font-size:var(--xs);font-weight:700;
+  white-space:nowrap;border:1px solid var(--border);background:var(--card);
+  color:var(--muted);transition:all .15s;
+}
+.map-tab.active{background:var(--b);border-color:var(--b);color:#fff}
+.map-svg-wrap{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px;margin-bottom:16px;
+}
+.map-svg-wrap svg{width:100%;height:auto}
+.region-cards{display:flex;flex-direction:column;gap:10px}
+.region-card{
+  background:var(--card);border:1px solid var(--border);border-radius:10px;
+  padding:14px 16px;display:flex;align-items:flex-start;gap:12px;
+}
+.region-dot{width:10px;height:10px;border-radius:50%;background:var(--d);flex-shrink:0;margin-top:5px}
+.region-card h4{font-size:var(--sm);font-weight:700;margin-bottom:3px}
+.region-card p{font-size:var(--xs);color:var(--muted);line-height:1.5}
+.grape-tag{display:inline-block;background:rgba(201,168,76,.15);color:var(--d);border-radius:4px;padding:2px 8px;font-size:.65rem;font-weight:700;margin-top:6px;margin-right:4px}
+
+/* ═══════ NAV BAR ═══════ */
+.nav-bar{
+  display:flex;background:var(--card);border-top:1px solid var(--border);
+  position:relative;z-index:10;flex-shrink:0;
+}
+.nav-btn{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;
+  padding:10px 4px 14px;font-size:.6rem;font-weight:700;text-transform:uppercase;
+  letter-spacing:.06em;color:var(--muted);transition:color .15s;
+}
+.nav-btn.active{color:var(--d)}
+.nav-btn svg{width:22px;height:22px;fill:currentColor}
+
+/* ═══════ GRAPES SCREEN ═══════ */
+#screen-grapes{padding:0;background:var(--bg);overflow-y:auto}
+.grapes-list{padding:16px;display:flex;flex-direction:column;gap:12px}
+.grape-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:18px;
+}
+.grape-header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.grape-icon{
+  width:44px;height:44px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;font-size:1.5rem;
+  flex-shrink:0;
+}
+.grape-header h3{font-size:var(--base);font-weight:800}
+.grape-header .grape-type{font-size:var(--xs);color:var(--muted);margin-top:2px}
+.grape-desc{font-size:var(--sm);color:rgba(232,224,208,.8);line-height:1.6;margin-bottom:12px}
+.grape-facts{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.grape-fact{background:var(--card2);border-radius:8px;padding:10px 12px}
+.grape-fact-lbl{font-size:.65rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:3px}
+.grape-fact-val{font-size:var(--xs);font-weight:700;color:var(--txt)}
+
+/* ═══════ PAIRING SCREEN ═══════ */
+#screen-pairing{padding:0;background:var(--bg);overflow-y:auto}
+.pairing-grid{padding:16px;display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.pair-card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--radius);
+  padding:16px;text-align:center;
+}
+.pair-food{font-size:2rem;margin-bottom:8px}
+.pair-card h4{font-size:var(--sm);font-weight:700;margin-bottom:6px}
+.pair-wine{font-size:var(--xs);color:var(--muted);line-height:1.5}
+.pair-wine strong{color:var(--d)}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ─── WELCOME ─── -->
+<div id="screen-welcome" class="screen active">
+  <div class="welcome-logo">🍷</div>
+  <h1>Vino Bianco<br><span>Quiz</span></h1>
+  <p>Aprenda sobre vinhos do mundo inteiro de forma interativa. Suba de nível. Ganhe badges. Torne-se sommelier.</p>
+  <div class="level-badges">
+    <span class="lbadge l1">Iniciante</span>
+    <span class="lbadge l2">Intermediário</span>
+    <span class="lbadge l3">Avançado</span>
+    <span class="lbadge l4">Sommelier</span>
+  </div>
+  <button class="btn-primary" onclick="goTo('profile')">Começar Agora</button>
+  <button class="btn-secondary" onclick="goTo('levels')">Ver Níveis</button>
+</div>
+
+<!-- ─── PROFILE ─── -->
+<div id="screen-profile" class="screen">
+  <div class="profile-header">
+    <div class="avatar">🍷</div>
+    <h2 id="profile-name">Amante de Vinho</h2>
+    <p id="profile-title">Nível 1 · Iniciante</p>
+    <div class="xp-bar-wrap">
+      <div class="xp-label"><span id="xp-cur">0 XP</span><span id="xp-max">100 XP</span></div>
+      <div class="xp-bar"><div class="xp-fill" id="xp-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+  <div class="profile-stats">
+    <div class="pstat"><div class="pstat-num" id="stat-correct">0</div><div class="pstat-lbl">Acertos</div></div>
+    <div class="pstat"><div class="pstat-num" id="stat-streak">0</div><div class="pstat-lbl">Sequência</div></div>
+    <div class="pstat"><div class="pstat-num" id="stat-quizzes">0</div><div class="pstat-lbl">Quizzes</div></div>
+  </div>
+  <div class="section-title">Explorar</div>
+  <div class="menu-list">
+    <button class="menu-card" onclick="goTo('levels')">
+      <div class="menu-icon" style="background:rgba(248,113,113,.15)">🏆</div>
+      <div><h3>Quiz de Vinhos</h3><p>4 níveis · do básico ao WSET</p></div>
+      <span class="arrow">›</span>
+    </button>
+    <button class="menu-card" onclick="goTo('map')">
+      <div class="menu-icon" style="background:rgba(147,197,253,.15)">🗺️</div>
+      <div><h3>Mapa das Regiões</h3><p>Bordeaux, Borgonha, Toscana...</p></div>
+      <span class="arrow">›</span>
+    </button>
+    <button class="menu-card" onclick="goTo('grapes')">
+      <div class="menu-icon" style="background:rgba(201,168,76,.15)">🍇</div>
+      <div><h3>Guia de Uvas</h3><p>Varietais, aromas, harmonizações</p></div>
+      <span class="arrow">›</span>
+    </button>
+    <button class="menu-card" onclick="goTo('pairing')">
+      <div class="menu-icon" style="background:rgba(45,106,79,.15)">🍽️</div>
+      <div><h3>Harmonizações</h3><p>Vinho certo para cada prato</p></div>
+      <span class="arrow">›</span>
+    </button>
+  </div>
+</div>
+
+<!-- ─── LEVEL SELECT ─── -->
+<div id="screen-levels" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="goTo('profile')">‹</button>
+    <h2>Escolha o Nível</h2>
+  </div>
+  <div class="levels-grid">
+    <button class="level-card lv1" onclick="startQuiz(1)">
+      <div class="lv-num">1</div>
+      <div class="lv-info">
+        <h3>Iniciante</h3>
+        <p>Uvas, países produtores, tipos de vinho</p>
+        <div class="lv-stars" id="stars-1">⭐⭐⭐</div>
+      </div>
+      <span class="lock-icon">›</span>
+    </button>
+    <button class="level-card lv2" onclick="startQuiz(2)">
+      <div class="lv-num">2</div>
+      <div class="lv-info">
+        <h3>Intermediário</h3>
+        <p>Regiões, appellations, harmonizações</p>
+        <div class="lv-stars" id="stars-2">⭐⭐⭐</div>
+      </div>
+      <span class="lock-icon">›</span>
+    </button>
+    <button class="level-card lv3" onclick="startQuiz(3)">
+      <div class="lv-num">3</div>
+      <div class="lv-info">
+        <h3>Avançado</h3>
+        <p>Châteaux, vintages, classificações</p>
+        <div class="lv-stars" id="stars-3">⭐⭐⭐</div>
+      </div>
+      <span class="lock-icon">›</span>
+    </button>
+    <button class="level-card lv4" onclick="startQuiz(4)">
+      <div class="lv-num">4</div>
+      <div class="lv-info">
+        <h3>Sommelier · WSET</h3>
+        <p>Nível hard — Gambero Rosso, grand crus, terroir</p>
+        <div class="lv-stars" id="stars-4">⭐⭐⭐</div>
+      </div>
+      <span class="lock-icon">›</span>
+    </button>
+  </div>
+</div>
+
+<!-- ─── QUIZ ─── -->
+<div id="screen-quiz" class="screen">
+  <div class="quiz-topbar">
+    <button class="back-btn" onclick="goTo('levels')" style="flex-shrink:0">‹</button>
+    <div class="quiz-progress-wrap">
+      <div class="quiz-progress-label">
+        <span id="q-label">Pergunta 1/10</span>
+        <span id="q-level-label">Nível 1</span>
+      </div>
+      <div class="quiz-progress-bar"><div class="quiz-progress-fill" id="quiz-pbar" style="width:10%"></div></div>
+    </div>
+    <div class="quiz-lives" id="quiz-lives">❤️❤️❤️</div>
+  </div>
+  <div class="quiz-body">
+    <div class="q-category" id="q-category">Uvas</div>
+    <div class="q-img" id="q-img"></div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options"></div>
+  </div>
+</div>
+
+<!-- ─── FEEDBACK PANEL ─── -->
+<div class="feedback-panel" id="feedback-panel">
+  <div class="fb-top">
+    <span class="fb-icon" id="fb-icon"></span>
+    <span class="fb-title" id="fb-title"></span>
+  </div>
+  <div class="fb-desc" id="fb-desc"></div>
+  <button class="btn-next" id="btn-next" onclick="nextQuestion()">Continuar</button>
+</div>
+
+<!-- ─── RESULT ─── -->
+<div id="screen-result" class="screen">
+  <div class="result-trophy" id="result-trophy">🏆</div>
+  <h2 id="result-title">Parabéns! <span id="result-score-txt"></span></h2>
+  <p class="result-sub" id="result-sub"></p>
+  <div class="score-circle" id="score-circle" style="--pct:0%">
+    <div class="score-inner" id="score-inner">0%</div>
+  </div>
+  <div class="result-stats">
+    <div class="rs"><div class="rs-num" id="r-correct">0</div><div class="rs-lbl">Acertos</div></div>
+    <div class="rs"><div class="rs-num" id="r-wrong">0</div><div class="rs-lbl">Erros</div></div>
+    <div class="rs"><div class="rs-num" id="r-xp">+0</div><div class="rs-lbl">XP ganho</div></div>
+  </div>
+  <div class="xp-earned" id="xp-earned">+50 XP — Nível mantido!</div>
+  <div class="result-actions">
+    <button class="btn-retry" id="btn-retry" onclick="retryQuiz()">Jogar Novamente</button>
+    <button class="btn-home" onclick="goTo('profile')">Voltar ao Início</button>
+  </div>
+</div>
+
+<!-- ─── MAP ─── -->
+<div id="screen-map" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="goTo('profile')">‹</button>
+    <h2>Mapa Vinícola</h2>
+  </div>
+  <div class="map-container">
+    <div class="map-tabs">
+      <button class="map-tab active" onclick="showMap('france',this)">🇫🇷 França</button>
+      <button class="map-tab" onclick="showMap('italy',this)">🇮🇹 Itália</button>
+      <button class="map-tab" onclick="showMap('spain',this)">🇪🇸 Espanha</button>
+      <button class="map-tab" onclick="showMap('world',this)">🌍 Mundo</button>
+    </div>
+    <div class="map-svg-wrap">
+      <div id="map-svg-area"></div>
+    </div>
+    <div class="region-cards" id="region-cards"></div>
+  </div>
+</div>
+
+<!-- ─── GRAPES ─── -->
+<div id="screen-grapes" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="goTo('profile')">‹</button>
+    <h2>Guia de Uvas</h2>
+  </div>
+  <div class="grapes-list" id="grapes-list"></div>
+</div>
+
+<!-- ─── PAIRING ─── -->
+<div id="screen-pairing" class="screen">
+  <div class="screen-header">
+    <button class="back-btn" onclick="goTo('profile')">‹</button>
+    <h2>Harmonizações</h2>
+  </div>
+  <div class="pairing-grid" id="pairing-grid"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════ */
+const state = {
+  xp: 0, level: 1, correct: 0, streak: 0, quizzes: 0,
+  currentLevel: 1, qIndex: 0, lives: 3, score: 0, total: 0
+};
+
+function saveState(){try{localStorage.setItem('vb-state',JSON.stringify(state))}catch(e){}}
+function loadState(){
+  try{const s=JSON.parse(localStorage.getItem('vb-state'));if(s)Object.assign(state,s)}catch(e){}
+}
+loadState();
+
+/* ═══════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════ */
+let currentScreen = 'welcome';
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  currentScreen = id;
+  if(id==='profile') updateProfile();
+  if(id==='map') showMap('france', document.querySelector('.map-tab'));
+  if(id==='grapes') renderGrapes();
+  if(id==='pairing') renderPairing();
+}
+
+/* ═══════════════════════════════════════════
+   PROFILE
+═══════════════════════════════════════════ */
+const levels = ['','Iniciante','Intermediário','Avançado','Sommelier'];
+function updateProfile(){
+  const xpLvl = [0,100,300,600,1000];
+  const cur = state.xp;
+  let lv = 1;
+  for(let i=1;i<=4;i++) if(cur>=xpLvl[i]) lv=i;
+  state.level = lv;
+  const nextXp = xpLvl[lv] || 1000;
+  const prevXp = xpLvl[lv-1]||0;
+  const pct = Math.min(100,((cur-prevXp)/(nextXp-prevXp))*100);
+  document.getElementById('profile-title').textContent = `Nível ${lv} · ${levels[lv]}`;
+  document.getElementById('xp-cur').textContent = cur+' XP';
+  document.getElementById('xp-max').textContent = nextXp+' XP';
+  document.getElementById('xp-fill').style.width = pct+'%';
+  document.getElementById('stat-correct').textContent = state.correct;
+  document.getElementById('stat-streak').textContent = state.streak;
+  document.getElementById('stat-quizzes').textContent = state.quizzes;
+}
+
+/* ═══════════════════════════════════════════
+   QUESTIONS DATABASE
+═══════════════════════════════════════════ */
+const questions = {
+  1: [
+    {cat:'Uvas Tintas',emoji:'🍇',q:'Qual é a uva principal do Bordeaux tinto?',opts:['Pinot Noir','Cabernet Sauvignon','Merlot','Syrah'],ans:1,exp:'O Cabernet Sauvignon é a uva principal no Médoc (Bordeaux Esquerda). Na Bordeaux Direita, o Merlot domina em St-Émilion e Pomerol.'},
+    {cat:'Uvas Brancas',emoji:'🥂',q:'De qual uva é feito o Champagne branco mais popular?',opts:['Chardonnay','Riesling','Sauvignon Blanc','Gewurztraminer'],ans:0,exp:'O Chardonnay é a única uva branca autorizada no Champagne. Os Blanc de Blancs são feitos 100% de Chardonnay.'},
+    {cat:'Regiões',emoji:'🗺️',q:'Em qual país está localizada a região de Rioja?',opts:['Portugal','França','Espanha','Itália'],ans:2,exp:'Rioja fica no norte da Espanha, próximo à fronteira com a França. A uva principal é a Tempranillo.'},
+    {cat:'Serviço',emoji:'🍾',q:'Qual a temperatura ideal para servir um vinho tinto encorpado?',opts:['6–8°C','10–12°C','16–18°C','22–25°C'],ans:2,exp:'Tintos encorpados como Cabernet ou Barolo são servidos entre 16–18°C. Mais quente que isso, o álcool domina o nariz.'},
+    {cat:'Uvas',emoji:'🍇',q:'O Pinot Noir é a uva tinta principal de qual região francesa?',opts:['Bordeaux','Borgonha','Alsácia','Rhône'],ans:1,exp:'Na Borgonha (Bourgogne), o Pinot Noir reina nos tintos. Vinhos como Gevrey-Chambertin e Vosne-Romanée são feitos desta uva.'},
+    {cat:'Básico',emoji:'🍷',q:'O que significa "Brut" em um rótulo de espumante?',opts:['Doce','Muito seco','Meio seco','Sem álcool'],ans:1,exp:'Brut indica espumante muito seco, com menos de 12g/L de açúcar residual. É o estilo mais popular de Champagne.'},
+    {cat:'Regiões',emoji:'🌍',q:'Qual país é o maior produtor de vinho do Novo Mundo?',opts:['Chile','Argentina','EUA','Austrália'],ans:2,exp:'Os EUA são o maior produtor do Novo Mundo, com a California (Napa, Sonoma) liderando. Na escala global ficam em 4º lugar.'},
+    {cat:'Uvas Italianas',emoji:'🇮🇹',q:'De qual uva é feito o Chianti?',opts:['Barbera','Nebbiolo','Sangiovese','Montepulciano'],ans:2,exp:'O Chianti é feito principalmente de Sangiovese. A versão premium é o Chianti Classico, com o símbolo do galo negro.'},
+    {cat:'Básico',emoji:'🥃',q:'O que é "Tannino" em um vinho?',opts:['Tipo de açúcar','Composto que causa sensação de secura na boca','Ácido do vinho','Nome do levedura'],ans:1,exp:'Taninos são polifenóis vindos da casca e sementes da uva (e da madeira do carvalho). Causam a sensação adstringente, de "secar" a boca.'},
+    {cat:'Uvas',emoji:'🍇',q:'Qual dessas uvas produz o vinho Sauternes?',opts:['Riesling','Semillon','Viognier','Chenin Blanc'],ans:1,exp:'Sauternes é feito principalmente de Sémillon, atacado pela podridão nobre (Botrytis cinerea). Resulta em vinho de sobremesa dourado e doce.'},
+  ],
+  2: [
+    {cat:'Bordeaux',emoji:'🏰',q:'A classificação de 1855 dividiu os châteaux do Médoc em quantas classes?',opts:['3','4','5','6'],ans:2,exp:'A classificação de 1855 criou 5 classes (Premiers até Cinquièmes Crus). Apenas Mouton-Rothschild subiu de posição, em 1973.'},
+    {cat:'Borgonha',emoji:'🍷',q:'O que é um "Grand Cru" na Borgonha?',opts:['Maior produtor da região','Vinhedo de máxima qualidade com AOC própria','Blend de múltiplos produtores','Vinho com mais de 15 anos'],ans:1,exp:'Na Borgonha, Grand Cru é o nível mais alto da hierarquia: vinhedos específicos com AOC própria, como Chambertin, Montrachet e Romanée-Conti.'},
+    {cat:'Champagne',emoji:'🥂',q:'O que é Blanc de Noirs?',opts:['Champagne feito só de Chardonnay','Champagne rosé','Champagne feito de uvas tintas vinificadas em branco','Champagne sem dosagem'],ans:2,exp:'Blanc de Noirs é feito das uvas tintas Pinot Noir e/ou Pinot Meunier, mas vinificadas sem contato com as cascas — resultando em vinho branco!'},
+    {cat:'Itália',emoji:'🇮🇹',q:'O Barolo é feito de qual uva, chamada de "Rei dos Vinhos Italianos"?',opts:['Sangiovese','Aglianico','Nebbiolo','Barbera'],ans:2,exp:'O Barolo é feito 100% de Nebbiolo, cultivado no Piemonte. Precisa de mínimo 3 anos de envelhecimento (5 para a versão Riserva).'},
+    {cat:'Espanha',emoji:'🇪🇸',q:'Qual a classificação mais alta do vinho espanhol?',opts:['Reserva','Gran Reserva','Vino de Pago','Crianza'],ans:2,exp:'Vino de Pago é a classificação mais alta — vinhos de herdades específicas com terroir único. Gran Reserva é a mais alta das classificações de envelhecimento.'},
+    {cat:'Portugal',emoji:'🇵🇹',q:'Em qual rio fica a região do Vinho do Porto?',opts:['Tejo','Lima','Douro','Guadiana'],ans:2,exp:'O Vale do Douro no norte de Portugal é onde o Porto é produzido. Os vinhedos em terraços às margens do rio são Patrimônio Mundial da UNESCO.'},
+    {cat:'Harmonização',emoji:'🍽️',q:'Qual vinho harmoniza melhor com ostras?',opts:['Merlot encorpado','Champagne Brut','Porto Vintage','Amarone'],ans:1,exp:'Champagne Brut ou Muscadet são clássicos com ostras. A acidez viva e as borbulhas "limpam" a salinidade do mar. Nunca vinho tinto com taninos!'},
+    {cat:'Novo Mundo',emoji:'🌎',q:'Qual região argentina é famosa pelo Malbec de altitude?',opts:['Patagônia','Mendoza','Salta','Córdoba'],ans:1,exp:'Mendoza, especialmente Luján de Cuyo e Vale do Uco, produz os Malbecs mais premiados do mundo. A altitude (800–1500m) garante amplitude térmica.'},
+    {cat:'Alemanha',emoji:'🇩🇪',q:'Qual é o nível mais alto de maturação das uvas na classificação alemã?',opts:['Spätlese','Auslese','Trockenbeerenauslese','Beerenauslese'],ans:2,exp:'Trockenbeerenauslese (TBA) é feito de uvas passificadas e atacadas pela Botrytis. É um dos vinhos de sobremesa mais raros e caros do mundo.'},
+    {cat:'Regiões',emoji:'🗺️',q:'A Fizza (Fizz) é uma referência a vinhos espumantes de qual região italiana?',opts:['Toscana','Piemonte','Vêneto','Lombardia'],ans:1,exp:'Piemonte produz o famoso Asti Spumante e o Moscato d\'Asti — vinhos leves, levemente espumantes, feitos de Moscato Bianco. A região também produz Barolo e Barbaresco.'},
+  ],
+  3: [
+    {cat:'Bordeaux Esquerda',emoji:'🏰',q:'Qual destes châteaux é Premier Cru de Pauillac?',opts:['Château Margaux','Château Latour','Château Pichon-Baron','Château Lynch-Bages'],ans:1,exp:'Os Premiers Crus de Pauillac são Latour, Mouton-Rothschild e Lafite-Rothschild. Margaux é Premier Cru mas pertence à appellation Margaux, não Pauillac.'},
+    {cat:'Sauternes',emoji:'🍯',q:'O Château d\'Yquem possui qual classificação única em Sauternes?',opts:['Premier Grand Cru','Premier Cru Supérieur','Grand Cru Classé','Deuxième Grand Cru'],ans:1,exp:'D\'Yquem é o único "Premier Cru Supérieur" de Sauternes — uma categoria criada especialmente para ele em 1855. É considerado o maior vinho de sobremesa do mundo.'},
+    {cat:'Borgonha',emoji:'🍷',q:'Côte de Nuits é famosa principalmente por qual tipo de vinho?',opts:['Brancos de Chardonnay','Tintos de Pinot Noir','Espumantes','Vinhos doces'],ans:1,exp:'Côte de Nuits produz os Pinot Noir mais legendários: Gevrey-Chambertin, Morey-Saint-Denis, Chambolle-Musigny, Vougeot, Vosne-Romanée e Nuits-Saint-Georges.'},
+    {cat:'Rhône',emoji:'🇫🇷',q:'Hermitage, no Rhône Norte, é feito de qual uva?',opts:['Grenache','Mourvèdre','Syrah','Carignan'],ans:2,exp:'No Rhône Norte (Hermitage, Côte-Rôtie, Cornas), a Syrah é a uva dominante. No Rhône Sul (Châteauneuf-du-Pape) reina o Grenache em blends.'},
+    {cat:'Champagne',emoji:'🥂',q:'O que é "Récoltant-Manipulant" (RM) em Champagne?',opts:['Grande casa produtora','Produtor que usa uvas de outros','Vigneron que cultiva e vinifica suas próprias uvas','Champagne feito de uva branca'],ans:2,exp:'RM são os "grower champagnes" — produtores que cultivam suas próprias uvas e fazem seu vinho. Estão na moda por mostrar terroir específico. Contraste com NM (Négociant-Manipulant).'},
+    {cat:'Itália · Gambero Rosso',emoji:'🦐',q:'O guia Gambero Rosso classifica os melhores vinhos italianos com qual símbolo máximo?',opts:['3 Estrelas','3 Taças (Tre Bicchieri)','Prêmio Ouro','Coroa de Ouro'],ans:1,exp:'Tre Bicchieri ("três taças") é a classificação máxima do Gambero Rosso, o guia de vinhos italianos mais influente. É o Oscar dos vinhos italianos.'},
+    {cat:'Espanha · Priorat',emoji:'🇪🇸',q:'O Priorat espanhol é conhecido por seus solos únicos chamados:',opts:['Terra rossa','Albariza','Llicorella','Argiles bleues'],ans:2,exp:'Llicorella é o solo xistoso negro característico do Priorat (Catalunya). A uva Garnacha produz vinhos concentrados e minerais nesse terroir único.'},
+    {cat:'Terroir',emoji:'🌱',q:'O que é "minerality" (mineralidade) em vinho?',opts:['Quantidade de minerais analisável','Sensação olfativa e gustativa de pedra, giz ou metal','Tipo de solo onde a uva cresceu','Técnica de vinificação'],ans:1,exp:'Mineralidade é uma sensação — não um composto mensurável. Descrita como giz, pederneira, grafite ou metal. Associada a terroirs como Chablis (giz) e Sancerre (sílex).'},
+    {cat:'Vinho Natural',emoji:'🌿',q:'O que define um vinho "natural"?',opts:['Feito sem sulfitos','Uvas orgânicas + mínima intervenção na adega + sem ou poucos aditivos','Fermentação em cemento','Sem filtragem'],ans:1,exp:'Vinho natural não tem definição legal única, mas o consenso é: uvas cultivadas organicamente/biodinamicamente + fermentação espontânea + mínima adição de sulfitos (SO₂) e nenhum outro aditivo.'},
+    {cat:'Wine & Buds',emoji:'🍾',q:'Na hierarquia de Bordeaux, qual sub-região produz os Premiers Crus de Sauternes?',opts:['Pomerol','Barsac e Sauternes','Pessac-Léognan','Saint-Émilion'],ans:1,exp:'Os cinco Premiers Crus de Sauternes (incluindo D\'Yquem) ficam nas appellations Sauternes e Barsac. O botrytis (podridão nobre) é fundamental — favorecido pela névoa matinal do rio Ciron.'},
+  ],
+  4: [
+    {cat:'WSET Nível 4',emoji:'🎓',q:'Qual processo de vinificação é usado para produzir Amarone della Valpolicella?',opts:['Carbonic maceration','Appassimento','Saignée','Skin contact'],ans:1,exp:'Appassimento: as uvas (principalmente Corvina) são desidratadas por 90-120 dias em ripas de bambu. Perdem 30-40% do peso, concentrando açúcar e aromas. Resultado: vinho de 15-17% álcool, denso e aveludado.'},
+    {cat:'WSET · Terroir',emoji:'🌱',q:'O que diferencia o terroir de Chambolle-Musigny de Gevrey-Chambertin, ambos na Côte de Nuits?',opts:['Altitude','Solo mais calcáreo e fresco em Chambolle','Microclima mais quente em Chambolle','Uso de uva diferente'],ans:1,exp:'Chambolle tem solos com mais calcário e menos profundidade — produz Pinot Noir mais delicado, floral e feminino. Gevrey tem mais argila e produz vinhos mais robustos e estruturados.'},
+    {cat:'Classificação · Bordeaux',emoji:'🏰',q:'Quantos châteaux compõem os Premiers Grands Crus Classés "A" de Saint-Émilion?',opts:['2','3','4','5'],ans:0,exp:'Apenas 2: Pétrus não — que surpreende. Os dois são Château Ausone e Château Cheval Blanc. Em 2022 Figeac foi promovido a "A", mas a classificação está sob disputa legal.'},
+    {cat:'Champagne · Técnica',emoji:'🥂',q:'Na méthode champenoise, o que é o "dégorgement"?',opts:['Adição do licor de expedição','Remoção do depósito de levedura congelado','Remuage das garrafas','Fermentação malolática'],ans:1,exp:'Dégorgement: o gargalo da garrafa é congelado em salmoura. O tampão de gelo com o depósito (lies) é expelido pela pressão. A garrafa é então completada com o liqueur d\'expédition.'},
+    {cat:'WSET · Vinificação',emoji:'🍷',q:'O que é "extended maceration" e qual seu efeito?',opts:['Fermentação mais longa em temperatura baixa — produz menos taninos','Contato prolongado do mosto com as cascas após fermentação — extrai taninos maduros e cor','Adição de enzimas para liberar aromas','Prensagem suave antes da fermentação'],ans:1,exp:'Extended maceration (maceração pós-fermentativa) mantém o vinho em contato com as cascas por semanas após o fim da fermentação. Extrai mais taninos e polissacarídeos — vinhos de maior guarda e textura mais aveludada.'},
+    {cat:'Piemonte · Barolo',emoji:'🇮🇹',q:'Qual cru de Barolo é considerado o mais valorizado e collectable, a "DRC" italiana?',opts:['Brunate','Cannubi','Monfortino (Giacomo Conterno)','Rocche dell\'Annunziata'],ans:2,exp:'Barolo Monfortino Riserva de Giacomo Conterno (feito só em anos excepcionais) é o Barolo mais collectable. Passa 7+ anos em grandes tonéis de Eslavônia. Comparável ao Romanée-Conti em prestígio e preço.'},
+    {cat:'Borgonha · Grand Cru',emoji:'🍷',q:'Romanée-Conti tem aproximadamente quantos hectares?',opts:['0,85 ha','1,8 ha','4,5 ha','12 ha'],ans:1,exp:'Romanée-Conti tem 1,8 hectares — um dos menores Grand Cru de Borgonha. Produz ~5.000-6.000 garrafas por ano, exclusivamente de Pinot Noir. É considerado o vinho mais caro do mundo em leilão.'},
+    {cat:'Vinhos Naturais',emoji:'🌿',q:'Na produção biodinâmica (Demeter), as práticas seguem o calendário de qual filósofo?',opts:['Louis Pasteur','Rudolf Steiner','Maria Thun','Robert Parker'],ans:1,exp:'Rudolf Steiner, filósofo e místico austríaco, criou a filosofia biodinâmica em 1924. O "Calendário Biodinâmico" de Maria Thun (baseado em Steiner) classifica dias de fruta, raiz, flor e folha para guiar trabalhos no vinhedo e na adega.'},
+    {cat:'Fizza · Itália',emoji:'🇮🇹',q:'O Franciacorta DOCG, considerado o "Champagne italiano", é produzido em qual região?',opts:['Piemonte','Lombardia','Vêneto','Trentino-Alto Adige'],ans:1,exp:'Franciacorta fica na Lombardia, ao sul do Lago d\'Iseo. Usa o método tradicional (champenoise), com Chardonnay, Pinot Nero e Pinot Bianco. É o único espumante italiano obrigado a usar o método por lei.'},
+    {cat:'Wine & Buds · França',emoji:'🍾',q:'Qual é a diferença entre Pomerol e Saint-Émilion, ambos na Bordeaux Direita?',opts:['Saint-Émilion usa Cabernet Franc, Pomerol não','Pomerol não tem classificação oficial — suas estrelas são definidas pelo mercado','Pomerol fica no esquerda do Dordogne','Saint-Émilion não tem Grand Cru'],ans:1,exp:'Pomerol é única: não tem classificação oficial. Pétrus, o mais famoso e caro do mundo, nunca foi "classificado" — sua posição é definida pelo mercado e pela crítica. Saint-Émilion tem uma classificação oficial revisada a cada 10 anos.'},
+  ]
+};
+
+/* ═══════════════════════════════════════════
+   QUIZ ENGINE
+═══════════════════════════════════════════ */
+let currentQuestions = [], qIdx = 0, lives = 3, score = 0, answered = false;
+
+function startQuiz(level){
+  currentQuestions = shuffle([...questions[level]]);
+  qIdx = 0; lives = 3; score = 0; answered = false;
+  state.currentLevel = level;
+  document.getElementById('q-level-label').textContent = 'Nível '+level;
+  goTo('quiz');
+  renderQuestion();
+}
+
+function shuffle(arr){return arr.sort(()=>Math.random()-.5)}
+
+function renderQuestion(){
+  if(qIdx >= currentQuestions.length){ showResult(); return; }
+  const q = currentQuestions[qIdx];
+  answered = false;
+  const total = currentQuestions.length;
+  document.getElementById('q-label').textContent = `Pergunta ${qIdx+1}/${total}`;
+  document.getElementById('quiz-pbar').style.width = `${((qIdx)/total)*100}%`;
+  document.getElementById('quiz-lives').textContent = '❤️'.repeat(lives)+'🖤'.repeat(3-lives);
+  document.getElementById('q-category').textContent = q.cat;
+  document.getElementById('q-img').textContent = q.emoji;
+  document.getElementById('q-text').textContent = q.q;
+  const opts = document.getElementById('options');
+  opts.innerHTML = '';
+  const letters = ['A','B','C','D'];
+  q.opts.forEach((opt,i)=>{
+    const btn = document.createElement('button');
+    btn.className = 'opt-btn';
+    btn.innerHTML = `<span class="opt-letter">${letters[i]}</span> ${opt}`;
+    btn.onclick = () => selectAnswer(i, q.ans, q.exp);
+    opts.appendChild(btn);
+  });
+  // hide feedback
+  const panel = document.getElementById('feedback-panel');
+  panel.classList.remove('show','correct-fb','wrong-fb');
+}
+
+function selectAnswer(chosen, correct, exp){
+  if(answered) return;
+  answered = true;
+  const btns = document.querySelectorAll('.opt-btn');
+  btns.forEach(b=>b.classList.add('disabled'));
+  const isCorrect = chosen === correct;
+  btns[correct].classList.add('correct');
+  if(!isCorrect){
+    btns[chosen].classList.add('wrong');
+    lives--;
+    state.streak = 0;
+  } else {
+    score++;
+    state.correct++;
+    state.streak++;
+  }
+  // feedback
+  const panel = document.getElementById('feedback-panel');
+  panel.classList.remove('correct-fb','wrong-fb');
+  panel.classList.add(isCorrect?'correct-fb':'wrong-fb');
+  document.getElementById('fb-icon').textContent = isCorrect?'✅':'❌';
+  document.getElementById('fb-title').textContent = isCorrect?'Correto! 🎉':'Ops...';
+  document.getElementById('fb-desc').textContent = exp;
+  document.getElementById('btn-next').textContent = qIdx+1 >= currentQuestions.length ? 'Ver Resultado' : 'Continuar';
+  panel.classList.add('show');
+  if(!isCorrect && lives <= 0){
+    document.getElementById('btn-next').textContent = '💔 Ver Resultado';
+  }
+}
+
+function nextQuestion(){
+  document.getElementById('feedback-panel').classList.remove('show');
+  if(lives <= 0){ showResult(); return; }
+  qIdx++;
+  setTimeout(renderQuestion, 300);
+}
+
+function showResult(){
+  const total = Math.min(qIdx+1, currentQuestions.length);
+  const pct = Math.round((score/total)*100)||0;
+  const xpEarned = score * (state.currentLevel * 10);
+  state.xp += xpEarned;
+  state.quizzes++;
+  saveState();
+  document.getElementById('result-trophy').textContent = pct>=80?'🏆':pct>=50?'🥈':'📚';
+  document.getElementById('result-title').textContent = pct>=80?'Excelente!':pct>=50?'Bom trabalho!':'Continue praticando!';
+  document.getElementById('result-score-txt').textContent = pct+'%';
+  document.getElementById('result-sub').textContent = pct>=80?`Nível ${state.currentLevel} dominado! Tente o próximo.`:pct>=50?`Você está evoluindo. Revise as explicações.`:`Cada erro é aprendizado. Leia as dicas e tente novamente.`;
+  const circle = document.getElementById('score-circle');
+  const deg = Math.round(pct/100*360);
+  circle.style.setProperty('--pct', deg+'deg');
+  document.getElementById('score-inner').textContent = pct+'%';
+  document.getElementById('r-correct').textContent = score;
+  document.getElementById('r-wrong').textContent = total-score;
+  document.getElementById('r-xp').textContent = '+'+xpEarned;
+  document.getElementById('xp-earned').textContent = `+${xpEarned} XP — ${pct>=80?'Missão completa! 🌟':'Continue evoluindo!'}`;
+  goTo('result');
+}
+
+function retryQuiz(){ startQuiz(state.currentLevel) }
+
+/* ═══════════════════════════════════════════
+   MAPS
+═══════════════════════════════════════════ */
+const mapData = {
+  france: {
+    svg: `<svg viewBox="0 0 200 220" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="og-f" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1a3a6b"/><stop offset="100%" stop-color="#0a1f3d"/>
+        </linearGradient>
+        <linearGradient id="lg-f" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#4a6741"/><stop offset="100%" stop-color="#2d4a28"/>
+        </linearGradient>
+      </defs>
+      <rect width="200" height="220" fill="url(#og-f)" rx="8"/>
+      <path d="M60,30 L90,20 L135,28 L160,50 L165,80 L150,115 L155,145 L140,175 L110,185 L80,180 L55,160 L45,130 L50,95 L40,65 Z" fill="url(#lg-f)" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
+      <circle cx="85" cy="60" r="4" fill="#C9A84C"/>
+      <text x="93" y="64" font-size="8" fill="#f0e8d0" font-family="sans-serif">Champagne</text>
+      <circle cx="72" cy="100" r="4" fill="#f87171"/>
+      <text x="80" y="104" font-size="8" fill="#f0e8d0" font-family="sans-serif">Borgonha</text>
+      <circle cx="60" cy="130" r="4" fill="#93c5fd"/>
+      <text x="68" y="134" font-size="8" fill="#f0e8d0" font-family="sans-serif">Rhône</text>
+      <circle cx="55" cy="155" r="4" fill="#4ade80"/>
+      <text x="63" y="159" font-size="8" fill="#f0e8d0" font-family="sans-serif">Bordeaux</text>
+      <circle cx="100" cy="80" r="3" fill="#a78bfa"/>
+      <text x="107" y="84" font-size="7" fill="#f0e8d0" font-family="sans-serif">Loire</text>
+      <circle cx="140" cy="140" r="3" fill="#fb923c"/>
+      <text x="147" y="144" font-size="7" fill="#f0e8d0" font-family="sans-serif">Alsácia</text>
+      <text x="100" y="15" font-size="11" text-anchor="middle" fill="#C9A84C" font-weight="bold" font-family="sans-serif">FRANÇA</text>
+      <text x="188" y="20" font-size="10" fill="rgba(255,255,255,.6)" font-family="sans-serif">N</text>
+      <line x1="188" y1="22" x2="188" y2="35" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
+    </svg>`,
+    regions: [
+      {name:'Champagne',color:'#C9A84C',grape:'Chardonnay, Pinot Noir, Pinot Meunier',desc:'A única região onde espumantes podem chamar-se Champagne. Reims e Épernay são os centros. Solo de giz confere mineralidade única.'},
+      {name:'Borgonha (Bourgogne)',color:'#f87171',grape:'Pinot Noir (tinto), Chardonnay (branco)',desc:'Lar dos vinhos mais caros do mundo. Hierarquia: Village → Premier Cru → Grand Cru. Côte de Nuits (tintos), Côte de Beaune (brancos).'},
+      {name:'Valle do Rhône',color:'#93c5fd',grape:'Syrah (Norte), Grenache (Sul)',desc:'Rhône Norte: Hermitage, Côte-Rôtie (Syrah puro). Rhône Sul: Châteauneuf-du-Pape (blends com até 18 uvas autorizadas).'},
+      {name:'Bordeaux',color:'#4ade80',grape:'Cabernet Sauvignon, Merlot, Cabernet Franc',desc:'Maior região de vinhos finos do mundo. Margaux, Pauillac, Saint-Julien, Saint-Estèphe (Esquerda). Saint-Émilion, Pomerol (Direita).'},
+      {name:'Loire',color:'#a78bfa',grape:'Sauvignon Blanc, Chenin Blanc, Cabernet Franc',desc:'Sancerre e Pouilly-Fumé (Sauvignon Blanc). Vouvray (Chenin Blanc). Chinon (Cabernet Franc). Rio Loire percorre toda a região.'},
+      {name:'Alsácia',color:'#fb923c',grape:'Riesling, Gewurztraminer, Pinot Gris',desc:'Região fronteiriça com a Alemanha. Vinhos quase sempre varietais (monocepa). Riesling seco de Alsácia é referência mundial.'},
+    ]
+  },
+  italy: {
+    svg: `<svg viewBox="0 0 180 240" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="og-i" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1e3a5f"/><stop offset="100%" stop-color="#0d2035"/>
+        </linearGradient>
+        <linearGradient id="lg-i" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#5a7a3a"/><stop offset="100%" stop-color="#3a5528"/>
+        </linearGradient>
+      </defs>
+      <rect width="180" height="240" fill="url(#og-i)" rx="8"/>
+      <path d="M30,25 L150,22 L158,55 L140,80 L120,110 L115,145 L108,175 L90,195 L78,190 L70,165 L75,140 L70,110 L55,85 L40,60 Z" fill="url(#lg-i)" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
+      <ellipse cx="68" cy="212" rx="20" ry="10" fill="url(#lg-i)" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+      <circle cx="60" cy="45" r="4" fill="#C9A84C"/>
+      <text x="68" y="49" font-size="8" fill="#f0e8d0" font-family="sans-serif">Piemonte</text>
+      <circle cx="95" cy="65" r="4" fill="#f87171"/>
+      <text x="103" y="69" font-size="8" fill="#f0e8d0" font-family="sans-serif">Vêneto</text>
+      <circle cx="80" cy="105" r="4" fill="#4ade80"/>
+      <text x="88" y="109" font-size="8" fill="#f0e8d0" font-family="sans-serif">Toscana</text>
+      <circle cx="68" cy="212" r="3" fill="#fb923c"/>
+      <text x="76" y="212" font-size="7" fill="#f0e8d0" font-family="sans-serif">Sicília</text>
+      <text x="90" y="14" font-size="11" text-anchor="middle" fill="#C9A84C" font-weight="bold" font-family="sans-serif">ITÁLIA</text>
+    </svg>`,
+    regions: [
+      {name:'Piemonte',color:'#C9A84C',grape:'Nebbiolo, Barbera, Dolcetto',desc:'Barolo e Barbaresco ("rei e rainha dos vinhos italianos") são feitos de Nebbiolo. Asti Spumante e Moscato d\'Asti são os espumantes famosos.'},
+      {name:'Vêneto',color:'#f87171',grape:'Corvina, Garganega, Pinot Grigio',desc:'Amarone, Valpolicella, Soave e Prosecco são desta região. Amarone usa o processo appassimento — uvas desidratadas por meses.'},
+      {name:'Toscana',color:'#4ade80',grape:'Sangiovese, Cabernet Sauvignon',desc:'Chianti Classico, Brunello di Montalcino, Vino Nobile. Super Toscanos (Sassicaia, Tignanello) usam uvas internacionais em blends inovadores.'},
+      {name:'Sicília',color:'#fb923c',grape:'Nero d\'Avola, Nerello Mascalese, Grillo',desc:'Vinhos do sul com caráter mediterrâneo. Etna (vulcânico) produz Nerello Mascalese de altitude com perfil elegante e mineral. Marsala é o famoso vinho fortificado.'},
+    ]
+  },
+  spain: {
+    svg: `<svg viewBox="0 0 220 160" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="og-s" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#1a2e50"/><stop offset="100%" stop-color="#0d1a2e"/>
+        </linearGradient>
+        <linearGradient id="lg-s" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0%" stop-color="#7a4030"/><stop offset="100%" stop-color="#5a2c20"/>
+        </linearGradient>
+      </defs>
+      <rect width="220" height="160" fill="url(#og-s)" rx="8"/>
+      <path d="M20,40 L90,30 L150,25 L195,45 L200,80 L190,120 L150,130 L100,128 L60,120 L25,100 L15,70 Z" fill="url(#lg-s)" stroke="rgba(255,255,255,.25)" stroke-width="1"/>
+      <circle cx="75" cy="55" r="4" fill="#C9A84C"/>
+      <text x="83" y="59" font-size="8" fill="#f0e8d0" font-family="sans-serif">Rioja</text>
+      <circle cx="110" cy="65" r="4" fill="#f87171"/>
+      <text x="118" y="69" font-size="8" fill="#f0e8d0" font-family="sans-serif">Ribera del Duero</text>
+      <circle cx="45" cy="70" r="4" fill="#93c5fd"/>
+      <text x="53" y="74" font-size="8" fill="#f0e8d0" font-family="sans-serif">Rías Baixas</text>
+      <circle cx="160" cy="95" r="4" fill="#4ade80"/>
+      <text x="168" y="99" font-size="8" fill="#f0e8d0" font-family="sans-serif">Priorat</text>
+      <circle cx="130" cy="110" r="3" fill="#fb923c"/>
+      <text x="138" y="114" font-size="7" fill="#f0e8d0" font-family="sans-serif">Jerez</text>
+      <text x="110" y="15" font-size="11" text-anchor="middle" fill="#C9A84C" font-weight="bold" font-family="sans-serif">ESPANHA</text>
+    </svg>`,
+    regions: [
+      {name:'Rioja',color:'#C9A84C',grape:'Tempranillo, Garnacha, Graciano',desc:'Região mais famosa da Espanha. Crianza, Reserva e Gran Reserva definem o envelhecimento. Rioja Alta e Alavesa produzem os melhores vinhos.'},
+      {name:'Ribera del Duero',color:'#f87171',grape:'Tempranillo (Tinto Fino)',desc:'Rival de Rioja. Vega Sicilia Único é o vinho espanhol mais icônico. Altitude de 800-900m garante acidez elevada e noites frescas.'},
+      {name:'Rías Baixas',color:'#93c5fd',grape:'Albariño',desc:'Galícia (noroeste). O Albariño produz brancos aromáticos, de alta acidez e sabor atlântico. Ideal com frutos do mar e peixe.'},
+      {name:'Priorat',color:'#4ade80',grape:'Garnacha, Cariñena',desc:'Solo de xisto negro (llicorella). Vinhos de concentração extrema. Álvaro Palacios (L\'Ermita) revolucionou a região nos anos 90.'},
+    ]
+  },
+  world: {
+    svg: `<svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="og-w" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#0d2a50"/><stop offset="100%" stop-color="#061525"/>
+        </linearGradient>
+      </defs>
+      <rect width="260" height="160" fill="url(#og-w)" rx="8"/>
+      <!-- Europa -->
+      <ellipse cx="120" cy="55" rx="25" ry="20" fill="#5a4030" opacity=".8" stroke="rgba(255,255,255,.2)" stroke-width=".8"/>
+      <text x="120" y="59" font-size="7" text-anchor="middle" fill="#C9A84C" font-family="sans-serif" font-weight="bold">Europa</text>
+      <!-- Americas -->
+      <ellipse cx="55" cy="80" rx="20" ry="28" fill="#3a5530" opacity=".8" stroke="rgba(255,255,255,.2)" stroke-width=".8"/>
+      <text x="55" y="84" font-size="7" text-anchor="middle" fill="#4ade80" font-family="sans-serif" font-weight="bold">Américas</text>
+      <!-- Africa/Saf -->
+      <ellipse cx="130" cy="110" rx="15" ry="18" fill="#5a3520" opacity=".8" stroke="rgba(255,255,255,.2)" stroke-width=".8"/>
+      <text x="130" y="114" font-size="7" text-anchor="middle" fill="#fb923c" font-family="sans-serif" font-weight="bold">Á. Sul</text>
+      <!-- Oceania -->
+      <ellipse cx="210" cy="110" rx="20" ry="14" fill="#2a4560" opacity=".8" stroke="rgba(255,255,255,.2)" stroke-width=".8"/>
+      <text x="210" y="114" font-size="7" text-anchor="middle" fill="#93c5fd" font-family="sans-serif" font-weight="bold">Oceania</text>
+      <!-- Asia -->
+      <ellipse cx="195" cy="55" rx="30" ry="18" fill="#3a305a" opacity=".8" stroke="rgba(255,255,255,.2)" stroke-width=".8"/>
+      <text x="195" y="59" font-size="7" text-anchor="middle" fill="#a78bfa" font-family="sans-serif" font-weight="bold">Ásia</text>
+      <!-- Dots key regions -->
+      <circle cx="108" cy="48" r="3" fill="#C9A84C"/><text x="113" y="52" font-size="6" fill="#f0e8d0" font-family="sans-serif">França</text>
+      <circle cx="120" cy="68" r="3" fill="#f87171"/><text x="125" y="72" font-size="6" fill="#f0e8d0" font-family="sans-serif">Itália</text>
+      <circle cx="40" cy="65" r="3" fill="#4ade80"/><text x="45" y="69" font-size="6" fill="#f0e8d0" font-family="sans-serif">Chile</text>
+      <circle cx="60" cy="95" r="3" fill="#34d399"/><text x="65" y="99" font-size="6" fill="#f0e8d0" font-family="sans-serif">Argentina</text>
+      <circle cx="210" cy="105" r="3" fill="#93c5fd"/><text x="215" y="109" font-size="6" fill="#f0e8d0" font-family="sans-serif">Austrália</text>
+      <circle cx="195" cy="48" r="3" fill="#a78bfa"/><text x="200" y="52" font-size="6" fill="#f0e8d0" font-family="sans-serif">Japão</text>
+      <text x="130" y="15" font-size="11" text-anchor="middle" fill="#C9A84C" font-weight="bold" font-family="sans-serif">VINHO NO MUNDO</text>
+    </svg>`,
+    regions: [
+      {name:'França',color:'#C9A84C',grape:'Cabernet Sauvignon, Pinot Noir, Chardonnay...',desc:'O padrão ouro do vinho mundial. Bordeaux, Borgonha, Champagne, Rhône, Loire e Alsácia definem estilos imitados no mundo todo.'},
+      {name:'Itália',color:'#f87171',grape:'Sangiovese, Nebbiolo, Corvina, Primitivo...',desc:'Maior variedade de uvas autóctones do mundo (500+). Cada região tem identidade própria. Barolo, Amarone e Brunello são ícones globais.'},
+      {name:'Chile e Argentina',color:'#4ade80',grape:'Malbec (AR), Carménère (CL), Cabernet Sauvignon',desc:'Argentina: Malbec de Mendoza domina. Chile: vale dos Andes com microclimas únicos. Carménère é a uva símbolo chilena.'},
+      {name:'Austrália e NZ',color:'#93c5fd',grape:'Shiraz (AU), Sauvignon Blanc (NZ)',desc:'Austrália: Barossa Valley (Shiraz), Yarra Valley. Nova Zelândia: Marlborough (Sauvignon Blanc referência mundial), Pinot Noir de Central Otago.'},
+      {name:'Japão',color:'#a78bfa',grape:'Koshu, Muscat Bailey A',desc:'Região emergente. A Koshu é a uva branca nativa japonesa. Regiões de Yamanashi e Hokkaido produzem vinhos cada vez mais reconhecidos.'},
+    ]
+  }
+};
+
+function showMap(region, btn){
+  document.querySelectorAll('.map-tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  const data = mapData[region];
+  document.getElementById('map-svg-area').innerHTML = data.svg;
+  const cards = document.getElementById('region-cards');
+  cards.innerHTML = data.regions.map(r=>`
+    <div class="region-card">
+      <div class="region-dot" style="background:${r.color}"></div>
+      <div>
+        <h4>${r.name}</h4>
+        <p>${r.desc}</p>
+        ${r.grape.split(',').map(g=>`<span class="grape-tag">${g.trim()}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════
+   GRAPES
+═══════════════════════════════════════════ */
+const grapes = [
+  {name:'Cabernet Sauvignon',type:'Tinta',icon:'🍇',color:'#7a1a2a',
+   desc:'A uva tinta mais cultivada do mundo. Casca espessa, alto tanino e longevidade. Origem em Bordeaux, hoje em todo o Novo Mundo.',
+   facts:{Aroma:'Cassis, cedro, tabaco, menta',Corpo:'Encorpado',Tanino:'Alto',Acidez:'Média',Regiões:'Bordeaux, Napa Valley, Chile'}},
+  {name:'Pinot Noir',type:'Tinta',icon:'🍒',color:'#9b2540',
+   desc:'A mais difícil e elegante. Casca fina, baixo tanino, perfil sedoso. A Borgonha é sua terra natal e patamar máximo.',
+   facts:{Aroma:'Cereja, framboise, cogumelo, terra',Corpo:'Leve a médio',Tanino:'Baixo',Acidez:'Alta',Regiões:'Borgonha, Oregon, NZ, Champagne'}},
+  {name:'Syrah/Shiraz',type:'Tinta',icon:'🫐',color:'#1a0d4a',
+   desc:'Na França é Syrah (elegante, pimenta preta). Na Austrália é Shiraz (rico, jammy, achocolatado). Mesma uva, perfis distintos.',
+   facts:{Aroma:'Amora, pimenta preta, defumado, violeta',Corpo:'Encorpado',Tanino:'Médio-Alto',Acidez:'Média',Regiões:'Rhône Norte, Barossa Valley, Argentina'}},
+  {name:'Malbec',type:'Tinta',icon:'🍷',color:'#4a1040',
+   desc:'Uva francesa (Cahors) que encontrou sua identidade na Argentina. Mendoza produziu vinhos que deixaram Bordeaux para trás em popularidade.',
+   facts:{Aroma:'Ameixa, violeta, cacau, tabaco',Corpo:'Encorpado',Tanino:'Médio',Acidez:'Média',Regiões:'Mendoza (AR), Cahors (FR)'}},
+  {name:'Chardonnay',type:'Branca',icon:'🥂',color:'#8a6a10',
+   desc:'A uva branca mais versátil. Sem carvalho: leve e mineral (Chablis). Com carvalho: amanteigado e tostado (Meursault, Napa). Champagne: estrutura e frescor.',
+   facts:{Aroma:'Maçã verde, baunilha, manteiga, tostado',Corpo:'Médio a encorpado',Tanino:'Nenhum',Acidez:'Média',Regiões:'Borgonha, Champagne, Napa, Austrália'}},
+  {name:'Sauvignon Blanc',type:'Branca',icon:'🍋',color:'#4a6a10',
+   desc:'Aromática, de alta acidez e personalidade marcante. Sancerre (silênica, mineral). Marlborough/NZ (tropical explosivo, maracujá, capim).',
+   facts:{Aroma:'Capim, toranja, maracujá, sílex',Corpo:'Leve a médio',Tanino:'Nenhum',Acidez:'Alta',Regiões:'Loire (FR), Marlborough (NZ), Chile'}},
+  {name:'Riesling',type:'Branca',icon:'🍯',color:'#a08010',
+   desc:'Rainha da Alemanha. Longevidade extrema — envelhece décadas. Pode ser seco (Alsácia) ou doce (Trockenbeerenauslese). Acidez sempre presente.',
+   facts:{Aroma:'Pêssego, mel, petróleo (maduro), cítrico',Corpo:'Leve',Tanino:'Nenhum',Acidez:'Muito Alta',Regiões:'Mosela, Reno (DE), Alsácia (FR), Austrália'}},
+  {name:'Nebbiolo',type:'Tinta',icon:'🏔️',color:'#6a1a10',
+   desc:'O Rei do Piemonte. Alta acidez, alto tanino — difícil na juventude, transcendente com 20+ anos. Barolo e Barbaresco são os vinhos-mito.',
+   facts:{Aroma:'Alcatrão, rosa, cereja seca, terra',Corpo:'Encorpado',Tanino:'Muito Alto',Acidez:'Alta',Regiões:'Piemonte — Barolo, Barbaresco, Gattinara'}},
+  {name:'Sangiovese',type:'Tinta',icon:'🌿',color:'#5a2010',
+   desc:'A uva mais plantada da Itália. Chianti Classico, Brunello di Montalcino (100% Sangiovese), Vino Nobile. Acidez alta e taninos firmes.',
+   facts:{Aroma:'Cereja ácida, tomate seco, couro, ervas',Corpo:'Médio a encorpado',Tanino:'Médio-Alto',Acidez:'Alta',Regiões:'Toscana — Chianti, Brunello, Morellino'}},
+];
+
+function renderGrapes(){
+  document.getElementById('grapes-list').innerHTML = grapes.map(g=>`
+    <div class="grape-card">
+      <div class="grape-header">
+        <div class="grape-icon" style="background:${g.color}22;color:${g.color}">${g.icon}</div>
+        <div>
+          <h3>${g.name}</h3>
+          <div class="grape-type">${g.type} · ${g.facts.Regiões.split(',')[0].trim()}</div>
+        </div>
+      </div>
+      <div class="grape-desc">${g.desc}</div>
+      <div class="grape-facts">
+        ${Object.entries(g.facts).map(([k,v])=>`<div class="grape-fact"><div class="grape-fact-lbl">${k}</div><div class="grape-fact-val">${v}</div></div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════
+   PAIRING
+═══════════════════════════════════════════ */
+const pairings = [
+  {food:'🥩',name:'Churrasco/Bife',wine:'<strong>Malbec</strong> argentino ou <strong>Cabernet Sauvignon</strong> de Napa — taninos cortam a gordura da carne vermelha.'},
+  {food:'🐟',name:'Peixe/Frutos do Mar',wine:'<strong>Sauvignon Blanc</strong> de Marlborough ou <strong>Chablis</strong> — acidez e mineralidade realçam o sabor do mar.'},
+  {food:'🦞',name:'Lagosta/Camarão',wine:'<strong>Chardonnay</strong> com carvalho (Meursault) ou <strong>Champagne Blanc de Blancs</strong> — cremosidade combina com cremosidade.'},
+  {food:'🍕',name:'Pizza/Massa',wine:'<strong>Chianti Classico</strong> ou <strong>Barbera d\'Asti</strong> — acidez alta combina com molho de tomate. Regra: "o que cresce junto, combina junto".'},
+  {food:'🧀',name:'Queijo Roquefort',wine:'<strong>Sauternes</strong> ou <strong>Porto Vintage</strong> — doçura do vinho complementa a salinidade do queijo azul.'},
+  {food:'🍫',name:'Chocolate Amargo',wine:'<strong>Banyuls</strong> (FR) ou <strong>LBV Porto</strong> — vinhos naturalmente doces com taninos espelham o perfil do chocolate.'},
+  {food:'🍄',name:'Cogumelos/Trufas',wine:'<strong>Pinot Noir</strong> de Borgonha — aromas terrosos e de cogumelo do Pinot espelham as trufas. Regra: terroir a terroir.'},
+  {food:'🫙',name:'Foie Gras',wine:'<strong>Sauternes</strong> ou <strong>Tokaji Aszú</strong> — clássico absoluto. Doçura e acidez cortam a gordura do foie.'},
+];
+
+function renderPairing(){
+  document.getElementById('pairing-grid').innerHTML = pairings.map(p=>`
+    <div class="pair-card">
+      <div class="pair-food">${p.food}</div>
+      <h4>${p.name}</h4>
+      <div class="pair-wine">${p.wine}</div>
+    </div>
+  `).join('');
+}
+
+/* ═══════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════ */
+updateProfile();
+</script>
+</body>
+</html>
