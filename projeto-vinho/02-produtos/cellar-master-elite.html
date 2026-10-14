@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Cellar Master Elite</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+
+:root{
+  --bg:#0C0A07;
+  --surface:#13110D;
+  --card:#1A1712;
+  --border:#2E2A22;
+  --gold:#C5A059;
+  --gold-light:#D4B87A;
+  --gold-dim:#8A6E3A;
+  --burgundy:#801A3B;
+  --burgundy-light:#A02450;
+  --cream:#FDFBF7;
+  --muted:#9B9180;
+  --danger:#C0392B;
+  --success:#27AE60;
+  --txt:#E8E0D0;
+  --txt-dim:#A09880;
+  --shadow:0 8px 32px rgba(0,0,0,.6);
+  --radius:12px;
+  --radius-sm:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--bg);
+  color:var(--txt);
+  min-height:100vh;
+  line-height:1.6;
+}
+
+/* ── TYPOGRAPHY ── */
+.serif{font-family:'Playfair Display',Georgia,serif}
+h1,h2,h3{font-family:'Playfair Display',Georgia,serif;font-weight:700}
+.label{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:500}
+
+/* ── SCREENS ── */
+.screen{display:none;min-height:100vh}
+.screen.active{display:flex;flex-direction:column}
+
+/* ── NAV ── */
+nav{
+  position:sticky;top:0;z-index:100;
+  background:rgba(12,10,7,.95);
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.9rem 1.5rem;
+  backdrop-filter:blur(12px);
+}
+.nav-brand{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;color:var(--gold);
+  display:flex;align-items:center;gap:.5rem;
+  cursor:pointer;
+}
+.nav-brand span{font-size:1.4rem}
+.nav-actions{display:flex;gap:.6rem;align-items:center}
+.nav-btn{
+  background:none;border:1px solid var(--border);
+  color:var(--txt-dim);border-radius:var(--radius-sm);
+  padding:.4rem .9rem;font-size:.8rem;cursor:pointer;
+  font-family:'Inter',sans-serif;transition:all .2s;
+}
+.nav-btn:hover,.nav-btn.active{border-color:var(--gold);color:var(--gold)}
+.nav-badge{
+  background:var(--burgundy);color:#fff;
+  border-radius:50px;padding:.15rem .5rem;font-size:.7rem;
+}
+
+/* ── BUTTONS ── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  padding:.85rem 2rem;border-radius:var(--radius-sm);border:none;
+  cursor:pointer;font-family:'Inter',sans-serif;font-weight:500;
+  font-size:.9rem;transition:all .2s;text-decoration:none;
+}
+.btn-gold{background:linear-gradient(135deg,var(--gold),var(--gold-light));color:#1A1712}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(197,160,89,.35)}
+.btn-outline{background:none;border:1px solid var(--gold);color:var(--gold)}
+.btn-outline:hover{background:rgba(197,160,89,.08)}
+.btn-ghost{background:none;border:1px solid var(--border);color:var(--txt-dim)}
+.btn-ghost:hover{border-color:var(--muted);color:var(--txt)}
+.btn-danger{background:var(--danger);color:#fff}
+.btn-sm{padding:.5rem 1.1rem;font-size:.8rem}
+.btn-lg{padding:1.1rem 2.8rem;font-size:1rem}
+.btn-full{width:100%}
+
+/* ══════════════════════════════════════
+   LANDING SCREEN
+══════════════════════════════════════ */
+#screen-landing{
+  background:radial-gradient(ellipse at 30% 20%,rgba(128,26,59,.18) 0%,transparent 60%),
+             radial-gradient(ellipse at 70% 80%,rgba(197,160,89,.08) 0%,transparent 60%),
+             var(--bg);
+}
+.hero{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:3rem 1.5rem;gap:2rem;
+}
+.hero-badge{
+  display:inline-flex;align-items:center;gap:.5rem;
+  border:1px solid rgba(197,160,89,.3);
+  border-radius:50px;padding:.4rem 1rem;
+  font-size:.75rem;color:var(--gold);letter-spacing:.08em;
+}
+.hero-badge::before{content:'◆';font-size:.6rem}
+.hero h1{
+  font-size:clamp(2.2rem,6vw,4rem);
+  line-height:1.15;
+  background:linear-gradient(135deg,var(--cream) 40%,var(--gold));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.hero-sub{
+  max-width:540px;color:var(--txt-dim);
+  font-size:1rem;line-height:1.7;
+}
+.hero-cta{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+.hero-stats{
+  display:flex;gap:2.5rem;flex-wrap:wrap;justify-content:center;
+  border-top:1px solid var(--border);padding-top:2rem;margin-top:.5rem;
+  width:100%;max-width:600px;
+}
+.hero-stat-num{
+  font-family:'Playfair Display',serif;font-size:2rem;
+  color:var(--gold);font-weight:700;
+}
+.hero-stat-lbl{font-size:.75rem;color:var(--muted)}
+
+/* ══════════════════════════════════════
+   DASHBOARD SCREEN
+══════════════════════════════════════ */
+#screen-dashboard{background:var(--bg)}
+.dashboard-grid{
+  display:grid;
+  grid-template-columns:280px 1fr;
+  gap:0;min-height:calc(100vh - 57px);
+}
+.sidebar{
+  background:var(--surface);
+  border-right:1px solid var(--border);
+  padding:1.5rem;
+  display:flex;flex-direction:column;gap:1rem;
+}
+.sidebar-profile{
+  background:var(--card);border-radius:var(--radius);
+  padding:1.2rem;border:1px solid var(--border);
+  text-align:center;
+}
+.avatar{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,var(--burgundy),var(--gold));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;font-size:1.6rem;color:#fff;
+  margin:0 auto .8rem;
+  border:2px solid var(--gold-dim);
+}
+.profile-name{font-weight:600;font-size:.95rem;margin-bottom:.2rem}
+.profile-tier{
+  display:inline-block;
+  background:rgba(197,160,89,.12);
+  color:var(--gold);font-size:.7rem;
+  border-radius:50px;padding:.2rem .7rem;
+  border:1px solid rgba(197,160,89,.25);
+}
+.sidebar-menu{display:flex;flex-direction:column;gap:.3rem}
+.menu-item{
+  display:flex;align-items:center;gap:.8rem;
+  padding:.7rem 1rem;border-radius:var(--radius-sm);
+  cursor:pointer;transition:all .2s;color:var(--txt-dim);font-size:.88rem;
+}
+.menu-item:hover{background:var(--card);color:var(--txt)}
+.menu-item.active{background:rgba(197,160,89,.1);color:var(--gold);border:1px solid rgba(197,160,89,.2)}
+.menu-icon{font-size:1.1rem;width:24px;text-align:center}
+.sidebar-stats{
+  margin-top:auto;background:var(--card);
+  border-radius:var(--radius);border:1px solid var(--border);
+  padding:1rem;
+}
+.stat-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem}
+.stat-row:last-child{margin-bottom:0}
+.stat-val{font-weight:600;color:var(--gold)}
+
+/* MAIN CONTENT */
+.main-content{padding:2rem;overflow-y:auto}
+.page-header{margin-bottom:2rem}
+.page-header h2{font-size:1.6rem;margin-bottom:.3rem}
+.page-header p{color:var(--txt-dim);font-size:.9rem}
+
+/* CARDS */
+.card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1.5rem;
+}
+.card-gold{border-color:rgba(197,160,89,.25);background:rgba(197,160,89,.04)}
+.card-danger{border-color:rgba(192,57,43,.3)}
+
+/* KPI ROW */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem}
+.kpi{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1.2rem;
+}
+.kpi-val{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--gold);font-weight:700}
+.kpi-lbl{font-size:.75rem;color:var(--muted);margin-top:.2rem}
+.kpi-delta{font-size:.75rem;margin-top:.4rem}
+.kpi-delta.up{color:var(--success)}
+.kpi-delta.down{color:var(--danger)}
+
+/* WINE TABLE */
+.wine-table{width:100%;border-collapse:collapse;font-size:.85rem}
+.wine-table th{
+  padding:.6rem 1rem;text-align:left;
+  color:var(--muted);font-weight:500;font-size:.72rem;
+  letter-spacing:.08em;text-transform:uppercase;
+  border-bottom:1px solid var(--border);
+}
+.wine-table td{padding:.8rem 1rem;border-bottom:1px solid rgba(46,42,34,.5);vertical-align:middle}
+.wine-table tr:hover td{background:rgba(255,255,255,.02)}
+.wine-table tr:last-child td{border-bottom:none}
+.wine-name{font-weight:500;color:var(--cream)}
+.wine-score{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:38px;height:38px;border-radius:50%;
+  font-weight:700;font-size:.8rem;border:2px solid;
+}
+.score-elite{border-color:var(--gold);color:var(--gold);background:rgba(197,160,89,.08)}
+.score-high{border-color:#8BC34A;color:#8BC34A;background:rgba(139,195,74,.08)}
+.score-mid{border-color:var(--muted);color:var(--muted)}
+.tag{
+  display:inline-block;border-radius:4px;
+  padding:.15rem .5rem;font-size:.7rem;font-weight:500;
+}
+.tag-red{background:rgba(128,26,59,.25);color:#E07090}
+.tag-white{background:rgba(197,160,89,.15);color:var(--gold)}
+.tag-sparkling{background:rgba(100,149,237,.15);color:#8AAFF0}
+.tag-fortified{background:rgba(150,75,0,.2);color:#D4956A}
+
+/* VALUE BAR */
+.val-bar{height:4px;background:var(--border);border-radius:2px;margin-top:.4rem;overflow:hidden}
+.val-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--gold-dim),var(--gold))}
+
+/* ALERT */
+.alert{
+  display:flex;align-items:flex-start;gap:.8rem;
+  padding:1rem 1.2rem;border-radius:var(--radius-sm);
+  border:1px solid;font-size:.85rem;margin-bottom:1rem;
+}
+.alert-warn{background:rgba(197,160,89,.06);border-color:rgba(197,160,89,.25);color:var(--gold-light)}
+.alert-danger{background:rgba(192,57,43,.06);border-color:rgba(192,57,43,.3);color:#E07070}
+
+/* PROGRESS RING */
+.ring-wrap{position:relative;display:inline-flex;align-items:center;justify-content:center}
+.ring-label{
+  position:absolute;text-align:center;
+  font-family:'Playfair Display',serif;
+}
+
+/* ══════════════════════════════════════
+   ADD WINE MODAL
+══════════════════════════════════════ */
+.modal-overlay{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.75);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;padding:1rem;
+}
+.modal-overlay.open{display:flex}
+.modal{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--radius);width:100%;max-width:560px;
+  max-height:90vh;overflow-y:auto;
+}
+.modal-header{
+  padding:1.5rem;border-bottom:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.modal-body{padding:1.5rem;display:flex;flex-direction:column;gap:1.2rem}
+.modal-footer{padding:1rem 1.5rem;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:.8rem}
+.modal-close{background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer}
+.modal-close:hover{color:var(--txt)}
+
+/* FORM */
+.form-group{display:flex;flex-direction:column;gap:.4rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+label{font-size:.8rem;color:var(--muted);letter-spacing:.04em}
+input,select,textarea{
+  background:var(--card);border:1px solid var(--border);
+  color:var(--txt);border-radius:var(--radius-sm);
+  padding:.7rem .9rem;font-family:'Inter',sans-serif;font-size:.88rem;
+  transition:border-color .2s;outline:none;width:100%;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--gold)}
+input::placeholder{color:var(--txt-dim)}
+select option{background:var(--card)}
+textarea{resize:vertical;min-height:80px}
+.range-wrap{display:flex;gap:.8rem;align-items:center}
+input[type=range]{flex:1;accent-color:var(--gold)}
+.range-val{
+  min-width:2.5rem;text-align:center;
+  font-weight:600;color:var(--gold);font-size:.9rem;
+}
+
+/* ══════════════════════════════════════
+   DOSSIER / REPORT SCREEN
+══════════════════════════════════════ */
+#screen-dossier{background:var(--bg)}
+.dossier-wrap{max-width:800px;margin:0 auto;padding:2rem 1.5rem}
+.dossier-header{
+  text-align:center;padding:2rem;
+  border-bottom:1px solid var(--border);
+  margin-bottom:2rem;
+}
+.dossier-logo{font-size:2rem;margin-bottom:.5rem}
+.dossier-title{font-size:2rem;color:var(--gold);margin-bottom:.3rem}
+.dossier-meta{color:var(--muted);font-size:.85rem}
+.dossier-section{margin-bottom:2rem}
+.dossier-section h3{font-size:1.1rem;color:var(--gold);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.dossier-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem}
+.dossier-field{background:var(--card);border-radius:var(--radius-sm);padding:1rem;border:1px solid var(--border)}
+.dossier-field-label{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.3rem}
+.dossier-field-val{font-weight:600;font-size:.95rem}
+
+/* ══════════════════════════════════════
+   PRICING SCREEN
+══════════════════════════════════════ */
+#screen-pricing{
+  background:radial-gradient(ellipse at 50% 0%,rgba(128,26,59,.15) 0%,transparent 60%),var(--bg);
+}
+.pricing-wrap{max-width:960px;margin:0 auto;padding:3rem 1.5rem}
+.pricing-header{text-align:center;margin-bottom:3rem}
+.pricing-header h2{font-size:2.2rem;margin-bottom:.8rem}
+.pricing-header p{color:var(--txt-dim);max-width:480px;margin:0 auto}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem}
+.pricing-card{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:2rem;
+  display:flex;flex-direction:column;gap:1.2rem;
+}
+.pricing-card.featured{
+  border-color:var(--gold);
+  background:linear-gradient(135deg,rgba(197,160,89,.06),var(--card));
+  position:relative;
+}
+.featured-badge{
+  position:absolute;top:-1px;left:50%;transform:translateX(-50%);
+  background:var(--gold);color:#1A1712;
+  font-size:.7rem;font-weight:600;letter-spacing:.08em;
+  padding:.3rem 1rem;border-radius:0 0 8px 8px;
+}
+.price{font-family:'Playfair Display',serif;font-size:2.5rem;color:var(--gold);font-weight:700}
+.price-period{font-size:.85rem;color:var(--muted);font-weight:400}
+.price-usd{font-size:.8rem;color:var(--muted)}
+.features-list{list-style:none;display:flex;flex-direction:column;gap:.6rem;font-size:.85rem}
+.features-list li{display:flex;gap:.6rem;align-items:flex-start}
+.features-list li::before{content:'✓';color:var(--gold);font-size:.75rem;margin-top:.15rem;flex-shrink:0}
+.features-list li.no::before{content:'—';color:var(--muted)}
+.features-list li.no{color:var(--muted)}
+.pricing-cta{margin-top:auto}
+
+/* ══════════════════════════════════════
+   TOAST
+══════════════════════════════════════ */
+#toast{
+  position:fixed;bottom:2rem;right:2rem;z-index:999;
+  background:var(--card);border:1px solid var(--gold);
+  border-radius:var(--radius-sm);padding:.9rem 1.4rem;
+  font-size:.85rem;color:var(--gold);
+  transform:translateY(100px);opacity:0;
+  transition:all .35s cubic-bezier(.16,1,.3,1);
+  max-width:320px;
+}
+#toast.show{transform:translateY(0);opacity:1}
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media(max-width:768px){
+  .dashboard-grid{grid-template-columns:1fr}
+  .sidebar{display:none}
+  .sidebar.open{display:flex;position:fixed;inset:0 0 0 auto;width:280px;z-index:150}
+  .form-row{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .hero h1{font-size:2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════
+     TOAST
+═══════════════════════════════════ -->
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════
+     LANDING
+═══════════════════════════════════ -->
+<section id="screen-landing" class="screen active">
+  <nav>
+    <div class="nav-brand" onclick="goTo('landing')">
+      <span>🍷</span> Cellar Master Elite
+    </div>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="goTo('pricing')">Planos</button>
+      <button class="btn btn-gold btn-sm" onclick="goTo('dashboard')">Acessar Adega</button>
+    </div>
+  </nav>
+  <div class="hero">
+    <div class="hero-badge">Plataforma Patrimonial de Ultra-Luxo</div>
+    <h1 class="serif">Sua Adega.<br>Seu Patrimônio.<br>Sua Herança.</h1>
+    <p class="hero-sub">
+      A primeira plataforma de auditoria forense e curadoria de adegas privadas para
+      colecionadores, executivos e <em>family offices</em> que entendem que uma garrafa
+      autenticada vale mais do que uma garrafa apenas guardada.
+    </p>
+    <div class="hero-cta">
+      <button class="btn btn-gold btn-lg" onclick="goTo('dashboard')">Entrar na Adega</button>
+      <button class="btn btn-outline" onclick="goTo('pricing')">Ver Planos — US$ 499/ano</button>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">R$ 2.1M</div>
+        <div class="hero-stat-lbl">Projeção Ano 1</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">750</div>
+        <div class="hero-stat-lbl">Membros Alvo</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">85%</div>
+        <div class="hero-stat-lbl">Margem Operacional</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">US$499</div>
+        <div class="hero-stat-lbl">Ticket Anual</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     DASHBOARD
+═══════════════════════════════════ -->
+<section id="screen-dashboard" class="screen">
+  <nav>
+    <div class="nav-brand" onclick="goTo('landing')"><span>🍷</span> Cellar Master Elite</div>
+    <div class="nav-actions">
+      <span class="nav-badge" id="hud-bottles">0 garrafas</span>
+      <button class="nav-btn active" onclick="goTo('dashboard')">Dashboard</button>
+      <button class="nav-btn" onclick="goTo('dossier')">Dossiê</button>
+      <button class="nav-btn" onclick="goTo('pricing')">Planos</button>
+    </div>
+  </nav>
+  <div class="dashboard-grid">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-profile">
+        <div class="avatar" id="sidebar-avatar">JB</div>
+        <div class="profile-name" id="sidebar-name">Colecionador</div>
+        <div class="profile-tier" id="sidebar-tier">Founding Member</div>
+      </div>
+      <div class="sidebar-menu">
+        <div class="menu-item active" onclick="showPanel('overview')"><span class="menu-icon">📊</span> Visão Geral</div>
+        <div class="menu-item" onclick="showPanel('cellar')"><span class="menu-icon">🍾</span> Minha Adega</div>
+        <div class="menu-item" onclick="showPanel('valuation')"><span class="menu-icon">💰</span> Avaliação</div>
+        <div class="menu-item" onclick="showPanel('alerts')"><span class="menu-icon">🔔</span> Alertas <span class="nav-badge" id="alert-count">2</span></div>
+        <div class="menu-item" onclick="showPanel('market')"><span class="menu-icon">📈</span> Mercado</div>
+        <div class="menu-item" onclick="goTo('dossier')"><span class="menu-icon">📋</span> Gerar Dossiê</div>
+      </div>
+      <div class="sidebar-stats">
+        <div class="label" style="margin-bottom:.8rem">Portfolio</div>
+        <div class="stat-row"><span class="label">Valor estimado</span><span class="stat-val" id="total-value">R$ 0</span></div>
+        <div class="stat-row"><span class="label">Garrafas</span><span class="stat-val" id="total-bottles">0</span></div>
+        <div class="stat-row"><span class="label">Score médio</span><span class="stat-val" id="avg-score">—</span></div>
+        <div class="stat-row"><span class="label">Valorização</span><span class="stat-val up" id="appreciation">+0%</span></div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main-content">
+
+      <!-- OVERVIEW PANEL -->
+      <div id="panel-overview">
+        <div class="page-header">
+          <h2 class="serif">Visão Geral da Adega</h2>
+          <p>Patrimônio vitivinícola auditado em tempo real</p>
+        </div>
+        <div class="kpi-grid" id="kpi-grid">
+          <div class="kpi">
+            <div class="kpi-val" id="kpi-val">R$ 0</div>
+            <div class="kpi-lbl">Valor Total do Portfólio</div>
+            <div class="kpi-delta up">● Atualizado agora</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val" id="kpi-bottles">0</div>
+            <div class="kpi-lbl">Garrafas Inventariadas</div>
+            <div class="kpi-delta up">● Autenticado</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val" id="kpi-peak">—</div>
+            <div class="kpi-lbl">Melhor Pontuação</div>
+            <div class="kpi-delta">Crítica especializada</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val" id="kpi-drink">—</div>
+            <div class="kpi-lbl">Consumir em breve</div>
+            <div class="kpi-delta down">● Atenção recomendada</div>
+          </div>
+        </div>
+
+        <div class="alert alert-warn" id="alert-chain">
+          <span>⚠️</span>
+          <div><strong>Doutrina Ponsot ativa:</strong> Garrafas com lacre comprometido detectadas? Adicione vinhos e ative a auditoria forense. Uma garrafa autenticada pode valer 3× uma garrafa duvidosa em leilão.</div>
+        </div>
+
+        <div class="card" style="margin-bottom:1.5rem">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.2rem">
+            <h3 class="serif" style="font-size:1.1rem">Cellar Recente</h3>
+            <button class="btn btn-gold btn-sm" onclick="openModal()">+ Adicionar Vinho</button>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="wine-table" id="wine-table">
+              <thead>
+                <tr>
+                  <th>Vinho</th><th>Safra</th><th>Score</th><th>Tipo</th><th>Qtd</th><th>Valor Unit.</th><th>Total</th><th></th>
+                </tr>
+              </thead>
+              <tbody id="wine-tbody">
+                <tr><td colspan="8" style="text-align:center;color:var(--muted);padding:2rem">Nenhum vinho cadastrado. <button class="btn btn-outline btn-sm" onclick="openModal()" style="margin-left:.5rem">Adicionar agora</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Distribuição por tipo -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="card">
+            <h3 class="serif" style="font-size:1rem;margin-bottom:1rem">Distribuição por Tipo</h3>
+            <div id="type-dist" style="display:flex;flex-direction:column;gap:.6rem"></div>
+          </div>
+          <div class="card card-gold">
+            <h3 class="serif" style="font-size:1rem;margin-bottom:1rem">Insight do Curador</h3>
+            <p style="font-size:.85rem;color:var(--txt-dim);line-height:1.7" id="curator-insight">
+              Adicione seus primeiros vinhos para receber análises personalizadas do curador patrimonial.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CELLAR PANEL -->
+      <div id="panel-cellar" style="display:none">
+        <div class="page-header">
+          <h2 class="serif">Minha Adega</h2>
+          <p>Inventário completo auditado</p>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:1rem">
+          <button class="btn btn-gold btn-sm" onclick="openModal()">+ Adicionar Vinho</button>
+        </div>
+        <div class="card">
+          <div style="overflow-x:auto">
+            <table class="wine-table" id="wine-table-full">
+              <thead>
+                <tr>
+                  <th>Vinho</th><th>Produtor</th><th>Região</th><th>Safra</th><th>Score</th><th>Tipo</th><th>Qtd</th><th>Compra</th><th>Valor Atual</th><th>Consumo até</th><th></th>
+                </tr>
+              </thead>
+              <tbody id="wine-tbody-full">
+                <tr><td colspan="11" style="text-align:center;color:var(--muted);padding:2rem">Adega vazia</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- VALUATION PANEL -->
+      <div id="panel-valuation" style="display:none">
+        <div class="page-header">
+          <h2 class="serif">Avaliação Patrimonial</h2>
+          <p>Análise de valorização e benchmarks de mercado</p>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi">
+            <div class="kpi-val" id="val-total">R$ 0</div>
+            <div class="kpi-lbl">Valor Atual do Portfólio</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val" id="val-invested">R$ 0</div>
+            <div class="kpi-lbl">Capital Investido</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val up" id="val-gain">+0%</div>
+            <div class="kpi-lbl">Valorização Estimada</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-val" id="val-per-bottle">R$ 0</div>
+            <div class="kpi-lbl">Valor Médio por Garrafa</div>
+          </div>
+        </div>
+        <div class="card" style="margin-bottom:1rem">
+          <h3 class="serif" style="font-size:1.1rem;margin-bottom:1.2rem">Top Performers</h3>
+          <div id="top-performers">
+            <p style="color:var(--muted);font-size:.85rem">Adicione vinhos para ver os top performers</p>
+          </div>
+        </div>
+        <div class="alert alert-warn">
+          <span>💡</span>
+          <div><strong>Leilão-Ready:</strong> Gere o Dossiê PDF para apresentar em leiloeiras como Christie's, Sotheby's ou leilões brasileiros. Um dossiê profissional aumenta em média 23% o valor de realização.</div>
+        </div>
+      </div>
+
+      <!-- ALERTS PANEL -->
+      <div id="panel-alerts" style="display:none">
+        <div class="page-header">
+          <h2 class="serif">Alertas da Adega</h2>
+          <p>Notificações inteligentes de custódia e mercado</p>
+        </div>
+        <div class="alert alert-danger">
+          <span>🌡️</span>
+          <div><strong>Cadeia de Frio:</strong> Monitore temperatura e umidade da adega. Desvios comprometem vinhos de guarda e invalidam apólices de seguro.</div>
+        </div>
+        <div class="alert alert-warn">
+          <span>📅</span>
+          <div><strong>Janela de Consumo:</strong> Vinhos na janela ideal de consumo devem ser monitorados semanalmente. Configure alertas personalizados para safras específicas.</div>
+        </div>
+        <div class="card">
+          <h3 class="serif" style="font-size:1rem;margin-bottom:1rem">Próximos Vencimentos de Janela</h3>
+          <div id="drink-windows">
+            <p style="color:var(--muted);font-size:.85rem">Adicione vinhos com data de consumo para monitorar</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- MARKET PANEL -->
+      <div id="panel-market" style="display:none">
+        <div class="page-header">
+          <h2 class="serif">Inteligência de Mercado</h2>
+          <p>Benchmarks de leilão e tendências globais</p>
+        </div>
+        <div class="kpi-grid">
+          <div class="kpi"><div class="kpi-val">+18%</div><div class="kpi-lbl">Borgonha Premier Cru (12m)</div></div>
+          <div class="kpi"><div class="kpi-val">+12%</div><div class="kpi-lbl">Bordeaux Grand Cru (12m)</div></div>
+          <div class="kpi"><div class="kpi-val">+31%</div><div class="kpi-lbl">Barolo DOCG (12m)</div></div>
+          <div class="kpi"><div class="kpi-val">+9%</div><div class="kpi-lbl">Champagne Prestige (12m)</div></div>
+        </div>
+        <div class="card card-gold">
+          <h3 class="serif" style="font-size:1.1rem;margin-bottom:1rem">🔍 Análise do Curador</h3>
+          <p style="font-size:.88rem;line-height:1.8;color:var(--txt-dim)">
+            O mercado de vinhos de coleção performou acima de ativos tradicionais em 2024. Borgonha
+            Premier Cru e Barolo DOCG lideram a valorização. Para portfólios acima de R$ 500k,
+            recomendamos diversificação entre regiões e uma proporção de 30% em vinhos com potencial
+            de leilão imediato. <br><br>
+            <strong style="color:var(--gold)">Doutrina Ponsot:</strong> A autenticidade documentada
+            é o maior multiplicador de valor. Um Romanée-Conti autenticado pode alcançar 4–6× o preço
+            estimado em leilões competitivos.
+          </p>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     DOSSIER
+═══════════════════════════════════ -->
+<section id="screen-dossier" class="screen">
+  <nav>
+    <div class="nav-brand" onclick="goTo('landing')"><span>🍷</span> Cellar Master Elite</div>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="goTo('dashboard')">← Dashboard</button>
+      <button class="btn btn-gold btn-sm" onclick="printDossier()">⬇ Exportar PDF</button>
+    </div>
+  </nav>
+  <div class="dossier-wrap" id="dossier-content">
+    <div class="dossier-header">
+      <div class="dossier-logo">🍷</div>
+      <div class="dossier-title serif">Dossiê Patrimonial</div>
+      <div class="dossier-meta">Cellar Master Elite · Auditoria Forense · <span id="dossier-date"></span></div>
+    </div>
+    <div class="dossier-section">
+      <h3>Identidade do Colecionador</h3>
+      <div class="dossier-grid">
+        <div class="dossier-field"><div class="dossier-field-label">Nome</div><div class="dossier-field-val" id="d-name">—</div></div>
+        <div class="dossier-field"><div class="dossier-field-label">Tier</div><div class="dossier-field-val" id="d-tier">Founding Member</div></div>
+        <div class="dossier-field"><div class="dossier-field-label">Plataforma</div><div class="dossier-field-val">Cellar Master Elite</div></div>
+        <div class="dossier-field"><div class="dossier-field-label">Versão Dossiê</div><div class="dossier-field-val" id="d-version">1.0</div></div>
+      </div>
+    </div>
+    <div class="dossier-section">
+      <h3>Resumo Executivo do Portfólio</h3>
+      <div class="dossier-grid">
+        <div class="dossier-field"><div class="dossier-field-label">Valor Total</div><div class="dossier-field-val" id="d-total">R$ 0</div></div>
+        <div class="dossier-field"><div class="dossier-field-label">Garrafas</div><div class="dossier-field-val" id="d-bottles">0</div></div>
+        <div class="dossier-field"><div class="dossier-field-label">Score Médio</div><div class="dossier-field-val" id="d-score">—</div></div>
+        <div class="dossier-field"><div class="dossier-field-label">Valorização</div><div class="dossier-field-val" id="d-apprec">—</div></div>
+      </div>
+    </div>
+    <div class="dossier-section">
+      <h3>Inventário Completo</h3>
+      <div style="overflow-x:auto">
+        <table class="wine-table" style="background:var(--card);border-radius:var(--radius-sm);overflow:hidden">
+          <thead><tr><th>Vinho</th><th>Produtor</th><th>Região</th><th>Safra</th><th>Score</th><th>Qtd</th><th>Valor Unit.</th><th>Total</th></tr></thead>
+          <tbody id="dossier-tbody">
+            <tr><td colspan="8" style="text-align:center;color:var(--muted);padding:1.5rem">Nenhuma garrafa registrada</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="dossier-section">
+      <h3>Declaração de Autenticidade</h3>
+      <div class="card card-gold">
+        <p style="font-size:.85rem;line-height:1.8;color:var(--txt-dim)">
+          Este dossiê foi gerado pela plataforma Cellar Master Elite com base nos dados inseridos pelo titular
+          da conta. As avaliações de mercado são estimativas fundamentadas em benchmarks de leilões internacionais
+          (Christie's, Sotheby's, Acker Merrall & Condit) e índices especializados. Para fins de seguro e
+          sucessão patrimonial, recomenda-se validação adicional por sommelier Master of Wine credenciado.
+          <br><br>
+          <strong style="color:var(--gold)">Doutrina Ponsot:</strong> A autenticidade documenta protege o valor.
+          Este documento é Leilão-Ready e pode ser apresentado como prova de custódia em processos de venda,
+          herança e seguro.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     PRICING
+═══════════════════════════════════ -->
+<section id="screen-pricing" class="screen">
+  <nav>
+    <div class="nav-brand" onclick="goTo('landing')"><span>🍷</span> Cellar Master Elite</div>
+    <div class="nav-actions">
+      <button class="nav-btn" onclick="goTo('landing')">← Voltar</button>
+    </div>
+  </nav>
+  <div class="pricing-wrap">
+    <div class="pricing-header">
+      <div class="hero-badge" style="margin:0 auto 1rem">Modelo de Assinatura Anual</div>
+      <h2 class="serif">Curadoria que se paga<br>em uma garrafa autenticada</h2>
+      <p>Uma única garrafa salva de falsificação ou desvio cobre integralmente anos de assinatura</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card">
+        <div><div class="label">Colecionador</div><div class="price">R$ 997<span class="price-period">/ano</span></div><div class="price-usd">≈ US$ 199/ano</div></div>
+        <ul class="features-list">
+          <li>Até 100 garrafas inventariadas</li>
+          <li>Avaliação de mercado básica</li>
+          <li>1 Dossiê PDF por mês</li>
+          <li>Alertas de consumo</li>
+          <li class="no">Auditoria forense</li>
+          <li class="no">Relatório de Sucessão</li>
+          <li class="no">Acesso API leiloeiras</li>
+        </ul>
+        <div class="pricing-cta"><button class="btn btn-outline btn-full" onclick="selectPlan('colecionador')">Começar agora</button></div>
+      </div>
+      <div class="pricing-card featured">
+        <div class="featured-badge">MAIS POPULAR</div>
+        <div><div class="label">Elite</div><div class="price">R$ 2.497<span class="price-period">/ano</span></div><div class="price-usd">≈ US$ 499/ano</div></div>
+        <ul class="features-list">
+          <li>Garrafas ilimitadas</li>
+          <li>Avaliação de mercado premium</li>
+          <li>Dossiês PDF ilimitados</li>
+          <li>Alertas inteligentes (cadeia de frio, janela, leilão)</li>
+          <li>Auditoria forense de autenticidade</li>
+          <li>Relatório de Sucessão Patrimonial</li>
+          <li class="no">Acesso API leiloeiras</li>
+        </ul>
+        <div class="pricing-cta"><button class="btn btn-gold btn-full" onclick="selectPlan('elite')">Assinar Elite</button></div>
+      </div>
+      <div class="pricing-card">
+        <div><div class="label">Family Office</div><div class="price">R$ 9.997<span class="price-period">/ano</span></div><div class="price-usd">≈ US$ 1.999/ano</div></div>
+        <ul class="features-list">
+          <li>Múltiplas adegas e perfis</li>
+          <li>Avaliação forense completa</li>
+          <li>Dossiês para múltiplos membros</li>
+          <li>Integração com apólices de seguro</li>
+          <li>Auditoria forense avançada (Doutrina Ponsot)</li>
+          <li>Relatório de Sucessão multi-herdeiros</li>
+          <li>Acesso API Christie's, Sotheby's</li>
+        </ul>
+        <div class="pricing-cta"><button class="btn btn-outline btn-full" onclick="selectPlan('family')">Contato Exclusivo</button></div>
+      </div>
+    </div>
+    <div class="alert alert-warn" style="max-width:700px;margin:2rem auto 0">
+      <span>🔐</span>
+      <div><strong>Garantia Cellar Master:</strong> Se uma única garrafa autenticada e salva de desvio ou falsificação não cobrir o custo da sua assinatura anual, devolvemos integralmente. Sem letras miúdas.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════
+     ADD WINE MODAL
+═══════════════════════════════════ -->
+<div class="modal-overlay" id="modal-add">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="serif" style="font-size:1.1rem">Adicionar Vinho à Adega</h3>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nome do Vinho *</label>
+          <input type="text" id="f-name" placeholder="ex: Château Margaux"/>
+        </div>
+        <div class="form-group">
+          <label>Produtor</label>
+          <input type="text" id="f-producer" placeholder="ex: Château Margaux"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Região</label>
+          <input type="text" id="f-region" placeholder="ex: Bordeaux, Margaux"/>
+        </div>
+        <div class="form-group">
+          <label>País</label>
+          <select id="f-country">
+            <option value="">Selecione</option>
+            <option>França</option><option>Itália</option><option>Espanha</option>
+            <option>Portugal</option><option>Argentina</option><option>Chile</option>
+            <option>Brasil</option><option>EUA</option><option>Austrália</option>
+            <option>Outro</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipo</label>
+          <select id="f-type">
+            <option value="red">Tinto</option><option value="white">Branco</option>
+            <option value="sparkling">Espumante</option><option value="fortified">Fortificado</option>
+            <option value="rose">Rosé</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Uva(s)</label>
+          <input type="text" id="f-grapes" placeholder="ex: Cabernet Sauvignon, Merlot"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Safra</label>
+          <input type="number" id="f-vintage" placeholder="ex: 2015" min="1900" max="2025"/>
+        </div>
+        <div class="form-group">
+          <label>Quantidade (garrafas)</label>
+          <input type="number" id="f-qty" placeholder="1" min="1" value="1"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Preço de Compra (R$)</label>
+          <input type="number" id="f-price" placeholder="ex: 1500" min="0" step="0.01"/>
+        </div>
+        <div class="form-group">
+          <label>Valor Atual de Mercado (R$)</label>
+          <input type="number" id="f-market" placeholder="ex: 2200" min="0" step="0.01"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Score do Crítico (0–100)</label>
+        <div class="range-wrap">
+          <input type="range" id="f-score" min="75" max="100" value="92" oninput="document.getElementById('score-disp').textContent=this.value"/>
+          <div class="range-val" id="score-disp">92</div>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Consumir a partir de</label>
+          <input type="number" id="f-from" placeholder="ano" min="2024" max="2060"/>
+        </div>
+        <div class="form-group">
+          <label>Consumir até</label>
+          <input type="number" id="f-until" placeholder="ano" min="2024" max="2060"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notas de Degustação / Custódia</label>
+        <textarea id="f-notes" placeholder="Aromas, palato, condições de armazenamento, proveniência..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost btn-sm" onclick="closeModal()">Cancelar</button>
+      <button class="btn btn-gold btn-sm" onclick="addWine()">Adicionar à Adega ✓</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════ STATE ═══════════
+const state = {
+  user: { name: 'Colecionador', tier: 'Founding Member', initials: 'CM' },
+  wines: [],
+  currentPanel: 'overview'
+};
+
+// Load from localStorage
+function loadState(){
+  const saved = localStorage.getItem('cme_state');
+  if(saved){
+    try{
+      const d = JSON.parse(saved);
+      if(d.wines) state.wines = d.wines;
+      if(d.user) state.user = d.user;
+    }catch(e){}
+  }
+}
+
+function saveState(){
+  localStorage.setItem('cme_state', JSON.stringify({wines:state.wines, user:state.user}));
+}
+
+// ═══════════ NAVIGATION ═══════════
+function goTo(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+id).classList.add('active');
+  if(id==='dashboard') renderAll();
+  if(id==='dossier') renderDossier();
+  window.scrollTo(0,0);
+}
+
+function showPanel(id){
+  document.querySelectorAll('[id^="panel-"]').forEach(p=>p.style.display='none');
+  document.getElementById('panel-'+id).style.display='block';
+  document.querySelectorAll('.menu-item').forEach(m=>m.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+  state.currentPanel = id;
+  if(id==='valuation') renderValuation();
+}
+
+// ═══════════ MODAL ═══════════
+function openModal(){
+  document.getElementById('modal-add').classList.add('open');
+}
+function closeModal(){
+  document.getElementById('modal-add').classList.remove('open');
+}
+document.getElementById('modal-add').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+
+// ═══════════ ADD WINE ═══════════
+function addWine(){
+  const name = document.getElementById('f-name').value.trim();
+  if(!name){ toast('Informe o nome do vinho'); return; }
+
+  const wine = {
+    id: Date.now(),
+    name,
+    producer: document.getElementById('f-producer').value.trim(),
+    region: document.getElementById('f-region').value.trim(),
+    country: document.getElementById('f-country').value,
+    type: document.getElementById('f-type').value,
+    grapes: document.getElementById('f-grapes').value.trim(),
+    vintage: +document.getElementById('f-vintage').value || null,
+    qty: +document.getElementById('f-qty').value || 1,
+    price: +document.getElementById('f-price').value || 0,
+    market: +document.getElementById('f-market').value || 0,
+    score: +document.getElementById('f-score').value || 92,
+    drinkFrom: +document.getElementById('f-from').value || null,
+    drinkUntil: +document.getElementById('f-until').value || null,
+    notes: document.getElementById('f-notes').value.trim(),
+    addedAt: new Date().toISOString()
+  };
+
+  state.wines.push(wine);
+  saveState();
+  closeModal();
+  clearForm();
+  renderAll();
+  toast(`"${wine.name}" adicionado à adega ✓`);
+}
+
+function clearForm(){
+  ['f-name','f-producer','f-region','f-grapes','f-vintage','f-qty','f-price','f-market','f-notes','f-from','f-until']
+    .forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  document.getElementById('f-score').value=92;
+  document.getElementById('score-disp').textContent='92';
+  document.getElementById('f-type').value='red';
+  document.getElementById('f-country').value='';
+}
+
+function removeWine(id){
+  state.wines = state.wines.filter(w=>w.id!==id);
+  saveState();
+  renderAll();
+  toast('Vinho removido da adega');
+}
+
+// ═══════════ CALCULATIONS ═══════════
+function totalValue(){ return state.wines.reduce((s,w)=>(s+(w.market||w.price)*w.qty),0); }
+function totalInvested(){ return state.wines.reduce((s,w)=>s+w.price*w.qty,0); }
+function totalBottles(){ return state.wines.reduce((s,w)=>s+w.qty,0); }
+function avgScore(){
+  if(!state.wines.length) return null;
+  return Math.round(state.wines.reduce((s,w)=>s+w.score,0)/state.wines.length);
+}
+function appreciation(){
+  const inv = totalInvested();
+  if(!inv) return 0;
+  return ((totalValue()-inv)/inv*100);
+}
+function bestScore(){ return state.wines.length ? Math.max(...state.wines.map(w=>w.score)) : null; }
+function drinkSoon(){
+  const y = new Date().getFullYear();
+  return state.wines.filter(w=>w.drinkUntil && w.drinkUntil <= y+2).length;
+}
+
+// ═══════════ FORMAT ═══════════
+const fmt = v => 'R$ '+v.toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0});
+
+function typeLabel(t){
+  return {red:'Tinto',white:'Branco',sparkling:'Espumante',fortified:'Fortificado',rose:'Rosé'}[t]||t;
+}
+function typeTagClass(t){
+  return {red:'tag-red',white:'tag-white',sparkling:'tag-sparkling',fortified:'tag-fortified',rose:'tag-red'}[t]||'';
+}
+function scoreClass(s){
+  if(s>=96) return 'score-elite';
+  if(s>=90) return 'score-high';
+  return 'score-mid';
+}
+
+// ═══════════ RENDER SIDEBAR ═══════════
+function renderSidebar(){
+  document.getElementById('sidebar-avatar').textContent = state.user.initials||'CM';
+  document.getElementById('sidebar-name').textContent = state.user.name;
+  document.getElementById('sidebar-tier').textContent = state.user.tier;
+  document.getElementById('total-value').textContent = fmt(totalValue());
+  document.getElementById('total-bottles').textContent = totalBottles();
+  const as = avgScore();
+  document.getElementById('avg-score').textContent = as?as+'pts':'—';
+  const ap = appreciation();
+  const apEl = document.getElementById('appreciation');
+  apEl.textContent = (ap>=0?'+':'')+ap.toFixed(1)+'%';
+  apEl.className = 'stat-val '+(ap>=0?'up':'down');
+  document.getElementById('hud-bottles').textContent = totalBottles()+' garrafas';
+}
+
+// ═══════════ RENDER TABLE ═══════════
+function wineRow(w, full=false){
+  const score = `<div class="wine-score ${scoreClass(w.score)}">${w.score}</div>`;
+  const typeTag = `<span class="tag ${typeTagClass(w.type)}">${typeLabel(w.type)}</span>`;
+  const val = (w.market||w.price)*w.qty;
+  const removeBtn = `<button class="btn btn-ghost btn-sm" style="color:var(--danger);border-color:rgba(192,57,43,.3)" onclick="removeWine(${w.id})">✕</button>`;
+
+  if(full){
+    return `<tr>
+      <td><span class="wine-name">${w.name}</span></td>
+      <td style="color:var(--txt-dim)">${w.producer||'—'}</td>
+      <td style="color:var(--txt-dim)">${w.region||'—'}</td>
+      <td>${w.vintage||'—'}</td>
+      <td>${score}</td>
+      <td>${typeTag}</td>
+      <td>${w.qty}</td>
+      <td>${w.price?fmt(w.price):'—'}</td>
+      <td>${fmt(w.market||w.price)}</td>
+      <td>${w.drinkUntil||'—'}</td>
+      <td>${removeBtn}</td>
+    </tr>`;
+  }
+
+  return `<tr>
+    <td><span class="wine-name">${w.name}</span></td>
+    <td>${w.vintage||'—'}</td>
+    <td>${score}</td>
+    <td>${typeTag}</td>
+    <td>${w.qty}</td>
+    <td>${w.price?fmt(w.price):'—'}</td>
+    <td><strong>${fmt(val)}</strong></td>
+    <td>${removeBtn}</td>
+  </tr>`;
+}
+
+function renderTable(){
+  const tbody = document.getElementById('wine-tbody');
+  const tbodyF = document.getElementById('wine-tbody-full');
+  if(!state.wines.length){
+    const empty = `<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:2rem">Nenhum vinho cadastrado. <button class="btn btn-outline btn-sm" onclick="openModal()" style="margin-left:.5rem">Adicionar agora</button></td></tr>`;
+    if(tbody) tbody.innerHTML = empty;
+    if(tbodyF) tbodyF.innerHTML = `<tr><td colspan="11" style="text-align:center;color:var(--muted);padding:2rem">Adega vazia</td></tr>`;
+    return;
+  }
+  const rows = state.wines.map(w=>wineRow(w,false)).join('');
+  const rowsF = state.wines.map(w=>wineRow(w,true)).join('');
+  if(tbody) tbody.innerHTML = rows;
+  if(tbodyF) tbodyF.innerHTML = rowsF;
+}
+
+// ═══════════ RENDER KPI ═══════════
+function renderKPIs(){
+  document.getElementById('kpi-val').textContent = fmt(totalValue());
+  document.getElementById('kpi-bottles').textContent = totalBottles();
+  const bs = bestScore();
+  document.getElementById('kpi-peak').textContent = bs?bs+'pts':'—';
+  const ds = drinkSoon();
+  document.getElementById('kpi-drink').textContent = ds?ds+' garrafa'+(ds>1?'s':''):'Nenhuma';
+}
+
+// ═══════════ TYPE DISTRIBUTION ═══════════
+function renderTypeDist(){
+  const dist = {};
+  state.wines.forEach(w=>{ dist[w.type]=(dist[w.type]||0)+w.qty; });
+  const total = totalBottles();
+  const el = document.getElementById('type-dist');
+  if(!total){ el.innerHTML='<p style="color:var(--muted);font-size:.85rem">Nenhum vinho adicionado</p>'; return; }
+  el.innerHTML = Object.entries(dist).map(([t,q])=>{
+    const pct = Math.round(q/total*100);
+    return `<div>
+      <div style="display:flex;justify-content:space-between;font-size:.8rem;margin-bottom:.3rem">
+        <span>${typeLabel(t)}</span><span style="color:var(--gold)">${q} (${pct}%)</span>
+      </div>
+      <div class="val-bar"><div class="val-bar-fill" style="width:${pct}%"></div></div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════ CURATOR INSIGHT ═══════════
+function renderInsight(){
+  const el = document.getElementById('curator-insight');
+  if(!state.wines.length){
+    el.textContent = 'Adicione seus primeiros vinhos para receber análises personalizadas do curador patrimonial.';
+    return;
+  }
+  const top = [...state.wines].sort((a,b)=>b.score-a.score)[0];
+  const ap = appreciation();
+  el.innerHTML = `Portfólio atual: <strong style="color:var(--gold)">${fmt(totalValue())}</strong>.<br>
+  ${ap>=0?'Valorização positiva de +'+ap.toFixed(1)+'%':'Portfólio em ajuste.'}
+  ${top?`<br>Destaque: <strong style="color:var(--cream)">${top.name}</strong> (${top.score}pts).`:''}
+  <br>Gere o Dossiê para validar em leilão.`;
+}
+
+// ═══════════ VALUATION PANEL ═══════════
+function renderValuation(){
+  document.getElementById('val-total').textContent = fmt(totalValue());
+  document.getElementById('val-invested').textContent = fmt(totalInvested());
+  const ap = appreciation();
+  const apEl = document.getElementById('val-gain');
+  apEl.textContent = (ap>=0?'+':'')+ap.toFixed(1)+'%';
+  apEl.className = 'kpi-val '+(ap>=0?'up':'down');
+  const bottles = totalBottles();
+  document.getElementById('val-per-bottle').textContent = bottles?fmt(totalValue()/bottles):'R$ 0';
+
+  const top3 = [...state.wines].sort((a,b)=>(b.market||b.price)-(a.market||a.price)).slice(0,3);
+  const tpEl = document.getElementById('top-performers');
+  if(!top3.length){tpEl.innerHTML='<p style="color:var(--muted);font-size:.85rem">Adicione vinhos</p>';return;}
+  tpEl.innerHTML = top3.map((w,i)=>`
+    <div style="display:flex;align-items:center;gap:1rem;padding:.8rem 0;border-bottom:1px solid var(--border);${i===top3.length-1?'border:none':''}">
+      <div style="font-family:\'Playfair Display\',serif;font-size:1.2rem;color:var(--gold);min-width:1.5rem">${i+1}</div>
+      <div style="flex:1">
+        <div class="wine-name">${w.name} ${w.vintage?'<span style="color:var(--muted);font-size:.8rem">'+w.vintage+'</span>':''}</div>
+        <div style="font-size:.8rem;color:var(--muted)">${w.region||''} · Score ${w.score}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-weight:600;color:var(--gold)">${fmt((w.market||w.price)*w.qty)}</div>
+        <div style="font-size:.75rem;color:var(--muted)">${w.qty} garrafa${w.qty>1?'s':''}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ═══════════ DOSSIER ═══════════
+function renderDossier(){
+  document.getElementById('dossier-date').textContent = new Date().toLocaleDateString('pt-BR',{year:'numeric',month:'long',day:'numeric'});
+  document.getElementById('d-name').textContent = state.user.name;
+  document.getElementById('d-tier').textContent = state.user.tier;
+  document.getElementById('d-total').textContent = fmt(totalValue());
+  document.getElementById('d-bottles').textContent = totalBottles();
+  const as = avgScore();
+  document.getElementById('d-score').textContent = as?as+' pts':'—';
+  const ap = appreciation();
+  document.getElementById('d-apprec').textContent = (ap>=0?'+':'')+ap.toFixed(1)+'%';
+  document.getElementById('d-version').textContent = '1.'+state.wines.length;
+
+  const tbody = document.getElementById('dossier-tbody');
+  if(!state.wines.length){
+    tbody.innerHTML = `<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:1.5rem">Nenhuma garrafa registrada</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = state.wines.map(w=>`<tr>
+    <td><span class="wine-name">${w.name}</span></td>
+    <td>${w.producer||'—'}</td>
+    <td>${w.region||'—'}</td>
+    <td>${w.vintage||'—'}</td>
+    <td>${w.score}</td>
+    <td>${w.qty}</td>
+    <td>${w.price?fmt(w.price):'—'}</td>
+    <td>${fmt((w.market||w.price)*w.qty)}</td>
+  </tr>`).join('');
+}
+
+function printDossier(){
+  window.print();
+}
+
+// ═══════════ PLAN SELECT ═══════════
+function selectPlan(plan){
+  const names={colecionador:'Colecionador',elite:'Elite',family:'Family Office'};
+  state.user.tier = names[plan]||plan;
+  saveState();
+  goTo('dashboard');
+  toast('Plano '+names[plan]+' ativado! Bem-vindo ao Cellar Master Elite.');
+}
+
+// ═══════════ RENDER ALL ═══════════
+function renderAll(){
+  renderSidebar();
+  renderTable();
+  renderKPIs();
+  renderTypeDist();
+  renderInsight();
+  document.getElementById('alert-count').textContent = drinkSoon()||'0';
+}
+
+// ═══════════ TOAST ═══════════
+function toast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3200);
+}
+
+// ═══════════ INIT ═══════════
+loadState();
+renderAll();
+</script>
+</body>
+</html>
