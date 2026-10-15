@@ -38,11 +38,11 @@
   color-scheme: light;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-family:var(--ff-body);overflow:hidden}
+html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-family:var(--ff-body);overflow:hidden;overscroll-behavior:none}
 
 /* ══ SHELL ══ */
 .shell{
-  display:grid;grid-template-rows:auto 1fr auto auto;
+  display:flex;flex-direction:column;
   width:100vw;height:100dvh;max-width:680px;margin:0 auto;
   padding-left:max(16px,env(safe-area-inset-left,0px));
   padding-right:max(16px,env(safe-area-inset-right,0px));
@@ -87,6 +87,17 @@ html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-fa
 .q-progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--vinho),var(--ouro));transition:width .55s cubic-bezier(.4,0,.2,1);position:relative}
 .q-progress-fill::after{content:'';position:absolute;right:-1px;top:-2px;width:7px;height:7px;border-radius:50%;background:var(--ouro);box-shadow:0 0 6px var(--ouro)}
 
+/* ══ SCROLL ZONE ══ */
+.scroll-zone{
+  flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  display:flex;flex-direction:column;
+  position:relative;z-index:2;
+  padding-bottom:8px;
+  scrollbar-width:none;
+}
+.scroll-zone::-webkit-scrollbar{display:none}
+
 /* ══ QUESTION ZONE ══ */
 .q-zone{
   display:flex;flex-direction:column;justify-content:flex-end;
@@ -121,7 +132,7 @@ html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-fa
 .q-text{font-family:var(--ff-display);font-size:clamp(18px,5vw,25px);line-height:1.35;color:var(--fg);text-wrap:balance}
 
 /* ══ OPTIONS ══ */
-.options{display:flex;flex-direction:column;gap:8px;position:relative;z-index:2;padding-bottom:8px}
+.options{display:flex;flex-direction:column;gap:8px;position:relative;z-index:2;padding-bottom:8px;flex-shrink:0}
 .opt{
   display:flex;align-items:center;gap:12px;padding:13px 14px;
   border-radius:12px;border:1.5px solid var(--border);background:var(--surface);
@@ -159,9 +170,10 @@ html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-fa
 
 /* ══ STATUS BAR ══ */
 .status-bar{
-  position:relative;z-index:2;padding-top:6px;
+  flex-shrink:0;position:relative;z-index:2;padding-top:6px;
   padding-bottom:max(env(safe-area-inset-bottom,0px),12px);
   display:flex;flex-direction:column;gap:8px;
+  border-top:1px solid rgba(212,175,55,.12);
 }
 .xp-row{display:flex;align-items:center;justify-content:space-between}
 .xp-total{font-size:11px;color:var(--fg3);font-weight:500;display:flex;align-items:center;gap:5px}
@@ -345,6 +357,8 @@ html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-fa
     <div class="q-progress-fill" id="qProgressFill" style="width:0%"></div>
   </div>
 
+  <!-- SCROLL ZONE: question + options scroll together -->
+  <div class="scroll-zone">
   <!-- QUESTION ZONE -->
   <div class="q-zone">
     <div class="q-meta">
@@ -366,6 +380,7 @@ html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-fa
 
   <!-- OPTIONS -->
   <div class="options" id="optionsContainer"></div>
+  </div><!-- /scroll-zone -->
 
   <!-- STATUS BAR -->
   <div class="status-bar">
