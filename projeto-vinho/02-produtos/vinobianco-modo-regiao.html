@@ -17,10 +17,13 @@
   --fg:#2C1810;--fg2:#5A4035;--fg3:var(--cinza);
   --border:rgba(122,31,38,.13);--border-hi:rgba(122,31,38,.32);
   --correct:#1E6B3A;--correct-bg:#E8F5EE;
-  --wrong:var(--vinho);--wrong-bg:#FAEAEA;
+  --wrong:var(--vinho);
   --shadow:rgba(44,24,16,.09);--shadow-md:rgba(44,24,16,.15);
   --ff-d:'Playfair Display',Georgia,serif;
   --ff-b:'Montserrat',system-ui,sans-serif;
+  /* Country colours */
+  --col-fr:#2A5A90;--col-es:#8C3A3A;--col-pt:#7A4022;
+  --col-it:#3A6828;--col-ar:#2A4878;--col-cl:#6A2A78;--col-br:#287840;
   color-scheme:light;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -35,188 +38,158 @@ html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-fa
 }
 
 /* ══ HEADER ══ */
-.header{
-  display:flex;align-items:center;gap:10px;
-  padding:10px 0 8px;
-  border-bottom:1px solid var(--border);
-}
-.brand-mark{
-  width:36px;height:36px;border-radius:50%;
-  background:var(--vinho);display:flex;align-items:center;justify-content:center;
-  flex-shrink:0;
-}
+.header{display:flex;align-items:center;gap:10px;padding:10px 0 8px;border-bottom:1px solid var(--border);}
+.brand-mark{width:36px;height:36px;border-radius:50%;background:var(--vinho);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .brand-mark svg{width:20px;height:22px}
 .game-title{font-family:var(--ff-d);font-size:.95rem;color:var(--vinho);font-weight:600;letter-spacing:.02em}
 .game-sub{font-size:.68rem;color:var(--fg3);margin-top:1px;letter-spacing:.04em;text-transform:uppercase}
 .spacer{flex:1}
-.xp-pill{
-  background:var(--ouro);color:#fff;border-radius:20px;
-  padding:3px 10px;font-size:.72rem;font-weight:700;letter-spacing:.04em;
-  box-shadow:0 1px 4px rgba(212,175,55,.3);
-}
+.xp-pill{background:var(--ouro);color:#fff;border-radius:20px;padding:3px 10px;font-size:.72rem;font-weight:700;letter-spacing:.04em;box-shadow:0 1px 4px rgba(212,175,55,.3);}
 .lives{display:flex;gap:4px;align-items:center}
 .life-svg{width:14px;height:17px;transition:all .3s}
 .life-svg.lost{opacity:.22;transform:scale(.8)}
 
 /* ══ TABS ══ */
-.tabs{
-  display:flex;gap:8px;padding:10px 0 0;
-}
-.tab{
-  flex:1;padding:8px 0;border-radius:10px 10px 0 0;
-  border:1px solid var(--border);border-bottom:none;
-  background:var(--ivory2);color:var(--fg3);
-  font-family:var(--ff-b);font-size:.78rem;font-weight:600;cursor:pointer;
-  transition:all .2s;letter-spacing:.03em;
-}
+.tabs{display:flex;gap:8px;padding:10px 0 0;}
+.tab{flex:1;padding:8px 0;border-radius:10px 10px 0 0;border:1px solid var(--border);border-bottom:none;background:var(--ivory2);color:var(--fg3);font-family:var(--ff-b);font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;letter-spacing:.03em;}
 .tab.active{background:var(--surface);color:var(--vinho);border-color:var(--border-hi);}
 .tab:hover:not(.active){background:var(--ivory3)}
 .continent-flag{margin-right:4px}
 
 /* ══ MAP WRAP ══ */
-.map-wrap{
-  position:relative;overflow:hidden;
-  background:var(--surface);
-  border:1px solid var(--border);border-top:none;
-  border-radius:0 0 14px 14px;
-}
+.map-wrap{position:relative;overflow:hidden;background:var(--surface);border:1px solid var(--border);border-top:none;border-radius:0 0 14px 14px;}
 .map-svg{width:100%;height:100%;display:block;position:relative;z-index:1}
 .map-svg.hidden{display:none}
 
 /* ══ GLASS WATERMARK ══ */
-.glass-watermark{
-  position:absolute;left:50%;top:50%;
-  transform:translate(-50%,-50%);
-  width:min(200px,52vw);
-  opacity:.13;pointer-events:none;z-index:0;
-  filter:drop-shadow(0 2px 8px rgba(122,31,38,.08));
+.glass-watermark{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(200px,52vw);opacity:.08;pointer-events:none;z-index:0;filter:drop-shadow(0 2px 8px rgba(122,31,38,.05));}
+
+/* ══ MAP: OCEAN ══ */
+.ocean{fill:#B8CDD8}
+
+/* ══ MAP: COUNTRY FILLS ══ */
+.land{stroke:#FFFFFF;stroke-width:1.2;stroke-linejoin:round;transition:fill .3s}
+.land-pt{fill:#DFC5B2}
+.land-es{fill:#EDE4CC}
+.land-fr{fill:#C8DCE8}
+.land-it{fill:#C8DDB8}
+.land-de{fill:#DDDBD0}
+.land-cl{fill:#D8C0DC}
+.land-ar{fill:#C4D5EC}
+.land-br{fill:#C0DCBA}
+.land-pe{fill:#D8D2C0}
+/* Active (country highlight) */
+.land-fr.active{fill:#A0C0D8}
+.land-es.active{fill:#D8CC9C}
+.land-pt.active{fill:#CCA080}
+.land-it.active{fill:#A0C490}
+.land-ar.active{fill:#A0B8DC}
+.land-cl.active{fill:#B898C8}
+.land-br.active{fill:#90C090}
+
+/* ══ MAP: RIVERS ══ */
+.river{fill:none;stroke:#80AAC4;stroke-width:.9;stroke-linecap:round;opacity:.7}
+
+/* ══ MAP: LABELS ══ */
+.country-label{font-family:var(--ff-b);font-size:8px;fill:#5A5450;text-anchor:middle;font-weight:600;letter-spacing:.07em;text-transform:uppercase;}
+.sea-label{font-family:var(--ff-d);font-size:7.5px;fill:#70909C;text-anchor:middle;font-style:italic;letter-spacing:.04em;}
+
+/* ══ REGION ZONES — pin + badge ══ */
+.rzone{cursor:pointer}
+.rzone .rhit{fill:transparent}
+.rzone .rglow{fill:none;stroke:none;pointer-events:none;r:0;transition:all .2s}
+.rzone .rpin{fill:#fff;stroke-width:1.6;transition:all .22s;r:5}
+.rzone .rbadge{fill:rgba(255,255,255,.92);stroke-width:.9;transition:all .22s}
+.rzone .rtxt{font-family:var(--ff-b);font-size:6.5px;text-anchor:middle;font-weight:700;letter-spacing:.05em;pointer-events:none;dominant-baseline:middle}
+
+/* Country-specific pin/badge colours */
+.rzone[data-country="fr"] .rpin{stroke:var(--col-fr)}
+.rzone[data-country="fr"] .rbadge{stroke:rgba(42,90,144,.28)}
+.rzone[data-country="fr"] .rtxt{fill:var(--col-fr)}
+.rzone[data-country="es"] .rpin{stroke:var(--col-es)}
+.rzone[data-country="es"] .rbadge{stroke:rgba(140,58,58,.28)}
+.rzone[data-country="es"] .rtxt{fill:var(--col-es)}
+.rzone[data-country="pt"] .rpin{stroke:var(--col-pt)}
+.rzone[data-country="pt"] .rbadge{stroke:rgba(122,64,34,.28)}
+.rzone[data-country="pt"] .rtxt{fill:var(--col-pt)}
+.rzone[data-country="it"] .rpin{stroke:var(--col-it)}
+.rzone[data-country="it"] .rbadge{stroke:rgba(58,104,40,.28)}
+.rzone[data-country="it"] .rtxt{fill:var(--col-it)}
+.rzone[data-country="ar"] .rpin{stroke:var(--col-ar)}
+.rzone[data-country="ar"] .rbadge{stroke:rgba(42,72,120,.28)}
+.rzone[data-country="ar"] .rtxt{fill:var(--col-ar)}
+.rzone[data-country="cl"] .rpin{stroke:var(--col-cl)}
+.rzone[data-country="cl"] .rbadge{stroke:rgba(106,42,120,.28)}
+.rzone[data-country="cl"] .rtxt{fill:var(--col-cl)}
+.rzone[data-country="br"] .rpin{stroke:var(--col-br)}
+.rzone[data-country="br"] .rbadge{stroke:rgba(40,120,64,.28)}
+.rzone[data-country="br"] .rtxt{fill:var(--col-br)}
+
+/* Hover */
+.rzone:hover .rpin{r:7;filter:drop-shadow(0 1px 3px rgba(0,0,0,.18))}
+.rzone:hover .rbadge{fill:rgba(255,255,255,1);filter:drop-shadow(0 1px 3px rgba(0,0,0,.12))}
+
+/* Target — pulsing glow + gold badge */
+.rzone.target .rglow{stroke:var(--ouro);stroke-width:1.5;animation:pulse-glow 1.6s ease-in-out infinite}
+.rzone.target .rpin{fill:rgba(212,175,55,.2);stroke:var(--ouro)!important;filter:drop-shadow(0 0 4px rgba(212,175,55,.5))}
+.rzone.target .rbadge{stroke:var(--ouro)!important;fill:rgba(255,251,235,.95);filter:drop-shadow(0 0 3px rgba(212,175,55,.3))}
+.rzone.target .rtxt{fill:var(--ouro2)!important}
+@keyframes pulse-glow{
+  0%,100%{r:10;opacity:.9}
+  50%{r:16;opacity:.35}
 }
 
-/* ══ COUNTRY SHAPES ══ */
-.land{stroke:var(--ivory3);stroke-width:1.5;stroke-linejoin:round}
-.land-pt{fill:#EDE9E0}
-.land-es{fill:#EDE9E0}
-.land-fr{fill:#EDE9E0}
-.land-it{fill:#EDE9E0}
-.land-de{fill:#EDE9E0}
-.land-cl{fill:#EDE9E0}
-.land-ar{fill:#EDE9E0}
-.land-br{fill:#EDE9E0}
-.ocean{fill:#E8F0F5}
-.country-label{
-  font-family:var(--ff-b);font-size:8px;fill:#9C9490;
-  text-anchor:middle;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
-}
+/* Correct */
+.rzone.correct .rpin{fill:rgba(30,107,58,.2);stroke:#1E6B3A!important;animation:none}
+.rzone.correct .rbadge{stroke:#1E6B3A!important;fill:rgba(230,248,236,.95)}
+.rzone.correct .rtxt{fill:#1E6B3A!important}
+.rzone.correct .rglow{animation:none}
 
-/* ══ REGION ZONES ══ */
-.rzone{cursor:pointer;transition:all .25s}
-.rzone circle{
-  fill:rgba(122,31,38,.08);stroke:var(--vinho);stroke-width:1.4;
-  transition:all .25s;
-}
-.rzone text{
-  font-family:var(--ff-b);font-size:6.5px;fill:var(--vinho);
-  text-anchor:middle;dominant-baseline:middle;
-  font-weight:700;letter-spacing:.03em;pointer-events:none;
-  transition:all .25s;
-}
-.rzone:hover circle{fill:rgba(122,31,38,.15);stroke-width:2}
-.rzone.target circle{
-  fill:rgba(122,31,38,.12);stroke:var(--ouro);stroke-width:2;
-  animation:pulse-target 1.8s ease-in-out infinite;
-}
-.rzone.target text{fill:var(--ouro2)}
-.rzone.correct circle{fill:rgba(30,107,58,.25);stroke:#1E6B3A;stroke-width:2.5;animation:none}
-.rzone.correct text{fill:#1E6B3A}
-.rzone.wrong circle{fill:rgba(122,31,38,.25);stroke:var(--vinho);stroke-width:2.5;animation:none}
+/* Wrong */
+.rzone.wrong .rpin{fill:rgba(122,31,38,.2);stroke:var(--vinho)!important;animation:none}
+.rzone.wrong .rbadge{stroke:var(--vinho)!important;fill:rgba(253,240,240,.95)}
+.rzone.wrong .rtxt{fill:var(--vinho)!important}
+.rzone.wrong .rglow{animation:none}
+
+/* Disabled */
 .rzone.disabled{pointer-events:none}
 
-.country-hi{transition:fill .3s}
-.country-hi.active{fill:#E5DDD4}
-
-@keyframes pulse-target{
-  0%,100%{r:18;opacity:1}
-  50%{r:21;opacity:.8}
-}
+/* Compass rose */
+.compass{opacity:.4;pointer-events:none}
 
 /* ══ QUESTION CARD ══ */
-.q-card{
-  padding:12px 0 max(14px,env(safe-area-inset-bottom,0px));
-  border-top:1px solid var(--border);
-}
-.q-instruction{
-  font-size:.67rem;text-transform:uppercase;letter-spacing:.1em;color:var(--fg3);
-  margin-bottom:3px;
-}
-.q-region{
-  font-family:var(--ff-d);font-size:1.4rem;color:var(--vinho);font-weight:700;
-  line-height:1.2;
-}
-.q-hint{
-  font-size:.72rem;color:var(--fg3);margin-top:3px;
-  display:flex;align-items:center;gap:6px;flex-wrap:wrap;
-}
-.q-hint-chip{
-  background:var(--ivory2);border:1px solid var(--border);
-  border-radius:20px;padding:2px 8px;font-size:.66rem;color:var(--fg2);font-weight:500;
-}
-.q-progress{
-  margin-top:8px;height:3px;background:var(--ivory3);border-radius:2px;overflow:hidden;
-}
+.q-card{padding:12px 0 max(14px,env(safe-area-inset-bottom,0px));border-top:1px solid var(--border);}
+.q-instruction{font-size:.67rem;text-transform:uppercase;letter-spacing:.1em;color:var(--fg3);margin-bottom:3px;}
+.q-region{font-family:var(--ff-d);font-size:1.4rem;color:var(--vinho);font-weight:700;line-height:1.2}
+.q-hint{font-size:.72rem;color:var(--fg3);margin-top:3px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;}
+.q-hint-chip{background:var(--ivory2);border:1px solid var(--border);border-radius:20px;padding:2px 8px;font-size:.66rem;color:var(--fg2);font-weight:500;}
+.q-progress{margin-top:8px;height:3px;background:var(--ivory3);border-radius:2px;overflow:hidden;}
 .q-progress-bar{height:100%;background:var(--ouro);transition:width .4s ease;border-radius:2px}
 .q-row{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-
-/* ══ ROUND COUNTER ══ */
-.round-badge{
-  flex-shrink:0;background:var(--ivory2);border:1px solid var(--border);
-  border-radius:10px;padding:4px 10px;text-align:center;
-}
+.round-badge{flex-shrink:0;background:var(--ivory2);border:1px solid var(--border);border-radius:10px;padding:4px 10px;text-align:center;}
 .round-num{font-size:1rem;font-weight:700;color:var(--vinho);font-family:var(--ff-d)}
 .round-lbl{font-size:.6rem;text-transform:uppercase;letter-spacing:.08em;color:var(--fg3)}
 
-/* ══ FEEDBACK TOAST ══ */
-.toast{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);
-  background:var(--surface);border-radius:16px;padding:18px 28px;text-align:center;
-  box-shadow:0 8px 32px var(--shadow-md);border:1.5px solid var(--border);
-  opacity:0;pointer-events:none;z-index:20;transition:all .25s;
-  min-width:220px;
-}
+/* ══ TOAST ══ */
+.toast{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);background:var(--surface);border-radius:16px;padding:18px 28px;text-align:center;box-shadow:0 8px 32px var(--shadow-md);border:1.5px solid var(--border);opacity:0;pointer-events:none;z-index:20;transition:all .25s;min-width:220px;}
 .toast.show{opacity:1;transform:translate(-50%,-50%) scale(1);pointer-events:auto}
 .toast-icon{font-size:2.4rem;margin-bottom:6px}
 .toast-title{font-family:var(--ff-d);font-size:1.1rem;font-weight:700;margin-bottom:4px}
 .toast-title.ok{color:var(--correct)}
 .toast-title.no{color:var(--vinho)}
 .toast-fact{font-size:.73rem;color:var(--fg2);line-height:1.5;max-width:220px}
-.toast-btn{
-  margin-top:12px;background:var(--vinho);color:#fff;border:none;
-  border-radius:20px;padding:8px 24px;font-family:var(--ff-b);font-size:.8rem;
-  font-weight:600;cursor:pointer;letter-spacing:.04em;
-}
+.toast-btn{margin-top:12px;background:var(--vinho);color:#fff;border:none;border-radius:20px;padding:8px 24px;font-family:var(--ff-b);font-size:.8rem;font-weight:600;cursor:pointer;letter-spacing:.04em;}
 .toast-btn:hover{background:var(--vinho2)}
 
-/* ══ OVERLAY (start / end) ══ */
-.overlay{
-  position:absolute;inset:0;background:rgba(248,246,239,.96);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  z-index:30;gap:16px;padding:24px;text-align:center;
-  backdrop-filter:blur(4px);
-}
+/* ══ OVERLAY ══ */
+.overlay{position:absolute;inset:0;background:rgba(248,246,239,.96);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:30;gap:16px;padding:24px;text-align:center;backdrop-filter:blur(4px);}
 .overlay.hidden{display:none}
 .ov-glass{margin-bottom:4px}
 .ov-title{font-family:var(--ff-d);font-size:1.7rem;color:var(--vinho);font-weight:700;line-height:1.2}
 .ov-sub{font-size:.82rem;color:var(--fg2);max-width:300px;line-height:1.6;margin-top:4px}
 .ov-chips{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;max-width:320px}
-.ov-chip{
-  background:var(--ivory2);border:1px solid var(--border);
-  border-radius:20px;padding:4px 12px;font-size:.7rem;color:var(--fg2);
-}
-.ov-btn{
-  background:var(--vinho);color:#fff;border:none;border-radius:24px;
-  padding:13px 36px;font-family:var(--ff-b);font-size:.9rem;font-weight:700;
-  cursor:pointer;letter-spacing:.06em;box-shadow:0 4px 12px rgba(122,31,38,.3);
-  transition:all .2s;margin-top:4px;
-}
+.ov-chip{background:var(--ivory2);border:1px solid var(--border);border-radius:20px;padding:4px 12px;font-size:.7rem;color:var(--fg2);}
+.ov-btn{background:var(--vinho);color:#fff;border:none;border-radius:24px;padding:13px 36px;font-family:var(--ff-b);font-size:.9rem;font-weight:700;cursor:pointer;letter-spacing:.06em;box-shadow:0 4px 12px rgba(122,31,38,.3);transition:all .2s;margin-top:4px;}
 .ov-btn:hover{background:var(--vinho2);transform:translateY(-1px)}
 .ov-stat{text-align:center}
 .ov-stat-num{font-family:var(--ff-d);font-size:2.2rem;font-weight:700;color:var(--vinho)}
@@ -231,10 +204,8 @@ html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-fa
   <!-- HEADER -->
   <header class="header">
     <div class="brand-mark">
-      <svg viewBox="0 0 200 248" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <clipPath id="hbC"><path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36 Z"/></clipPath>
-        </defs>
+      <svg viewBox="0 0 200 248" fill="none">
+        <defs><clipPath id="hbC"><path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36 Z"/></clipPath></defs>
         <g clip-path="url(#hbC)" stroke="#F8F6EF" fill="none" stroke-width="10" opacity=".7">
           <path d="M54,82 Q100,77 146,82"/><path d="M52,96 Q100,91 148,96"/>
           <path d="M50,110 Q100,105 150,110"/><path d="M50,124 Q100,119 150,124"/>
@@ -242,11 +213,10 @@ html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-fa
         <g transform="translate(100,58)" stroke="#F8F6EF" stroke-linecap="round">
           <line x1="0" y1="-7" x2="0" y2="7" stroke-width="10"/><line x1="-7" y1="0" x2="7" y2="0" stroke-width="10"/>
           <line x1="-5" y1="-5" x2="5" y2="5" stroke-width="9"/><line x1="5" y1="-5" x2="-5" y2="5" stroke-width="9"/>
-          <circle r="22" fill="#F8F6EF" stroke="none" opacity=".25"/>
         </g>
         <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36" stroke="#F8F6EF" stroke-width="12" fill="none" stroke-linecap="round"/>
         <path d="M58,36 Q100,30 142,36" stroke="#F8F6EF" stroke-width="12" fill="none"/>
-        <path d="M100,176 L98,200 L102,200" stroke="#F8F6EF" stroke-width="11" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M100,176 L98,200 L102,200" stroke="#F8F6EF" stroke-width="11" fill="none" stroke-linecap="round"/>
         <path d="M74,222 Q100,228 126,222" stroke="#F8F6EF" stroke-width="11" fill="none" stroke-linecap="round"/>
       </svg>
     </div>
@@ -272,190 +242,305 @@ html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-fa
   <!-- MAP WRAP -->
   <div class="map-wrap" id="mapWrap">
 
-    <!-- TAÇA LOGO VINOBIANCO — marca d'água -->
     <div class="glass-watermark" aria-hidden="true">
-      <svg viewBox="0 0 200 248" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg viewBox="0 0 200 248" fill="none">
         <defs>
-          <clipPath id="wmBowlClip">
-            <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36 Z"/>
-          </clipPath>
-          <clipPath id="wmWineClip">
-            <rect id="wmWineRect" x="0" y="96" width="200" height="80"/>
-          </clipPath>
+          <clipPath id="wmBC"><path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36 Z"/></clipPath>
+          <clipPath id="wmWC"><rect id="wmWR" x="0" y="96" width="200" height="80"/></clipPath>
         </defs>
-        <!-- Preenchimento de vinho (40% cheio) -->
-        <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36 Z"
-              fill="#7A1F26" clip-path="url(#wmWineClip)" opacity=".55"/>
-        <!-- Linhas de vinhedo (8 arcos + linhas de fuga) -->
-        <g clip-path="url(#wmBowlClip)" stroke="#7A1F26" fill="none" stroke-width="1.1" opacity=".85">
-          <path d="M54,82 Q100,77 146,82"/>
-          <path d="M52,96 Q100,91 148,96"/>
-          <path d="M50,110 Q100,105 150,110"/>
-          <path d="M50,124 Q100,119 150,124"/>
-          <path d="M50,138 Q100,133 150,138"/>
-          <path d="M52,152 Q100,147 148,152"/>
-          <path d="M54,166 Q100,161 146,166"/>
-          <line x1="100" y1="172" x2="50" y2="78"  stroke-width=".7" opacity=".4"/>
-          <line x1="100" y1="172" x2="150" y2="78" stroke-width=".7" opacity=".4"/>
-          <line x1="100" y1="172" x2="72"  y2="74" stroke-width=".5" opacity=".3"/>
-          <line x1="100" y1="172" x2="128" y2="74" stroke-width=".5" opacity=".3"/>
+        <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36 Z" fill="#7A1F26" clip-path="url(#wmWC)" opacity=".55"/>
+        <g clip-path="url(#wmBC)" stroke="#7A1F26" fill="none" stroke-width="1.1" opacity=".85">
+          <path d="M54,82 Q100,77 146,82"/><path d="M52,96 Q100,91 148,96"/>
+          <path d="M50,110 Q100,105 150,110"/><path d="M50,124 Q100,119 150,124"/>
+          <path d="M50,138 Q100,133 150,138"/><path d="M52,152 Q100,147 148,152"/>
+          <line x1="100" y1="172" x2="50"  y2="78"  stroke-width=".7" opacity=".4"/>
+          <line x1="100" y1="172" x2="150" y2="78"  stroke-width=".7" opacity=".4"/>
         </g>
-        <!-- Ciprestes (dois triângulos clippados na taça) -->
-        <g clip-path="url(#wmBowlClip)" fill="#7A1F26" opacity=".85">
+        <g clip-path="url(#wmBC)" fill="#7A1F26" opacity=".85">
           <path d="M76,105 L68,152 Q72,160 76,161 Q80,160 84,152 Z"/>
           <path d="M124,105 L116,152 Q120,160 124,161 Q128,160 132,152 Z"/>
         </g>
-        <!-- Estrela de 8 pontas (asterisco) no topo da taça -->
         <g transform="translate(100,56)" fill="none" stroke="#7A1F26" stroke-linecap="round">
-          <line x1="0"    y1="-10" x2="0"    y2="10"  stroke-width="1.5"/>
-          <line x1="-10"  y1="0"   x2="10"   y2="0"   stroke-width="1.5"/>
-          <line x1="-7.1" y1="-7.1" x2="7.1" y2="7.1" stroke-width="1.3"/>
-          <line x1="7.1"  y1="-7.1" x2="-7.1" y2="7.1" stroke-width="1.3"/>
+          <line x1="0" y1="-10" x2="0" y2="10" stroke-width="1.5"/><line x1="-10" y1="0" x2="10" y2="0" stroke-width="1.5"/>
+          <line x1="-7.1" y1="-7.1" x2="7.1" y2="7.1" stroke-width="1.3"/><line x1="7.1" y1="-7.1" x2="-7.1" y2="7.1" stroke-width="1.3"/>
           <circle r="3" fill="#7A1F26" stroke="none"/>
         </g>
-        <!-- Contorno da taça (bowl) -->
-        <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36"
-              stroke="#7A1F26" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-        <!-- Boca da taça -->
+        <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36" stroke="#7A1F26" stroke-width="1.8" fill="none" stroke-linecap="round"/>
         <path d="M58,36 Q100,30 142,36" stroke="#7A1F26" stroke-width="1.8" fill="none"/>
-        <!-- Haste -->
-        <path d="M100,176 L98,200 L102,200"
-              stroke="#7A1F26" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-        <!-- Base -->
-        <path d="M74,222 Q100,228 126,222"
-              stroke="#7A1F26" stroke-width="1.6" fill="none" stroke-linecap="round"/>
-        <!-- Pequeno pé da haste -->
-        <path d="M98,200 Q99,212 100,222 Q101,212 102,200"
-              stroke="#7A1F26" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+        <path d="M100,176 L98,200 L102,200" stroke="#7A1F26" stroke-width="1.7" fill="none" stroke-linecap="round"/>
+        <path d="M74,222 Q100,228 126,222" stroke="#7A1F26" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+        <path d="M98,200 Q99,212 100,222 Q101,212 102,200" stroke="#7A1F26" stroke-width="1.4" fill="none" stroke-linecap="round"/>
       </svg>
     </div>
 
-    <!-- EUROPA SVG -->
-    <svg id="mapEuropa" class="map-svg" viewBox="0 0 400 340" xmlns="http://www.w3.org/2000/svg">
+    <!-- ═══ EUROPA MAP ═══ -->
+    <svg id="mapEuropa" class="map-svg" viewBox="0 0 420 355" xmlns="http://www.w3.org/2000/svg">
       <!-- Ocean -->
-      <rect width="400" height="340" fill="#E8F0F5"/>
+      <rect width="420" height="355" class="ocean"/>
+      <!-- Grid lines (lat/lon) -->
+      <g stroke="#90A8B4" stroke-width=".25" stroke-dasharray="4,6" opacity=".5">
+        <line x1="0" y1="88" x2="420" y2="88"/>
+        <line x1="0" y1="176" x2="420" y2="176"/>
+        <line x1="0" y1="264" x2="420" y2="264"/>
+        <line x1="105" y1="0" x2="105" y2="355"/>
+        <line x1="210" y1="0" x2="210" y2="355"/>
+        <line x1="315" y1="0" x2="315" y2="355"/>
+      </g>
+
+      <!-- Sea label -->
+      <text class="sea-label" x="50" y="60">Atlântico</text>
+      <text class="sea-label" x="340" y="295">Mar Tirreno</text>
+      <text class="sea-label" x="175" y="340">Mar Mediterrâneo</text>
+
+      <!-- ── Country shapes ── -->
       <!-- Portugal -->
-      <polygon id="land-pt" class="land land-pt country-hi"
-        points="38,253 68,250 72,264 70,298 58,330 38,335 25,318 24,280"/>
+      <path id="land-pt" class="land land-pt country-hi"
+        d="M 24,210 C 32,205 48,200 65,202 C 70,210 72,228 70,255 C 68,278 62,300 52,320 C 44,332 35,338 26,332 C 18,325 14,305 15,280 C 16,256 20,232 24,210 Z"/>
       <!-- Spain -->
-      <polygon id="land-es" class="land land-es country-hi"
-        points="38,253 68,250 78,215 110,196 160,188 210,190 235,210 240,250 228,290 195,310 150,318 100,316 70,298 72,264"/>
+      <path id="land-es" class="land land-es country-hi"
+        d="M 24,210 C 48,200 65,202 70,210 C 72,220 70,242 70,255 C 68,268 72,282 78,308 C 90,315 120,320 158,318 C 195,316 228,296 242,268 C 248,252 244,225 234,210 C 222,195 192,186 162,185 C 132,184 105,192 84,204 C 68,212 48,208 Z"/>
       <!-- France -->
-      <polygon id="land-fr" class="land land-fr country-hi"
-        points="88,68 155,48 240,58 285,92 276,160 235,192 200,195 170,198 128,192 100,170 80,140 76,100"/>
-      <!-- Italy (boot) -->
+      <path id="land-fr" class="land land-fr country-hi"
+        d="M 78,68 C 65,62 55,70 48,82 C 42,92 44,110 50,128 C 56,148 68,165 82,174 C 94,182 112,190 132,194 C 152,198 175,200 198,198 C 218,196 240,195 258,192 C 272,165 278,138 276,108 C 290,100 304,92 315,80 C 298,68 278,60 252,58 C 225,55 200,52 175,50 C 148,48 112,55 90,62 Z"/>
+      <!-- Germany / Central Europe rough -->
+      <path id="land-de" class="land land-de"
+        d="M 175,50 C 200,52 225,55 252,58 C 278,60 298,68 315,80 C 335,72 352,62 368,55 C 350,40 325,30 295,25 C 262,20 230,28 205,38 Z"/>
+      <!-- Italy (boot shape) -->
       <path id="land-it" class="land land-it country-hi"
-        d="M248,112 L288,118 L310,138 L324,172 L318,215 L306,250 L316,282 L298,308 L282,295 L285,268 L270,242 L258,210 L252,170 L252,140 Z"/>
-      <!-- Germany/Austria rough -->
-      <polygon id="land-de" class="land land-de"
-        points="155,48 240,58 265,72 285,92 250,112 220,102 185,94 155,88 140,68"/>
+        d="M 258,108 C 278,112 300,125 318,140 C 330,158 335,178 330,210 C 325,232 316,252 318,270 C 320,284 316,300 305,308 C 295,296 288,272 278,248 C 268,228 260,205 256,178 C 253,158 252,135 258,108 Z"/>
+      <!-- Sardinia -->
+      <ellipse cx="278" cy="310" rx="12" ry="18" class="land land-it" opacity=".7"/>
 
-      <!-- Country labels -->
-      <text class="country-label" x="52" y="295">PORT.</text>
-      <text class="country-label" x="155" y="262">ESPANHA</text>
-      <text class="country-label" x="185" y="130">FRANÇA</text>
-      <text class="country-label" x="285" y="190">ITÁLIA</text>
+      <!-- ── Rivers ── -->
+      <!-- Douro -->
+      <path class="river" d="M 56,252 C 68,248 85,244 105,244 C 115,244 125,246 130,245"/>
+      <!-- Garonne / Gironde -->
+      <path class="river" d="M 132,182 C 130,194 122,210 115,218"/>
+      <!-- Rhône -->
+      <path class="river" d="M 228,168 C 232,185 238,210 240,230 C 241,242 238,255 236,264"/>
+      <!-- Loire -->
+      <path class="river" d="M 98,160 C 115,155 142,148 165,148 C 180,148 195,155 205,165"/>
+      <!-- Rhine -->
+      <path class="river" d="M 260,95 C 266,112 270,132 265,155"/>
+      <!-- Po -->
+      <path class="river" d="M 258,112 C 272,118 290,120 308,118"/>
 
-      <!-- REGION ZONES — Europa -->
-      <!-- Bordeaux: SW France -->
-      <g class="rzone" data-id="bordeaux" data-cont="europa" onclick="clickRegion('bordeaux')">
-        <circle cx="134" cy="178" r="18"/>
-        <text x="134" y="175">BOR</text><text x="134" y="183">DEAUX</text>
+      <!-- ── Country labels ── -->
+      <text class="country-label" x="44" y="282">PORT.</text>
+      <text class="country-label" x="158" y="268">ESPANHA</text>
+      <text class="country-label" x="188" y="128">FRANÇA</text>
+      <text class="country-label" x="295" y="185">ITÁLIA</text>
+
+      <!-- ── Compass rose ── -->
+      <g class="compass" transform="translate(396,328)">
+        <line x1="0" y1="-13" x2="0" y2="13" stroke="#4A5A68" stroke-width="1"/>
+        <line x1="-13" y1="0" x2="13" y2="0" stroke="#4A5A68" stroke-width="1"/>
+        <polygon points="0,-13 -2.5,-6 0,-8 2.5,-6" fill="#4A5A68"/>
+        <polygon points="0,13 -2.5,6 0,8 2.5,6" fill="#88A0A8"/>
+        <polygon points="-13,0 -6,-2.5 -8,0 -6,2.5" fill="#88A0A8"/>
+        <polygon points="13,0 6,-2.5 8,0 6,2.5" fill="#88A0A8"/>
+        <circle r="2" fill="#4A5A68"/>
+        <text x="0" y="-16" text-anchor="middle" font-family="Montserrat,sans-serif" font-size="6" font-weight="700" fill="#4A5A68">N</text>
       </g>
-      <!-- Borgonha: E France -->
-      <g class="rzone" data-id="borgonha" data-cont="europa" onclick="clickRegion('borgonha')">
-        <circle cx="210" cy="130" r="18"/>
-        <text x="210" y="127">BOR</text><text x="210" y="135">GONHA</text>
+
+      <!-- ════ REGION ZONES — Europa ════ -->
+
+      <!-- Bordeaux (France) -->
+      <g class="rzone" data-id="bordeaux" data-cont="europa" data-country="fr" onclick="clickRegion('bordeaux')">
+        <rect class="rhit" x="108" y="160" width="52" height="30"/>
+        <circle class="rglow" cx="134" cy="175"/>
+        <circle class="rpin" cx="134" cy="175"/>
+        <rect class="rbadge" x="110" y="168" width="48" height="13" rx="6.5"/>
+        <text class="rtxt" x="134" y="175.5">BORDEAUX</text>
       </g>
-      <!-- Champagne: NE France -->
-      <g class="rzone" data-id="champagne" data-cont="europa" onclick="clickRegion('champagne')">
-        <circle cx="202" cy="84" r="18"/>
-        <text x="202" y="81">CHAM</text><text x="202" y="89">PAGNE</text>
+
+      <!-- Borgonha (France) -->
+      <g class="rzone" data-id="borgonha" data-cont="europa" data-country="fr" onclick="clickRegion('borgonha')">
+        <rect class="rhit" x="188" y="114" width="44" height="28"/>
+        <circle class="rglow" cx="210" cy="128"/>
+        <circle class="rpin" cx="210" cy="128"/>
+        <rect class="rbadge" x="188" y="121" width="44" height="13" rx="6.5"/>
+        <text class="rtxt" x="210" y="128.5">BORGONHA</text>
       </g>
-      <!-- Rhône: SE France -->
-      <g class="rzone" data-id="rhone" data-cont="europa" onclick="clickRegion('rhone')">
-        <circle cx="224" cy="170" r="18"/>
-        <text x="224" y="167">RHÔNE</text>
+
+      <!-- Champagne (France) -->
+      <g class="rzone" data-id="champagne" data-cont="europa" data-country="fr" onclick="clickRegion('champagne')">
+        <rect class="rhit" x="178" y="68" width="48" height="28"/>
+        <circle class="rglow" cx="202" cy="82"/>
+        <circle class="rpin" cx="202" cy="82"/>
+        <rect class="rbadge" x="178" y="75" width="48" height="13" rx="6.5"/>
+        <text class="rtxt" x="202" y="82.5">CHAMPAGNE</text>
       </g>
-      <!-- Alsácia: E France border -->
-      <g class="rzone" data-id="alsacia" data-cont="europa" onclick="clickRegion('alsacia')">
-        <circle cx="258" cy="96" r="18"/>
-        <text x="258" y="93">AL</text><text x="258" y="101">SÁCIA</text>
+
+      <!-- Rhône (France) -->
+      <g class="rzone" data-id="rhone" data-cont="europa" data-country="fr" onclick="clickRegion('rhone')">
+        <rect class="rhit" x="208" y="155" width="38" height="28"/>
+        <circle class="rglow" cx="227" cy="169"/>
+        <circle class="rpin" cx="227" cy="169"/>
+        <rect class="rbadge" x="209" y="162" width="36" height="13" rx="6.5"/>
+        <text class="rtxt" x="227" y="169.5">RHÔNE</text>
       </g>
-      <!-- Toscana: central Italy -->
-      <g class="rzone" data-id="toscana" data-cont="europa" onclick="clickRegion('toscana')">
-        <circle cx="290" cy="210" r="18"/>
-        <text x="290" y="207">TOS</text><text x="290" y="215">CANA</text>
+
+      <!-- Alsácia (France) -->
+      <g class="rzone" data-id="alsacia" data-cont="europa" data-country="fr" onclick="clickRegion('alsacia')">
+        <rect class="rhit" x="238" y="80" width="42" height="28"/>
+        <circle class="rglow" cx="259" cy="94"/>
+        <circle class="rpin" cx="259" cy="94"/>
+        <rect class="rbadge" x="238" y="87" width="42" height="13" rx="6.5"/>
+        <text class="rtxt" x="259" y="94.5">ALSÁCIA</text>
       </g>
-      <!-- Piemonte: NW Italy -->
-      <g class="rzone" data-id="piemonte" data-cont="europa" onclick="clickRegion('piemonte')">
-        <circle cx="258" cy="152" r="18"/>
-        <text x="258" y="149">PIE</text><text x="258" y="157">MONTE</text>
+
+      <!-- Toscana (Italy) -->
+      <g class="rzone" data-id="toscana" data-cont="europa" data-country="it" onclick="clickRegion('toscana')">
+        <rect class="rhit" x="270" y="196" width="42" height="28"/>
+        <circle class="rglow" cx="291" cy="210"/>
+        <circle class="rpin" cx="291" cy="210"/>
+        <rect class="rbadge" x="270" y="203" width="42" height="13" rx="6.5"/>
+        <text class="rtxt" x="291" y="210.5">TOSCANA</text>
       </g>
-      <!-- Rioja: N Spain -->
-      <g class="rzone" data-id="rioja" data-cont="europa" onclick="clickRegion('rioja')">
-        <circle cx="132" cy="224" r="18"/>
-        <text x="132" y="221">RIO</text><text x="132" y="229">JA</text>
+
+      <!-- Piemonte (Italy) -->
+      <g class="rzone" data-id="piemonte" data-cont="europa" data-country="it" onclick="clickRegion('piemonte')">
+        <rect class="rhit" x="236" y="138" width="46" height="28"/>
+        <circle class="rglow" cx="259" cy="152"/>
+        <circle class="rpin" cx="259" cy="152"/>
+        <rect class="rbadge" x="236" y="145" width="46" height="13" rx="6.5"/>
+        <text class="rtxt" x="259" y="152.5">PIEMONTE</text>
       </g>
-      <!-- Douro: N Portugal -->
-      <g class="rzone" data-id="douro" data-cont="europa" onclick="clickRegion('douro')">
-        <circle cx="58" cy="266" r="18"/>
-        <text x="58" y="263">DOU</text><text x="58" y="271">RO</text>
+
+      <!-- Rioja (Spain) -->
+      <g class="rzone" data-id="rioja" data-cont="europa" data-country="es" onclick="clickRegion('rioja')">
+        <rect class="rhit" x="130" y="210" width="36" height="28"/>
+        <circle class="rglow" cx="148" cy="224"/>
+        <circle class="rpin" cx="148" cy="224"/>
+        <rect class="rbadge" x="130" y="217" width="36" height="13" rx="6.5"/>
+        <text class="rtxt" x="148" y="224.5">RIOJA</text>
       </g>
-      <!-- Vinho Verde: NW Portugal -->
-      <g class="rzone" data-id="vinho-verde" data-cont="europa" onclick="clickRegion('vinho-verde')">
-        <circle cx="44" cy="246" r="18"/>
-        <text x="44" y="243">VINHO</text><text x="44" y="251">VERDE</text>
+
+      <!-- Douro (Portugal) — badge below pin to separate from Vinho Verde -->
+      <g class="rzone" data-id="douro" data-cont="europa" data-country="pt" onclick="clickRegion('douro')">
+        <rect class="rhit" x="30" y="248" width="38" height="32"/>
+        <circle class="rglow" cx="49" cy="258"/>
+        <circle class="rpin" cx="49" cy="258"/>
+        <rect class="rbadge" x="30" y="264" width="38" height="13" rx="6.5"/>
+        <text class="rtxt" x="49" y="271.5">DOURO</text>
+      </g>
+
+      <!-- Vinho Verde (Portugal) — badge above pin -->
+      <g class="rzone" data-id="vinho-verde" data-cont="europa" data-country="pt" onclick="clickRegion('vinho-verde')">
+        <rect class="rhit" x="16" y="218" width="46" height="32"/>
+        <circle class="rglow" cx="39" cy="238"/>
+        <circle class="rpin" cx="39" cy="238"/>
+        <rect class="rbadge" x="16" y="220" width="46" height="20" rx="5"/>
+        <text class="rtxt" x="39" y="228.5">VINHO</text>
+        <text class="rtxt" x="39" y="238">VERDE</text>
       </g>
     </svg>
 
-    <!-- SOUTH AMERICA SVG -->
-    <svg id="mapSA" class="map-svg hidden" viewBox="0 0 400 380" xmlns="http://www.w3.org/2000/svg">
+    <!-- ═══ SOUTH AMERICA MAP ═══ -->
+    <svg id="mapSA" class="map-svg hidden" viewBox="0 0 420 390" xmlns="http://www.w3.org/2000/svg">
       <!-- Ocean -->
-      <rect width="400" height="380" fill="#E8F0F5"/>
-      <!-- Brazil (simplified blob) -->
+      <rect width="420" height="390" class="ocean"/>
+      <!-- Grid lines -->
+      <g stroke="#90A8B4" stroke-width=".25" stroke-dasharray="4,6" opacity=".5">
+        <line x1="0" y1="97" x2="420" y2="97"/>
+        <line x1="0" y1="194" x2="420" y2="194"/>
+        <line x1="0" y1="291" x2="420" y2="291"/>
+        <line x1="105" y1="0" x2="105" y2="390"/>
+        <line x1="210" y1="0" x2="210" y2="390"/>
+        <line x1="315" y1="0" x2="315" y2="390"/>
+      </g>
+
+      <!-- Sea labels -->
+      <text class="sea-label" x="50" y="200">Oceano Pacífico</text>
+      <text class="sea-label" x="370" y="180">Oceano Atlântico</text>
+
+      <!-- ── Country shapes ── -->
+      <!-- Peru / Bolivia (background context) -->
+      <path class="land land-pe"
+        d="M 88,148 C 102,142 118,140 135,145 C 145,148 155,155 158,165 C 155,130 148,95 138,70 C 118,58 95,55 78,65 C 66,82 62,108 68,132 Z"/>
+      <!-- Brazil -->
       <path id="land-br" class="land land-br country-hi"
-        d="M 155,28 L 230,22 L 310,38 L 360,72 L 375,118 L 370,165 L 342,195 L 308,210 L 280,225 L 262,255 L 248,262 L 230,248 L 202,240 L 185,228 L 172,205 L 148,185 L 138,162 L 132,132 L 140,95 L 148,58 Z"/>
-      <!-- Argentina (long, tapered S) -->
+        d="M 158,28 C 185,22 218,22 255,30 C 295,40 335,58 362,82 C 378,100 385,125 380,158 C 375,185 360,205 340,220 C 320,232 295,238 272,245 C 258,249 248,255 240,265 C 232,248 218,242 200,242 C 188,235 178,225 168,210 C 155,190 148,168 142,145 C 136,118 138,88 148,62 Z"/>
+      <!-- Argentina -->
       <path id="land-ar" class="land land-ar country-hi"
-        d="M 110,175 L 148,162 L 185,165 L 202,185 L 202,210 L 195,238 L 182,260 L 172,298 L 162,328 L 148,352 L 128,362 L 115,352 L 112,325 L 118,295 L 120,262 L 115,235 L 108,210 L 105,188 Z"/>
-      <!-- Chile (coastal strip) -->
+        d="M 108,175 C 122,162 142,158 162,165 C 178,170 192,185 196,205 C 200,225 196,248 188,270 C 180,290 170,312 162,335 C 155,352 145,365 132,372 C 120,360 112,342 110,318 C 108,295 112,272 114,248 C 116,228 112,205 108,188 Z"/>
+      <!-- Chile -->
       <path id="land-cl" class="land land-cl country-hi"
-        d="M 88,148 L 110,145 L 115,168 L 108,210 L 105,245 L 100,278 L 96,312 L 88,345 L 78,355 L 72,342 L 76,308 L 80,275 L 82,242 L 80,210 L 78,175 Z"/>
-      <!-- Peru/Bolivia rough (background) -->
-      <polygon class="land" style="fill:#EDE9E0;stroke:var(--ivory3);stroke-width:1"
-        points="88,148 110,145 148,162 155,128 140,95 110,82 88,98 75,120"/>
+        d="M 88,148 C 98,144 108,148 114,162 C 112,182 108,205 106,232 C 104,255 100,280 94,308 C 88,332 80,350 72,360 C 64,350 60,330 62,305 C 64,278 68,250 70,222 C 72,195 76,170 82,152 Z"/>
 
-      <!-- Country labels -->
-      <text class="country-label" x="250" y="145">BRASIL</text>
-      <text class="country-label" x="152" y="275">ARGENTINA</text>
-      <text class="country-label" x="84" y="262">CHILE</text>
+      <!-- ── Rivers ── -->
+      <!-- Mendoza / Maipo (Andes snowmelt) -->
+      <path class="river" d="M 128,248 C 150,250 165,248 175,244"/>
+      <!-- Rio Uruguay -->
+      <path class="river" d="M 200,242 C 210,248 218,252 225,258 C 230,265 232,272 235,278"/>
 
-      <!-- REGION ZONES — América do Sul -->
-      <!-- Mendoza: W Argentina -->
-      <g class="rzone" data-id="mendoza" data-cont="sa" onclick="clickRegion('mendoza')">
-        <circle cx="140" cy="242" r="19"/>
-        <text x="140" y="239">MEN</text><text x="140" y="247">DOZA</text>
+      <!-- ── Country labels ── -->
+      <text class="country-label" x="255" y="150">BRASIL</text>
+      <text class="country-label" x="155" y="288">ARGENTINA</text>
+      <text class="country-label" x="82" y="268">CHILE</text>
+
+      <!-- ── Compass rose ── -->
+      <g class="compass" transform="translate(398,338)">
+        <line x1="0" y1="-13" x2="0" y2="13" stroke="#4A5A68" stroke-width="1"/>
+        <line x1="-13" y1="0" x2="13" y2="0" stroke="#4A5A68" stroke-width="1"/>
+        <polygon points="0,-13 -2.5,-6 0,-8 2.5,-6" fill="#4A5A68"/>
+        <polygon points="0,13 -2.5,6 0,8 2.5,6" fill="#88A0A8"/>
+        <polygon points="-13,0 -6,-2.5 -8,0 -6,2.5" fill="#88A0A8"/>
+        <polygon points="13,0 6,-2.5 8,0 6,2.5" fill="#88A0A8"/>
+        <circle r="2" fill="#4A5A68"/>
+        <text x="0" y="-16" text-anchor="middle" font-family="Montserrat,sans-serif" font-size="6" font-weight="700" fill="#4A5A68">N</text>
       </g>
-      <!-- Salta: NW Argentina -->
-      <g class="rzone" data-id="salta" data-cont="sa" onclick="clickRegion('salta')">
-        <circle cx="155" cy="180" r="19"/>
-        <text x="155" y="177">SAL</text><text x="155" y="185">TA</text>
+
+      <!-- ════ REGION ZONES — América do Sul ════ -->
+
+      <!-- Mendoza (Argentina) -->
+      <g class="rzone" data-id="mendoza" data-cont="sa" data-country="ar" onclick="clickRegion('mendoza')">
+        <rect class="rhit" x="120" y="234" width="46" height="28"/>
+        <circle class="rglow" cx="143" cy="248"/>
+        <circle class="rpin" cx="143" cy="248"/>
+        <rect class="rbadge" x="120" y="241" width="46" height="13" rx="6.5"/>
+        <text class="rtxt" x="143" y="248.5">MENDOZA</text>
       </g>
-      <!-- Maipo: central Chile -->
-      <g class="rzone" data-id="maipo" data-cont="sa" onclick="clickRegion('maipo')">
-        <circle cx="94" cy="248" r="19"/>
-        <text x="94" y="245">MAI</text><text x="94" y="253">PO</text>
+
+      <!-- Salta (Argentina) -->
+      <g class="rzone" data-id="salta" data-cont="sa" data-country="ar" onclick="clickRegion('salta')">
+        <rect class="rhit" x="142" y="172" width="36" height="28"/>
+        <circle class="rglow" cx="160" cy="186"/>
+        <circle class="rpin" cx="160" cy="186"/>
+        <rect class="rbadge" x="142" y="179" width="36" height="13" rx="6.5"/>
+        <text class="rtxt" x="160" y="186.5">SALTA</text>
       </g>
-      <!-- Casablanca: coastal Chile (slightly N of Maipo) -->
-      <g class="rzone" data-id="casablanca" data-cont="sa" onclick="clickRegion('casablanca')">
-        <circle cx="84" cy="225" r="19"/>
-        <text x="84" y="222">CASA</text><text x="84" y="230">BLANCA</text>
+
+      <!-- Maipo (Chile) — badge right of pin -->
+      <g class="rzone" data-id="maipo" data-cont="sa" data-country="cl" onclick="clickRegion('maipo')">
+        <rect class="rhit" x="72" y="252" width="60" height="28"/>
+        <circle class="rglow" cx="84" cy="266"/>
+        <circle class="rpin" cx="84" cy="266"/>
+        <rect class="rbadge" x="92" y="259" width="38" height="13" rx="6.5"/>
+        <text class="rtxt" x="111" y="266.5">MAIPO</text>
+        <line x1="89" y1="266" x2="92" y2="266" stroke="#6A2A78" stroke-width=".8"/>
       </g>
-      <!-- Serra Gaúcha: S Brazil -->
-      <g class="rzone" data-id="serra-gaucha" data-cont="sa" onclick="clickRegion('serra-gaucha')">
-        <circle cx="234" cy="238" r="19"/>
-        <text x="234" y="235">SERRA</text><text x="234" y="243">GAÚCHA</text>
+
+      <!-- Casablanca (Chile) — badge left/above -->
+      <g class="rzone" data-id="casablanca" data-cont="sa" data-country="cl" onclick="clickRegion('casablanca')">
+        <rect class="rhit" x="60" y="222" width="65" height="30"/>
+        <circle class="rglow" cx="82" cy="238"/>
+        <circle class="rpin" cx="82" cy="238"/>
+        <rect class="rbadge" x="60" y="229" width="54" height="20" rx="5"/>
+        <text class="rtxt" x="87" y="237.5">CASA</text>
+        <text class="rtxt" x="87" y="247">BLANCA</text>
+        <line x1="82" y1="238" x2="80" y2="238" stroke="none"/>
+      </g>
+
+      <!-- Serra Gaúcha (Brazil) -->
+      <g class="rzone" data-id="serra-gaucha" data-cont="sa" data-country="br" onclick="clickRegion('serra-gaucha')">
+        <rect class="rhit" x="214" y="240" width="52" height="30"/>
+        <circle class="rglow" cx="240" cy="254"/>
+        <circle class="rpin" cx="240" cy="254"/>
+        <rect class="rbadge" x="214" y="245" width="52" height="20" rx="5"/>
+        <text class="rtxt" x="240" y="253.5">SERRA</text>
+        <text class="rtxt" x="240" y="263">GAÚCHA</text>
       </g>
     </svg>
 
@@ -490,12 +575,11 @@ html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-fa
 <!-- START OVERLAY -->
 <div class="overlay" id="startOverlay">
   <div class="ov-glass">
-    <svg viewBox="0 0 200 248" width="72" height="90" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg viewBox="0 0 200 248" width="72" height="90" fill="none">
       <defs>
         <clipPath id="ovBC"><path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36 Z"/></clipPath>
         <clipPath id="ovWC"><rect id="ovWR" x="0" y="100" width="200" height="76"/></clipPath>
       </defs>
-      <rect width="200" height="248" fill="#F8F6EF" rx="4" opacity="0"/>
       <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36 Z" fill="#7A1F26" clip-path="url(#ovWC)" opacity=".4"/>
       <g clip-path="url(#ovBC)" stroke="#7A1F26" fill="none" stroke-width="1.2" opacity=".8">
         <path d="M54,82 Q100,77 146,82"/><path d="M52,96 Q100,91 148,96"/>
@@ -515,7 +599,7 @@ html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-fa
       </g>
       <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36" stroke="#7A1F26" stroke-width="1.8" fill="none" stroke-linecap="round"/>
       <path d="M58,36 Q100,30 142,36" stroke="#7A1F26" stroke-width="1.8" fill="none"/>
-      <path d="M100,176 L98,200 L102,200" stroke="#7A1F26" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M100,176 L98,200 L102,200" stroke="#7A1F26" stroke-width="1.7" fill="none" stroke-linecap="round"/>
       <path d="M74,222 Q100,228 126,222" stroke="#7A1F26" stroke-width="1.6" fill="none" stroke-linecap="round"/>
     </svg>
   </div>
@@ -543,116 +627,36 @@ html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-fa
    DADOS — 15 regiões vinícolas
 ═══════════════════════════════════════════════ */
 const REGIOES = [
-  {
-    id:'bordeaux', nome:'Bordeaux', pais:'França', continente:'europa',
-    castas:'Cabernet Sauvignon · Merlot',
-    fato:'Dividida pelo estuário do Gironda: margem esquerda (Cab. Sauv.) e margem direita (Merlot).',
-    dicas:['SW da França','Ribeiras do Gironda','Lar do Château Pétrus']
-  },{
-    id:'borgonha', nome:'Borgonha', pais:'França', continente:'europa',
-    castas:'Pinot Noir · Chardonnay',
-    fato:'Cada parcela (climat) produz um vinho único. A Romanée-Conti é o vinhedo mais valioso do mundo.',
-    dicas:['Leste da França','Côte d\'Or','Pinot Noir & Chardonnay']
-  },{
-    id:'champagne', nome:'Champagne', pais:'França', continente:'europa',
-    castas:'Chardonnay · Pinot Noir · Pinot Meunier',
-    fato:'Solo de giz (cretáceo) e clima frio conferem a acidez e mineralidade únicas do espumante mais famoso do mundo.',
-    dicas:['NE da França','Solo de giz','Espumante Método Tradicional']
-  },{
-    id:'rhone', nome:'Vale do Rhône', pais:'França', continente:'europa',
-    castas:'Syrah · Grenache · Viognier',
-    fato:'O vento Mistral reduz umidade e pragas. No norte, Syrah solo; no sul, cortes com até 18 castas em Châteauneuf-du-Pape.',
-    dicas:['SE da França','Vento Mistral','Syrah no norte, Grenache no sul']
-  },{
-    id:'alsacia', nome:'Alsácia', pais:'França', continente:'europa',
-    castas:'Riesling · Gewurztraminer · Pinot Gris',
-    fato:'Fronteira franco-alemã. Vinhos brancos aromáticos secos, em garrafa flûte. Influência alemã no idioma e cultura.',
-    dicas:['Fronteira com a Alemanha','Brancos aromáticos','Garrafa flûte']
-  },{
-    id:'toscana', nome:'Toscana', pais:'Itália', continente:'europa',
-    castas:'Sangiovese · Cabernet Sauvignon',
-    fato:'Lar do Chianti Classico e Brunello di Montalcino. O "Super Toscano" revolucionou a enologia italiana nos anos 1970.',
-    dicas:['Centro da Itália','Sangiovese','Chianti & Brunello']
-  },{
-    id:'piemonte', nome:'Piemonte', pais:'Itália', continente:'europa',
-    castas:'Nebbiolo · Barbera · Dolcetto',
-    fato:'Nebbiolo produz os "vinhos dos reis": Barolo e Barbaresco. Alta acidez, taninos firmes e longa guarda.',
-    dicas:['NW da Itália','Ao pé dos Alpes','Barolo & Barbaresco']
-  },{
-    id:'rioja', nome:'Rioja', pais:'Espanha', continente:'europa',
-    castas:'Tempranillo · Garnacha · Graciano',
-    fato:'Classificação única: Crianza (2 anos), Reserva (3 anos) e Gran Reserva (5 anos) regulam o envelhecimento.',
-    dicas:['Norte da Espanha','Rio Ebro','Tempranillo · envelhecimento em carvalho']
-  },{
-    id:'douro', nome:'Vale do Douro', pais:'Portugal', continente:'europa',
-    castas:'Touriga Nacional · Tinta Roriz · Touriga Franca',
-    fato:'Produz o Vinho do Porto e vinhos tintos de mesa de alto padrão. Xisto e topografia em terraços são marcas do terroir.',
-    dicas:['Norte de Portugal','Rio Douro','Vinho do Porto & tintos de guarda']
-  },{
-    id:'vinho-verde', nome:'Vinho Verde', pais:'Portugal', continente:'europa',
-    castas:'Alvarinho · Loureiro · Arinto',
-    fato:'Clima atlântico húmido gera vinhos leves, frescos e com acidez vibrante. Alvarinho de Monção e Melgaço são referência mundial.',
-    dicas:['Noroeste de Portugal','Clima atlântico','Brancos leves e frescos']
-  },{
-    id:'mendoza', nome:'Mendoza', pais:'Argentina', continente:'sa',
-    castas:'Malbec · Cabernet Sauvignon · Torrontés',
-    fato:'A 800–1.000 m de altitude, a amplitude térmica entre dia e noite preserva aromas e acidez. Capital mundial do Malbec.',
-    dicas:['Oeste da Argentina','Sopé dos Andes','Malbec · alta altitude']
-  },{
-    id:'salta', nome:'Salta', pais:'Argentina', continente:'sa',
-    castas:'Malbec · Torrontés · Cabernet Sauvignon',
-    fato:'Vinhedos a 1.700–3.300 m de altitude — entre os mais altos do mundo. Sol intenso e noites frias dão estrutura única.',
-    dicas:['NW da Argentina','Valles Calchaquíes','Altitude até 3.300 m']
-  },{
-    id:'maipo', nome:'Vale do Maipo', pais:'Chile', continente:'sa',
-    castas:'Cabernet Sauvignon · Carmenère · Merlot',
-    fato:'Próximo a Santiago, é o "Bordeaux Chileno". Drenagem dos Andes e clima mediterrâneo produzem Cabernet de alta qualidade.',
-    dicas:['Central Chile, próximo a Santiago','Cabernet Sauvignon','Bordeaux chileno']
-  },{
-    id:'casablanca', nome:'Vale de Casablanca', pais:'Chile', continente:'sa',
-    castas:'Sauvignon Blanc · Chardonnay · Pinot Noir',
-    fato:'Influência direta do Oceano Pacífico e da Corrente de Humboldt. Clima fresco e neblina matinal preservam acidez e aromas frutados.',
-    dicas:['Costeiro Chile, ao norte de Valparaíso','Influência do Oceano Pacífico','Brancos frescos']
-  },{
-    id:'serra-gaucha', nome:'Serra Gaúcha', pais:'Brasil', continente:'sa',
-    castas:'Moscato Giallo · Chardonnay · Merlot',
-    fato:'Colonizada por imigrantes italianos. Caxias do Sul e Bento Gonçalves são polo do espumante nacional brasileiro.',
-    dicas:['Sul do Brasil','Descendentes de imigrantes italianos','Espumantes e Moscato']
-  }
+  {id:'bordeaux',nome:'Bordeaux',pais:'França',continente:'europa',castas:'Cabernet Sauvignon · Merlot',fato:'Dividida pelo estuário do Gironda: margem esquerda (Cab. Sauv.) e margem direita (Merlot).',dicas:['SW da França','Ribeiras do Gironda','Lar do Château Pétrus']},
+  {id:'borgonha',nome:'Borgonha',pais:'França',continente:'europa',castas:'Pinot Noir · Chardonnay',fato:'Cada parcela (climat) produz um vinho único. A Romanée-Conti é o vinhedo mais valioso do mundo.',dicas:['Leste da França','Côte d\'Or','Pinot Noir & Chardonnay']},
+  {id:'champagne',nome:'Champagne',pais:'França',continente:'europa',castas:'Chardonnay · Pinot Noir · Pinot Meunier',fato:'Solo de giz e clima frio conferem a acidez e mineralidade únicas do espumante mais famoso do mundo.',dicas:['NE da França','Solo de giz','Espumante Método Tradicional']},
+  {id:'rhone',nome:'Vale do Rhône',pais:'França',continente:'europa',castas:'Syrah · Grenache · Viognier',fato:'O vento Mistral reduz umidade e pragas. No norte, Syrah solo; no sul, Grenache domina.',dicas:['SE da França','Vento Mistral','Syrah no norte, Grenache no sul']},
+  {id:'alsacia',nome:'Alsácia',pais:'França',continente:'europa',castas:'Riesling · Gewurztraminer · Pinot Gris',fato:'Fronteira franco-alemã. Vinhos brancos aromáticos secos em garrafa flûte. Influência germânica.',dicas:['Fronteira com a Alemanha','Brancos aromáticos','Garrafa flûte']},
+  {id:'toscana',nome:'Toscana',pais:'Itália',continente:'europa',castas:'Sangiovese · Cabernet Sauvignon',fato:'Lar do Chianti Classico e Brunello di Montalcino. O "Super Toscano" revolucionou a enologia italiana nos anos 1970.',dicas:['Centro da Itália','Sangiovese','Chianti & Brunello']},
+  {id:'piemonte',nome:'Piemonte',pais:'Itália',continente:'europa',castas:'Nebbiolo · Barbera · Dolcetto',fato:'Nebbiolo produz os "vinhos dos reis": Barolo e Barbaresco. Alta acidez, taninos firmes e longa guarda.',dicas:['NW da Itália','Ao pé dos Alpes','Barolo & Barbaresco']},
+  {id:'rioja',nome:'Rioja',pais:'Espanha',continente:'europa',castas:'Tempranillo · Garnacha · Graciano',fato:'Classificação única: Crianza (2 anos), Reserva (3 anos) e Gran Reserva (5 anos) regulam o envelhecimento.',dicas:['Norte da Espanha','Rio Ebro','Tempranillo · envelhecimento em carvalho']},
+  {id:'douro',nome:'Vale do Douro',pais:'Portugal',continente:'europa',castas:'Touriga Nacional · Tinta Roriz · Touriga Franca',fato:'Produz o Vinho do Porto e vinhos tintos de mesa de alto padrão. Terraços de xisto são marca do terroir.',dicas:['Norte de Portugal','Rio Douro','Vinho do Porto & tintos de guarda']},
+  {id:'vinho-verde',nome:'Vinho Verde',pais:'Portugal',continente:'europa',castas:'Alvarinho · Loureiro · Arinto',fato:'Clima atlântico húmido gera vinhos leves, frescos e com acidez vibrante. Alvarinho de Monção é referência mundial.',dicas:['Noroeste de Portugal','Clima atlântico','Brancos leves e frescos']},
+  {id:'mendoza',nome:'Mendoza',pais:'Argentina',continente:'sa',castas:'Malbec · Cabernet Sauvignon · Torrontés',fato:'A 800–1.000 m de altitude, amplitude térmica preserva aromas e acidez. Capital mundial do Malbec.',dicas:['Oeste da Argentina','Sopé dos Andes','Malbec · alta altitude']},
+  {id:'salta',nome:'Salta',pais:'Argentina',continente:'sa',castas:'Malbec · Torrontés · Cabernet Sauvignon',fato:'Vinhedos a 1.700–3.300 m de altitude — entre os mais altos do mundo. Sol intenso e noites frias.',dicas:['NW da Argentina','Valles Calchaquíes','Altitude até 3.300 m']},
+  {id:'maipo',nome:'Vale do Maipo',pais:'Chile',continente:'sa',castas:'Cabernet Sauvignon · Carmenère · Merlot',fato:'Próximo a Santiago, é o "Bordeaux Chileno". Cabernet de alta qualidade.',dicas:['Central Chile, próximo a Santiago','Cabernet Sauvignon','Bordeaux chileno']},
+  {id:'casablanca',nome:'Vale de Casablanca',pais:'Chile',continente:'sa',castas:'Sauvignon Blanc · Chardonnay · Pinot Noir',fato:'Influência direta do Oceano Pacífico e da Corrente de Humboldt. Clima fresco preserva acidez e aromas.',dicas:['Costeiro Chile, norte de Valparaíso','Influência do Pacífico','Brancos frescos']},
+  {id:'serra-gaucha',nome:'Serra Gaúcha',pais:'Brasil',continente:'sa',castas:'Moscato Giallo · Chardonnay · Merlot',fato:'Colonizada por imigrantes italianos. Caxias do Sul e Bento Gonçalves são polo do espumante nacional.',dicas:['Sul do Brasil','Descendentes de imigrantes italianos','Espumantes e Moscato']}
 ];
 
-/* ═══════════════════════════════════════════════
-   ESTADO DO JOGO
-═══════════════════════════════════════════════ */
-const ROUNDS_TOTAL = 10;
-const MAX_LIVES = 3;
-let state = {
-  lives:MAX_LIVES, xp:0, round:0, correct:0,
-  queue:[], current:null, answered:false, score:0
-};
+const ROUNDS_TOTAL=10, MAX_LIVES=3;
+let state={lives:MAX_LIVES,xp:0,round:0,correct:0,queue:[],current:null,answered:false,score:0};
 
-function shuffle(arr){
-  const a=[...arr];
-  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
-  return a;
-}
+function shuffle(arr){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
 
-/* ═══════════════════════════════════════════════
-   INIT
-═══════════════════════════════════════════════ */
 window.addEventListener('DOMContentLoaded',()=>{
-  buildLives();
-  updateXP();
-  // fill start chips
-  const chips = document.getElementById('startChips');
+  buildLives(); updateXP();
+  const chips=document.getElementById('startChips');
   ['10 regiões','3 continentes','3 vidas','Mapa interativo'].forEach(t=>{
     const c=document.createElement('span');c.className='ov-chip';c.textContent=t;chips.appendChild(c);
   });
 });
 
-/* ═══════════════════════════════════════════════
-   LIVES SVG
-═══════════════════════════════════════════════ */
 function buildLives(){
   const el=document.getElementById('livesDisplay');
   el.innerHTML='';
@@ -667,19 +671,14 @@ function buildLives(){
       ${alive?`<path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36 Z" fill="rgba(122,31,38,.2)"/>`:''}
       <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36" stroke="${col}" stroke-width="14" fill="none" stroke-linecap="round"/>
       <path d="M58,36 Q100,30 142,36" stroke="${col}" stroke-width="14" fill="none"/>
-      <path d="M100,176 L98,200 L102,200" stroke="${col}" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M100,176 L98,200 L102,200" stroke="${col}" stroke-width="13" fill="none" stroke-linecap="round"/>
       <path d="M74,222 Q100,228 126,222" stroke="${col}" stroke-width="12" fill="none" stroke-linecap="round"/>`;
     el.appendChild(svg);
   }
 }
 
-function updateXP(){
-  document.getElementById('xpDisplay').textContent=state.xp+' XP';
-}
+function updateXP(){document.getElementById('xpDisplay').textContent=state.xp+' XP';}
 
-/* ═══════════════════════════════════════════════
-   CONTINENT SWITCH
-═══════════════════════════════════════════════ */
 function switchContinent(c){
   document.getElementById('mapEuropa').classList.toggle('hidden',c!=='europa');
   document.getElementById('mapSA').classList.toggle('hidden',c!=='sa');
@@ -687,144 +686,81 @@ function switchContinent(c){
   document.getElementById('tabSA').classList.toggle('active',c==='sa');
 }
 
-/* ═══════════════════════════════════════════════
-   GAME FLOW
-═══════════════════════════════════════════════ */
 function startGame(){
   document.getElementById('startOverlay').classList.add('hidden');
-  state.lives=MAX_LIVES; state.xp=0; state.round=0;
-  state.correct=0; state.score=0; state.answered=false;
+  state.lives=MAX_LIVES;state.xp=0;state.round=0;state.correct=0;state.score=0;state.answered=false;
   state.queue=shuffle(REGIOES).slice(0,ROUNDS_TOTAL);
-  buildLives(); updateXP();
-  clearAllZones();
-  nextRound();
+  buildLives();updateXP();clearAllZones();nextRound();
 }
 
-function restartGame(){
-  document.getElementById('endOverlay').classList.add('hidden');
-  startGame();
-}
+function restartGame(){document.getElementById('endOverlay').classList.add('hidden');startGame();}
 
 function nextRound(){
-  hideToast();
-  clearAllZones();
+  hideToast();clearAllZones();
   if(state.round>=ROUNDS_TOTAL||state.lives<=0){endGame();return;}
-  state.answered=false;
-  state.current=state.queue[state.round];
-  state.round++;
-
-  // show correct continent
+  state.answered=false;state.current=state.queue[state.round];state.round++;
   switchContinent(state.current.continente);
-
-  // update question card
   document.getElementById('qRegion').textContent=state.current.nome;
   document.getElementById('roundNum').textContent=state.round;
   document.getElementById('qBar').style.width=((state.round-1)/ROUNDS_TOTAL*100)+'%';
-
-  // hints chips
-  const hintEl=document.getElementById('qHint');
-  hintEl.innerHTML='';
+  const hintEl=document.getElementById('qHint');hintEl.innerHTML='';
   const chips=[state.current.pais,...state.current.dicas.slice(0,2)];
-  chips.forEach(t=>{
-    const c=document.createElement('span');c.className='q-hint-chip';c.textContent=t;hintEl.appendChild(c);
-  });
-
-  // highlight country
-  highlightCountry(state.current.pais, true);
-
-  // pulse target zone
+  chips.forEach(t=>{const c=document.createElement('span');c.className='q-hint-chip';c.textContent=t;hintEl.appendChild(c);});
+  highlightCountry(state.current.pais,true);
   const gz=document.querySelector(`.rzone[data-id="${state.current.id}"]`);
   if(gz){gz.classList.add('target');}
-  // but keep it subtle — don't give it away, remove target class
-  // Actually keep pulsing to guide them — educational mode
 }
 
-function highlightCountry(pais, on){
-  const map={'França':['land-fr'],'Espanha':['land-es'],'Itália':['land-it'],
-    'Portugal':['land-pt'],'Argentina':['land-ar'],'Chile':['land-cl'],'Brasil':['land-br']};
-  const ids=map[pais]||[];
-  ids.forEach(id=>{
-    const el=document.getElementById(id);
-    if(el){el.classList.toggle('active',on);}
-  });
+function highlightCountry(pais,on){
+  const map={'França':['land-fr'],'Espanha':['land-es'],'Itália':['land-it'],'Portugal':['land-pt'],'Argentina':['land-ar'],'Chile':['land-cl'],'Brasil':['land-br']};
+  (map[pais]||[]).forEach(id=>{const el=document.getElementById(id);if(el)el.classList.toggle('active',on);});
 }
 
 function clearAllZones(){
-  document.querySelectorAll('.rzone').forEach(z=>{
-    z.classList.remove('target','correct','wrong','disabled');
-  });
-  // clear country highlights
+  document.querySelectorAll('.rzone').forEach(z=>z.classList.remove('target','correct','wrong','disabled'));
   document.querySelectorAll('.country-hi').forEach(e=>e.classList.remove('active'));
 }
 
-/* ═══════════════════════════════════════════════
-   CLICK HANDLER
-═══════════════════════════════════════════════ */
 function clickRegion(id){
-  if(state.answered)return;
-  if(!state.current)return;
+  if(state.answered||!state.current)return;
   state.answered=true;
-
   const correct=(id===state.current.id);
   const gz=document.querySelector(`.rzone[data-id="${id}"]`);
   const correctGz=document.querySelector(`.rzone[data-id="${state.current.id}"]`);
-
-  // disable all zones
   document.querySelectorAll('.rzone').forEach(z=>z.classList.add('disabled'));
-
   if(correct){
-    gz.classList.remove('target');
-    gz.classList.add('correct');
-    state.correct++;
-    state.score+=100;
-    state.xp+=15;
-    showToast(true, state.current);
-  } else {
+    gz.classList.remove('target');gz.classList.add('correct');
+    state.correct++;state.score+=100;state.xp+=15;
+    showToast(true,state.current);
+  }else{
     gz.classList.add('wrong');
     if(correctGz){correctGz.classList.remove('target');correctGz.classList.add('correct');}
-    state.lives--;
-    buildLives();
-    showToast(false, state.current);
+    state.lives--;buildLives();
+    showToast(false,state.current);
   }
   updateXP();
   document.getElementById('qBar').style.width=(state.round/ROUNDS_TOTAL*100)+'%';
 }
 
-/* ═══════════════════════════════════════════════
-   TOAST
-═══════════════════════════════════════════════ */
-function showToast(ok, regiao){
+function showToast(ok,regiao){
   document.getElementById('toastIcon').textContent=ok?'🍷':'🗺️';
   const titleEl=document.getElementById('toastTitle');
   titleEl.textContent=ok?'Região encontrada!':'Que pena…';
   titleEl.className='toast-title '+(ok?'ok':'no');
-  document.getElementById('toastFact').textContent=
-    (ok?'':'A região correta era '+regiao.nome+'. ')+regiao.fato;
-  const toast=document.getElementById('toast');
-  toast.classList.add('show');
-
-  if(state.lives<=0||state.round>=ROUNDS_TOTAL){
-    document.getElementById('toastBtn').textContent=
-      state.lives<=0?'Ver resultado →':'Finalizar →';
-  } else {
-    document.getElementById('toastBtn').textContent='Próxima →';
-  }
+  document.getElementById('toastFact').textContent=(ok?'':'A região correta era '+regiao.nome+'. ')+regiao.fato;
+  const toast=document.getElementById('toast');toast.classList.add('show');
+  document.getElementById('toastBtn').textContent=(state.lives<=0||state.round>=ROUNDS_TOTAL)?(state.lives<=0?'Ver resultado →':'Finalizar →'):'Próxima →';
 }
 
-function hideToast(){
-  document.getElementById('toast').classList.remove('show');
-}
+function hideToast(){document.getElementById('toast').classList.remove('show');}
 
-/* ═══════════════════════════════════════════════
-   END GAME
-═══════════════════════════════════════════════ */
 function endGame(){
   hideToast();
   const pct=state.correct/ROUNDS_TOTAL;
   let emoji='🍷',title='',msg='';
-  if(pct>=0.9){emoji='🏆';title='Sommelier Experiente!';msg='Conhecimento geográfico impecável. Você domina o mapa do vinho mundial!';}
-  else if(pct>=0.7){emoji='🥇';title='Muito bem!';msg='Você conhece bem as regiões. Continue explorando o mapa para chegar à perfeição.';}
-  else if(pct>=0.5){emoji='📍';title='Bom começo!';msg='Você acertou mais da metade. Estude os países e as castas de cada região.';}
+  if(pct>=.9){emoji='🏆';title='Sommelier Experiente!';msg='Conhecimento geográfico impecável. Você domina o mapa do vinho mundial!';}
+  else if(pct>=.7){emoji='🥇';title='Muito bem!';msg='Você conhece bem as regiões. Continue explorando o mapa para chegar à perfeição.';}
+  else if(pct>=.5){emoji='📍';title='Bom começo!';msg='Você acertou mais da metade. Estude os países e as castas de cada região.';}
   else{emoji='🌏';title='Continue praticando!';msg='Cada região tem uma história. Explore as dicas e tente novamente!';}
   document.getElementById('endEmoji').textContent=emoji;
   document.getElementById('endTitle').textContent=title;
