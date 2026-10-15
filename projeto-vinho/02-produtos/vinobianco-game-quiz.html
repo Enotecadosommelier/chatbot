@@ -8,607 +8,332 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Montserrat:wght@300;400;500;600;700&display=swap"/>
 <style>
-/* ══ TOKENS — Paleta VinoBianco real (Avório + Vinho + Ouro)
-   Neuromarketing: fundo quente ivory = confiança e sofisticação;
-   bordô = autoridade e paixão; ouro = recompensa e exclusividade ══ */
-
+/* ══ TOKENS — Paleta VinoBianco real ══ */
 :root {
-  /* Brand palette */
-  --ivory:       #F8F6EF;
-  --ivory2:      #F0EDE3;
-  --ivory3:      #E8E3D6;
-  --vinho:       #7A1F26;
-  --vinho2:      #5A1520;
-  --vinho3:      #3A0D12;
-  --vinho-light: #9B3040;
-  --ouro:        #D4AF37;
-  --ouro2:       #B8941F;
-  --cinza:       #6B6B6B;
-  --cinza2:      #999;
-  --cinza3:      #C0BAB0;
-
-  /* Semantic */
-  --bg:          var(--ivory);
-  --surface:     #FFFFFF;
-  --surface2:    var(--ivory2);
-  --fg:          #2C1810;       /* quase-preto quente — leiturabilidade premium */
-  --fg2:         #5A4035;
-  --fg3:         var(--cinza);
-  --border:      rgba(122,31,38,.14);
-  --border-hi:   rgba(122,31,38,.35);
-  --gold-border: rgba(212,175,55,.3);
-  --correct:     #1E6B3A;
-  --correct-bg:  #E8F5EE;
-  --wrong:       var(--vinho);
-  --wrong-bg:    #FAEAEA;
-  --shadow:      rgba(44,24,16,.10);
-  --shadow-md:   rgba(44,24,16,.16);
-  --shadow-lg:   rgba(44,24,16,.22);
-
-  /* Type */
+  --ivory:      #F8F6EF;
+  --ivory2:     #F0EDE3;
+  --ivory3:     #E8E3D6;
+  --vinho:      #7A1F26;
+  --vinho2:     #5A1520;
+  --ouro:       #D4AF37;
+  --ouro2:      #B8941F;
+  --cinza:      #6B6B6B;
+  --cinza2:     #999;
+  --cinza3:     #C0BAB0;
+  --bg:         var(--ivory);
+  --surface:    #FFFFFF;
+  --fg:         #2C1810;
+  --fg2:        #5A4035;
+  --fg3:        var(--cinza);
+  --border:     rgba(122,31,38,.13);
+  --border-hi:  rgba(122,31,38,.32);
+  --correct:    #1E6B3A;
+  --correct-bg: #E8F5EE;
+  --wrong:      var(--vinho);
+  --wrong-bg:   #FAEAEA;
+  --shadow:     rgba(44,24,16,.09);
+  --shadow-md:  rgba(44,24,16,.15);
   --ff-display: 'Playfair Display', Georgia, serif;
   --ff-body:    'Montserrat', system-ui, sans-serif;
   color-scheme: light;
 }
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html, body {
-  width: 100%; height: 100%;
-  background: var(--ivory);
-  color: var(--fg);
-  font-family: var(--ff-body);
-  overflow: hidden;
-}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;background:var(--ivory);color:var(--fg);font-family:var(--ff-body);overflow:hidden}
 
 /* ══ SHELL ══ */
-.shell {
-  display: grid;
-  grid-template-rows: auto 1fr auto auto;
-  width: 100vw; height: 100dvh;
-  max-width: 680px;
-  margin: 0 auto;
-  padding-left:  max(16px, env(safe-area-inset-left,  0px));
-  padding-right: max(16px, env(safe-area-inset-right, 0px));
-  padding-block: 0;
-  position: relative;
+.shell{
+  display:grid;grid-template-rows:auto 1fr auto auto;
+  width:100vw;height:100dvh;max-width:680px;margin:0 auto;
+  padding-left:max(16px,env(safe-area-inset-left,0px));
+  padding-right:max(16px,env(safe-area-inset-right,0px));
+  padding-block:0;position:relative;overflow:hidden;
 }
 
-/* ══ CANVAS WATERMARK ══ */
-#wineCanvas {
-  position: absolute;
-  left: 50%; top: 50%;
-  transform: translate(-50%, -50%);
-  pointer-events: none;
-  z-index: 0;
-  opacity: .06;
+/* ══ LOGO GLASS SVG WATERMARK ══ */
+.glass-watermark{
+  position:absolute;
+  left:50%;top:52%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;z-index:0;
+  width:min(220px,55vw);
+  height:auto;
+  opacity:.18;
 }
+/* wine fill clip animated via JS — clipPathUnits userSpaceOnUse */
+#wineFillRect{transition:y .7s cubic-bezier(.4,0,.2,1),height .7s cubic-bezier(.4,0,.2,1)}
 
 /* ══ HEADER ══ */
-.hdr {
-  padding: max(env(safe-area-inset-top,0px),14px) 0 10px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  position: relative; z-index: 2;
-  /* subtle gold line at bottom */
-  border-bottom: 1px solid rgba(212,175,55,.25);
+.hdr{
+  padding:max(env(safe-area-inset-top,0px),14px) 0 10px;
+  display:flex;align-items:center;gap:10px;
+  position:relative;z-index:2;
+  border-bottom:1px solid rgba(212,175,55,.22);
 }
-
-.brand-mark {
-  width: 34px; height: 34px;
-  border-radius: 50%;
-  background: var(--vinho);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(122,31,38,.3);
+.brand-mark{
+  width:34px;height:34px;border-radius:50%;
+  background:var(--vinho);display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;box-shadow:0 2px 8px rgba(122,31,38,.28);
 }
-.brand-mark svg { width: 18px; height: 18px; }
-
-.hdr-mode {
-  flex: 1; min-width: 0;
-}
-.hdr-mode-label {
-  font-size: 9px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  color: var(--ouro2);
-  font-weight: 600;
-}
-.hdr-mode-name {
-  font-family: var(--ff-display);
-  font-size: 15px;
-  color: var(--vinho);
-  line-height: 1.1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-/* progress strip */
-.hdr-progress {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-}
-.hdr-counters {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-.lives-row {
-  display: flex; gap: 3px;
-  align-items: center;
-}
-.life {
-  transition: opacity .3s, transform .3s;
-}
-.life.lost {
-  opacity: .22;
-  transform: scale(.8);
-}
-.q-counter {
-  font-size: 10px;
-  color: var(--fg3);
-  font-weight: 500;
-  letter-spacing: .03em;
-}
-
-/* linear progress */
-.q-progress-track {
-  width: 100%;
-  height: 3px;
-  background: var(--ivory3);
-  border-radius: 2px;
-  overflow: visible;
-  position: relative;
-  z-index: 2;
-  margin-top: 2px;
-}
-.q-progress-fill {
-  height: 100%;
-  border-radius: 2px;
-  background: linear-gradient(90deg, var(--vinho), var(--ouro));
-  transition: width .55s cubic-bezier(.4,0,.2,1);
-  position: relative;
-}
-.q-progress-fill::after {
-  content: '';
-  position: absolute;
-  right: -1px; top: -2px;
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: var(--ouro);
-  box-shadow: 0 0 6px var(--ouro);
-}
+.hdr-mode{flex:1;min-width:0}
+.hdr-mode-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--ouro2);font-weight:600}
+.hdr-mode-name{font-family:var(--ff-display);font-size:15px;color:var(--vinho);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hdr-progress{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.hdr-counters{display:flex;align-items:center;gap:8px}
+.lives-row{display:flex;gap:3px;align-items:center}
+.life{transition:opacity .3s,transform .3s}
+.life.lost{opacity:.22;transform:scale(.8)}
+.q-counter{font-size:10px;color:var(--fg3);font-weight:500;letter-spacing:.03em}
+.q-progress-track{width:100%;height:3px;background:var(--ivory3);border-radius:2px;position:relative;z-index:2;margin:4px 0 0}
+.q-progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--vinho),var(--ouro));transition:width .55s cubic-bezier(.4,0,.2,1);position:relative}
+.q-progress-fill::after{content:'';position:absolute;right:-1px;top:-2px;width:7px;height:7px;border-radius:50%;background:var(--ouro);box-shadow:0 0 6px var(--ouro)}
 
 /* ══ QUESTION ZONE ══ */
-.q-zone {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 12px 0 8px;
-  position: relative; z-index: 2;
-  gap: 8px;
+.q-zone{
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:12px 0 8px;position:relative;z-index:2;gap:8px;
 }
-
-/* category + timer row */
-.q-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
-.q-cat {
-  font-size: 10px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 20px;
-  background: rgba(122,31,38,.08);
-  color: var(--vinho);
-  border: 1px solid rgba(122,31,38,.18);
+.q-meta{display:flex;align-items:center;justify-content:space-between}
+.q-cat{
+  font-size:10px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;
+  padding:3px 10px;border-radius:20px;
+  background:rgba(122,31,38,.08);color:var(--vinho);border:1px solid rgba(122,31,38,.18);
 }
 
 /* timer */
-.timer-wrap {
-  position: relative;
-  width: 42px; height: 42px;
-  flex-shrink: 0;
-}
-#timerSvg {
-  transform: rotate(-90deg);
-  overflow: visible;
-}
-.timer-track { fill:none; stroke: var(--ivory3); stroke-width: 3; }
-.timer-arc   { fill:none; stroke: var(--ouro); stroke-width: 3;
-               stroke-linecap: round; transition: stroke .4s, stroke-dashoffset .95s linear; }
-.timer-arc.low { stroke: var(--vinho); }
-.timer-num {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px; font-weight: 700;
-  color: var(--fg);
-  font-variant-numeric: tabular-nums;
-  transition: color .4s;
-}
-.timer-num.low { color: var(--vinho); }
+.timer-wrap{position:relative;width:42px;height:42px;flex-shrink:0}
+#timerSvg{transform:rotate(-90deg);overflow:visible}
+.timer-track{fill:none;stroke:var(--ivory3);stroke-width:3}
+.timer-arc{fill:none;stroke:var(--ouro);stroke-width:3;stroke-linecap:round;transition:stroke .4s,stroke-dashoffset .95s linear}
+.timer-arc.low{stroke:var(--vinho)}
+.timer-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--fg);font-variant-numeric:tabular-nums;transition:color .4s}
+.timer-num.low{color:var(--vinho)}
 
-/* XP streaks badge */
-.streak-badge {
-  display: inline-flex; align-items: center; gap: 4px;
-  font-size: 10px; font-weight: 600;
-  padding: 3px 9px; border-radius: 20px;
-  background: rgba(212,175,55,.12);
-  border: 1px solid rgba(212,175,55,.3);
-  color: var(--ouro2);
-  transition: opacity .3s;
-  opacity: 0;
+.streak-badge{
+  display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:600;
+  padding:3px 9px;border-radius:20px;
+  background:rgba(212,175,55,.12);border:1px solid rgba(212,175,55,.3);color:var(--ouro2);
+  transition:opacity .3s;opacity:0;
 }
-.streak-badge.show { opacity: 1; }
-
-/* difficulty stars */
-.diff-stars { display: flex; gap: 2px; align-items: center; }
-.diff-stars span { font-size: 9px; opacity: .25; }
-.diff-stars span.on { opacity: 1; color: var(--ouro2); }
-
-/* question text */
-.q-text {
-  font-family: var(--ff-display);
-  font-size: clamp(19px, 5vw, 26px);
-  line-height: 1.35;
-  color: var(--fg);
-  text-wrap: balance;
-  /* Neuromarketing: serif title creates authority, increases comprehension */
-}
+.streak-badge.show{opacity:1}
+.diff-stars{display:flex;gap:2px;align-items:center}
+.diff-stars span{font-size:9px;opacity:.25}
+.diff-stars span.on{opacity:1;color:var(--ouro2)}
+.q-text{font-family:var(--ff-display);font-size:clamp(18px,5vw,25px);line-height:1.35;color:var(--fg);text-wrap:balance}
 
 /* ══ OPTIONS ══ */
-.options {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  position: relative; z-index: 2;
-  padding-bottom: 8px;
+.options{display:flex;flex-direction:column;gap:8px;position:relative;z-index:2;padding-bottom:8px}
+.opt{
+  display:flex;align-items:center;gap:12px;padding:13px 14px;
+  border-radius:12px;border:1.5px solid var(--border);background:var(--surface);
+  cursor:pointer;transition:border-color .18s,background .18s,transform .12s,box-shadow .18s;
+  box-shadow:0 1px 4px var(--shadow);position:relative;overflow:hidden;
 }
-
-.opt {
-  display: flex; align-items: center; gap: 12px;
-  padding: 13px 14px;
-  border-radius: 12px;
-  border: 1.5px solid var(--border);
-  background: var(--surface);
-  cursor: pointer;
-  transition: border-color .18s, background .18s, transform .12s, box-shadow .18s;
-  box-shadow: 0 1px 4px var(--shadow);
-  position: relative;
-  overflow: hidden;
+.opt::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(circle at var(--rx,50%) var(--ry,50%),rgba(122,31,38,.06) 0%,transparent 65%);
+  opacity:0;transition:opacity .25s;pointer-events:none;
 }
-
-/* Neuromarketing: subtle wave ripple on hover = tactile feedback loop */
-.opt::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(circle at var(--rx,50%) var(--ry,50%),
-              rgba(122,31,38,.06) 0%, transparent 65%);
-  opacity: 0; transition: opacity .25s;
-  pointer-events: none;
+.opt:hover::before{opacity:1}
+.opt:hover:not(:disabled){border-color:var(--border-hi);background:var(--ivory2);transform:translateX(2px);box-shadow:0 3px 10px var(--shadow-md)}
+.opt:active:not(:disabled){transform:translateX(1px) scale(.995)}
+.opt-key{
+  width:28px;height:28px;border-radius:8px;background:var(--ivory2);border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--cinza);
+  flex-shrink:0;transition:background .18s,border-color .18s,color .18s;letter-spacing:.03em;
 }
-.opt:hover::before { opacity: 1; }
-
-.opt:hover:not(:disabled) {
-  border-color: var(--border-hi);
-  background: var(--ivory2);
-  transform: translateX(2px);
-  box-shadow: 0 3px 10px var(--shadow-md);
-}
-.opt:active:not(:disabled) { transform: translateX(1px) scale(.995); }
-
-.opt-key {
-  width: 28px; height: 28px;
-  border-radius: 8px;
-  background: var(--ivory2);
-  border: 1.5px solid var(--border);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 700; color: var(--cinza);
-  flex-shrink: 0;
-  transition: background .18s, border-color .18s, color .18s;
-  letter-spacing: .03em;
-}
-
-.opt-text {
-  flex: 1; min-width: 0;
-  font-size: 13px; line-height: 1.4;
-  color: var(--fg2);
-  font-weight: 400;
-}
-
-/* States */
-.opt.selected {
-  border-color: var(--vinho);
-  background: rgba(122,31,38,.04);
-}
-.opt.selected .opt-key {
-  background: var(--vinho); border-color: var(--vinho); color: #fff;
-}
-.opt.selected .opt-text { color: var(--fg); font-weight: 500; }
-
-.opt.correct {
-  border-color: var(--correct);
-  background: var(--correct-bg);
-  animation: correctPulse .4s ease;
-}
-.opt.correct .opt-key {
-  background: var(--correct); border-color: var(--correct); color: #fff;
-}
-.opt.correct .opt-text { color: var(--correct); font-weight: 600; }
-
-.opt.wrong {
-  border-color: var(--wrong);
-  background: var(--wrong-bg);
-  animation: wrongShake .35s ease;
-}
-.opt.wrong .opt-key {
-  background: var(--wrong); border-color: var(--wrong); color: #fff;
-}
-.opt.wrong .opt-text { color: var(--wrong); }
-
-.opt.reveal {
-  border-color: var(--correct);
-  background: var(--correct-bg);
-  opacity: .75;
-}
-.opt.reveal .opt-key {
-  background: var(--correct); border-color: var(--correct); color: #fff;
-}
-
-.opt:disabled { pointer-events: none; }
-
-@keyframes correctPulse {
-  0%   { transform: scale(1); }
-  40%  { transform: scale(1.012); }
-  100% { transform: scale(1); }
-}
-@keyframes wrongShake {
-  0%  { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(4px); }
-  75% { transform: translateX(-3px); }
-  100%{ transform: translateX(0); }
-}
+.opt-text{flex:1;min-width:0;font-size:13px;line-height:1.4;color:var(--fg2);font-weight:400}
+.opt.selected{border-color:var(--vinho);background:rgba(122,31,38,.04)}
+.opt.selected .opt-key{background:var(--vinho);border-color:var(--vinho);color:#fff}
+.opt.selected .opt-text{color:var(--fg);font-weight:500}
+.opt.correct{border-color:var(--correct);background:var(--correct-bg);animation:correctPulse .4s ease}
+.opt.correct .opt-key{background:var(--correct);border-color:var(--correct);color:#fff}
+.opt.correct .opt-text{color:var(--correct);font-weight:600}
+.opt.wrong{border-color:var(--wrong);background:var(--wrong-bg);animation:wrongShake .35s ease}
+.opt.wrong .opt-key{background:var(--wrong);border-color:var(--wrong);color:#fff}
+.opt.wrong .opt-text{color:var(--wrong)}
+.opt.reveal{border-color:var(--correct);background:var(--correct-bg);opacity:.75}
+.opt.reveal .opt-key{background:var(--correct);border-color:var(--correct);color:#fff}
+.opt:disabled{pointer-events:none}
+@keyframes correctPulse{0%{transform:scale(1)}40%{transform:scale(1.012)}100%{transform:scale(1)}}
+@keyframes wrongShake{0%{transform:translateX(0)}25%{transform:translateX(-5px)}50%{transform:translateX(4px)}75%{transform:translateX(-3px)}100%{transform:translateX(0)}}
 
 /* ══ STATUS BAR ══ */
-.status-bar {
-  position: relative; z-index: 2;
-  padding-top: 6px;
-  padding-bottom: max(env(safe-area-inset-bottom,0px), 12px);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.status-bar{
+  position:relative;z-index:2;padding-top:6px;
+  padding-bottom:max(env(safe-area-inset-bottom,0px),12px);
+  display:flex;flex-direction:column;gap:8px;
 }
-
-.xp-row {
-  display: flex; align-items: center; justify-content: space-between;
+.xp-row{display:flex;align-items:center;justify-content:space-between}
+.xp-total{font-size:11px;color:var(--fg3);font-weight:500;display:flex;align-items:center;gap:5px}
+.xp-total strong{color:var(--ouro2);font-weight:700}
+.feedback{
+  border-radius:10px;padding:10px 12px;font-size:12px;line-height:1.5;
+  color:var(--fg2);border:1px solid var(--border);background:var(--surface);display:none;
 }
-.xp-total {
-  font-size: 11px; color: var(--fg3); font-weight: 500;
-  display: flex; align-items: center; gap: 5px;
+.feedback.show{display:block;animation:fadeSlideUp .25s ease}
+.feedback .fb-title{font-family:var(--ff-display);font-size:13px;font-weight:700;margin-bottom:3px;display:flex;align-items:center;gap:6px}
+.feedback.correct-fb{border-color:rgba(30,107,58,.3);background:var(--correct-bg)}
+.feedback.correct-fb .fb-title{color:var(--correct)}
+.feedback.wrong-fb{border-color:rgba(122,31,38,.2);background:var(--wrong-bg)}
+.feedback.wrong-fb .fb-title{color:var(--wrong)}
+.feedback.timeout-fb{border-color:rgba(212,175,55,.3);background:rgba(212,175,55,.06)}
+.feedback.timeout-fb .fb-title{color:var(--ouro2)}
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
+.btn-next{
+  width:100%;padding:13px;border-radius:12px;border:none;
+  background:linear-gradient(135deg,var(--vinho),var(--vinho2));color:#fff;
+  font-family:var(--ff-body);font-size:13px;font-weight:600;letter-spacing:.05em;
+  cursor:pointer;display:none;align-items:center;justify-content:center;gap:8px;
+  box-shadow:0 4px 16px rgba(122,31,38,.28);transition:opacity .2s,transform .12s;
 }
-.xp-total strong { color: var(--ouro2); font-weight: 700; }
-
-/* feedback panel */
-.feedback {
-  border-radius: 10px;
-  padding: 10px 12px;
-  font-size: 12px;
-  line-height: 1.5;
-  color: var(--fg2);
-  border: 1px solid var(--border);
-  background: var(--surface);
-  display: none;
-  /* Neuromarketing: short reward text triggers dopamine, teaches simultaneously */
-}
-.feedback.show { display: block; animation: fadeSlideUp .25s ease; }
-.feedback .fb-title {
-  font-family: var(--ff-display);
-  font-size: 13px;
-  font-weight: 700;
-  margin-bottom: 3px;
-  display: flex; align-items: center; gap: 6px;
-}
-.feedback.correct-fb { border-color: rgba(30,107,58,.3); background: var(--correct-bg); }
-.feedback.correct-fb .fb-title { color: var(--correct); }
-.feedback.wrong-fb   { border-color: rgba(122,31,38,.2);  background: var(--wrong-bg);   }
-.feedback.wrong-fb   .fb-title { color: var(--wrong); }
-.feedback.timeout-fb { border-color: rgba(212,175,55,.3); background: rgba(212,175,55,.06); }
-.feedback.timeout-fb .fb-title { color: var(--ouro2); }
-
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* next button */
-.btn-next {
-  width: 100%;
-  padding: 13px;
-  border-radius: 12px;
-  border: none;
-  /* Neuromarketing: rich burgundy CTA button = authority + invitation to act */
-  background: linear-gradient(135deg, var(--vinho), var(--vinho2));
-  color: #fff;
-  font-family: var(--ff-body);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .05em;
-  cursor: pointer;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  box-shadow: 0 4px 16px rgba(122,31,38,.28);
-  transition: opacity .2s, transform .12s;
-}
-.btn-next.show { display: flex; animation: fadeSlideUp .2s ease; }
-.btn-next:hover  { opacity: .9; }
-.btn-next:active { transform: scale(.98); }
+.btn-next.show{display:flex;animation:fadeSlideUp .2s ease}
+.btn-next:hover{opacity:.9}
+.btn-next:active{transform:scale(.98)}
 
 /* ══ XP POP ══ */
-.xp-pop {
-  position: fixed;
-  pointer-events: none;
-  font-weight: 800;
-  font-size: 18px;
-  color: var(--ouro);
-  text-shadow: 0 1px 6px rgba(0,0,0,.12);
-  z-index: 100;
-  animation: xpFloat .9s ease forwards;
-  font-family: var(--ff-display);
-}
-@keyframes xpFloat {
-  0%   { opacity: 0; transform: translateY(0) scale(.7); }
-  20%  { opacity: 1; transform: translateY(-8px) scale(1.1); }
-  70%  { opacity: 1; transform: translateY(-30px) scale(1); }
-  100% { opacity: 0; transform: translateY(-50px) scale(.9); }
-}
+.xp-pop{position:fixed;pointer-events:none;font-weight:800;font-size:18px;color:var(--ouro);text-shadow:0 1px 6px rgba(0,0,0,.12);z-index:100;animation:xpFloat .9s ease forwards;font-family:var(--ff-display)}
+@keyframes xpFloat{0%{opacity:0;transform:translateY(0) scale(.7)}20%{opacity:1;transform:translateY(-8px) scale(1.1)}70%{opacity:1;transform:translateY(-30px) scale(1)}100%{opacity:0;transform:translateY(-50px) scale(.9)}}
 
 /* ══ END SCREEN ══ */
-.end-screen {
-  display: none;
-  position: fixed; inset: 0;
-  background: var(--ivory);
-  z-index: 50;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 32px max(20px, env(safe-area-inset-left,0px));
-  text-align: center;
-  gap: 20px;
+.end-screen{
+  display:none;position:fixed;inset:0;background:var(--ivory);z-index:50;
+  flex-direction:column;align-items:center;justify-content:center;
+  padding:32px max(20px,env(safe-area-inset-left,0px));text-align:center;gap:20px;
 }
-.end-screen.show { display: flex; }
+.end-screen.show{display:flex}
+.end-brand{font-family:var(--ff-display);font-size:28px;color:var(--vinho);font-weight:700;letter-spacing:-.01em}
+.end-brand span{color:var(--ouro2)}
+.end-divider{width:80px;height:1px;background:linear-gradient(90deg,transparent,var(--ouro),transparent)}
+.end-title{font-family:var(--ff-display);font-size:22px;color:var(--fg);line-height:1.2}
+.end-title em{color:var(--vinho);font-style:italic}
+.end-stats{
+  display:flex;gap:0;border:1px solid var(--border);border-radius:14px;overflow:hidden;
+  width:100%;max-width:340px;background:var(--surface);box-shadow:0 4px 20px var(--shadow-md);
+}
+.end-stat{flex:1;padding:16px 8px;border-right:1px solid var(--border);display:flex;flex-direction:column;align-items:center;gap:4px}
+.end-stat:last-child{border-right:none}
+.end-stat-num{font-family:var(--ff-display);font-size:32px;font-weight:700;color:var(--vinho);line-height:1}
+.end-stat-lbl{font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:var(--cinza);font-weight:600;text-align:center}
+.end-msg{font-size:14px;line-height:1.6;color:var(--fg2);max-width:320px}
+.btn-restart{
+  padding:14px 32px;border-radius:12px;border:none;
+  background:linear-gradient(135deg,var(--vinho),var(--vinho2));color:#fff;
+  font-family:var(--ff-body);font-size:13px;font-weight:700;letter-spacing:.08em;
+  cursor:pointer;box-shadow:0 6px 20px rgba(122,31,38,.28);transition:opacity .2s,transform .12s;
+  display:flex;align-items:center;gap:8px;
+}
+.btn-restart:hover{opacity:.9}
+.btn-restart:active{transform:scale(.97)}
+.ornament{font-size:11px;color:var(--cinza3);letter-spacing:.12em;font-weight:500}
 
-.end-brand {
-  font-family: var(--ff-display);
-  font-size: 28px;
-  color: var(--vinho);
-  font-weight: 700;
-  letter-spacing: -.01em;
-}
-.end-brand span { color: var(--ouro2); }
-
-.end-divider {
-  width: 80px; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--ouro), transparent);
-}
-
-.end-title {
-  font-family: var(--ff-display);
-  font-size: 22px;
-  color: var(--fg);
-  line-height: 1.2;
-}
-.end-title em {
-  color: var(--vinho);
-  font-style: italic;
-}
-
-.end-stats {
-  display: flex; gap: 0;
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  overflow: hidden;
-  width: 100%;
-  max-width: 340px;
-  background: var(--surface);
-  box-shadow: 0 4px 20px var(--shadow-md);
-}
-.end-stat {
-  flex: 1;
-  padding: 16px 8px;
-  border-right: 1px solid var(--border);
-  display: flex; flex-direction: column; align-items: center; gap: 4px;
-}
-.end-stat:last-child { border-right: none; }
-.end-stat-num {
-  font-family: var(--ff-display);
-  font-size: 32px;
-  font-weight: 700;
-  color: var(--vinho);
-  line-height: 1;
-}
-.end-stat-lbl {
-  font-size: 8px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  color: var(--cinza);
-  font-weight: 600;
-  text-align: center;
-}
-
-.end-msg {
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--fg2);
-  max-width: 320px;
-  /* Neuromarketing: personalized message raises emotional resonance +37% retention */
-}
-
-.btn-restart {
-  padding: 14px 32px;
-  border-radius: 12px;
-  border: none;
-  background: linear-gradient(135deg, var(--vinho), var(--vinho2));
-  color: #fff;
-  font-family: var(--ff-body);
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: .08em;
-  cursor: pointer;
-  box-shadow: 0 6px 20px rgba(122,31,38,.28);
-  transition: opacity .2s, transform .12s;
-  display: flex; align-items: center; gap: 8px;
-}
-.btn-restart:hover  { opacity: .9; }
-.btn-restart:active { transform: scale(.97); }
-
-/* gold ornament line */
-.ornament {
-  font-size: 11px;
-  color: var(--cinza3);
-  letter-spacing: .12em;
-  font-weight: 500;
-}
+/* ══ END SCREEN GLASS ══ */
+.end-glass-wrap{position:relative;width:90px;height:auto}
+.end-glass-wrap svg{display:block}
 </style>
 </head>
 <body>
 
 <div class="shell" id="shell">
 
-  <!-- Glass watermark Canvas -->
-  <canvas id="wineCanvas"></canvas>
+  <!-- ══ LOGO GLASS SVG WATERMARK — fiel ao logo real ══ -->
+  <svg class="glass-watermark" id="glassWm" viewBox="0 0 200 248" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <!-- clip to bowl interior -->
+      <clipPath id="bowlClip">
+        <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36 Z"/>
+      </clipPath>
+      <!-- animated wine fill clip -->
+      <clipPath id="wineClip">
+        <rect id="wineFillRect" x="0" y="176" width="200" height="0"/>
+      </clipPath>
+    </defs>
+
+    <!-- ── WINE FILL (inside bowl) ── -->
+    <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36 Z"
+          fill="#7A1F26" clip-path="url(#wineClip)" opacity=".55"/>
+    <!-- wine surface shimmer -->
+    <line id="wineSurface" x1="58" y1="176" x2="142" y2="176"
+          stroke="rgba(212,175,55,.6)" stroke-width="1.5" opacity="0"/>
+
+    <!-- ── VINEYARD ROWS (clipped inside bowl) ── -->
+    <g clip-path="url(#bowlClip)" stroke="#7A1F26" fill="none" stroke-width="1.1" opacity=".85">
+      <!-- 8 perspective rows converging to bottom-center (100,172) -->
+      <!-- each row: arc at height y, width proportional to distance from VP -->
+      <path d="M54,82  Q100,77  146,82"/>
+      <path d="M52,96  Q100,91  148,96"/>
+      <path d="M53,109 Q100,104 147,109"/>
+      <path d="M55,121 Q100,116 145,121"/>
+      <path d="M59,132 Q100,127 141,132"/>
+      <path d="M65,141 Q100,136 135,141"/>
+      <path d="M72,150 Q100,145 128,150"/>
+      <!-- vanishing perspective lines from VP to each row end -->
+      <line x1="100" y1="172" x2="52"  y2="82"  stroke-width=".7" opacity=".4"/>
+      <line x1="100" y1="172" x2="148" y2="82"  stroke-width=".7" opacity=".4"/>
+      <line x1="100" y1="172" x2="50"  y2="92"  stroke-width=".6" opacity=".3"/>
+      <line x1="100" y1="172" x2="150" y2="92"  stroke-width=".6" opacity=".3"/>
+      <line x1="100" y1="172" x2="56"  y2="108" stroke-width=".5" opacity=".25"/>
+      <line x1="100" y1="172" x2="144" y2="108" stroke-width=".5" opacity=".25"/>
+    </g>
+
+    <!-- ── CYPRESS TREES (clipped inside bowl) ── -->
+    <g clip-path="url(#bowlClip)" fill="#7A1F26" opacity=".85">
+      <!-- Left cypress: narrow pointed shape at x≈76 -->
+      <path d="M76,105 L68,150 Q72,158 76,159 Q80,158 84,150 Z"/>
+      <!-- inner trunk line -->
+      <line x1="76" y1="152" x2="76" y2="159" stroke="#7A1F26" stroke-width=".8" fill="none"/>
+      <!-- Right cypress: x≈124 -->
+      <path d="M124,105 L116,150 Q120,158 124,159 Q128,158 132,150 Z"/>
+      <line x1="124" y1="152" x2="124" y2="159" stroke="#7A1F26" stroke-width=".8" fill="none"/>
+    </g>
+
+    <!-- ── STAR / ESTRELA (top of bowl) ── -->
+    <g transform="translate(100,58)" fill="none" stroke="#7A1F26" stroke-linecap="round">
+      <!-- 8-pointed asterisk, faithful to logo -->
+      <line x1="0" y1="-9"   x2="0"    y2="9"    stroke-width="1.4"/>
+      <line x1="-9"  y1="0"  x2="9"    y2="0"    stroke-width="1.4"/>
+      <line x1="-6.4" y1="-6.4" x2="6.4" y2="6.4"  stroke-width="1.2"/>
+      <line x1="6.4"  y1="-6.4" x2="-6.4" y2="6.4"  stroke-width="1.2"/>
+      <circle r="2.8" fill="#7A1F26" stroke="none"/>
+    </g>
+
+    <!-- ── BOWL OUTLINE ── -->
+    <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36"
+          stroke="#7A1F26" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+    <!-- rim -->
+    <path d="M58,36 Q100,30 142,36" stroke="#7A1F26" stroke-width="1.8" fill="none"/>
+
+    <!-- ── STEM ── -->
+    <path d="M100,176 L98,200 L102,200" stroke="#7A1F26" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+
+    <!-- ── BASE ── -->
+    <path d="M98,200 Q94,214 74,222" stroke="#7A1F26" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M102,200 Q106,214 126,222" stroke="#7A1F26" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    <path d="M74,222 Q100,228 126,222" stroke="#7A1F26" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+  </svg>
 
   <!-- HEADER -->
   <header class="hdr">
     <div class="brand-mark">
-      <svg viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M7 4 Q6 11 8 15 Q10 18 12 19 Q14 18 16 15 Q18 11 17 4Z"
-              stroke="#F8F6EF" stroke-width="1.3" fill="none"/>
-        <line x1="12" y1="19" x2="11.5" y2="23" stroke="#F8F6EF" stroke-width="1.2"/>
-        <line x1="12.5" y1="23" x2="9.5" y2="26" stroke="#F8F6EF" stroke-width="1.2"/>
-        <line x1="11.5" y1="23" x2="14.5" y2="26" stroke="#F8F6EF" stroke-width="1.2"/>
-        <path d="M8 11 L16 11" stroke="rgba(248,246,239,.4)" stroke-width=".8" stroke-dasharray="1 1.5"/>
+      <!-- Mini versão da taça no brand mark -->
+      <svg width="18" height="22" viewBox="0 0 200 248" fill="none">
+        <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36" stroke="#F8F6EF" stroke-width="14" fill="none" stroke-linecap="round"/>
+        <path d="M58,36 Q100,30 142,36" stroke="#F8F6EF" stroke-width="14" fill="none"/>
+        <path d="M100,176 L98,200 L102,200" stroke="#F8F6EF" stroke-width="13" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M74,222 Q100,228 126,222" stroke="#F8F6EF" stroke-width="12" fill="none" stroke-linecap="round"/>
         <!-- star -->
-        <path d="M12 7 L12.4 8.3 L13.7 8.3 L12.7 9 L13.1 10.3 L12 9.5 L10.9 10.3 L11.3 9 L10.3 8.3 L11.6 8.3Z"
-              fill="rgba(212,175,55,.9)"/>
+        <g transform="translate(100,70)" stroke="#D4AF37" stroke-linecap="round">
+          <line x1="0" y1="-12" x2="0" y2="12" stroke-width="12"/>
+          <line x1="-12" y1="0" x2="12" y2="0" stroke-width="12"/>
+          <line x1="-8" y1="-8" x2="8" y2="8" stroke-width="10"/>
+          <line x1="8" y1="-8" x2="-8" y2="8" stroke-width="10"/>
+          <circle r="6" fill="#D4AF37" stroke="none"/>
+        </g>
       </svg>
     </div>
-
     <div class="hdr-mode">
       <div class="hdr-mode-label">Atlas do Vinho</div>
       <div class="hdr-mode-name">Quiz de Conhecimento</div>
     </div>
-
     <div class="hdr-progress">
       <div class="hdr-counters">
         <div class="lives-row" id="livesRow"></div>
@@ -616,9 +341,7 @@ html, body {
       </div>
     </div>
   </header>
-
-  <!-- progress strip (outside grid row, flush under header) -->
-  <div class="q-progress-track" style="position:relative;z-index:2;margin:4px 0 0;">
+  <div class="q-progress-track">
     <div class="q-progress-fill" id="qProgressFill" style="width:0%"></div>
   </div>
 
@@ -626,14 +349,13 @@ html, body {
   <div class="q-zone">
     <div class="q-meta">
       <span class="q-cat" id="qCat">Região</span>
-      <div style="display:flex;align-items:center;gap:8px;">
+      <div style="display:flex;align-items:center;gap:8px">
         <span class="streak-badge" id="streakBadge">🔥 ×2</span>
         <div class="diff-stars" id="diffStars"></div>
         <div class="timer-wrap">
           <svg id="timerSvg" width="42" height="42" viewBox="0 0 42 42">
             <circle class="timer-track" cx="21" cy="21" r="16"/>
-            <circle class="timer-arc" id="timerArc" cx="21" cy="21" r="16"
-                    stroke-dasharray="100.5" stroke-dashoffset="0"/>
+            <circle class="timer-arc" id="timerArc" cx="21" cy="21" r="16" stroke-dasharray="100.5" stroke-dashoffset="0"/>
           </svg>
           <div class="timer-num" id="timerNum">30</div>
         </div>
@@ -649,37 +371,65 @@ html, body {
   <div class="status-bar">
     <div class="xp-row">
       <div class="xp-total">⚡ <strong id="xpTotal">0</strong> XP nesta sessão</div>
-      <div style="font-size:10px;color:var(--cinza3);letter-spacing:.04em;">VINO BIANCO · STORE</div>
+      <div style="font-size:10px;color:var(--cinza3);letter-spacing:.04em">VINO BIANCO · STORE</div>
     </div>
     <div class="feedback" id="feedback">
       <div class="fb-title" id="fbTitle"></div>
       <div id="fbBody"></div>
     </div>
-    <button class="btn-next" id="btnNext" onclick="advance()">
-      Próxima Pergunta →
-    </button>
+    <button class="btn-next" id="btnNext" onclick="advance()">Próxima Pergunta →</button>
   </div>
-
 </div>
 
 <!-- END SCREEN -->
 <div class="end-screen" id="endScreen">
+  <!-- End screen glass with fill -->
+  <div class="end-glass-wrap">
+    <svg width="90" height="112" viewBox="0 0 200 248" fill="none" id="endGlass">
+      <defs>
+        <clipPath id="endBowlClip">
+          <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36 Z"/>
+        </clipPath>
+      </defs>
+      <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36 Z"
+            fill="#7A1F26" opacity=".15"/>
+      <g clip-path="url(#endBowlClip)" stroke="#7A1F26" fill="none" stroke-width="1.1" opacity=".7">
+        <path d="M54,82 Q100,77 146,82"/><path d="M52,96 Q100,91 148,96"/>
+        <path d="M53,109 Q100,104 147,109"/><path d="M55,121 Q100,116 145,121"/>
+        <path d="M59,132 Q100,127 141,132"/><path d="M65,141 Q100,136 135,141"/>
+        <path d="M72,150 Q100,145 128,150"/>
+        <line x1="100" y1="172" x2="52" y2="82" stroke-width=".7" opacity=".35"/>
+        <line x1="100" y1="172" x2="148" y2="82" stroke-width=".7" opacity=".35"/>
+      </g>
+      <g clip-path="url(#endBowlClip)" fill="#7A1F26" opacity=".7">
+        <path d="M76,105 L68,150 Q72,158 76,159 Q80,158 84,150 Z"/>
+        <path d="M124,105 L116,150 Q120,158 124,159 Q128,158 132,150 Z"/>
+      </g>
+      <g transform="translate(100,58)" stroke="#7A1F26" stroke-linecap="round" fill="none">
+        <line x1="0" y1="-9" x2="0" y2="9" stroke-width="1.4"/>
+        <line x1="-9" y1="0" x2="9" y2="0" stroke-width="1.4"/>
+        <line x1="-6.4" y1="-6.4" x2="6.4" y2="6.4" stroke-width="1.2"/>
+        <line x1="6.4" y1="-6.4" x2="-6.4" y2="6.4" stroke-width="1.2"/>
+        <circle r="2.8" fill="#D4AF37" stroke="none"/>
+      </g>
+      <!-- wine fill animated on end screen -->
+      <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36"
+            stroke="#7A1F26" stroke-width="1.8" fill="none" stroke-linecap="round"/>
+      <path d="M58,36 Q100,30 142,36" stroke="#7A1F26" stroke-width="1.8" fill="none"/>
+      <path d="M100,176 L98,200 L102,200" stroke="#7A1F26" stroke-width="1.7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M98,200 Q94,214 74,222" stroke="#7A1F26" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M102,200 Q106,214 126,222" stroke="#7A1F26" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+      <path d="M74,222 Q100,228 126,222" stroke="#7A1F26" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+    </svg>
+  </div>
+
   <div class="end-brand">Vino<span>Bianco</span> Store</div>
   <div class="end-divider"></div>
   <div class="end-title">Sessão<br><em>Concluída</em></div>
   <div class="end-stats">
-    <div class="end-stat">
-      <div class="end-stat-num" id="endAcertos">0</div>
-      <div class="end-stat-lbl">Acertos</div>
-    </div>
-    <div class="end-stat">
-      <div class="end-stat-num" id="endXP">0</div>
-      <div class="end-stat-lbl">XP Ganho</div>
-    </div>
-    <div class="end-stat">
-      <div class="end-stat-num" id="endStreak">0</div>
-      <div class="end-stat-lbl">Sequência Máx.</div>
-    </div>
+    <div class="end-stat"><div class="end-stat-num" id="endAcertos">0</div><div class="end-stat-lbl">Acertos</div></div>
+    <div class="end-stat"><div class="end-stat-num" id="endXP">0</div><div class="end-stat-lbl">XP Ganho</div></div>
+    <div class="end-stat"><div class="end-stat-num" id="endStreak">0</div><div class="end-stat-lbl">Sequência Máx.</div></div>
   </div>
   <p class="end-msg" id="endMsg"></p>
   <button class="btn-restart" onclick="restart()">▶ JOGAR NOVAMENTE</button>
@@ -687,437 +437,259 @@ html, body {
 </div>
 
 <script>
-/* ════════════════════════════════════════════════════
-   WINE GLASS CANVAS WATERMARK
-════════════════════════════════════════════════════ */
-(function(){
-  const canvas = document.getElementById('wineCanvas');
-  const ctx    = canvas.getContext('2d');
-  const dpr    = Math.min(window.devicePixelRatio||1, 2);
-  const W = 220, H = 280;
-  canvas.width  = W * dpr; canvas.height = H * dpr;
-  canvas.style.width  = W + 'px';
-  canvas.style.height = H + 'px';
-  ctx.scale(dpr, dpr);
+/* ════════════════════════════════════════════
+   WINE FILL — SVG clip animation
+   bowlTop=36, bowlBot=176 (in viewBox 0 0 200 248)
+════════════════════════════════════════════ */
+let wineLevel = 0.55; /* 0=full top, 1=empty */
 
-  let wineLevel = .65; /* 0=full, 1=empty */
-  let targetLevel = .65;
-  let frame = 0;
+function setWineLevel(level){
+  wineLevel = Math.min(1, Math.max(0, level));
+  const VB_TOP  = 36;
+  const VB_BOT  = 176;
+  const VB_H    = VB_BOT - VB_TOP; /* 140 */
+  const fillTop = VB_TOP + wineLevel * VB_H;
+  const fillH   = VB_BOT - fillTop;
 
-  function drawGlass(wl){
-    ctx.clearRect(0, 0, W, H);
-
-    /* clip for wine fill */
-    const cx1 = 40, cx2 = 180;
-    const bowlTop = 22, bowlBot = 178;
-    const fillY   = bowlTop + wl * (bowlBot - bowlTop);
-
-    /* wine fill */
-    ctx.save();
-    ctx.beginPath();
-    ctx.moveTo(cx1, bowlTop);
-    ctx.bezierCurveTo(28, 90, 40, 140, 40, 148);
-    ctx.quadraticCurveTo(58, 172, 110, 182);
-    ctx.quadraticCurveTo(162, 172, 180, 148);
-    ctx.bezierCurveTo(180, 140, 192, 90, cx2, bowlTop);
-    ctx.closePath();
-    ctx.clip();
-
-    const gy = ctx.createLinearGradient(0, fillY, 0, bowlBot);
-    gy.addColorStop(0, 'rgba(122,31,38,.55)');
-    gy.addColorStop(1, 'rgba(90,21,32,.7)');
-    ctx.fillStyle = gy;
-    ctx.fillRect(0, fillY, W, bowlBot);
-
-    /* wine surface shimmer */
-    ctx.fillStyle = 'rgba(212,175,55,.18)';
-    ctx.fillRect(0, fillY, W, 2);
-    ctx.restore();
-
-    /* glass stroke */
-    ctx.strokeStyle = 'rgba(122,31,38,.5)';
-    ctx.lineWidth = 1.8;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-
-    /* left side */
-    ctx.beginPath();
-    ctx.moveTo(cx1, bowlTop);
-    ctx.bezierCurveTo(28, 90, 40, 140, 40, 148);
-    ctx.quadraticCurveTo(58, 172, 110, 182);
-    ctx.stroke();
-
-    /* right side */
-    ctx.beginPath();
-    ctx.moveTo(cx2, bowlTop);
-    ctx.bezierCurveTo(192, 90, 180, 140, 180, 148);
-    ctx.quadraticCurveTo(162, 172, 110, 182);
-    ctx.stroke();
-
-    /* rim */
-    ctx.beginPath();
-    ctx.moveTo(cx1, bowlTop);
-    ctx.lineTo(cx2, bowlTop);
-    ctx.stroke();
-
-    /* stem */
-    ctx.beginPath();
-    ctx.moveTo(110, 182); ctx.lineTo(107, 208); ctx.lineTo(113, 208);
-    ctx.stroke();
-
-    /* base */
-    ctx.beginPath();
-    ctx.moveTo(107, 208); ctx.quadraticCurveTo(100, 222, 75, 232);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(113, 208); ctx.quadraticCurveTo(120, 222, 145, 232);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(75, 232); ctx.quadraticCurveTo(110, 238, 145, 232);
-    ctx.stroke();
-
-    /* star */
-    const sr = 5, sx = 110, sy = 95;
-    ctx.save();
-    ctx.translate(sx, sy);
-    ctx.rotate(frame * .008);
-    ctx.beginPath();
-    for(let i = 0; i < 8; i++){
-      const a  = (i * Math.PI / 4);
-      const r  = i % 2 === 0 ? sr : sr * .45;
-      const x  = Math.cos(a) * r, y = Math.sin(a) * r;
-      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-    }
-    ctx.closePath();
-    ctx.fillStyle = 'rgba(212,175,55,.6)';
-    ctx.fill();
-    ctx.restore();
+  const rect = document.getElementById('wineFillRect');
+  const surf = document.getElementById('wineSurface');
+  if(rect){
+    rect.setAttribute('y', fillTop);
+    rect.setAttribute('height', Math.max(0, fillH));
   }
-
-  function loop(){
-    frame++;
-    /* smooth wine level */
-    if(Math.abs(wineLevel - targetLevel) > .002){
-      wineLevel += (targetLevel - wineLevel) * .06;
-    }
-    drawGlass(wineLevel);
-    requestAnimationFrame(loop);
+  if(surf){
+    surf.setAttribute('y1', fillTop);
+    surf.setAttribute('y2', fillTop);
+    surf.style.opacity = fillH > 2 ? '1' : '0';
+    surf.setAttribute('x1', 58 + wineLevel * 44);   /* approximate glass width at y */
+    surf.setAttribute('x2', 142 - wineLevel * 44);
   }
-  loop();
+}
 
-  /* expose API */
-  window.wm = {
-    addWine(){ targetLevel = Math.max(0, targetLevel - .16); },
-    loseWine(){ targetLevel = Math.min(1, targetLevel + .10); }
-  };
-})();
+window.wm = {
+  addWine(){ setWineLevel(wineLevel - .16); },
+  loseWine(){ setWineLevel(wineLevel + .10); }
+};
 
-/* ════════════════════════════════════════════════════
-   QUESTIONS DATA
-════════════════════════════════════════════════════ */
+/* init fill */
+setWineLevel(0.55);
+
+/* ════════════════════════════════════════════
+   QUESTIONS
+════════════════════════════════════════════ */
 const PERGUNTAS = [
   {
     cat:'Região', dif:2, xp:25,
     p:'No Châteauneuf-du-Pape, os famosos "galets roulés" são pedras arredondadas que cobrem o solo. Qual é o seu papel no vinho?',
-    opts:['Absorvem água impedindo a irrigação','Retêm calor durante o dia e o liberam à noite para as raízes','Refletem luz solar diretamente para as uvas','São apenas decorativas — não afetam o vinho'],
+    opts:['Absorvem água impedindo a irrigação','Retêm calor durante o dia e liberam energia noturna para as raízes','Refletem luz solar diretamente para as uvas','São apenas decorativas — não afetam o vinho'],
     ok:1,
-    fb:{
-      title:'✓ Correto! Regulação térmica natural.',
-      body:'Os galets roulés acumulam calor durante o dia e liberam energia noturna para as videiras. Isso promove maturação uniforme das uvas mesmo em noites frias — uma das marcas do terroir único do Châteauneuf-du-Pape.'
-    }
+    fb:{title:'✓ Correto! Regulação térmica natural.',body:'Os galets roulés acumulam calor durante o dia e liberam energia noturna para as videiras, promovendo maturação uniforme mesmo em noites frias — uma das marcas do terroir único do Châteauneuf-du-Pape.'}
   },
   {
     cat:'Casta', dif:1, xp:15,
     p:'O Malbec é o símbolo do vinho argentino — mas qual é sua terra de origem histórica na Europa?',
     opts:['Borgonha, França','Rioja, Espanha','Cahors, França (sudoeste)','Toscana, Itália'],
     ok:2,
-    fb:{
-      title:'✓ Correto! Cahors é a origem real.',
-      body:'Na França, o Malbec chama-se Côt ou Auxerrois. Em Cahors produz vinhos austeros e tânicos, muito diferentes do estilo suave e frutado que encontrou na altitude de Mendoza. Os solos pedregosos e o clima andino transformaram completamente o perfil da uva.'
-    }
+    fb:{title:'✓ Correto! Cahors é a origem real.',body:'Na França, o Malbec chama-se Côt ou Auxerrois. Em Cahors produz vinhos austeros e tânicos, muito diferentes do estilo suave e frutado que encontrou na altitude de Mendoza.'}
   },
   {
     cat:'Denominação', dif:3, xp:30,
     p:'O Barolo DOCG é apelidado de "O Rei dos Vinhos". Qual casta exclusiva produz este ícone italiano?',
     opts:['Sangiovese','Barbera','Nebbiolo','Dolcetto'],
     ok:2,
-    fb:{
-      title:'✓ Excelente! Nebbiolo é o Rei.',
-      body:'O Nebbiolo é a única uva do Barolo DOCG. Paradoxal: cor clara, mas taninos imensos e acidez altíssima. "Nebbia" em italiano significa névoa — a casta amadurece tão tarde que a colheita ocorre já na neblina outonal do Piemonte.'
-    }
+    fb:{title:'✓ Excelente! Nebbiolo é o Rei.',body:'O Nebbiolo é a única uva do Barolo DOCG. Cor clara, mas taninos imensos e acidez altíssima. "Nebbia" em italiano significa névoa — amadurece tão tarde que a colheita ocorre já na neblina outonal do Piemonte.'}
   },
   {
     cat:'Brasil', dif:1, xp:15,
     p:'Qual é a primeira denominação de origem controlada do vinho brasileiro — um marco para a viticultura da América do Sul?',
     opts:['Serra Gaúcha DO','Vale dos Vinhedos DO','Campanha Gaúcha IG','Planalto Catarinense IG'],
     ok:1,
-    fb:{
-      title:'✓ Isso mesmo! Vale dos Vinhedos.',
-      body:'O Vale dos Vinhedos DO foi a primeira denominação de origem do Brasil (2012). Localizado na Serra Gaúcha (RS), produz principalmente Merlot tinto, Chardonnay e espumantes. Uma conquista histórica para o vinho brasileiro no cenário mundial.'
-    }
+    fb:{title:'✓ Isso mesmo! Vale dos Vinhedos.',body:'O Vale dos Vinhedos DO foi a primeira denominação de origem do Brasil (2012). Localizado na Serra Gaúcha (RS), produz principalmente Merlot tinto, Chardonnay e espumantes — uma conquista histórica para o vinho brasileiro.'}
   },
   {
     cat:'Espumante', dif:2, xp:20,
     p:'O Champagne é famoso por seu solo de giz (craie). Como esse solo influencia o vinho?',
     opts:['Aumenta o teor alcoólico das uvas','Drena bem, mantém umidade e transmite mineralidade e frescura','Torna o vinho mais encorpado e tânico','Impede geadas tardias protegendo as raízes'],
     ok:1,
-    fb:{
-      title:'✓ Perfeito! O giz é a alma do Champagne.',
-      body:'O solo cretáceo da Champagne funciona como esponja: drena o excesso de água e cede umidade gradualmente em períodos secos. A mineralidade do giz contribui para a frescura e vivacidade que tornam o Champagne inconfundível.'
-    }
+    fb:{title:'✓ Perfeito! O giz é a alma do Champagne.',body:'O solo cretáceo funciona como esponja: drena o excesso de água e cede umidade gradualmente em períodos secos. A mineralidade do giz contribui para a frescura e vivacidade que tornam o Champagne inconfundível.'}
   },
   {
     cat:'Casta', dif:3, xp:30,
     p:'O Carménère foi confundido com o Merlot no Chile por décadas. Qual característica aromática revela a diferença?',
-    opts:['Aromas de cereja e tabaco','Notas de pimentão verde e especiarias quando em estágio ideal','Fragrâncias florais de violeta intensa','Aromas terrosos e de cogumelo'],
+    opts:['Aromas de cereja e tabaco','Notas de pimentão verde e especiarias quando imaturo','Fragrâncias florais de violeta intensa','Aromas terrosos e de cogumelo'],
     ok:1,
-    fb:{
-      title:'✓ Exato! O pimentão verde é a pista.',
-      body:'Quando mal amadurecido, o Carménère exibe aromas marcantes de pimentão verde (pirazinas). Quando colhido no ponto ideal, evolui para frutas negras, chocolate e especiarias. A casta foi identificada geneticamente só em 1994 — antes disso, todo chileno achava que plantava Merlot.'
-    }
+    fb:{title:'✓ Exato! O pimentão verde é a pista.',body:'Quando mal amadurecido, o Carménère exibe aromas marcantes de pimentão verde (pirazinas). A casta foi identificada geneticamente só em 1994 — antes disso, todos achavam que plantavam Merlot.'}
   },
   {
     cat:'Argentina', dif:4, xp:40,
     p:'A região de Cafayate em Salta, Argentina, produz vinhos únicos. A que altitude aproximada se encontram os vinhedos?',
     opts:['200 a 600 metros','600 a 1000 metros','1700 a 3100 metros','3500 a 4200 metros'],
     ok:2,
-    fb:{
-      title:'✓ Impressionante altitude!',
-      body:'Os vinhedos de Cafayate ficam entre 1700 e 3100 metros de altitude — entre os mais altos do mundo. A altitude intensa de UV e as grandes amplitudes térmicas (dias quentes, noites muito frias) criam vinhos com acidez vibrante, aromas nítidos e álcool controlado.'
-    }
+    fb:{title:'✓ Impressionante altitude!',body:'Os vinhedos de Cafayate ficam entre 1700 e 3100 metros de altitude — entre os mais altos do mundo. A intensa radiação UV e grandes amplitudes térmicas criam vinhos com acidez vibrante, aromas nítidos e álcool controlado.'}
   },
   {
     cat:'Portugal', dif:2, xp:20,
     p:'No Vinho do Porto, qual estilo é envelhecido em pipas pequenas de 550L com muito contato com ar, desenvolvendo cor âmbar e sabores de nozes e frutas secas?',
     opts:['Ruby','Vintage','LBV (Late Bottled Vintage)','Tawny'],
     ok:3,
-    fb:{
-      title:'✓ Correto! Tawny é o estilo oxidativo.',
-      body:'O Porto Tawny envelhece em tonéis pequenos por 10, 20, 30 ou 40 anos. O contato com o ar (oxidação controlada) transforma a cor de rubi para âmbar-tostado ("tawny" = bronzeado). Desenvolve sabores de amêndoas, figo, caramelo e casca de laranja — completamente diferente do Ruby, que é fresco e frutado.'
-    }
+    fb:{title:'✓ Correto! Tawny é o estilo oxidativo.',body:'O Porto Tawny envelhece em tonéis pequenos por 10, 20, 30 ou 40 anos. O contato com ar transforma a cor de rubi para âmbar tostado. Desenvolve sabores de amêndoas, figo, caramelo e casca de laranja.'}
   }
 ];
 
-/* ════════════════════════════════════════════════════
+/* ════════════════════════════════════════════
    GAME STATE
-════════════════════════════════════════════════════ */
-let qi = 0, lives = 3, xp = 0, streak = 0, maxStreak = 0, acertos = 0;
-let state = 'idle'; /* idle | answered | end */
-let timerVal = 30, timerInterval = null;
+════════════════════════════════════════════ */
+let qi=0, lives=3, xp=0, streak=0, maxStreak=0, acertos=0;
+let state='idle';
+let timerVal=30, timerInterval=null;
+const CIRC=100.5;
 
-const CIRC = 100.5; /* 2πr for r=16 */
-
-/* ════════════════════════════════════════════════════
-   INIT
-════════════════════════════════════════════════════ */
 function buildLives(){
-  const row = document.getElementById('livesRow');
-  row.innerHTML = '';
-  for(let i = 0; i < 3; i++){
-    const s = document.createElementNS('http://www.w3.org/2000/svg','svg');
-    s.setAttribute('width','16'); s.setAttribute('height','20');
-    s.setAttribute('viewBox','0 0 16 20');
+  const row=document.getElementById('livesRow');
+  row.innerHTML='';
+  for(let i=0;i<3;i++){
+    const s=document.createElementNS('http://www.w3.org/2000/svg','svg');
+    s.setAttribute('width','16');s.setAttribute('height','20');s.setAttribute('viewBox','0 0 200 248');
     s.classList.add('life');
-    if(i >= lives) s.classList.add('lost');
-    s.innerHTML = `
-      <path d="M4 3Q3 7 4.5 10Q6 12.5 8 13.5Q10 12.5 11.5 10Q13 7 12 3Z"
-            stroke="#7A1F26" stroke-width="1.2" fill="${i < lives ? 'rgba(122,31,38,.25)' : 'none'}"/>
-      <line x1="8" y1="13.5" x2="7.7" y2="16" stroke="#7A1F26" stroke-width="1"/>
-      <path d="M5.5 17.5Q8 16.5 10.5 17.5" stroke="#7A1F26" stroke-width="1" fill="none"/>`;
+    if(i>=lives)s.classList.add('lost');
+    /* mini glass */
+    s.innerHTML=`
+      <path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36"
+            stroke="${i<lives?'#7A1F26':'#C0BAB0'}" stroke-width="14" fill="none" stroke-linecap="round"/>
+      <path d="M58,36 Q100,30 142,36" stroke="${i<lives?'#7A1F26':'#C0BAB0'}" stroke-width="14" fill="none"/>
+      <line x1="100" y1="176" x2="100" y2="218" stroke="${i<lives?'#7A1F26':'#C0BAB0'}" stroke-width="12"/>
+      <path d="M74,222 Q100,228 126,222" stroke="${i<lives?'#7A1F26':'#C0BAB0'}" stroke-width="12" fill="none" stroke-linecap="round"/>
+      ${i<lives?`<path d="M58,36 C50,92 60,132 66,144 Q80,168 100,176 Q120,168 134,144 C140,132 150,92 142,36 Z" fill="rgba(122,31,38,.2)"/>`:''}`;
     row.appendChild(s);
   }
 }
 
 function loadQ(){
-  if(qi >= PERGUNTAS.length){ endGame(); return; }
-  state = 'idle';
-  const q = PERGUNTAS[qi];
-
-  document.getElementById('qCat').textContent = q.cat;
-  document.getElementById('qText').textContent = q.p;
-  document.getElementById('qCounter').textContent = `${qi+1} / ${PERGUNTAS.length}`;
-  document.getElementById('qProgressFill').style.width = `${(qi / PERGUNTAS.length)*100}%`;
-
-  /* difficulty stars */
-  const ds = document.getElementById('diffStars');
-  ds.innerHTML = '';
-  for(let i=1;i<=5;i++){
-    const s = document.createElement('span');
-    s.textContent = '★';
-    if(i<=q.dif) s.classList.add('on');
-    ds.appendChild(s);
-  }
-
-  /* streak badge */
-  const sb = document.getElementById('streakBadge');
-  if(streak >= 3){ sb.textContent = '🔥 ×2'; sb.classList.add('show'); }
-  else if(streak >= 2){ sb.textContent = '🔥 ×1.5'; sb.classList.add('show'); }
-  else { sb.classList.remove('show'); }
-
-  /* options */
-  const oc = document.getElementById('optionsContainer');
-  oc.innerHTML = '';
-  const keys = ['A','B','C','D'];
-  q.opts.forEach((txt,i)=>{
-    const btn = document.createElement('button');
-    btn.className = 'opt';
-    btn.innerHTML = `<span class="opt-key">${keys[i]}</span><span class="opt-text">${txt}</span>`;
-    btn.onclick = ()=> answer(i, btn);
+  if(qi>=PERGUNTAS.length){endGame();return}
+  state='idle';
+  const q=PERGUNTAS[qi];
+  document.getElementById('qCat').textContent=q.cat;
+  document.getElementById('qText').textContent=q.p;
+  document.getElementById('qCounter').textContent=`${qi+1} / ${PERGUNTAS.length}`;
+  document.getElementById('qProgressFill').style.width=`${(qi/PERGUNTAS.length)*100}%`;
+  const ds=document.getElementById('diffStars');
+  ds.innerHTML='';
+  for(let i=1;i<=5;i++){const s=document.createElement('span');s.textContent='★';if(i<=q.dif)s.classList.add('on');ds.appendChild(s);}
+  const sb=document.getElementById('streakBadge');
+  if(streak>=3){sb.textContent='🔥 ×2';sb.classList.add('show')}
+  else if(streak>=2){sb.textContent='🔥 ×1.5';sb.classList.add('show')}
+  else{sb.classList.remove('show')}
+  const oc=document.getElementById('optionsContainer');
+  oc.innerHTML='';
+  ['A','B','C','D'].forEach((k,i)=>{
+    const btn=document.createElement('button');
+    btn.className='opt';
+    btn.innerHTML=`<span class="opt-key">${k}</span><span class="opt-text">${q.opts[i]}</span>`;
+    btn.onclick=()=>answer(i,btn);
     oc.appendChild(btn);
   });
-
-  /* feedback + next */
-  const fb = document.getElementById('feedback');
-  fb.className = 'feedback'; fb.style.display = 'none';
-  document.getElementById('btnNext').className = 'btn-next';
-
+  document.getElementById('feedback').className='feedback';
+  document.getElementById('feedback').style.display='none';
+  document.getElementById('btnNext').className='btn-next';
   startTimer();
   buildLives();
 }
 
 function startTimer(){
   clearInterval(timerInterval);
-  timerVal = 30;
-  updateTimerUI();
-  timerInterval = setInterval(()=>{
-    timerVal--;
-    updateTimerUI();
-    if(timerVal <= 0){ clearInterval(timerInterval); onTimeout(); }
-  }, 1000);
+  timerVal=30;updateTimerUI();
+  timerInterval=setInterval(()=>{timerVal--;updateTimerUI();if(timerVal<=0){clearInterval(timerInterval);onTimeout();}},1000);
 }
 
 function updateTimerUI(){
-  const arc = document.getElementById('timerArc');
-  const num = document.getElementById('timerNum');
-  const offset = CIRC * (1 - timerVal/30);
-  arc.style.strokeDashoffset = offset;
-  num.textContent = timerVal;
-  const low = timerVal <= 8;
-  arc.classList.toggle('low', low);
-  num.classList.toggle('low', low);
+  const arc=document.getElementById('timerArc'),num=document.getElementById('timerNum');
+  arc.style.strokeDashoffset=CIRC*(1-timerVal/30);
+  num.textContent=timerVal;
+  const low=timerVal<=8;
+  arc.classList.toggle('low',low);num.classList.toggle('low',low);
 }
 
 function onTimeout(){
-  if(state !== 'idle') return;
-  state = 'answered';
-  streak = 0;
-  if(lives > 0) lives--;
-  buildLives();
-  revealAnswer();
-  showFeedback('timeout',
-    '⏱ Tempo esgotado!',
-    PERGUNTAS[qi].fb.body);
+  if(state!=='idle')return;
+  state='answered';streak=0;
+  if(lives>0)lives--;
+  buildLives();revealAnswer();
+  showFeedback('timeout','⏱ Tempo esgotado!',PERGUNTAS[qi].fb.body);
   showNext();
 }
 
-function answer(idx, btn){
-  if(state !== 'idle') return;
-  state = 'answered';
+function answer(idx,btn){
+  if(state!=='idle')return;
+  state='answered';
   clearInterval(timerInterval);
-
-  const q    = PERGUNTAS[qi];
-  const opts = document.querySelectorAll('.opt');
-  opts.forEach(o => o.disabled = true);
+  const q=PERGUNTAS[qi];
+  document.querySelectorAll('.opt').forEach(o=>o.disabled=true);
   btn.classList.add('selected');
-
-  if(idx === q.ok){
-    /* correct */
-    setTimeout(()=>{
-      btn.classList.remove('selected');
-      btn.classList.add('correct');
-    }, 120);
-    let mult = streak >= 3 ? 2 : streak >= 2 ? 1.5 : 1;
-    let earned = Math.round(q.xp * mult);
-    xp += earned;
-    acertos++;
-    streak++;
-    maxStreak = Math.max(maxStreak, streak);
-    document.getElementById('xpTotal').textContent = xp;
-    spawnXP(btn, `+${earned}`);
+  if(idx===q.ok){
+    setTimeout(()=>{btn.classList.remove('selected');btn.classList.add('correct');},120);
+    const mult=streak>=3?2:streak>=2?1.5:1;
+    const earned=Math.round(q.xp*mult);
+    xp+=earned;acertos++;streak++;maxStreak=Math.max(maxStreak,streak);
+    document.getElementById('xpTotal').textContent=xp;
+    spawnXP(btn,`+${earned}`);
     window.wm.addWine();
-    showFeedback('correct', q.fb.title, q.fb.body);
+    showFeedback('correct',q.fb.title,q.fb.body);
   } else {
-    /* wrong */
-    setTimeout(()=>{
-      btn.classList.remove('selected');
-      btn.classList.add('wrong');
-    }, 80);
-    streak = 0;
-    lives--;
-    buildLives();
-    revealAnswer();
+    setTimeout(()=>{btn.classList.remove('selected');btn.classList.add('wrong');},80);
+    streak=0;lives--;buildLives();revealAnswer();
     window.wm.loseWine();
-    showFeedback('wrong',
-      '✗ Não foi desta vez.',
-      q.fb.body);
-    if(lives <= 0){ setTimeout(()=> endGame(), 1800); return; }
+    showFeedback('wrong','✗ Não foi desta vez.',q.fb.body);
+    if(lives<=0){setTimeout(()=>endGame(),1800);return;}
   }
-
   showNext();
 }
 
-function revealAnswer(){
-  const opts = document.querySelectorAll('.opt');
-  opts[PERGUNTAS[qi].ok].classList.add('reveal');
-}
+function revealAnswer(){document.querySelectorAll('.opt')[PERGUNTAS[qi].ok].classList.add('reveal');}
 
-function showFeedback(type, title, body){
-  const fb = document.getElementById('feedback');
-  fb.className = `feedback ${type}-fb show`;
-  fb.style.display = 'block';
-  document.getElementById('fbTitle').innerHTML = title;
-  document.getElementById('fbBody').textContent = body;
+function showFeedback(type,title,body){
+  const fb=document.getElementById('feedback');
+  fb.className=`feedback ${type}-fb show`;fb.style.display='block';
+  document.getElementById('fbTitle').innerHTML=title;
+  document.getElementById('fbBody').textContent=body;
 }
 
 function showNext(){
-  const btn = document.getElementById('btnNext');
-  btn.textContent = qi < PERGUNTAS.length-1 ? 'Próxima Pergunta →' : 'Ver Resultado →';
-  btn.className = 'btn-next show';
+  const btn=document.getElementById('btnNext');
+  btn.textContent=qi<PERGUNTAS.length-1?'Próxima Pergunta →':'Ver Resultado →';
+  btn.className='btn-next show';
 }
 
-function advance(){
-  qi++;
-  loadQ();
-}
+function advance(){qi++;loadQ();}
 
-function spawnXP(ref, txt){
-  const r   = ref.getBoundingClientRect();
-  const el  = document.createElement('div');
-  el.className = 'xp-pop';
-  el.textContent = txt;
-  el.style.left = (r.left + r.width/2 - 18) + 'px';
-  el.style.top  = (r.top - 10) + 'px';
+function spawnXP(ref,txt){
+  const r=ref.getBoundingClientRect();
+  const el=document.createElement('div');
+  el.className='xp-pop';el.textContent=txt;
+  el.style.left=(r.left+r.width/2-18)+'px';
+  el.style.top=(r.top-10)+'px';
   document.body.appendChild(el);
-  setTimeout(()=> el.remove(), 950);
+  setTimeout(()=>el.remove(),950);
 }
 
 function endGame(){
-  clearInterval(timerInterval);
-  state = 'end';
-  document.getElementById('endAcertos').textContent = `${acertos}/8`;
-  document.getElementById('endXP').textContent = xp;
-  document.getElementById('endStreak').textContent = maxStreak;
-
-  const msgs = [
-    [7, 'Impressionante! Você tem o palato de um Grand Maître. O vinho revela seus segredos para quem sabe observar.'],
-    [5, 'Muito bom! Seu conhecimento está acima da média. Continue explorando as regiões do mundo.'],
-    [3, 'Bom início! Cada pergunta errada é uma oportunidade de aprendizado. Tente novamente — você vai evoluir.'],
-    [0, 'O vinho é uma jornada sem fim. Explore o Atlas, leia os perfis das castas e tente novamente!']
-  ];
-  const msg = msgs.find(([min])=> acertos >= min);
-  document.getElementById('endMsg').textContent = msg[1];
-  document.getElementById('qProgressFill').style.width = '100%';
+  clearInterval(timerInterval);state='end';
+  document.getElementById('endAcertos').textContent=`${acertos}/8`;
+  document.getElementById('endXP').textContent=xp;
+  document.getElementById('endStreak').textContent=maxStreak;
+  const msgs=[[7,'Impressionante! Você tem o palato de um Grand Maître. O vinho revela seus segredos para quem sabe observar.'],[5,'Muito bom! Seu conhecimento está acima da média. Continue explorando as regiões do mundo.'],[3,'Bom início! Cada pergunta é uma oportunidade de aprendizado. Tente novamente — você vai evoluir.'],[0,'O vinho é uma jornada sem fim. Explore o Atlas, leia os perfis das castas e tente novamente!']];
+  document.getElementById('endMsg').textContent=msgs.find(([m])=>acertos>=m)[1];
+  document.getElementById('qProgressFill').style.width='100%';
   document.getElementById('endScreen').classList.add('show');
 }
 
 function restart(){
-  qi = 0; lives = 3; xp = 0; streak = 0; maxStreak = 0; acertos = 0;
+  qi=0;lives=3;xp=0;streak=0;maxStreak=0;acertos=0;
+  setWineLevel(0.55);
   document.getElementById('endScreen').classList.remove('show');
-  document.getElementById('xpTotal').textContent = '0';
+  document.getElementById('xpTotal').textContent='0';
   loadQ();
 }
 
-/* init */
 loadQ();
 </script>
 </body>
