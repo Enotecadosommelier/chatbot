@@ -1,0 +1,1283 @@
+<title>VinoBianco · Explore a Casta</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;500;600;700&display=swap">
+
+<style>
+/* ─── TOKENS ─────────────────────────────────────────────── */
+:root {
+  --bg:       #0D0608;
+  --bg2:      #130A0E;
+  --bg3:      #1E0F15;
+  --fg:       #F8F6EF;
+  --fg2:      #C8C0B4;
+  --fg3:      #8A7D72;
+  --gold:     #D4AF37;
+  --gold2:    #B8941F;
+  --bordo:    #7A1F26;
+  --bordo2:   #5A1520;
+  --bordo3:   #3A0D12;
+  --tinto:    #8B2635;
+  --branco:   #C9A227;
+  --card-bg:  #1A0C10;
+  --card-br:  #2E1820;
+  --modal-bg: #160B0F;
+  --sep:      rgba(212,175,55,.18);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0 }
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px;
+  min-height: 100dvh;
+  overflow-x: hidden;
+  padding-left:  max(16px, env(safe-area-inset-left,  0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+
+/* ─── HEADER ──────────────────────────────────────────────── */
+.header {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 40;
+  background: linear-gradient(180deg, #0D0608 80%, transparent);
+  padding: 14px 0 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-back {
+  width: 34px; height: 34px;
+  border: 1px solid var(--sep);
+  border-radius: 50%;
+  background: var(--bg3);
+  color: var(--fg2);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: border-color .2s, color .2s;
+}
+.btn-back:hover { border-color: var(--gold); color: var(--gold); }
+
+.header-title {
+  flex: 1;
+  min-width: 0;
+}
+.header-title h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 17px;
+  color: var(--gold);
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.header-title p {
+  font-size: 11px;
+  color: var(--fg3);
+  letter-spacing: .04em;
+  margin-top: 1px;
+}
+
+.xp-pill {
+  background: var(--bordo3);
+  border: 1px solid var(--bordo);
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: 11px;
+  color: var(--gold);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* ─── FILTER TABS ─────────────────────────────────────────── */
+.filter-row {
+  display: flex;
+  gap: 8px;
+}
+.filter-btn {
+  flex: 1;
+  padding: 7px 0;
+  border: 1px solid var(--card-br);
+  border-radius: 20px;
+  background: var(--card-bg);
+  color: var(--fg3);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s;
+  letter-spacing: .03em;
+}
+.filter-btn.active {
+  background: var(--bordo2);
+  border-color: var(--bordo);
+  color: var(--fg);
+}
+.filter-btn[data-filter="tinto"].active {
+  background: linear-gradient(135deg, var(--bordo2), #2D0D14);
+  border-color: var(--tinto);
+}
+.filter-btn[data-filter="branco"].active {
+  background: linear-gradient(135deg, #2A1E00, #1A1200);
+  border-color: var(--branco);
+  color: var(--branco);
+}
+
+/* ─── SEARCH ──────────────────────────────────────────────── */
+.search-wrap {
+  position: relative;
+}
+.search-input {
+  width: 100%;
+  background: var(--card-bg);
+  border: 1px solid var(--card-br);
+  border-radius: 20px;
+  padding: 8px 14px 8px 36px;
+  color: var(--fg);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  outline: none;
+  transition: border-color .2s;
+}
+.search-input:focus { border-color: var(--gold); }
+.search-input::placeholder { color: var(--fg3); }
+.search-icon {
+  position: absolute;
+  left: 12px; top: 50%;
+  transform: translateY(-50%);
+  color: var(--fg3);
+  font-size: 14px;
+  pointer-events: none;
+}
+
+/* ─── PROGRESS BAR ────────────────────────────────────────── */
+.progress-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0 2px;
+}
+.progress-label { font-size: 10px; color: var(--fg3); letter-spacing: .05em; }
+.progress-track {
+  flex: 1;
+  height: 3px;
+  background: var(--card-br);
+  border-radius: 2px;
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--bordo), var(--gold));
+  border-radius: 2px;
+  transition: width .6s ease;
+}
+.progress-count { font-size: 10px; color: var(--gold); font-weight: 600; }
+
+/* ─── CARD GRID ───────────────────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  padding: 4px 0 120px;
+}
+
+@media (min-width: 540px) {
+  .grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.casta-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-br);
+  border-radius: 14px;
+  padding: 14px 12px 12px;
+  cursor: pointer;
+  transition: transform .18s, border-color .18s, box-shadow .18s;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.casta-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at top left, rgba(212,175,55,.04), transparent 70%);
+  pointer-events: none;
+}
+.casta-card:hover, .casta-card:active {
+  transform: translateY(-2px);
+  border-color: rgba(212,175,55,.35);
+  box-shadow: 0 6px 24px rgba(0,0,0,.45);
+}
+.casta-card.estudada {
+  border-color: rgba(212,175,55,.3);
+}
+.casta-card.estudada::after {
+  content: '✓';
+  position: absolute;
+  top: 8px; right: 8px;
+  width: 18px; height: 18px;
+  background: var(--gold);
+  color: #0D0608;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 18px;
+  text-align: center;
+}
+
+.card-cor-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 10px;
+  align-self: flex-start;
+}
+.card-cor-badge.tinto {
+  background: rgba(122,31,38,.35);
+  color: #E8909A;
+  border: 1px solid rgba(122,31,38,.5);
+}
+.card-cor-badge.branco {
+  background: rgba(201,162,39,.18);
+  color: #D4AF37;
+  border: 1px solid rgba(201,162,39,.3);
+}
+
+.card-nome {
+  font-family: 'Playfair Display', serif;
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--fg);
+  text-wrap: balance;
+}
+
+.card-origem {
+  font-size: 10px;
+  color: var(--fg3);
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-aromas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: auto;
+}
+.aroma-chip {
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  background: rgba(255,255,255,.06);
+  color: var(--fg2);
+  border: 1px solid rgba(255,255,255,.08);
+  white-space: nowrap;
+}
+
+/* ─── MODAL ───────────────────────────────────────────────── */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.75);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .25s;
+}
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.modal {
+  width: 100%;
+  max-width: 540px;
+  margin: 0 auto;
+  background: var(--modal-bg);
+  border: 1px solid var(--card-br);
+  border-top-left-radius: 22px;
+  border-top-right-radius: 22px;
+  max-height: 92dvh;
+  overflow-y: auto;
+  transform: translateY(60px);
+  transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+  padding-bottom: max(24px, env(safe-area-inset-bottom, 0px));
+}
+.modal-overlay.open .modal {
+  transform: translateY(0);
+}
+
+.modal-handle {
+  width: 36px; height: 4px;
+  background: var(--card-br);
+  border-radius: 2px;
+  margin: 10px auto 0;
+}
+
+.modal-header {
+  padding: 14px 18px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.modal-grape-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+}
+.modal-grape-icon.tinto {
+  background: linear-gradient(135deg, var(--bordo2), var(--bordo3));
+  border: 1px solid var(--bordo);
+  box-shadow: 0 4px 16px rgba(122,31,38,.4);
+}
+.modal-grape-icon.branco {
+  background: linear-gradient(135deg, #2A1E00, #1A1200);
+  border: 1px solid var(--branco);
+  box-shadow: 0 4px 16px rgba(201,162,39,.25);
+}
+
+.modal-title-block { flex: 1; min-width: 0; }
+.modal-nome {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  color: var(--fg);
+  line-height: 1.1;
+}
+.modal-sinonimos {
+  font-size: 11px;
+  color: var(--fg3);
+  font-style: italic;
+  margin-top: 3px;
+}
+.modal-origem {
+  font-size: 12px;
+  color: var(--fg2);
+  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.modal-body {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.modal-section h3 {
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 600;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.modal-section h3::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--sep);
+}
+
+/* Aroma cloud */
+.aroma-cloud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.aroma-tag {
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 1px solid rgba(212,175,55,.2);
+  background: rgba(212,175,55,.06);
+  color: var(--fg2);
+  transition: background .15s;
+}
+.aroma-tag:hover { background: rgba(212,175,55,.12); }
+
+/* Sensory meters */
+.meter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.meter-item { display: flex; flex-direction: column; gap: 4px; }
+.meter-label {
+  font-size: 10px;
+  color: var(--fg3);
+  letter-spacing: .04em;
+}
+.meter-track {
+  height: 6px;
+  background: rgba(255,255,255,.06);
+  border-radius: 3px;
+  overflow: hidden;
+  position: relative;
+}
+.meter-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width .8s ease;
+}
+.meter-fill.taninos { background: linear-gradient(90deg, #8B2635, #D4AF37); }
+.meter-fill.acidez  { background: linear-gradient(90deg, #1A6B3C, #4CAF50); }
+.meter-fill.corpo   { background: linear-gradient(90deg, #3A1D6B, #8B63C4); }
+.meter-fill.guarda  { background: linear-gradient(90deg, #0D4A5E, #2196F3); }
+
+/* Regions list */
+.regions-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.region-tag {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: rgba(122,31,38,.2);
+  border: 1px solid rgba(122,31,38,.4);
+  color: #E8909A;
+}
+
+/* Estilos */
+.estilos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.estilo-item {
+  font-size: 12px;
+  color: var(--fg2);
+  padding: 6px 10px;
+  background: rgba(255,255,255,.03);
+  border-left: 2px solid var(--gold);
+  border-radius: 0 6px 6px 0;
+  line-height: 1.3;
+}
+
+/* Educational content */
+.edu-block {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--fg2);
+  background: rgba(212,175,55,.04);
+  border: 1px solid var(--sep);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+/* Extra facts row */
+.facts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.fact-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--card-br);
+  border-radius: 10px;
+  padding: 10px 12px;
+}
+.fact-label {
+  font-size: 9px;
+  color: var(--fg3);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.fact-value {
+  font-size: 12px;
+  color: var(--fg);
+  line-height: 1.3;
+}
+
+/* CTA button */
+.btn-estudada {
+  width: calc(100% - 36px);
+  margin: 0 18px;
+  padding: 13px;
+  border-radius: 12px;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: .04em;
+  transition: all .2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.btn-estudada.unmarked {
+  background: linear-gradient(135deg, var(--bordo), var(--bordo2));
+  color: var(--fg);
+  border: 1px solid var(--bordo);
+}
+.btn-estudada.marked {
+  background: transparent;
+  color: var(--gold);
+  border: 1px solid rgba(212,175,55,.3);
+}
+.btn-estudada:hover { opacity: .85; }
+
+/* ─── EMPTY STATE ─────────────────────────────────────────── */
+.empty-state {
+  grid-column: 1/-1;
+  text-align: center;
+  padding: 48px 16px;
+  color: var(--fg3);
+}
+.empty-state .icon { font-size: 40px; margin-bottom: 12px; }
+.empty-state p { font-size: 13px; line-height: 1.5; }
+
+/* ─── BOTTOM NAV ──────────────────────────────────────────── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(0deg, var(--bg) 70%, transparent);
+  padding: 12px max(16px, env(safe-area-inset-left,0px))
+           max(16px, env(safe-area-inset-bottom,0px))
+           max(16px, env(safe-area-inset-right,0px));
+  display: flex;
+  gap: 8px;
+  z-index: 30;
+}
+.nav-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid var(--card-br);
+  background: var(--card-bg);
+  color: var(--fg3);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: center;
+  transition: all .2s;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+}
+.nav-btn .icon { font-size: 18px; }
+.nav-btn.active {
+  background: var(--bordo2);
+  border-color: var(--bordo);
+  color: var(--fg);
+}
+.nav-btn:hover:not(.active) { border-color: var(--sep); color: var(--fg2); }
+
+/* ─── CANVAS BG ───────────────────────────────────────────── */
+#bgCanvas {
+  position: fixed;
+  inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: .045;
+}
+
+/* wrap all above canvas */
+.page-content { position: relative; z-index: 1; }
+
+/* ─── XP TOAST ────────────────────────────────────────────── */
+.xp-toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  background: var(--gold);
+  color: #0D0608;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 8px 18px;
+  border-radius: 20px;
+  pointer-events: none;
+  opacity: 0;
+  z-index: 200;
+  transition: opacity .2s, transform .2s;
+  white-space: nowrap;
+}
+.xp-toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ─── SCROLLBAR ───────────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--card-br); border-radius: 2px; }
+</style>
+
+<!-- Background canvas glass -->
+<canvas id="bgCanvas"></canvas>
+
+<div class="page-content">
+  <!-- Header -->
+  <div class="header">
+    <div class="header-top">
+      <button class="btn-back" onclick="goHome()" aria-label="Voltar">←</button>
+      <div class="header-title">
+        <h1>Explore a Casta</h1>
+        <p>MODO B · ATLAS DO VINHO</p>
+      </div>
+      <div class="xp-pill" id="xpPill">⚡ 0 XP</div>
+    </div>
+
+    <div class="filter-row">
+      <button class="filter-btn active" data-filter="todas" onclick="setFilter('todas',this)">🍇 Todas</button>
+      <button class="filter-btn" data-filter="tinto" onclick="setFilter('tinto',this)">🔴 Tintas</button>
+      <button class="filter-btn" data-filter="branco" onclick="setFilter('branco',this)">🟡 Brancas</button>
+    </div>
+
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input class="search-input" id="searchInput" type="search" placeholder="Buscar casta, aroma, região…" oninput="renderGrid()">
+    </div>
+
+    <div class="progress-bar-row">
+      <span class="progress-label">PROGRESSO</span>
+      <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+      <span class="progress-count" id="progressCount">0 / 20</span>
+    </div>
+  </div>
+
+  <!-- Card grid -->
+  <div class="grid" id="castasGrid"></div>
+</div>
+
+<!-- Detail modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-header" id="modalHeader"></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<!-- Bottom nav -->
+<div class="bottom-nav">
+  <button class="nav-btn" onclick="goHome()">
+    <span class="icon">🏠</span>
+    <span>Início</span>
+  </button>
+  <button class="nav-btn active">
+    <span class="icon">🍇</span>
+    <span>Castas</span>
+  </button>
+  <button class="nav-btn">
+    <span class="icon">🗺️</span>
+    <span>Regiões</span>
+  </button>
+  <button class="nav-btn">
+    <span class="icon">🏆</span>
+    <span>Quiz</span>
+  </button>
+</div>
+
+<!-- XP Toast -->
+<div class="xp-toast" id="xpToast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════
+   DATA — 20 CASTAS (inline, sem fetch externo)
+═══════════════════════════════════════════════════ */
+const CASTAS = [
+  {
+    id:"cabernet-sauvignon", nome:"Cabernet Sauvignon", emoji:"🍇",
+    cor:"tinto", sinonimos:["Cab Sauv","Cab"],
+    origem:"Bordeaux, França",
+    aromas:["Groselha preta","Amora","Cedro","Tabaco","Chocolate amargo","Pimenta verde"],
+    gustativa:"Taninos firmes, boa acidez, corpo médio a alto, alto potencial de guarda.",
+    casca:"Grossa", maturacao:"Tardia",
+    regioes:["bordeaux","maipo","mendoza","toscana","rioja"],
+    estilos:["Tinto de guarda encorpado","Blend com Merlot (estilo Bordeaux)","Blend com Malbec (andino)"],
+    educativo:"A casta tinta mais plantada no mundo. Sua espessura de casca garante cor intensa, taninos firmes e excelente longevidade. Na Margem Esquerda de Bordeaux é a uva principal dos grandes châteaux. No Chile e Argentina produz vinhos de ótimo custo-benefício e alguns ícones mundiais.",
+    taninos:85, acidez:62, corpo:78, guarda:90
+  },
+  {
+    id:"merlot", nome:"Merlot", emoji:"🍒",
+    cor:"tinto", sinonimos:[],
+    origem:"Bordeaux, França",
+    aromas:["Ameixa","Cereja preta","Chocolate","Tabaco","Baunilha"],
+    gustativa:"Taninos macios, acidez moderada, corpo médio, mais redondo e acessível jovem.",
+    casca:"Fina-Média", maturacao:"Precoce",
+    regioes:["bordeaux","toscana","mendoza","maipo"],
+    estilos:["Tinto redondo e acessível","Blend com Cabernet Sauvignon","Ícone monovarietal (Pomerol)"],
+    educativo:"O Merlot é a casta mais plantada de Bordeaux, dominante na Margem Direita (Saint-Émilion, Pomerol). O Pétrus, um dos vinhos mais caros do mundo, é produzido quase que exclusivamente de Merlot. Por sua maciez, tornou-se popular como uva introdutória ao vinho tinto.",
+    taninos:55, acidez:55, corpo:65, guarda:70
+  },
+  {
+    id:"cabernet-franc", nome:"Cabernet Franc", emoji:"🌿",
+    cor:"tinto", sinonimos:["Cab Franc","Bouchet"],
+    origem:"País Basco / norte da Espanha",
+    aromas:["Framboesa","Violeta","Pimentão vermelho","Ervas finas","Grafite"],
+    gustativa:"Taninos médios, boa acidez, corpo médio, mais perfumado e herbáceo.",
+    casca:"Média", maturacao:"Precoce",
+    regioes:["bordeaux","borgonha"],
+    estilos:["Componente de corte em Bordeaux","Varietal no Loire (Chinon, Bourgueil)","Blend com Merlot em Saint-Émilion"],
+    educativo:"O Cabernet Franc é o 'pai' do Cabernet Sauvignon (junto com o Sauvignon Blanc). Em Bordeaux entra como componente de corte. No Vale do Loire aparece como varietal em Chinon e Bourgueil — mais elegante, com notas herbáceas e taninos macios.",
+    taninos:58, acidez:68, corpo:55, guarda:60
+  },
+  {
+    id:"pinot-noir", nome:"Pinot Noir", emoji:"🌸",
+    cor:"tinto", sinonimos:["Pinot Nero","Spätburgunder"],
+    origem:"Borgonha, França",
+    aromas:["Cereja fresca","Framboesa","Morango","Cogumelo","Terra molhada","Rosa"],
+    gustativa:"Taninos leves a médios, acidez alta, corpo leve a médio, extremamente perfumado.",
+    casca:"Fina", maturacao:"Precoce",
+    regioes:["borgonha","champagne","casablanca"],
+    estilos:["Tinto elegante e perfumado (Borgonha)","Base de espumante Blanc de Noirs","Tinto de clima frio (Oregon, Casablanca)"],
+    educativo:"Considerada a 'uva mais difícil do mundo', o Pinot Noir é extremamente sensível ao terroir e ao clima. Apenas em climas frios específicos mostra sua grandeza. Os vinhos de Gevrey-Chambertin e Romanée-Conti são os mais cobiçados.",
+    taninos:32, acidez:85, corpo:40, guarda:75
+  },
+  {
+    id:"syrah", nome:"Syrah / Shiraz", emoji:"🫐",
+    cor:"tinto", sinonimos:["Shiraz"],
+    origem:"Vale do Rhône, França",
+    aromas:["Mirtilo","Amora silvestre","Pimenta preta","Azeitona preta","Bacon defumado","Violeta"],
+    gustativa:"Taninos firmes, acidez média a alta, corpo alto, muito intenso. Longevidade excelente.",
+    casca:"Grossa", maturacao:"Média-Tardia",
+    regioes:["rhone","mendoza"],
+    estilos:["Tinto potente monovarietal (Hermitage, Côte-Rôtie)","Blend GSM (Grenache-Syrah-Mourvèdre)","Shiraz frutado e poderoso (Barossa)"],
+    educativo:"No norte do Rhône é a única casta tinta permitida — produz vinhos monumentais como Hermitage e Côte-Rôtie. Na Austrália, chamada Shiraz, é mais frutada e exuberante. Um nome, dois estilos completamente distintos.",
+    taninos:78, acidez:70, corpo:88, guarda:85
+  },
+  {
+    id:"nebbiolo", nome:"Nebbiolo", emoji:"🌹",
+    cor:"tinto", sinonimos:["Spanna","Chiavennasca"],
+    origem:"Piemonte, Itália",
+    aromas:["Cereja ácida","Rosa seca","Alcatrão","Violeta","Cogumelo","Terra"],
+    gustativa:"Taninos muito firmes, acidez altíssima, cor paradoxalmente clara. Muito austero na juventude.",
+    casca:"Grossa", maturacao:"Tardíssima",
+    regioes:["piemonte"],
+    estilos:["Barolo (Rei dos Vinhos)","Barbaresco (Rainha dos Vinhos)","Nebbiolo d'Alba (mais acessível)"],
+    educativo:"O Nebbiolo produz dois dos maiores vinhos da Itália: Barolo e Barbaresco. O nome vem de 'nebbia' (névoa) — a neblina outonal do Piemonte. Austero na juventude, com anos de envelhecimento revela uma complexidade incomparável de rosas secas, alcatrão e terra.",
+    taninos:95, acidez:92, corpo:70, guarda:98
+  },
+  {
+    id:"sangiovese", nome:"Sangiovese", emoji:"🍓",
+    cor:"tinto", sinonimos:["Brunello","Morellino","Prugnolo Gentile"],
+    origem:"Toscana, Itália",
+    aromas:["Cereja ácida","Ameixa","Couro","Especiarias","Erva seca","Tabaco"],
+    gustativa:"Taninos médios a altos, acidez alta, corpo médio, muito versátil.",
+    casca:"Média", maturacao:"Média-Tardia",
+    regioes:["toscana"],
+    estilos:["Chianti Classico","Brunello di Montalcino","Super Toscanos (blend com cab)"],
+    educativo:"A casta mais plantada da Itália. No Chianti Classico é protagonista absoluto. Quando o clone Brunello amadurece em Montalcino, produz um dos vinhos mais longevos da Itália — o Brunello di Montalcino DOCG. Muito adaptável, do simples ao grandioso.",
+    taninos:68, acidez:82, corpo:62, guarda:80
+  },
+  {
+    id:"tempranillo", nome:"Tempranillo", emoji:"🫒",
+    cor:"tinto", sinonimos:["Tinto Fino","Tinta del País","Ull de Llebre"],
+    origem:"Espanha (La Rioja / Ribera del Duero)",
+    aromas:["Cereja preta","Couro","Tabaco","Baunilha","Especiarias quentes","Figo seco"],
+    gustativa:"Taninos médios, acidez média, corpo médio a alto — muito influenciado pela crianza.",
+    casca:"Grossa", maturacao:"Precoce (daí o nome: 'temprano' = cedo)",
+    regioes:["rioja","ribera-del-duero"],
+    estilos:["Rioja Reserva/Gran Reserva","Ribera del Duero","Blend com Garnacha"],
+    educativo:"A grande casta ibérica, base dos vinhos de Rioja e Ribera del Duero. O nome 'Tempranillo' vem de 'temprano' (cedo), pois amadurece mais cedo que outras castas espanholas. Muito maleável ao carvalho — as categorias Crianza, Reserva e Gran Reserva indicam o tempo de envelhecimento.",
+    taninos:65, acidez:55, corpo:68, guarda:78
+  },
+  {
+    id:"malbec", nome:"Malbec", emoji:"🫐",
+    cor:"tinto", sinonimos:["Côt","Auxerrois (Cahors)"],
+    origem:"Cahors, França (hoje ícone argentino)",
+    aromas:["Ameixa preta","Violeta","Chocolate","Tabaco suave","Amora"],
+    gustativa:"Taninos macios e suculentos, acidez média, corpo médio a alto, muito frutado.",
+    casca:"Grossa", maturacao:"Média",
+    regioes:["mendoza","lujan-de-cuyo","maipo"],
+    estilos:["Malbec de altitude (Mendoza)","Blend com Cabernet Sauvignon","Vinho icônico argentino"],
+    educativo:"Originalmente de Cahors (França), o Malbec encontrou no solo pedregoso e na altitude de Mendoza sua terra prometida. Na Argentina, produz vinhos mais macios, frutados e acessíveis do que o estilo austero de Cahors. Tornou-se o emblema do vinho argentino no mundo.",
+    taninos:60, acidez:58, corpo:72, guarda:65
+  },
+  {
+    id:"carmenere", nome:"Carménère", emoji:"🌶️",
+    cor:"tinto", sinonimos:["Grande Vidure"],
+    origem:"Bordeaux, França (quase extinto na Europa)",
+    aromas:["Pimentão vermelho","Amora","Chocolate amargo","Especiarias","Páprica defumada"],
+    gustativa:"Taninos macios quando maduro, acidez média, corpo médio a alto, muito aromático.",
+    casca:"Grossa", maturacao:"Tardíssima",
+    regioes:["maipo","mendoza"],
+    estilos:["Varietal chileno icônico","Blend com Cabernet Sauvignon","Single varietal de alta gama"],
+    educativo:"Quase extinta na Europa após a filoxera, o Carménère sobreviveu no Chile — confundida com Merlot por décadas. A confirmação da variedade só veio em 1994. É hoje o símbolo do vinho chileno. Quando maduro, os clássicos aromas de pimentão dão lugar a frutas negras e especiarias.",
+    taninos:62, acidez:60, corpo:70, guarda:68
+  },
+  {
+    id:"chardonnay", nome:"Chardonnay", emoji:"🌟",
+    cor:"branco", sinonimos:["Morillon (Áustria)"],
+    origem:"Borgonha, França",
+    aromas:["Pêssego","Maçã verde","Manteiga","Baunilha","Tostado","Mel (com idade)"],
+    gustativa:"Acidez média a alta, corpo médio a alto, muito influenciado pelo carvalho e bâtonnage.",
+    casca:"Fina", maturacao:"Precoce",
+    regioes:["borgonha","champagne","casablanca"],
+    estilos:["Borgonha branco (Meursault, Montrachet)","Base de Champagne","Chardonnay barricado (Novo Mundo)","Chardonnay fresco e mineral (Chablis)"],
+    educativo:"A casta branca mais famosa do mundo é também a mais versátil. No estilo borgonhês, vinificado em barricas de carvalho com bâtonnage, é cremoso e complexo. Em Chablis, sem carvalho, é mineral e austero. No Novo Mundo, produz desde vinhos barricados até frescos e tropicais.",
+    taninos:5, acidez:68, corpo:72, guarda:70
+  },
+  {
+    id:"sauvignon-blanc", nome:"Sauvignon Blanc", emoji:"🌿",
+    cor:"branco", sinonimos:["Fumé Blanc (EUA)"],
+    origem:"Loire/Bordeaux, França",
+    aromas:["Maracujá","Limão","Toranja","Grama cortada","Groselha branca","Ervas finas"],
+    gustativa:"Acidez alta, corpo leve a médio, muito aromático, tipicamente seco.",
+    casca:"Fina", maturacao:"Precoce",
+    regioes:["bordeaux","borgonha","casablanca"],
+    estilos:["Sancerre e Pouilly-Fumé (clássico)","Marlborough (fruta tropical intensa)","Blend com Sémillon (Bordeaux Branco)"],
+    educativo:"Caracterizado por aromas exuberantes e acidez vibrante, o Sauvignon Blanc produz vinhos muito distintos conforme o clima. Em Sancerre (Loire), é mineral e cítrico. Em Marlborough (Nova Zelândia), é explosivo em maracujá e groselha. Uma das castas mais fáceis de identificar às cegas.",
+    taninos:5, acidez:90, corpo:42, guarda:45
+  },
+  {
+    id:"riesling", nome:"Riesling", emoji:"🍋",
+    cor:"branco", sinonimos:["Rheinriesling","Rhine Riesling"],
+    origem:"Vale do Reno, Alemanha",
+    aromas:["Maçã verde","Limão siciliano","Pêssego branco","Mel","Petróleo (com idade)","Floral"],
+    gustativa:"Acidez altíssima, corpo leve a médio, preserva a frescura mesmo em vinhos doces.",
+    casca:"Fina", maturacao:"Tardia",
+    regioes:["borgonha"],
+    estilos:["Riesling Spätlese (colheita tardia)","Riesling Trockenbeerenauslese (doce nobre)","Riesling seco (Alsácia, Áustria)","Riesling australiano (Clare Valley)"],
+    educativo:"O Riesling é considerado por muitos enólogos a mais nobre das castas brancas, capaz de produzir tanto secos minerais quanto doces concentradíssimos. A característica de petróleo que desenvolve com o tempo é exclusiva da casta. Alemanha, Alsácia e Áustria são seus redutos clássicos.",
+    taninos:5, acidez:95, corpo:38, guarda:92
+  },
+  {
+    id:"gewurztraminer", nome:"Gewurztraminer", emoji:"🌺",
+    cor:"branco", sinonimos:["Traminer"],
+    origem:"Alsácia, França / Trentino, Itália",
+    aromas:["Lichia","Rosa","Pétala de flor","Especiarias","Gengibre","Manga"],
+    gustativa:"Baixa acidez, corpo alto, álcool elevado, muito aromático — quase perfumado.",
+    casca:"Rosada (cor incomum para uva branca)", maturacao:"Precoce",
+    regioes:["borgonha"],
+    estilos:["Gewurztraminer seco (Alsácia)","Vendange Tardive (colheita tardia)","Seleção de Grãos Nobres (botrytis)"],
+    educativo:"Uma das castas mais identificáveis do mundo — praticamente impossível confundir em uma degustação às cegas. Seu perfume exuberante de lichia, rosa e especiarias é inconfundível. Na Alsácia atinge seu apogeu. Combina muito bem com culinária asiática e queijos picantes.",
+    taninos:5, acidez:35, corpo:78, guarda:55
+  },
+  {
+    id:"viognier", nome:"Viognier", emoji:"🌼",
+    cor:"branco", sinonimos:[],
+    origem:"Vale do Rhône norte, França",
+    aromas:["Pêssego maduro","Damasco","Violeta","Lavanda","Mel","Especiarias"],
+    gustativa:"Baixa acidez, corpo alto, álcool elevado, untuoso e perfumado.",
+    casca:"Fina", maturacao:"Precoce",
+    regioes:["rhone"],
+    estilos:["Condrieu monovarietal","Co-fermentado com Syrah (Côte-Rôtie)","Viognier do Novo Mundo"],
+    educativo:"Quase extinto no Rhône nos anos 1960, o Viognier foi ressuscitado por produtores visionários. Em Condrieu e Château-Grillet produz brancos de textura sedosa com aromas de damasco e violeta. Curiosamente, no Côte-Rôtie é co-fermentado com Syrah tinto — adicionando perfume e cor ao tinto.",
+    taninos:5, acidez:38, corpo:80, guarda:48
+  },
+  {
+    id:"torrontes", nome:"Torrontés", emoji:"🌸",
+    cor:"branco", sinonimos:["Torrontés Riojano","Torrontés Sanjuanino","Torrontés Mendocino"],
+    origem:"Argentina (derivada de Moscatel de Alexandria)",
+    aromas:["Rosa","Pêssego","Damasco","Laranja","Lichia","Água de flor"],
+    gustativa:"Acidez alta (refrescante), corpo médio, álcool moderado a alto, aroma intenso.",
+    casca:"Fina", maturacao:"Precoce",
+    regioes:["salta-cafayate","mendoza"],
+    estilos:["Torrontés seco aromático","Vinhos de altitude (Cafayate, Salta)","Entrada de linha frutado"],
+    educativo:"O Torrontés é a casta branca mais plantada da Argentina e seu emblema de identidade. As uvas de Cafayate, em Salta, a mais de 1700 metros de altitude, produzem os exemplares mais elegantes. Seu aroma exuberante de rosas e pêssegos pode enganar — é completamente seco na boca.",
+    taninos:5, acidez:72, corpo:52, guarda:35
+  },
+  {
+    id:"touriga-nacional", nome:"Touriga Nacional", emoji:"🏺",
+    cor:"tinto", sinonimos:[],
+    origem:"Dão / Douro, Portugal",
+    aromas:["Mirtilo","Amora silvestre","Violeta","Lavanda","Chocolate amargo","Resina"],
+    gustativa:"Taninos muito firmes, acidez alta, corpo alto, muito concentrado. Produz baixa quantidade de uva.",
+    casca:"Grossa", maturacao:"Tardia",
+    regioes:["porto-doc","douro-doc"],
+    estilos:["Porto Vintage","Porto Tawny","Douro Tinto varietal","Blend com Tinta Roriz"],
+    educativo:"Considerada a maior casta portuguesa, a Touriga Nacional é obrigatória nos melhores Portos Vintage. Suas bagas pequenas e cachos compactos concentram cor, taninos e aromas de forma extraordinária. Além do Porto, produz magníficos tintos secos no Douro e no Dão.",
+    taninos:88, acidez:75, corpo:82, guarda:92
+  },
+  {
+    id:"alvarinho", nome:"Alvarinho", emoji:"🌊",
+    cor:"branco", sinonimos:["Albariño (Espanha)"],
+    origem:"Minho, Portugal / Galícia, Espanha",
+    aromas:["Limão","Toranja","Pêssego branco","Sal marinho","Floral","Amêndoa"],
+    gustativa:"Acidez vibrante, corpo médio, notas salinas, muito refrescante. Termina seco e mineral.",
+    casca:"Grossa (para uva branca)", maturacao:"Média",
+    regioes:["vinho-verde-doc"],
+    estilos:["Vinho Verde monovarietal premium","Rías Baixas (Galícia, Espanha)","Blend Vinho Verde"],
+    educativo:"A mais nobre casta do noroeste ibérico. Em Portugal, no sub-região de Monção e Melgaço do Vinho Verde, produz os brancos mais elegantes e longevos. Na Galícia espanhola (Rías Baixas), o mesmo Albariño é o trunfo da região. O caráter salino e mineral reflete sua proximidade ao Atlântico.",
+    taninos:5, acidez:85, corpo:55, guarda:60
+  },
+  {
+    id:"grenache", nome:"Grenache", emoji:"☀️",
+    cor:"tinto", sinonimos:["Garnacha (Espanha)","Cannonau (Sardenha)"],
+    origem:"Aragão, Espanha",
+    aromas:["Morango","Framboesa","Especiarias quentes","Couro","Pimenta branca","Ameixa"],
+    gustativa:"Taninos baixos a médios, acidez baixa, álcool alto, corpo médio, muito frutado.",
+    casca:"Fina", maturacao:"Tardia",
+    regioes:["rhone"],
+    estilos:["Châteauneuf-du-Pape (blend dominante)","Priorat (Garnacha espanhola)","GSM (Grenache-Syrah-Mourvèdre)"],
+    educativo:"A casta tinta mais plantada do mundo por área (antes do Cab Sauv). Ama o calor e o sol intenso. No sul do Rhône é a espinha dorsal de Châteauneuf-du-Pape. Na Espanha, como Garnacha, produz vinhos explosivos no Priorat. Sua tendência à oxidação lhe confere toques únicos de especiarias e couro.",
+    taninos:42, acidez:40, corpo:65, guarda:60
+  },
+  {
+    id:"pinot-gris", nome:"Pinot Gris", emoji:"🍑",
+    cor:"branco", sinonimos:["Pinot Grigio (Itália)","Grauburgunder (Alemanha)"],
+    origem:"Borgonha, França (mutação do Pinot Noir)",
+    aromas:["Pêssego","Damasco","Pêra","Mel","Especiarias","Amendoado"],
+    gustativa:"Acidez média a baixa, corpo médio a alto, untuoso e encorpado. Muito diferente do estilo italiano.",
+    casca:"Acinzentada-rosada", maturacao:"Precoce",
+    regioes:["borgonha"],
+    estilos:["Alsácia Vendange Tardive (rico e untuoso)","Pinot Grigio italiano (leve e neutro)","Pinot Gris Oregon (corpulento)"],
+    educativo:"O Pinot Gris revela uma dualidade impressionante: na Alsácia é um dos grandes brancos do mundo — rico, untuoso, com potencial de guarda; na Itália como 'Pinot Grigio' é leve, neutro e de consumo imediato. É geneticamente uma mutação do Pinot Noir — sua casca tem pigmentos rosados.",
+    taninos:5, acidez:48, corpo:70, guarda:62
+  }
+];
+
+/* ═══════════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════════ */
+let estudadas = new Set();
+let sessionXP  = 0;
+let activeFilter = 'todas';
+let activeCasta  = null;
+
+/* persist */
+try {
+  const s = JSON.parse(localStorage.getItem('vb_estudadas') || '[]');
+  s.forEach(id => estudadas.add(id));
+  sessionXP = parseInt(localStorage.getItem('vb_xp') || '0');
+} catch(e){}
+
+function saveState() {
+  try {
+    localStorage.setItem('vb_estudadas', JSON.stringify([...estudadas]));
+    localStorage.setItem('vb_xp', sessionXP);
+  } catch(e){}
+}
+
+/* ═══════════════════════════════════════════════════
+   BG CANVAS (glass watermark)
+═══════════════════════════════════════════════════ */
+(function initBg(){
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, dpr;
+
+  function resize(){
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = window.innerWidth;
+    H = window.innerHeight;
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    canvas.style.width  = W + 'px';
+    canvas.style.height = H + 'px';
+    ctx.scale(dpr, dpr);
+    draw();
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+
+    /* scale glass to fill ~55% of the screen height, centered */
+    const BASE_H = 260;
+    const scale  = (H * .55) / BASE_H;
+    const ox = W/2 - 110*scale;
+    const oy = H/2 - 140*scale;
+
+    ctx.save();
+    ctx.translate(ox, oy);
+    ctx.scale(scale, scale);
+
+    /* bowl */
+    ctx.beginPath();
+    ctx.moveTo(62,42);
+    ctx.bezierCurveTo(54,100,68,138,68,138);
+    ctx.quadraticCurveTo(82,165,110,177);
+    ctx.quadraticCurveTo(138,165,152,138);
+    ctx.bezierCurveTo(152,138,166,100,158,42);
+    ctx.closePath();
+    ctx.strokeStyle = '#D4AF37';
+    ctx.lineWidth = 1.4;
+    ctx.stroke();
+
+    /* stem */
+    ctx.beginPath();
+    ctx.moveTo(110,177); ctx.lineTo(107,200); ctx.lineTo(113,200);
+    ctx.strokeStyle = '#D4AF37'; ctx.lineWidth = 1.2; ctx.stroke();
+
+    /* base */
+    ctx.beginPath();
+    ctx.moveTo(80,232);
+    ctx.quadraticCurveTo(110,224,140,232);
+    ctx.strokeStyle='#D4AF37'; ctx.lineWidth=1.2; ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(107,200);
+    ctx.quadraticCurveTo(103,215,80,232);
+    ctx.strokeStyle='#D4AF37'; ctx.lineWidth=1.2; ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(113,200);
+    ctx.quadraticCurveTo(117,215,140,232);
+    ctx.strokeStyle='#D4AF37'; ctx.lineWidth=1.2; ctx.stroke();
+
+    ctx.restore();
+  }
+
+  window.addEventListener('resize', resize);
+  resize();
+})();
+
+/* ═══════════════════════════════════════════════════
+   RENDER GRID
+═══════════════════════════════════════════════════ */
+function setFilter(f, btn){
+  activeFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+}
+
+function renderGrid(){
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  const grid = document.getElementById('castasGrid');
+
+  const filtered = CASTAS.filter(c => {
+    const matchFilter = activeFilter === 'todas' || c.cor === activeFilter;
+    if(!matchFilter) return false;
+    if(!q) return true;
+    return c.nome.toLowerCase().includes(q)
+      || c.sinonimos.some(s => s.toLowerCase().includes(q))
+      || c.aromas.some(a => a.toLowerCase().includes(q))
+      || c.regioes.some(r => r.toLowerCase().includes(q))
+      || c.origem.toLowerCase().includes(q);
+  });
+
+  if(filtered.length === 0){
+    grid.innerHTML = `<div class="empty-state">
+      <div class="icon">🍷</div>
+      <p>Nenhuma casta encontrada.<br>Tente outro termo de busca.</p>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = filtered.map(c => {
+    const est = estudadas.has(c.id);
+    const chips = c.aromas.slice(0,3).map(a => `<span class="aroma-chip">${a}</span>`).join('');
+    return `<div class="casta-card${est?' estudada':''}" onclick="openModal('${c.id}')">
+      <span class="card-cor-badge ${c.cor}">${c.cor === 'tinto' ? '🔴' : '🟡'} ${c.cor}</span>
+      <div class="card-nome">${c.nome}</div>
+      <div class="card-origem">${c.origem}</div>
+      <div class="card-aromas">${chips}</div>
+    </div>`;
+  }).join('');
+
+  updateProgress();
+}
+
+function updateProgress(){
+  const total = CASTAS.length;
+  const done  = estudadas.size;
+  const pct   = (done/total)*100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = `${done} / ${total}`;
+  document.getElementById('xpPill').textContent = `⚡ ${sessionXP} XP`;
+}
+
+/* ═══════════════════════════════════════════════════
+   MODAL
+═══════════════════════════════════════════════════ */
+function openModal(id){
+  activeCasta = CASTAS.find(c => c.id === id);
+  if(!activeCasta) return;
+  const c = activeCasta;
+
+  /* header */
+  document.getElementById('modalHeader').innerHTML = `
+    <div class="modal-grape-icon ${c.cor}">${c.emoji}</div>
+    <div class="modal-title-block">
+      <div class="modal-nome">${c.nome}</div>
+      ${c.sinonimos.length ? `<div class="modal-sinonimos">também: ${c.sinonimos.join(', ')}</div>` : ''}
+      <div class="modal-origem">📍 ${c.origem}</div>
+    </div>`;
+
+  /* body */
+  const aromaTags = c.aromas.map(a => `<span class="aroma-tag">${a}</span>`).join('');
+  const regionTags= c.regioes.map(r => `<span class="region-tag">${regionLabel(r)}</span>`).join('');
+  const estilosHtml= c.estilos.map(e => `<div class="estilo-item">${e}</div>`).join('');
+
+  document.getElementById('modalBody').innerHTML = `
+    <div class="modal-section">
+      <h3>Perfil de Aromas</h3>
+      <div class="aroma-cloud">${aromaTags}</div>
+    </div>
+
+    <div class="modal-section">
+      <h3>Perfil Sensorial</h3>
+      <div class="meter-grid">
+        ${meter('Taninos',c.taninos,'taninos')}
+        ${meter('Acidez',c.acidez,'acidez')}
+        ${meter('Corpo',c.corpo,'corpo')}
+        ${meter('Potencial de Guarda',c.guarda,'guarda')}
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <h3>Gustativa</h3>
+      <div class="edu-block" style="font-size:12px;padding:10px 12px;">${c.gustativa}</div>
+    </div>
+
+    <div class="modal-section">
+      <h3>Regiões Associadas</h3>
+      <div class="regions-list">${regionTags}</div>
+    </div>
+
+    <div class="modal-section">
+      <h3>Estilos Típicos</h3>
+      <div class="estilos-list">${estilosHtml}</div>
+    </div>
+
+    <div class="modal-section">
+      <h3>Dados da Casta</h3>
+      <div class="facts-row">
+        <div class="fact-card">
+          <div class="fact-label">Espessura da Casca</div>
+          <div class="fact-value">${c.casca}</div>
+        </div>
+        <div class="fact-card">
+          <div class="fact-label">Maturação</div>
+          <div class="fact-value">${c.maturacao}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <h3>Conteúdo Educativo</h3>
+      <div class="edu-block">${c.educativo}</div>
+    </div>
+
+    <button class="btn-estudada ${estudadas.has(c.id)?'marked':'unmarked'}"
+            id="btnEstudada" onclick="toggleEstudada('${c.id}')">
+      ${estudadas.has(c.id) ? '✓ Marcada como Estudada' : '📚 Marcar como Estudada (+20 XP)'}
+    </button>
+    <div style="height:8px"></div>`;
+
+  document.getElementById('modalOverlay').classList.add('open');
+
+  /* animate meters after open */
+  requestAnimationFrame(()=>{
+    document.querySelectorAll('.meter-fill').forEach(el=>{
+      el.style.width = el.dataset.pct + '%';
+    });
+  });
+}
+
+function meter(label, pct, cls){
+  return `<div class="meter-item">
+    <div class="meter-label">${label}</div>
+    <div class="meter-track">
+      <div class="meter-fill ${cls}" data-pct="${pct}" style="width:0%"></div>
+    </div>
+  </div>`;
+}
+
+function regionLabel(id){
+  const map = {
+    bordeaux:'Bordeaux', borgonha:'Borgonha', champagne:'Champagne',
+    rhone:'Côtes du Rhône', toscana:'Toscana', piemonte:'Piemonte',
+    rioja:'Rioja', 'ribera-del-duero':'Ribera del Duero',
+    maipo:'Vale do Maipo', mendoza:'Mendoza', 'lujan-de-cuyo':'Luján de Cuyo',
+    casablanca:'Valle de Casablanca', 'salta-cafayate':'Cafayate (Salta)',
+    'porto-doc':'Porto DOC', 'douro-doc':'Douro DOC',
+    'vinho-verde-doc':'Vinho Verde DOC'
+  };
+  return map[id] || id;
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  activeCasta = null;
+}
+
+function handleOverlayClick(e){
+  if(e.target === document.getElementById('modalOverlay')) closeModal();
+}
+
+/* ═══════════════════════════════════════════════════
+   MARK AS STUDIED
+═══════════════════════════════════════════════════ */
+function toggleEstudada(id){
+  const btn = document.getElementById('btnEstudada');
+  if(estudadas.has(id)){
+    estudadas.delete(id);
+    btn.className = 'btn-estudada unmarked';
+    btn.textContent = '📚 Marcar como Estudada (+20 XP)';
+  } else {
+    estudadas.add(id);
+    sessionXP += 20;
+    btn.className = 'btn-estudada marked';
+    btn.textContent = '✓ Marcada como Estudada';
+    showToast('+20 XP · Casta estudada!');
+  }
+  saveState();
+  renderGrid();
+  updateProgress();
+}
+
+function showToast(msg){
+  const t = document.getElementById('xpToast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(()=> t.classList.remove('show'), 2200);
+}
+
+/* ═══════════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════════ */
+function goHome(){
+  /* In a real app: navigate to home screen */
+  /* For demo, just close modal if open */
+  if(document.getElementById('modalOverlay').classList.contains('open')){
+    closeModal();
+  }
+}
+
+/* ═══════════════════════════════════════════════════
+   KEYBOARD
+═══════════════════════════════════════════════════ */
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape') closeModal();
+});
+
+/* ═══════════════════════════════════════════════════
+   INIT
+═══════════════════════════════════════════════════ */
+renderGrid();
+updateProgress();
+</script>
