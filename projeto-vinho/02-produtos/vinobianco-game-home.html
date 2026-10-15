@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>VinoBianco Wine Master — Tela Principal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Montserrat:wght@200;300;400;500;600;700&display=swap');
+
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden}
+
+body{
+  font-family:'Montserrat',sans-serif;
+  background:#0D0608;
+  min-height:100vh;
+}
+
+/* ══ LAYOUT ══ */
+.screen{
+  width:100vw;height:100vh;
+  display:grid;
+  grid-template-rows:auto 1fr auto;
+  position:relative;
+  overflow:hidden;
+}
+
+/* ══ FUNDO ATMOSFÉRICO ══ */
+.bg{
+  position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 90% 50% at 50% -10%, rgba(122,31,38,.5) 0%, transparent 65%),
+    radial-gradient(ellipse 70% 40% at 50% 110%, rgba(80,15,20,.7) 0%, transparent 60%),
+    radial-gradient(ellipse 120% 80% at 50% 50%, rgba(18,5,7,1) 30%, #0D0608 100%);
+  pointer-events:none;
+}
+/* Textura de vinhedo sutil */
+.bg-tex{
+  position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(
+    172deg,transparent 0,transparent 22px,
+    rgba(122,31,38,.018) 22px,rgba(122,31,38,.018) 23px
+  );
+}
+/* Canvas de partículas ambiente */
+#bgCanvas{position:absolute;inset:0;pointer-events:none}
+
+/* ══ HEADER ══ */
+.header{
+  position:relative;z-index:20;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:clamp(12px,3vh,22px) clamp(16px,5vw,48px);
+  border-bottom:1px solid rgba(212,175,55,.08);
+}
+.header-logo{
+  display:flex;align-items:center;gap:10px;
+  opacity:0;animation:fadeIn .7s .1s ease forwards;
+}
+.header-logo-mark{
+  width:clamp(28px,5vw,40px);height:auto;
+}
+.header-brand{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(.9rem,2.2vw,1.3rem);
+  font-weight:700;letter-spacing:.02em;
+  color:#F8F6EF;
+}
+.header-brand span{color:#7A1F26;font-style:italic}
+
+.player-chip{
+  display:flex;align-items:center;gap:8px;
+  opacity:0;animation:fadeIn .7s .2s ease forwards;
+}
+.level-badge{
+  width:clamp(30px,5vw,40px);height:clamp(30px,5vw,40px);
+  border-radius:50%;
+  border:1.5px solid rgba(212,175,55,.5);
+  background:radial-gradient(circle,rgba(122,31,38,.6),rgba(40,5,10,.8));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Playfair Display',serif;
+  font-size:clamp(.65rem,1.4vw,.9rem);
+  font-weight:700;color:#D4AF37;
+}
+.player-info{display:flex;flex-direction:column;gap:3px;text-align:right}
+.player-name{
+  font-size:clamp(.58rem,1.2vw,.72rem);
+  font-weight:600;letter-spacing:.08em;
+  color:rgba(248,246,239,.8);text-transform:uppercase;
+}
+.xp-bar-wrap{
+  display:flex;align-items:center;gap:5px;
+}
+.xp-bar{
+  width:clamp(50px,8vw,80px);height:3px;
+  background:rgba(255,255,255,.1);border-radius:2px;overflow:hidden;
+}
+.xp-fill{
+  height:100%;width:42%;
+  background:linear-gradient(to right,#7A1F26,#D4AF37);
+  border-radius:2px;
+}
+.xp-label{
+  font-size:.5rem;letter-spacing:.12em;
+  color:rgba(212,175,55,.6);font-weight:500;
+}
+
+/* ══ ZONA CENTRAL — TAÇA HERO ══ */
+.center{
+  position:relative;z-index:10;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:0;
+  padding:clamp(4px,1vh,12px) 0;
+}
+
+/* Container da taça */
+.glass-hero{
+  position:relative;
+  opacity:0;animation:riseIn .9s .25s cubic-bezier(.16,1,.3,1) forwards;
+}
+#glassCanvas{
+  display:block;
+  width:clamp(180px,38vw,320px);
+  height:auto;
+  /* aspect-ratio via JS */
+}
+/* Halo ao redor da taça */
+.glass-halo{
+  position:absolute;top:50%;left:50%;
+  width:clamp(240px,50vw,420px);
+  height:clamp(240px,50vw,420px);
+  transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:radial-gradient(circle,rgba(212,175,55,.055) 0%,transparent 65%);
+  pointer-events:none;
+  animation:haloBreath 5s ease-in-out infinite;
+}
+.glass-ring1,.glass-ring2{
+  position:absolute;top:50%;left:50%;
+  border-radius:50%;
+  border:1px solid rgba(212,175,55,.07);
+  pointer-events:none;
+}
+.glass-ring1{
+  width:clamp(210px,44vw,370px);height:clamp(210px,44vw,370px);
+  transform:translate(-50%,-50%);
+  animation:ringBreath 4.5s ease-in-out infinite;
+}
+.glass-ring2{
+  width:clamp(260px,54vw,460px);height:clamp(260px,54vw,460px);
+  transform:translate(-50%,-50%);
+  animation:ringBreath 4.5s 1.2s ease-in-out infinite;
+}
+
+/* Nome da marca */
+.brand{
+  text-align:center;
+  opacity:0;animation:fadeIn .8s .55s ease forwards;
+  margin-top:clamp(2px,.5vh,8px);
+}
+.brand-name{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.8rem,6vw,4.2rem);
+  font-weight:700;line-height:.92;
+  letter-spacing:-.02em;
+}
+.brand-vino{color:#F8F6EF}
+.brand-bianco{color:#7A1F26;font-style:italic;margin-left:.04em}
+.brand-sub{
+  font-size:clamp(.55rem,1.4vw,.75rem);
+  letter-spacing:clamp(.2em,.4vw,.45em);
+  color:#D4AF37;font-weight:400;
+  text-transform:uppercase;
+  font-family:'Playfair Display',serif;
+  margin-top:clamp(2px,.5vh,6px);
+  display:block;
+}
+
+/* Linha dourada */
+.gold-rule{
+  width:clamp(120px,28vw,240px);height:1px;
+  background:linear-gradient(to right,transparent,#D4AF37,transparent);
+  margin:clamp(5px,1.2vh,12px) auto;
+  opacity:0;
+  animation:fadeIn .8s .7s ease forwards, shimmer 3s 1.8s ease-in-out infinite;
+}
+
+/* ══ BOTÃO PRINCIPAL ══ */
+.play-cta{
+  margin-top:clamp(6px,1.5vh,14px);
+  opacity:0;animation:fadeIn .8s .85s ease forwards;
+}
+.play-btn{
+  background:linear-gradient(135deg,rgba(122,31,38,.6),rgba(80,10,18,.7));
+  border:1px solid rgba(212,175,55,.45);
+  color:#D4AF37;
+  font-family:'Montserrat',sans-serif;
+  font-size:clamp(.62rem,1.3vw,.78rem);
+  font-weight:700;letter-spacing:.22em;
+  padding:clamp(.55rem,1.5vh,.85rem) clamp(1.8rem,4vw,3rem);
+  border-radius:1px;cursor:pointer;text-transform:uppercase;
+  transition:all .35s ease;position:relative;overflow:hidden;
+}
+.play-btn::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(212,175,55,.15),rgba(122,31,38,.12));
+  transform:scaleX(0);transform-origin:left;transition:transform .35s ease;
+}
+.play-btn:hover{
+  border-color:rgba(212,175,55,.85);
+  box-shadow:0 0 32px rgba(212,175,55,.18),inset 0 0 20px rgba(212,175,55,.05);
+  letter-spacing:.27em;
+}
+.play-btn:hover::before{transform:scaleX(1)}
+
+/* ══ RODAPÉ — MODOS DE JOGO ══ */
+.footer{
+  position:relative;z-index:20;
+  padding:clamp(8px,2vh,18px) clamp(16px,5vw,48px);
+  border-top:1px solid rgba(212,175,55,.07);
+}
+
+.modes-label{
+  text-align:center;
+  font-size:.48rem;letter-spacing:.3em;
+  color:rgba(212,175,55,.4);font-weight:500;text-transform:uppercase;
+  margin-bottom:clamp(5px,1.2vh,10px);
+  opacity:0;animation:fadeIn .7s 1.0s ease forwards;
+}
+
+.modes-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:clamp(6px,1.5vw,14px);
+  opacity:0;animation:fadeIn .8s 1.1s ease forwards;
+}
+
+.mode-card{
+  background:rgba(248,246,239,.03);
+  border:1px solid rgba(212,175,55,.1);
+  border-radius:2px;
+  padding:clamp(8px,1.8vh,14px) clamp(6px,1.2vw,10px);
+  text-align:center;cursor:pointer;
+  transition:all .3s ease;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+}
+.mode-card:hover{
+  background:rgba(122,31,38,.2);
+  border-color:rgba(212,175,55,.3);
+  transform:translateY(-2px);
+}
+.mode-icon{
+  font-size:clamp(.9rem,2vw,1.3rem);
+  margin-bottom:2px;
+}
+.mode-title{
+  font-size:clamp(.48rem,1vw,.6rem);
+  font-weight:600;letter-spacing:.12em;
+  color:rgba(248,246,239,.75);text-transform:uppercase;
+}
+.mode-desc{
+  font-size:clamp(.4rem,.8vw,.5rem);
+  color:rgba(248,246,239,.3);font-weight:300;
+  letter-spacing:.06em;
+}
+
+/* Missão diária */
+.daily-mission{
+  margin-top:clamp(6px,1.5vh,12px);
+  background:rgba(122,31,38,.12);
+  border:1px solid rgba(122,31,38,.3);
+  border-left:2px solid #7A1F26;
+  border-radius:1px;
+  padding:clamp(5px,1.2vh,9px) clamp(10px,2vw,16px);
+  display:flex;align-items:center;gap:10px;
+  opacity:0;animation:fadeIn .7s 1.25s ease forwards;
+}
+.mission-icon{font-size:.8rem;flex-shrink:0}
+.mission-text{flex:1}
+.mission-label{
+  font-size:.45rem;letter-spacing:.2em;
+  color:rgba(212,175,55,.55);text-transform:uppercase;font-weight:600;
+}
+.mission-desc{
+  font-size:clamp(.48rem,1vw,.58rem);
+  color:rgba(248,246,239,.65);font-weight:300;
+  margin-top:1px;
+}
+.mission-xp{
+  font-size:.5rem;font-weight:700;
+  color:#D4AF37;letter-spacing:.1em;
+  white-space:nowrap;
+}
+
+/* ══ ANIMAÇÕES ══ */
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes riseIn{
+  from{opacity:0;transform:translateY(28px) scale(.96)}
+  to{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes haloBreath{
+  0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.7}
+  50%{transform:translate(-50%,-50%) scale(1.1);opacity:1}
+}
+@keyframes ringBreath{
+  0%,100%{opacity:.3;transform:translate(-50%,-50%) scale(.97)}
+  50%{opacity:.8;transform:translate(-50%,-50%) scale(1.02)}
+}
+@keyframes shimmer{0%,100%{opacity:.6}50%{opacity:1}}
+</style>
+</head>
+<body>
+<div class="screen">
+  <div class="bg"></div>
+  <div class="bg-tex"></div>
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- ══ HEADER ══ -->
+  <header class="header">
+    <div class="header-logo">
+      <!-- Mini taça SVG no header -->
+      <svg class="header-logo-mark" viewBox="0 0 44 54" fill="none">
+        <path d="M12 8Q10 22 15 31Q20 38 22 40Q24 38 29 31Q34 22 32 8Z"
+              stroke="#7A1F26" stroke-width="1.5" fill="rgba(122,31,38,.15)" stroke-linejoin="round"/>
+        <path d="M22 40L21.2 46M22 40L22.8 46M21.2 46L22.8 46"
+              stroke="#7A1F26" stroke-width="1.1" stroke-linecap="round"/>
+        <path d="M15 50Q22 47 29 50" stroke="#7A1F26" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+        <path d="M15 50Q12 43 15 50" stroke="#7A1F26" stroke-width="1.2" fill="none"/>
+        <path d="M29 50Q32 43 29 50" stroke="#7A1F26" stroke-width="1.2" fill="none"/>
+        <g transform="translate(22,16)" opacity=".9">
+          <path d="M0,-5.5L.7,-1.8L3.5,-3L1.5,-.5L5.5,0L1.5,.5L3.5,3L.7,1.8L0,5.5L-.7,1.8L-3.5,3L-1.5,.5L-5.5,0L-1.5,-.5L-3.5,-3L-.7,-1.8Z"
+                fill="#D4AF37" opacity=".9"/>
+          <circle r="1.2" fill="#D4AF37"/>
+        </g>
+      </svg>
+      <div class="header-brand">Vino<span>Bianco</span></div>
+    </div>
+
+    <div class="player-chip">
+      <div class="player-info">
+        <div class="player-name">Sommelier</div>
+        <div class="xp-bar-wrap">
+          <div class="xp-label">XP</div>
+          <div class="xp-bar"><div class="xp-fill"></div></div>
+          <div class="xp-label">420 / 1000</div>
+        </div>
+      </div>
+      <div class="level-badge">3</div>
+    </div>
+  </header>
+
+  <!-- ══ CENTRO — TAÇA HERO ══ -->
+  <main class="center">
+    <div class="glass-hero">
+      <div class="glass-halo"></div>
+      <div class="glass-ring1"></div>
+      <div class="glass-ring2"></div>
+      <canvas id="glassCanvas"></canvas>
+    </div>
+
+    <div class="brand">
+      <div class="brand-name">
+        <span class="brand-vino">Vino</span><span class="brand-bianco">Bianco</span>
+      </div>
+      <span class="brand-sub">Wine Master</span>
+    </div>
+
+    <div class="gold-rule"></div>
+
+    <div class="play-cta">
+      <button class="play-btn">▶ &nbsp; Jogar Agora</button>
+    </div>
+  </main>
+
+  <!-- ══ RODAPÉ — MODOS + MISSÃO ══ -->
+  <footer class="footer">
+    <div class="modes-label">Modos de Jogo</div>
+    <div class="modes-grid">
+      <div class="mode-card">
+        <div class="mode-icon">🍷</div>
+        <div class="mode-title">Quiz</div>
+        <div class="mode-desc">5 000 perguntas</div>
+      </div>
+      <div class="mode-card">
+        <div class="mode-icon">🗺</div>
+        <div class="mode-title">Atlas</div>
+        <div class="mode-desc">Regiões do mundo</div>
+      </div>
+      <div class="mode-card">
+        <div class="mode-icon">🏆</div>
+        <div class="mode-title">Conquistas</div>
+        <div class="mode-desc">Medalhas & níveis</div>
+      </div>
+      <div class="mode-card">
+        <div class="mode-icon">👑</div>
+        <div class="mode-title">Ranking</div>
+        <div class="mode-desc">Top sommeliers</div>
+      </div>
+    </div>
+    <div class="daily-mission">
+      <div class="mission-icon">🎯</div>
+      <div class="mission-text">
+        <div class="mission-label">Missão do Dia</div>
+        <div class="mission-desc">Identifique 3 regiões da França no Atlas</div>
+      </div>
+      <div class="mission-xp">+150 XP</div>
+    </div>
+  </footer>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════
+//  TAÇA HERO — Canvas 2D de alta fidelidade
+//  Reprodução detalhada do logo VinoBianco:
+//  • Forma Borgonha com gradiente vitreo
+//  • Vinho enchendo com superfície líquida animada
+//  • Cena interior: 3 camadas de colinas, perspectiva
+//  • 8 fileiras de vinhedo com linhas de convergência
+//  • 4 ciprestes animados individualmente
+//  • Estrela de 8 pontas com rotação suave
+//  • Reflexos de luz na borda esquerda e direita
+//  • Bolhas mínimas na superfície do vinho
+// ══════════════════════════════════════════════════
+(function(){
+  const canvas = document.getElementById('glassCanvas');
+  const ctx = canvas.getContext('2d');
+
+  // Dimensão base do desenho
+  const CW = 440, CH = 540;
+  // Fator de escala (resoluções HiDPI)
+  const DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  // Aplicar tamanho CSS via clamp lido do estilo
+  function setCSSSize(){
+    const vw = window.innerWidth;
+    const px = Math.min(Math.max(180, vw * .38), 320);
+    canvas.style.width  = px + 'px';
+    canvas.style.height = (px * CH / CW) + 'px';
+  }
+  setCSSSize();
+  window.addEventListener('resize', setCSSSize);
+
+  // Resolução física
+  canvas.width  = CW * DPR;
+  canvas.height = CH * DPR;
+  ctx.scale(DPR, DPR);
+
+  // ── Geometria da taça (coordenadas base 440×540) ──
+  // A taça está centralizada em x=220
+  // Borda superior da abertura: y=30 (rim), largura 200 (x110 a x330)
+  // Ponto mais largo do bojo: y≈200, largura 220 (x100 a x340)  [suave Borgonha]
+  // Ponto de convergência para o caule: y=340, largura 24 (x208 a x232)
+  // Caule: y=340 a y=430, largura ~14
+  // Base: y=430 a y=450, largura 140 (x150 a x290)
+
+  // Curva de Bezier para o lado esquerdo da taça:
+  //   M 172,30   (borda esquerda do rim)
+  //   C 132,30  100,90  100,200   (curva para baixo até ponto mais largo)
+  //   C 100,280  110,320  208,340 (curva para caule)
+
+  // Borda direita (espelhada):
+  //   M 268,30
+  //   C 308,30  340,90  340,200
+  //   C 340,280  330,320  232,340
+
+  function glassPath(c){
+    c.beginPath();
+    c.moveTo(172, 30);
+    c.bezierCurveTo(132, 30,  100,  90,  100, 200);
+    c.bezierCurveTo(100, 285, 110, 322,  208, 340);
+    c.lineTo(208, 340);
+    // Caule esquerdo
+    c.lineTo(204, 432);
+    // Base
+    c.bezierCurveTo(172, 432, 150, 442, 148, 450);
+    c.lineTo(292, 450);
+    c.bezierCurveTo(290, 442, 268, 432, 236, 432);
+    c.lineTo(232, 340);
+    // Lado direito de volta para o topo
+    c.bezierCurveTo(330, 322, 340, 285, 340, 200);
+    c.bezierCurveTo(340,  90,  308,  30,  268,  30);
+    c.closePath();
+  }
+
+  // Clip do interior da taça (um pouco menor para não vazar no stroke)
+  function interiorClipPath(c){
+    c.beginPath();
+    c.moveTo(178, 32);
+    c.bezierCurveTo(140, 32,  108,  92,  108, 200);
+    c.bezierCurveTo(108, 282, 116, 318,  210, 338);
+    c.bezierCurveTo(220, 340, 220, 340,  220, 340);
+    c.bezierCurveTo(220, 340, 220, 340,  230, 338);
+    c.bezierCurveTo(324, 318, 332, 282,  332, 200);
+    c.bezierCurveTo(332,  92,  300,  32,  262,  32);
+    c.closePath();
+  }
+
+  // ── Animação ──
+  let t = 0;          // frame counter
+  let wineLevel = 1;  // 1 = vazio (clip começa no topo), 0 = cheio
+  const FILL_FRAMES = 120; // frames para encher
+
+  // Bolhas na superfície
+  const bubbles = Array.from({length:12}, () => ({
+    x: 110 + Math.random() * 220,
+    y: 0, // será calculado
+    r: .8 + Math.random() * 1.6,
+    speed: .12 + Math.random() * .18,
+    phase: Math.random() * Math.PI * 2,
+  }));
+
+  // Estrela
+  let starAngle = 0;
+
+  // Cipreste sway offsets
+  const swayPhases = [0, 1.3, .8, 2.1];
+  const swayAmps   = [1.8, 2.2, 2.0, 1.6];
+
+  function draw(){
+    ctx.clearRect(0, 0, CW, CH);
+    t++;
+
+    // ── Enche o vinho ──
+    if(wineLevel > 0) wineLevel = Math.max(0, wineLevel - (1 / FILL_FRAMES));
+
+    // Y da superfície do vinho (0=topo da taça, cresce para baixo)
+    // A taça tem conteúdo de y=32 a y=338 (~306px de altura)
+    const wineTopY = 32 + wineLevel * 306;
+
+    // ── FUNDO DA TAÇA (corpo vitreo) ──
+    ctx.save();
+    glassPath(ctx);
+    ctx.clip();
+
+    // Corpo vitreo (semi-transparente escuro)
+    const bodyGrad = ctx.createLinearGradient(100, 30, 340, 340);
+    bodyGrad.addColorStop(0,   'rgba(30,6,8,.35)');
+    bodyGrad.addColorStop(.5,  'rgba(20,4,6,.5)');
+    bodyGrad.addColorStop(1,   'rgba(10,2,4,.55)');
+    ctx.fillStyle = bodyGrad;
+    ctx.fill();
+    ctx.restore();
+
+    // ── VINHO ──
+    ctx.save();
+    interiorClipPath(ctx);
+    ctx.rect(0, wineTopY, CW, CH - wineTopY);
+    ctx.clip();
+
+    const wineGrad = ctx.createLinearGradient(100, wineTopY, 340, 340);
+    wineGrad.addColorStop(0,   'rgba(140,30,45,.72)');
+    wineGrad.addColorStop(.4,  'rgba(110,18,30,.82)');
+    wineGrad.addColorStop(1,   'rgba(60, 8,16,.9)');
+    ctx.fillStyle = wineGrad;
+    ctx.fillRect(0, wineTopY, CW, CH);
+    ctx.restore();
+
+    // ── SUPERFÍCIE DO VINHO (ondulação) ──
+    if(wineLevel < .98){
+      ctx.save();
+      interiorClipPath(ctx);
+      ctx.clip();
+
+      ctx.beginPath();
+      // Superfície elíptica com ondas suaves
+      const sy = wineTopY;
+      const wave = Math.sin(t * .04) * 2.5;
+      ctx.ellipse(220, sy + wave, 108, 5 + Math.abs(Math.sin(t*.035))*2, 0, 0, Math.PI * 2);
+      const surfGrad = ctx.createLinearGradient(110, sy-6, 330, sy+6);
+      surfGrad.addColorStop(0,   'rgba(212,175,55,.12)');
+      surfGrad.addColorStop(.5,  'rgba(180,70,90,.5)');
+      surfGrad.addColorStop(1,   'rgba(212,175,55,.12)');
+      ctx.fillStyle = surfGrad;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    // ── CENA DO VINHEDO (desenhada sobre o vinho) ──
+    ctx.save();
+    interiorClipPath(ctx);
+    ctx.clip();
+
+    // Limita a cena apenas na área acima do vinho
+    ctx.rect(0, 32, CW, 306);
+    ctx.clip();
+
+    // ── Colinas em camadas ──
+    // Colina 3 (fundo, mais clara)
+    ctx.beginPath();
+    ctx.moveTo(108, 280);
+    ctx.quadraticCurveTo(148, 248, 190, 238);
+    ctx.quadraticCurveTo(220, 232, 250, 238);
+    ctx.quadraticCurveTo(292, 248, 332, 280);
+    ctx.lineTo(332, 340); ctx.lineTo(108, 340); ctx.closePath();
+    ctx.fillStyle = 'rgba(122,31,38,.10)';
+    ctx.fill();
+
+    // Colina 2 (média)
+    ctx.beginPath();
+    ctx.moveTo(108, 300);
+    ctx.quadraticCurveTo(152, 268, 195, 258);
+    ctx.quadraticCurveTo(220, 252, 245, 258);
+    ctx.quadraticCurveTo(288, 268, 332, 300);
+    ctx.lineTo(332, 340); ctx.lineTo(108, 340); ctx.closePath();
+    ctx.fillStyle = 'rgba(122,31,38,.18)';
+    ctx.fill();
+
+    // Colina 1 (frente, mais escura)
+    ctx.beginPath();
+    ctx.moveTo(108, 318);
+    ctx.quadraticCurveTo(158, 290, 200, 282);
+    ctx.quadraticCurveTo(220, 278, 240, 282);
+    ctx.quadraticCurveTo(282, 290, 332, 318);
+    ctx.lineTo(332, 340); ctx.lineTo(108, 340); ctx.closePath();
+    ctx.fillStyle = 'rgba(122,31,38,.30)';
+    ctx.fill();
+
+    // ── Fileiras de vinhedo em perspectiva ──
+    // Ponto de fuga: x=220, y=250
+    // 8 colunas convergindo
+    const VP = {x: 220, y: 248}; // vanishing point
+    const rowCols = [
+      {bx: 132, by: 334}, {bx: 152, by: 334}, {bx: 172, by: 334},
+      {bx: 192, by: 334}, {bx: 248, by: 334}, {bx: 268, by: 334},
+      {bx: 288, by: 334}, {bx: 308, by: 334},
+    ];
+    ctx.strokeStyle = 'rgba(122,31,38,.45)';
+    ctx.lineWidth = .9;
+    rowCols.forEach(({bx, by}) => {
+      ctx.beginPath();
+      ctx.moveTo(bx, by);
+      // linha vai 60% do caminho até o VP
+      ctx.lineTo(VP.x + (bx - VP.x) * .28, VP.y + (by - VP.y) * .28);
+      ctx.stroke();
+    });
+
+    // Linhas horizontais das fileiras (3 linhas)
+    const rowYs = [320, 308, 296];
+    rowYs.forEach((ry, idx) => {
+      const frac = (ry - VP.y) / (334 - VP.y);
+      const hw = 108 * frac; // meia largura nessa y
+      ctx.beginPath();
+      ctx.moveTo(VP.x - hw, ry);
+      ctx.lineTo(VP.x + hw, ry);
+      ctx.strokeStyle = `rgba(122,31,38,${.35 - idx*.06})`;
+      ctx.lineWidth = .8;
+      ctx.stroke();
+    });
+
+    // ── Ciprestes (4) com sway ──
+    const cypresses = [
+      {x: 168, baseY: 280, h: 52, rx: 7, ry: 14, idx: 0},
+      {x: 196, baseY: 272, h: 62, rx: 8, ry: 17, idx: 1},
+      {x: 244, baseY: 272, h: 62, rx: 8, ry: 17, idx: 2},
+      {x: 272, baseY: 280, h: 52, rx: 7, ry: 14, idx: 3},
+    ];
+    cypresses.forEach(({x, baseY, h, rx, ry, idx}) => {
+      const sway = Math.sin(t * .025 + swayPhases[idx]) * swayAmps[idx];
+      ctx.save();
+      ctx.translate(x, baseY);
+      ctx.rotate(sway * Math.PI / 180);
+      // Tronco
+      ctx.strokeStyle = 'rgba(122,31,38,.75)';
+      ctx.lineWidth = 2.2;
+      ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      ctx.lineTo(0, -h * .35);
+      ctx.stroke();
+      // Copa elíptica
+      const copGrad = ctx.createRadialGradient(0, -h * .7, 2, 0, -h * .6, rx * 1.4);
+      copGrad.addColorStop(0,   'rgba(122,31,38,.85)');
+      copGrad.addColorStop(1,   'rgba(80,12,20,.4)');
+      ctx.fillStyle = copGrad;
+      ctx.beginPath();
+      ctx.ellipse(0, -h * .7, rx, ry, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    });
+
+    ctx.restore(); // interiorClip
+
+    // ── ESTRELA DE 8 PONTAS (topo interior) ──
+    starAngle += .003;
+    ctx.save();
+    ctx.translate(220, 100);
+    ctx.rotate(starAngle);
+    // Brilho difuso atrás da estrela
+    const starGlow = ctx.createRadialGradient(0,0,0, 0,0,22);
+    starGlow.addColorStop(0,   'rgba(212,175,55,.22)');
+    starGlow.addColorStop(1,   'rgba(212,175,55,0)');
+    ctx.fillStyle = starGlow;
+    ctx.beginPath(); ctx.arc(0,0,22,0,Math.PI*2); ctx.fill();
+    // Pontas da estrela
+    ctx.fillStyle = 'rgba(212,175,55,.95)';
+    ctx.beginPath();
+    for(let i = 0; i < 16; i++){
+      const angle = (i * Math.PI) / 8;
+      const r = i % 2 === 0 ? 15 : 6;
+      const px = Math.cos(angle - Math.PI/2) * r;
+      const py = Math.sin(angle - Math.PI/2) * r;
+      i === 0 ? ctx.moveTo(px,py) : ctx.lineTo(px,py);
+    }
+    ctx.closePath(); ctx.fill();
+    // Círculo central
+    const centerGrad = ctx.createRadialGradient(0,0,0, 0,0,5);
+    centerGrad.addColorStop(0,  'rgba(255,245,200,1)');
+    centerGrad.addColorStop(.5, 'rgba(212,175,55,.9)');
+    centerGrad.addColorStop(1,  'rgba(212,175,55,0)');
+    ctx.fillStyle = centerGrad;
+    ctx.beginPath(); ctx.arc(0,0,5,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+
+    // ── STROKE DA TAÇA (principal, sobre tudo) ──
+    ctx.save();
+    ctx.strokeStyle = '#7A1F26';
+    ctx.lineWidth = 3;
+    ctx.lineJoin = 'round';
+    ctx.lineCap  = 'round';
+
+    // Sombra no stroke para profundidade
+    ctx.shadowColor = 'rgba(212,175,55,.15)';
+    ctx.shadowBlur  = 8;
+
+    glassPath(ctx);
+    ctx.stroke();
+    ctx.restore();
+
+    // ── REFLEXO ESQUERDO (luz branca na borda) ──
+    ctx.save();
+    ctx.strokeStyle = 'rgba(212,175,55,.22)';
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(116, 38);
+    ctx.bezierCurveTo(104, 95, 106, 160, 118, 220);
+    ctx.stroke();
+
+    ctx.strokeStyle = 'rgba(255,245,230,.10)';
+    ctx.lineWidth = 1.2;
+    ctx.beginPath();
+    ctx.moveTo(120, 42);
+    ctx.bezierCurveTo(110, 96, 112, 155, 123, 210);
+    ctx.stroke();
+    ctx.restore();
+
+    // ── REFLEXO DIREITO (mais sutil) ──
+    ctx.save();
+    ctx.strokeStyle = 'rgba(122,31,38,.18)';
+    ctx.lineWidth = 1.5;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(324, 38);
+    ctx.bezierCurveTo(336, 95, 334, 160, 322, 220);
+    ctx.stroke();
+    ctx.restore();
+
+    // ── BOLHAS NA SUPERFÍCIE DO VINHO ──
+    if(wineLevel < .5){
+      ctx.save();
+      interiorClipPath(ctx);
+      ctx.clip();
+      bubbles.forEach(b => {
+        b.y = wineTopY - b.r - Math.abs(Math.sin(t * b.speed + b.phase)) * 4;
+        b.x += Math.sin(t * .02 + b.phase) * .15;
+        // mantém dentro da taça
+        if(b.x < 115) b.x = 115;
+        if(b.x > 325) b.x = 325;
+        const alpha = .2 + Math.sin(t * .04 + b.phase) * .1;
+        ctx.strokeStyle = `rgba(212,175,55,${alpha})`;
+        ctx.lineWidth = .7;
+        ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI*2); ctx.stroke();
+      });
+      ctx.restore();
+    }
+
+    // ── BRILHO SUPERFICIAL NO TOPO DA TAÇA (rimlight) ──
+    ctx.save();
+    const rimGrad = ctx.createLinearGradient(172, 30, 268, 30);
+    rimGrad.addColorStop(0,   'rgba(212,175,55,0)');
+    rimGrad.addColorStop(.3,  'rgba(212,175,55,.18)');
+    rimGrad.addColorStop(.5,  'rgba(248,246,239,.28)');
+    rimGrad.addColorStop(.7,  'rgba(212,175,55,.18)');
+    rimGrad.addColorStop(1,   'rgba(212,175,55,0)');
+    ctx.strokeStyle = rimGrad;
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(172, 30); ctx.lineTo(268, 30);
+    ctx.stroke();
+    ctx.restore();
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// ══ PARTÍCULAS AMBIENTE (bgCanvas) ══
+(function(){
+  const canvas = document.getElementById('bgCanvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, parts = [];
+  const DPR = Math.min(window.devicePixelRatio||1,2);
+
+  function resize(){
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    canvas.style.width = W+'px'; canvas.style.height = H+'px';
+    ctx.scale(DPR, DPR);
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function mkPart(){
+    const gold = Math.random() > .35;
+    return {
+      x: Math.random()*W, y: H + Math.random()*80,
+      s: Math.random()*2.8 + 1,
+      spd: Math.random()*.5 + .2,
+      op: 0, mop: Math.random()*.4 + .12,
+      dx: (Math.random()-.5)*.5,
+      col: gold ? [212,175,55] : [160,40,55],
+      ph: Math.random()*Math.PI*2, wf: Math.random()*.015+.007, wa: Math.random()*1
+    };
+  }
+  for(let i=0;i<32;i++){const p=mkPart();p.y=Math.random()*H;parts.push(p);}
+
+  let f=0;
+  function tick(){
+    ctx.clearRect(0,0,W,H); f++;
+    parts.forEach((p,i)=>{
+      p.y-=p.spd; p.x+=p.dx+Math.sin(f*p.wf+p.ph)*p.wa;
+      const lp = 1-p.y/H;
+      if(lp<.12) p.op=(lp/.12)*p.mop;
+      else if(lp>.88) p.op=((1-lp)/.12)*p.mop;
+      else p.op=p.mop;
+      ctx.save(); ctx.globalAlpha=p.op;
+      const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.s*1.8);
+      g.addColorStop(0,`rgba(${p.col},1)`); g.addColorStop(1,`rgba(${p.col},0)`);
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,p.s*1.8,0,Math.PI*2); ctx.fill();
+      ctx.restore();
+      if(p.y<-15) parts[i]=mkPart();
+    });
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>
