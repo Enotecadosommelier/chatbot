@@ -533,13 +533,181 @@ const PERGUNTAS = [
     opts:['Ruby','Vintage','LBV (Late Bottled Vintage)','Tawny'],
     ok:3,
     fb:{title:'✓ Correto! Tawny é o estilo oxidativo.',body:'O Porto Tawny envelhece em tonéis pequenos por 10, 20, 30 ou 40 anos. O contato com ar transforma a cor de rubi para âmbar tostado. Desenvolve sabores de amêndoas, figo, caramelo e casca de laranja.'}
+  },
+  {
+    cat:'Portugal', dif:2, xp:20,
+    p:'O Alvarinho cultivado em Monção e Melgaço difere do restante do Vinho Verde. O que o torna especial?',
+    opts:['É um vinho tinto encorpado da sub-região','Produz vinhos mais estruturados, aromáticos e com maior potencial de guarda','É o único vinho português autorizado a ser espumante','Tem obrigatoriamente passagem em carvalho francês'],
+    ok:1,
+    fb:{title:'✓ Excelente! Alvarinho superior.',body:'O microclima de Monção e Melgaço, mais seco e quente que o restante do Vinho Verde, permite que o Alvarinho amadureça plenamente, gerando vinhos com corpo, aromas intensos de pêssego e damasco, e acidez vibrante — superiores em complexidade e longevidade.'}
+  },
+  {
+    cat:'Vinificação', dif:3, xp:30,
+    p:'O que é a fermentação maloláctica (FML) e qual o seu principal efeito nos vinhos brancos?',
+    opts:['Converte açúcares em álcool, aumentando a graduação','Converte ácido málico em ácido láctico, reduzindo a acidez e adicionando cremosidade','Elimina o dióxido de enxofre residual do vinho','Transforma taninos agressivos em compostos mais macios'],
+    ok:1,
+    fb:{title:'✓ Correto! FML = cremosidade.',body:'Na FML, bactérias lácticas convertem o ácido málico (verde, agressivo) em ácido láctico (suave, leitoso). Em Chardonnay é usada deliberadamente para criar textura amanteigada e notas de baunilha — o estilo "Borgonha". Em vinhos com acidez delicada como Riesling, é geralmente bloqueada.'}
+  },
+  {
+    cat:'Espumante', dif:2, xp:25,
+    p:'Na escala de dosagem do Champagne, o que significa "Brut Nature" (ou Zero Dosage)?',
+    opts:['Vinho com açúcar residual entre 12 e 17 g/L','Espumante sem açúcar adicionado — máximo 3 g/L naturais','Champagne produzido sem sulfitos','Vinho base não fermentado em barril'],
+    ok:1,
+    fb:{title:'✓ Brut Nature = pureza total.',body:'O Brut Nature é o estilo mais seco do Champagne: nenhum açúcar (licor de expedição) é adicionado na última etapa. Com máximo 3 g/L de açúcar natural, o vinho revela toda a acidez e mineralidade das uvas — estilo exigente que requer excelente ano de colheita.'}
+  },
+  {
+    cat:'Casta', dif:3, xp:35,
+    p:'O Pinot Noir é considerado uma das uvas mais difíceis de cultivar. Por que a viticultura exige tanto cuidado?',
+    opts:['Requer climas muito quentes e secos para amadurecer bem','Tem casca fina, amadurece cedo e é suscetível a pragas e doenças fúngicas','Produz cachos enormes e precisa de muito espaço','Só cresce em solos argilosos pesados de origem vulcânica'],
+    ok:1,
+    fb:{title:'✓ Casca fina = sensibilidade máxima.',body:'A casca fina do Pinot Noir o torna vulnerável a botrytis, oídio e podridão. Amadurece cedo demais em climas quentes e tarda em regiões frias. É caprichoso, mas nos terroirs certos (Côte d\'Or, Oregon, Sonoma Coast) produz os vinhos tintos mais elegantes do mundo.'}
+  },
+  {
+    cat:'Espanha', dif:3, xp:30,
+    p:'O Sherry "en rama" é uma versão especial do fino/manzanilla. O que o diferencia dos estilos convencionais?',
+    opts:['É produzido apenas com uva Palomino Fino sem flor de levedura','Recebe filtração e estabilização mínimas, preservando a flor viva e caráter bruto','É envelhecido por mais de 30 anos no sistema solera','Provém exclusivamente de Jerez de la Frontera, não de Sanlúcar'],
+    ok:1,
+    fb:{title:'✓ En rama = vinho vivo!',body:'O en rama passa por filtragem mínima ou nenhuma, conservando a flor de levedura (véu de leveduras) e compostos que normalmente são removidos. O resultado é um Sherry mais intenso, com textura e complexidade únicas — sazonal, fresco e de longevidade limitada após abertura.'}
+  },
+  {
+    cat:'Itália', dif:3, xp:30,
+    p:'O Amarone della Valpolicella é produzido com uvas passificadas. Como se chama esse processo de secagem?',
+    opts:['Cryo-extração','Appassimento','Maceração pelicular','Estufagem'],
+    ok:1,
+    fb:{title:'✓ Appassimento — a magia do Amarone.',body:'No appassimento, os cachos de Corvina, Rondinella e Corvinone são colocados em esteiras de bambu (arele) por 90 a 120 dias. Perdem 30–40% do peso em água, concentrando açúcares, taninos e aromas. O resultado é um vinho de 15–17% álcool, rico e aveludado.'}
+  },
+  {
+    cat:'França', dif:2, xp:25,
+    p:'Chablis, no norte da Borgonha, é famoso por Chardonnays sem madeira. Qual tipo de solo define seu perfil mineral?',
+    opts:['Granito e areia','Calcário Kimmeridgiano com fósseis de ostras','Argila vermelha de origem vulcânica','Xisto e ardósia'],
+    ok:1,
+    fb:{title:'✓ Kimmeridgiano = Chablis clássico.',body:'O solo de Chablis é composto por calcário marinho do período Jurássico (Kimmeridgiano), rico em fósseis de ostras. Essa origem dá ao Chardonnay de Chablis seu caráter mineral único, com notas de pederneira e acidez cortante — completamente diferente das versões amanteigadas de climas mais quentes.'}
+  },
+  {
+    cat:'Itália', dif:4, xp:40,
+    p:'O Brunello di Montalcino DOCG exige envelhecimento longo antes do lançamento. Qual o mínimo para a versão "Riserva"?',
+    opts:['2 anos total, incluindo 6 meses em barril','5 anos total, incluindo 2 anos em carvalho e 6 meses em garrafa','6 anos total, incluindo 3 anos em carvalho grande e 2 em garrafa','4 anos total, incluindo 1 ano em barrique francesa'],
+    ok:2,
+    fb:{title:'✓ Brunello Riserva = paciência máxima.',body:'O Brunello di Montalcino Riserva obriga 6 anos de envelhecimento: pelo menos 3 anos em botti grandes de carvalho, 4 meses em barril menor opcional, e 2 anos em garrafa. É um dos maiores períodos de maturação obrigatória do mundo — e um dos vinhos mais longevos da Itália.'}
+  },
+  {
+    cat:'Denominação', dif:2, xp:20,
+    p:'O que significa a sigla DOP (Denominação de Origem Protegida) no contexto do vinho europeu?',
+    opts:['Vinho exportado para países fora da União Europeia','Categoria que garante que uvas e vinificação ocorrem em região geográfica definida com regras estritas','Vinho com adição de aguardente para aumentar graduação','Classificação reservada apenas a vinhos espumantes premium'],
+    ok:1,
+    fb:{title:'✓ DOP = origem e qualidade garantidas.',body:'A DOP é o nível mais elevado de proteção geográfica da UE para vinhos (substitui termos nacionais como AOC, DOC, DOCG). Garante que uvas são cultivadas, colhidas e vinificadas dentro de uma região específica, seguindo regras de casta, rendimento máximo e práticas enológicas estabelecidas.'}
+  },
+  {
+    cat:'Argentina', dif:2, xp:20,
+    p:'O Torrontés é a casta branca mais característica da Argentina. Qual região é considerada sua referência máxima?',
+    opts:['Mendoza, na pré-Cordilheira','Salta — especialmente Cafayate','Rio Negro, na Patagônia','San Juan, no vale do Tulum'],
+    ok:1,
+    fb:{title:'✓ Salta produz o melhor Torrontés.',body:'Os vinhedos de altitude em Cafayate, Salta, produzem Torrontés Riojano com aromas florais intensíssimos (rosa, pêssego, lichia) e acidez fresca que equilibra o perfil aromático exuberante. A altitude de 1700–2000m é essencial para preservar a frescura.'}
+  },
+  {
+    cat:'Portugal', dif:1, xp:15,
+    p:'Por que o Vinho Verde é colhido tão cedo, ainda ligeiramente ácido e com baixo álcool?',
+    opts:['A legislação proíbe colheita após setembro','O clima atlântico úmido e frio do Noroeste de Portugal dificulta a maturação completa das uvas','As uvas são deliberadamente cortadas antes de amadurecer por tradição histórica','O solo granítico impede acumulação de açúcar nas uvas'],
+    ok:1,
+    fb:{title:'✓ Clima atlântico define o Vinho Verde.',body:'A região do Minho tem verões chuvosos e invernos amenos — o clima atlântico não permite maturação completa. As uvas são colhidas cedo, com acidez alta e álcool baixo (8–11%), produzindo vinhos leves e refrescantes, tipicamente com leve efervescência natural.'}
+  },
+  {
+    cat:'França', dif:3, xp:35,
+    p:'A Botrytis cinerea, quando benigna, produz vinhos doces icônicos. Em quais regiões ela cria os chamados "vinhos nobres"?',
+    opts:['Burgundy (Borgonha) e Alsácia','Sauternes (França), Tokaji (Hungria) e algumas regiões da Alemanha','Champagne e Loire Valley','Languedoc-Roussillon e Provence'],
+    ok:1,
+    fb:{title:'✓ Botrytis nobre = concentração extrema.',body:'A Botrytis cinerea "nobre" (podridão nobre) perfura a casca das uvas, evaporando água e concentrando açúcares e glicerol. Em Sauternes cria o icônico Château d\'Yquem. Em Tokaji produz o Aszú. Na Alemanha gera Trockenbeerenauslese — vinhos raros, caríssimos e de décadas de longevidade.'}
+  },
+  {
+    cat:'Casta', dif:2, xp:20,
+    p:'O Tempranillo espanhol é chamado por outros nomes em Portugal. Como é conhecido no Douro e no Alentejo?',
+    opts:['Touriga Nacional e Trincadeira','Aragonez (Alentejo) e Tinta Roriz (Douro)','Baga e Castelão','Moreto e João de Santarém'],
+    ok:1,
+    fb:{title:'✓ Tinta Roriz / Aragonez = Tempranillo!',body:'O Tempranillo cruzou os Pirinéus há séculos. No Douro é chamado Tinta Roriz, essencial nos blends de vinho do Porto e tintos do Douro. No Alentejo chama-se Aragonez. Genéticamente idênticos ao Tempranillo da Rioja — demonstrando como as castas viajam e ganham novos nomes.'}
+  },
+  {
+    cat:'Conceito', dif:2, xp:20,
+    p:'O conceito de "terroir" é central na filosofia do vinho europeu. O que ele engloba?',
+    opts:['Apenas o tipo de solo onde as vinhas crescem','Conjunto de solo, clima, topografia, microclima e interferência humana que dão identidade única a um vinho','Somente o ano de colheita e as condições meteorológicas','A técnica de vinificação exclusiva de cada produtor'],
+    ok:1,
+    fb:{title:'✓ Terroir: muito mais que solo.',body:'Terroir é um conceito francês que abrange tudo o que dá singularidade ao vinho: solo e subsolo, clima regional e microclima, altitude, orientação dos vinhedos, humidade, tradição local e toque humano. É o motivo pelo qual dois Pinot Noir da Borgonha separados por 200m têm sabores completamente distintos.'}
+  },
+  {
+    cat:'Casta', dif:3, xp:30,
+    p:'O Gewurztraminer é uma das castas mais perfumadas do mundo. Quais aromas são sua assinatura inconfundível?',
+    opts:['Maçã verde, limão e erva-cidreira','Rosa, lichia, canela e pétalas de flor de laranjeira','Cassis, amora e violeta intensa','Baunilha, coco e manteiga de carvalho'],
+    ok:1,
+    fb:{title:'✓ Gewurz = explosão aromática!',body:'O Gewurztraminer (gewurz = especiaria em alemão) produz aromas inconfundíveis: rosa, lichia, cravo, canela e gengibre. Ao palato é oleoso, com baixa acidez e álcool elevado. A Alsácia é sua pátria — aí produz versões desde secas até Vendanges Tardives extraordinariamente complexas.'}
+  },
+  {
+    cat:'França', dif:3, xp:35,
+    p:'A Borgonha tem um sistema de classificação dos vinhedos em pirâmide. Da base ao topo, qual é a ordem correta?',
+    opts:['Premier Cru → Village → Grand Cru → Regional','Regional → Village → Premier Cru → Grand Cru','Village → Regional → Premier Cru → Grand Cru','Grand Cru → Premier Cru → Village → Regional'],
+    ok:1,
+    fb:{title:'✓ Pirâmide da Borgonha dominada!',body:'A hierarquia da Borgonha vai de vinho regional (base, mais amplo) → Village (aldeia específica) → Premier Cru (vinhedos de excelência, 562 ao total) → Grand Cru (topo, apenas 33 vinhedos, ex.: Romanée-Conti, Chambertin). O preço e a raridade aumentam exponencialmente nessa direção.'}
+  },
+  {
+    cat:'Espumante', dif:2, xp:20,
+    p:'O Prosecco italiano usa o método Charmat (Martinotti). Como ele difere do método tradicional do Champagne?',
+    opts:['O Prosecco fermenta em barrica de carvalho; o Champagne em tanques de inox','A segunda fermentação ocorre em grandes tanques de aço, não em cada garrafa individualmente','O Prosecco não passa por dosagem; o Champagne obrigatoriamente usa licor de expedição','O método Charmat elimina os sedimentos mecanicamente; o Champagne usa filtração a frio'],
+    ok:1,
+    fb:{title:'✓ Tanque vs. garrafa: a diferença essencial.',body:'No método Charmat (tank method), a segunda fermentação ocorre em grandes autoclaves pressurizadas. É mais rápido, econômico e preserva aromas frescos e frutados — ideal para o Prosecco com sua Glera floral. No método tradicional, a segunda fermentação ocorre em cada garrafa por meses/anos, criando borbulhas mais finas e complexidade autolítica.'}
+  },
+  {
+    cat:'Casta', dif:3, xp:30,
+    p:'O Tannat é a uva tânica emblemática de uma região sul-americana. De onde ele é originário na Europa e onde brilha nas Américas?',
+    opts:['Originário da Borgonha; cultivado no Chile como Gran Reserva','Originário do sudoeste da França (Madiran); casta nacional do Uruguai','Originário da Espanha (Priorat); cultivado no Brasil na Serra Gaúcha','Originário de Portugal (Alentejo); presente no noroeste argentino'],
+    ok:1,
+    fb:{title:'✓ Tannat: de Madiran ao Uruguai.',body:'O Tannat vem de Madiran, no sudoeste da França, onde produz vinhos duros que precisam de anos para abrir. No Uruguai tornou-se casta nacional: o clima oceânico de Montevidéu suaviza os taninos, criando vinhos mais acessíveis mas igualmente estruturados. Rico em polifenóis — um dos vinhos com maior potencial cardioprotetor.'}
+  },
+  {
+    cat:'Vinificação', dif:3, xp:35,
+    p:'A maceração carbônica é utilizada na vinificação do Beaujolais Nouveau. O que a diferencia da fermentação convencional?',
+    opts:['As uvas são prensadas antes de qualquer fermentação para extrair sumo limpo','A fermentação ocorre dentro de cada grão de uva inteiro, em atmosfera de CO₂, sem esmagamento prévio','Utiliza leveduras selvagens exclusivas das caves graníticas do Beaujolais','O processo extrai máxima quantidade de taninos e antocianinas para cor intensa'],
+    ok:1,
+    fb:{title:'✓ Fermentação intracelular = frescura!',body:'Na maceração carbônica, cachos inteiros não esmagados são colocados em tanque saturado de CO₂. Cada bago fermenta internamente (fermentação intracelular), produzindo álcool sem extração tânica. O resultado: vinhos levíssimos, com aromas de banana, bala de morango e cereja fresca — o perfil do Beaujolais Nouveau, bebível semanas após a colheita.'}
+  },
+  {
+    cat:'Itália', dif:3, xp:30,
+    p:'O Chianti Classico DOCG exige percentagem mínima de qual casta toscana?',
+    opts:['Mínimo 50% Sangiovese','Mínimo 70% Barbera di Toscana','Mínimo 80% Sangiovese','100% Nebbiolo di Toscana'],
+    ok:2,
+    fb:{title:'✓ 80% Sangiovese mínimo!',body:'O Chianti Classico DOCG exige mínimo 80% de Sangiovese, podendo chegar a 100%. As uvas restantes (máx. 20%) podem ser castas autóctones toscanas ou internacionais. Na categoria Gran Selezione, exige-se 100% Sangiovese de vinhedos únicos — o nível mais elevado da denominação.'}
+  },
+  {
+    cat:'Conceito', dif:1, xp:15,
+    p:'Qual é a uva branca mais plantada no mundo, segundo dados do OIV?',
+    opts:['Chardonnay','Riesling','Airén','Sauvignon Blanc'],
+    ok:2,
+    fb:{title:'✓ Airén: a uva mais plantada!',body:'O Airén é a casta branca mais plantada globalmente — produz vinhos simples na Espanha, especialmente em Castilla-La Mancha, mas ocupa área enorme por ser rústica e resistente à seca. Surpreende descobrir que supera o Chardonnay e o Riesling em hectares plantados.'}
+  },
+  {
+    cat:'Espumante', dif:4, xp:40,
+    p:'O Ice Wine (Eiswein) canadense e alemão é produzido de forma única. O que define sua produção?',
+    opts:['Uvas colhidas normalmente e depois congeladas em câmara frigorífica industrial','Uvas colhidas congeladas na videira (a -8°C ou menos), prensadas a frio para extrair mosto super-concentrado','Vinho base congelado parcialmente para remover água e concentrar açúcar','Mosto congelado antes da fermentação para reter açúcares naturais'],
+    ok:1,
+    fb:{title:'✓ Uvas colhidas congeladas na videira!',body:'O Ice Wine autêntico exige colheita manual das uvas ainda congeladas na videira, geralmente em madrugadas de dezembro/janeiro com -8°C ou menos. A água dentro das uvas congela, mas os açúcares concentrados permanecem líquidos. A prensagem extrai mosto minúsculo mas extremamente rico — produção de 10 a 20% do normal.'}
+  },
+  {
+    cat:'Brasil', dif:3, xp:30,
+    p:'A Campanha Gaúcha é uma nova fronteira do vinho brasileiro. O que distingue seu terroir da Serra Gaúcha?',
+    opts:['Solo vulcânico e altitude acima de 800m, similar a Mendoza','Clima mais quente e seco, solo argilo-calcário, e colheita em fevereiro — ideal para tintos encorpados','Solo granítico e clima atlântico úmido, favorecendo espumantes de acidez fina','Localização em altitude de 1200m no Planalto Central com geadas tardias'],
+    ok:1,
+    fb:{title:'✓ Campanha: o futuro do tinto brasileiro.',body:'A Campanha Gaúcha, na fronteira com o Uruguai e Argentina, tem clima mais quente e seco que a Serra Gaúcha. O solo argilo-calcário e a amplitude térmica favorecem tintos com estrutura — Merlot, Tannat, Cabernet Franc e Touriga Nacional ganham corpo e concentração únicos. A colheita em fevereiro permite maturação fenólica completa.'}
+  },
+  {
+    cat:'Brasil', dif:3, xp:30,
+    p:'O Moscato Giallo da Serra Gaúcha produz espumantes de estilo único no Brasil. Qual é sua principal característica?',
+    opts:['Espumante seco com alta acidez e notas de pederneira, similar ao Chablis','Espumante levemente doce, de baixo álcool, com aromas florais e de pêssego — leveza e frescura','Espumante extra-brut com passagem longa sobre as lias, de estilo champenoise','Vinho tranquilo branco tardio com notas de mel e damasco seco'],
+    ok:1,
+    fb:{title:'✓ Moscato Giallo: a joia da Serra.',body:'O Moscato Giallo na Serra Gaúcha produz espumantes Moscatel com graduação de 7–9%, levemente doces, com aromas explosivos de pêssego, laranjeira em flor e mel de acácia. A Vinícola Miolo, Aurora e Cave de Amadeu são referências. Perfeito como aperitivo ou com sobremesas leves — e um dos mais vendidos do Brasil.'}
   }
 ];
 
 /* ════════════════════════════════════════════
    GAME STATE
 ════════════════════════════════════════════ */
-let qi=0, lives=3, xp=0, streak=0, maxStreak=0, acertos=0;
+let qi=0, lives=3, xp=0, streak=0, maxStreak=0, acertos=0, currentCorrectIdx=0;
 let state='idle';
 let timerVal=30, timerInterval=null;
 const CIRC=100.5;
@@ -581,10 +749,13 @@ function loadQ(){
   else{sb.classList.remove('show')}
   const oc=document.getElementById('optionsContainer');
   oc.innerHTML='';
+  const shuffled=[...q.opts].map((text,i)=>({text,correct:i===q.ok}));
+  for(let i=shuffled.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[shuffled[i],shuffled[j]]=[shuffled[j],shuffled[i]];}
+  currentCorrectIdx=shuffled.findIndex(o=>o.correct);
   ['A','B','C','D'].forEach((k,i)=>{
     const btn=document.createElement('button');
     btn.className='opt';
-    btn.innerHTML=`<span class="opt-key">${k}</span><span class="opt-text">${q.opts[i]}</span>`;
+    btn.innerHTML=`<span class="opt-key">${k}</span><span class="opt-text">${shuffled[i].text}</span>`;
     btn.onclick=()=>answer(i,btn);
     oc.appendChild(btn);
   });
@@ -625,7 +796,7 @@ function answer(idx,btn){
   const q=PERGUNTAS[qi];
   document.querySelectorAll('.opt').forEach(o=>o.disabled=true);
   btn.classList.add('selected');
-  if(idx===q.ok){
+  if(idx===currentCorrectIdx){
     setTimeout(()=>{btn.classList.remove('selected');btn.classList.add('correct');},120);
     const mult=streak>=3?2:streak>=2?1.5:1;
     const earned=Math.round(q.xp*mult);
@@ -644,7 +815,7 @@ function answer(idx,btn){
   showNext();
 }
 
-function revealAnswer(){document.querySelectorAll('.opt')[PERGUNTAS[qi].ok].classList.add('reveal');}
+function revealAnswer(){document.querySelectorAll('.opt')[currentCorrectIdx].classList.add('reveal');}
 
 function showFeedback(type,title,body){
   const fb=document.getElementById('feedback');
