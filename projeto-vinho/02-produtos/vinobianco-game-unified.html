@@ -1,0 +1,1146 @@
+<title>VinoBianco Wine Master</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&display=swap">
+
+<style>
+/* ── GLOBAL SPA ── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ivory:#F8F6EF;--ivory2:#F0EDE3;--vinho:#7A1F26;--ouro:#D4AF37;
+  --dark:#0D0608;--dark2:#1A0E10;--border:#D4C5B0;
+  --text:#2C1810;--text2:#5C4033;
+  color-scheme:light;
+}
+body{
+  font-family:'Montserrat',sans-serif;
+  background:var(--dark);
+  color:var(--text);
+  min-height:100dvh;
+  padding-left:max(0px,env(safe-area-inset-left,0px));
+  padding-right:max(0px,env(safe-area-inset-right,0px));
+}
+.vb-screen{
+  position:fixed;inset:0;
+  display:none;overflow:hidden;
+}
+.vb-screen.active{display:block}
+#sc-casta.active{overflow-y:auto;overflow-x:hidden}
+
+/* ── COVER SCREEN ── */
+#sc-cover{
+  background:#0D0608;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+#sc-cover canvas{position:absolute;inset:0;pointer-events:none}
+#sc-cover .cv-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;gap:24px}
+#sc-cover .cv-brand{display:flex;flex-direction:column;align-items:center;gap:8px}
+#sc-cover .cv-logo-text{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,6vw,3.5rem);
+  font-weight:700;color:#F8F6EF;letter-spacing:.08em;
+}
+#sc-cover .cv-tagline{
+  font-size:clamp(.65rem,2vw,.8rem);font-weight:500;
+  letter-spacing:.3em;text-transform:uppercase;color:#D4AF37;
+}
+#sc-cover .cv-glass-wrap{position:relative;width:160px;height:200px}
+#sc-cover .cv-play-btn{
+  cursor:pointer;border:none;outline:none;
+  background:linear-gradient(135deg,#7A1F26,#A52834);
+  color:#F8F6EF;font-family:'Montserrat',sans-serif;
+  font-size:1rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;
+  padding:14px 48px;border-radius:4px;
+  box-shadow:0 4px 24px rgba(122,31,38,.5);
+  transition:transform .15s,box-shadow .15s;
+}
+#sc-cover .cv-play-btn:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(122,31,38,.7)}
+#sc-cover .cv-footer{
+  position:absolute;bottom:24px;left:50%;transform:translateX(-50%);
+  font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:#5C3A3E;
+  white-space:nowrap;
+}
+
+/* ── HOME SCREEN ── */
+#sc-home{background:#0D0608;color:#F8F6EF}
+#sc-home canvas{position:absolute;inset:0;pointer-events:none;z-index:0}
+#sc-home .home-inner{position:relative;z-index:1;min-height:100dvh;display:flex;flex-direction:column}
+#sc-home .header{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:16px max(16px,env(safe-area-inset-left,0px));
+  padding-top:max(16px,env(safe-area-inset-top,0px));
+}
+#sc-home .header-logo{font-family:'Playfair Display',serif;font-size:1.4rem;color:#D4AF37;letter-spacing:.08em}
+#sc-home .xp-badge{
+  background:rgba(212,175,55,.15);border:1px solid rgba(212,175,55,.3);
+  border-radius:20px;padding:6px 14px;font-size:.75rem;font-weight:600;color:#D4AF37;
+}
+#sc-home .hero-section{
+  flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:20px max(16px,env(safe-area-inset-left,0px));gap:24px;
+}
+#sc-home .hero-glass{width:clamp(100px,22vw,160px);height:auto}
+#sc-home .hero-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.6rem,5vw,2.8rem);font-weight:700;
+  text-align:center;color:#F8F6EF;line-height:1.2;
+}
+#sc-home .hero-sub{
+  font-size:clamp(.7rem,2vw,.85rem);font-weight:400;
+  letter-spacing:.2em;text-transform:uppercase;color:#D4AF37;text-align:center;
+}
+#sc-home .modes-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:12px;
+  width:100%;max-width:520px;
+  padding:0 max(16px,env(safe-area-inset-left,0px)) 32px;
+}
+#sc-home .mode-card{
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);
+  border-radius:12px;padding:20px 12px;text-align:center;cursor:pointer;
+  transition:background .2s,transform .15s;
+  font-size:.8rem;font-weight:500;color:#F8F6EF;
+}
+#sc-home .mode-card:hover{background:rgba(212,175,55,.12);border-color:rgba(212,175,55,.4);transform:translateY(-2px)}
+
+/* ── QUIZ SCREEN ── */
+#sc-quiz{background:var(--ivory)}
+#sc-quiz .quiz-shell{
+  min-height:100dvh;display:flex;flex-direction:column;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-bottom,0px));
+  max-width:600px;margin:0 auto;width:100%;
+}
+#sc-quiz .q-header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+#sc-quiz .q-back{
+  background:none;border:1.5px solid var(--border);border-radius:8px;
+  padding:6px 14px;font-family:'Montserrat',sans-serif;font-size:.8rem;
+  color:var(--text2);cursor:pointer;
+}
+#sc-quiz .q-title{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--vinho);flex:1}
+#sc-quiz .lives-row{display:flex;gap:6px;margin-bottom:12px}
+#sc-quiz .life{font-size:1.1rem}
+#sc-quiz .timer-bar-wrap{height:6px;background:var(--ivory2);border-radius:3px;margin-bottom:20px;overflow:hidden}
+#sc-quiz .timer-bar{height:100%;background:var(--vinho);width:100%;transition:width .1s linear,background .3s}
+#sc-quiz .q-score{font-size:.75rem;font-weight:600;color:var(--text2);text-align:right;margin-bottom:8px}
+#sc-quiz .q-card{
+  background:#fff;border:1.5px solid var(--border);border-radius:16px;
+  padding:24px;margin-bottom:16px;
+  font-family:'Playfair Display',serif;font-size:1.05rem;color:var(--text);line-height:1.55;
+}
+#sc-quiz .q-cat{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.2em;color:var(--ouro);margin-bottom:8px}
+#sc-quiz .choices{display:flex;flex-direction:column;gap:10px}
+#sc-quiz .choice-btn{
+  background:#fff;border:1.5px solid var(--border);border-radius:10px;
+  padding:13px 16px;text-align:left;font-family:'Montserrat',sans-serif;
+  font-size:.88rem;color:var(--text);cursor:pointer;transition:all .15s;
+}
+#sc-quiz .choice-btn:hover:not(:disabled){border-color:var(--vinho);background:rgba(122,31,38,.04)}
+#sc-quiz .choice-btn.correct{background:#E8F5E9;border-color:#4CAF50;color:#1B5E20}
+#sc-quiz .choice-btn.wrong{background:#FFEBEE;border-color:#F44336;color:#B71C1C}
+#sc-quiz .choice-btn:disabled{opacity:.7;cursor:default}
+#sc-quiz .q-feedback{
+  min-height:48px;font-size:.82rem;line-height:1.5;color:var(--text2);
+  border-left:3px solid var(--ouro);padding-left:10px;margin-top:4px;
+}
+#sc-quiz .end-screen{
+  position:absolute;inset:0;background:var(--ivory);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-left,0px));
+  text-align:center;gap:16px;z-index:10;
+}
+#sc-quiz .end-screen.hidden{display:none}
+#sc-quiz .end-trophy{font-size:4rem}
+#sc-quiz .end-title{font-family:'Playfair Display',serif;font-size:1.8rem;color:var(--vinho)}
+#sc-quiz .end-xp{font-size:2rem;font-weight:700;color:var(--ouro)}
+#sc-quiz .btn-restart{
+  background:var(--vinho);color:#fff;border:none;border-radius:8px;
+  padding:12px 32px;font-family:'Montserrat',sans-serif;font-size:.9rem;font-weight:600;
+  cursor:pointer;
+}
+
+/* ── CASTA SCREEN ── */
+#sc-casta{background:var(--ivory)}
+#sc-casta .header{
+  position:sticky;top:0;z-index:10;
+  background:var(--ivory);border-bottom:1px solid var(--border);
+  padding:14px max(16px,env(safe-area-inset-left,0px));
+  padding-top:max(14px,env(safe-area-inset-top,0px));
+  display:flex;align-items:center;gap:12px;
+}
+#sc-casta .header h1{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--vinho);flex:1}
+#sc-casta .page-content{
+  padding:16px max(16px,env(safe-area-inset-left,0px));
+  padding-bottom:max(16px,env(safe-area-inset-bottom,0px));
+  max-width:600px;margin:0 auto;
+}
+#sc-casta .xp-bar-wrap{background:var(--ivory2);border-radius:4px;height:8px;margin-bottom:16px;overflow:hidden}
+#sc-casta .xp-bar{height:100%;background:linear-gradient(90deg,var(--vinho),var(--ouro));border-radius:4px;transition:width .4s}
+#sc-casta .xp-label{font-size:.72rem;font-weight:600;color:var(--text2);margin-bottom:12px}
+#sc-casta .casta-card{
+  background:#fff;border:1.5px solid var(--border);border-radius:14px;
+  padding:18px;margin-bottom:12px;display:flex;gap:14px;align-items:flex-start;cursor:pointer;
+  transition:all .2s;
+}
+#sc-casta .casta-card:hover{border-color:var(--vinho);box-shadow:0 2px 12px rgba(122,31,38,.08)}
+#sc-casta .casta-card.estudada{border-color:var(--ouro);background:#FFFDF5}
+#sc-casta .casta-icon{font-size:1.8rem;flex-shrink:0}
+#sc-casta .casta-info{flex:1;min-width:0}
+#sc-casta .casta-nome{font-family:'Playfair Display',serif;font-size:1rem;color:var(--vinho);font-weight:600}
+#sc-casta .casta-tipo{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.15em;color:var(--ouro);margin-bottom:6px}
+#sc-casta .casta-desc{font-size:.8rem;color:var(--text2);line-height:1.5}
+#sc-casta .casta-footer{display:flex;justify-content:space-between;align-items:center;margin-top:8px}
+#sc-casta .casta-regioes{font-size:.7rem;color:var(--text2)}
+#sc-casta .casta-check{font-size:.85rem;color:var(--ouro);font-weight:600}
+#sc-casta .casta-toast{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%);
+  background:var(--vinho);color:#fff;border-radius:24px;padding:10px 24px;
+  font-size:.82rem;font-weight:600;opacity:0;transition:opacity .3s;pointer-events:none;z-index:100;
+  white-space:nowrap;
+}
+#sc-casta .casta-toast.show{opacity:1}
+#sc-casta .bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--ivory);border-top:1px solid var(--border);
+  display:flex;padding:8px max(16px,env(safe-area-inset-left,0px));
+  padding-bottom:max(8px,env(safe-area-inset-bottom,0px));
+  gap:8px;z-index:20;
+}
+#sc-casta .bottom-nav button{
+  flex:1;background:none;border:1.5px solid var(--border);border-radius:10px;
+  padding:10px;font-family:'Montserrat',sans-serif;font-size:.78rem;font-weight:600;
+  color:var(--text2);cursor:pointer;transition:all .2s;
+}
+#sc-casta .bottom-nav button:hover{border-color:var(--vinho);color:var(--vinho)}
+#sc-casta .bottom-nav button.active-nav{background:var(--vinho);color:#fff;border-color:var(--vinho)}
+#sc-casta .casta-spacer{height:72px}
+
+/* ── REGIAO SCREEN ── */
+#sc-regiao{background:var(--ivory)}
+#sc-regiao .regiao-shell{
+  min-height:100dvh;display:flex;flex-direction:column;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-bottom,0px));
+  max-width:600px;margin:0 auto;width:100%;
+}
+#sc-regiao .header{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+#sc-regiao .header h1{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--vinho);flex:1}
+#sc-regiao .rv-lives-row{display:flex;gap:6px;margin-bottom:12px}
+#sc-regiao .rv-life{font-size:1.1rem}
+#sc-regiao .rv-score{font-size:.75rem;font-weight:600;color:var(--text2);text-align:right;margin-bottom:8px}
+#sc-regiao .rv-question{
+  font-family:'Playfair Display',serif;font-size:1rem;color:var(--text);
+  text-align:center;margin-bottom:12px;line-height:1.4;
+}
+#sc-regiao .map-container{border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:12px;background:#f5f5f0}
+#sc-regiao .map-container svg{width:100%;height:auto;display:block}
+#sc-regiao .rv-toast{
+  text-align:center;padding:10px;border-radius:8px;font-weight:600;font-size:.85rem;
+  margin-bottom:12px;transition:all .3s;min-height:40px;
+}
+#sc-regiao .rv-toast.ok{background:#E8F5E9;color:#1B5E20}
+#sc-regiao .rv-toast.err{background:#FFEBEE;color:#B71C1C}
+#sc-regiao .rv-overlay{
+  position:absolute;inset:0;background:rgba(248,246,239,.95);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:16px;padding:24px;text-align:center;z-index:10;
+}
+#sc-regiao .rv-overlay.hidden{display:none}
+#sc-regiao .ov-trophy{font-size:3.5rem}
+#sc-regiao .ov-title{font-family:'Playfair Display',serif;font-size:1.6rem;color:var(--vinho)}
+#sc-regiao .ov-xp{font-size:1.8rem;font-weight:700;color:var(--ouro)}
+#sc-regiao .ov-btn{
+  background:var(--vinho);color:#fff;border:none;border-radius:8px;
+  padding:12px 28px;font-family:'Montserrat',sans-serif;font-size:.9rem;font-weight:600;cursor:pointer;
+}
+
+/* ── RANKING SCREEN ── */
+#sc-ranking{background:var(--ivory)}
+#sc-ranking .rk-shell{
+  min-height:100dvh;display:flex;flex-direction:column;
+  max-width:600px;margin:0 auto;width:100%;
+}
+#sc-ranking .rk-header{
+  background:var(--vinho);color:#fff;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-left,0px)) 20px;
+  text-align:center;
+}
+#sc-ranking .rk-back{
+  position:absolute;top:max(16px,env(safe-area-inset-top,0px));left:max(16px,env(safe-area-inset-left,0px));
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:8px;
+  padding:6px 14px;color:#fff;font-size:.78rem;cursor:pointer;font-family:'Montserrat',sans-serif;
+}
+#sc-ranking .rk-title{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:4px}
+#sc-ranking .rk-sub{font-size:.75rem;opacity:.8;letter-spacing:.1em;text-transform:uppercase}
+#sc-ranking .rk-tabs{
+  display:flex;border-bottom:1px solid var(--border);
+  background:#fff;
+}
+#sc-ranking .rk-tab{
+  flex:1;padding:12px;text-align:center;font-size:.78rem;font-weight:600;
+  color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;
+}
+#sc-ranking .rk-tab.active{color:var(--vinho);border-bottom-color:var(--vinho)}
+#sc-ranking .rk-list{flex:1;overflow-y:auto;padding:12px max(16px,env(safe-area-inset-left,0px))}
+#sc-ranking .rk-row{
+  display:flex;align-items:center;gap:12px;
+  background:#fff;border:1.5px solid var(--border);border-radius:12px;
+  padding:14px;margin-bottom:8px;
+}
+#sc-ranking .rk-pos{font-size:1rem;font-weight:700;color:var(--ouro);width:28px;text-align:center}
+#sc-ranking .rk-avatar{font-size:1.4rem;width:32px;text-align:center}
+#sc-ranking .rk-info{flex:1;min-width:0}
+#sc-ranking .rk-name{font-weight:600;font-size:.9rem;color:var(--text)}
+#sc-ranking .rk-titulo{font-size:.7rem;color:var(--text2)}
+#sc-ranking .rk-xp{font-size:.85rem;font-weight:700;color:var(--vinho)}
+#sc-ranking .rk-you-row{
+  position:sticky;bottom:0;
+  background:var(--vinho);color:#fff;border-radius:12px;margin:0 max(16px,env(safe-area-inset-left,0px));
+  padding:14px;margin-bottom:max(16px,env(safe-area-inset-bottom,0px));
+  display:flex;align-items:center;gap:12px;
+}
+#sc-ranking .rk-you-pos{font-size:1rem;font-weight:700;color:var(--ouro);width:28px;text-align:center}
+#sc-ranking .rk-you-avatar{font-size:1.4rem;width:32px;text-align:center}
+#sc-ranking .rk-you-info{flex:1}
+#sc-ranking .rk-you-name{font-weight:600;font-size:.9rem}
+#sc-ranking .rk-you-titulo{font-size:.7rem;opacity:.8}
+#sc-ranking .rk-you-xp{font-size:.85rem;font-weight:700;color:var(--ouro)}
+</style>
+
+<!-- ╔══════════════════════════╗ -->
+<!-- ║  SCREEN: COVER  (active) ║ -->
+<!-- ╚══════════════════════════╝ -->
+<div id="sc-cover" class="vb-screen active">
+  <canvas id="cvParticleCanvas"></canvas>
+  <div class="cv-content">
+    <div class="cv-brand">
+      <div class="cv-logo-text">VinoBianco</div>
+      <div class="cv-tagline">Wine Master · Quiz &amp; Conhecimento</div>
+    </div>
+    <div class="cv-glass-wrap">
+      <svg viewBox="0 0 160 200" width="160" height="200" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="cvBowlClip">
+            <ellipse cx="80" cy="64" rx="54" ry="58"/>
+          </clipPath>
+          <clipPath id="cvWineClip">
+            <rect id="cvWineRect" x="26" y="36" width="108" height="140"/>
+          </clipPath>
+          <linearGradient id="cvGlassGrad" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#fff" stop-opacity=".08"/>
+            <stop offset="50%" stop-color="#fff" stop-opacity=".02"/>
+            <stop offset="100%" stop-color="#fff" stop-opacity=".06"/>
+          </linearGradient>
+          <radialGradient id="cvWineGrad" cx="40%" cy="30%" r="70%">
+            <stop offset="0%" stop-color="#C0392B"/>
+            <stop offset="100%" stop-color="#4A0E15"/>
+          </radialGradient>
+        </defs>
+        <!-- bowl fill -->
+        <ellipse cx="80" cy="64" rx="54" ry="58" fill="#1A0A0D" clip-path="url(#cvBowlClip)"/>
+        <rect x="26" y="36" width="108" height="140" fill="url(#cvWineGrad)" clip-path="url(#cvBowlClip)" clip-path="url(#cvWineClip)"/>
+        <!-- bowl outline -->
+        <ellipse cx="80" cy="64" rx="54" ry="58" fill="none" stroke="rgba(212,175,55,.5)" stroke-width="1.5"/>
+        <!-- shine -->
+        <ellipse cx="80" cy="64" rx="54" ry="58" fill="url(#cvGlassGrad)" clip-path="url(#cvBowlClip)"/>
+        <!-- stem -->
+        <rect x="77" y="120" width="6" height="52" fill="rgba(212,175,55,.3)"/>
+        <!-- base -->
+        <ellipse cx="80" cy="174" rx="28" ry="6" fill="none" stroke="rgba(212,175,55,.4)" stroke-width="1.5"/>
+      </svg>
+    </div>
+    <button class="cv-play-btn" id="cvPlayBtn">▶ JOGAR AGORA</button>
+  </div>
+  <div class="cv-footer">©2025 VinoBianco Store · Wine Master Edition</div>
+</div>
+
+<!-- ╔════════════════╗ -->
+<!-- ║  SCREEN: HOME  ║ -->
+<!-- ╚════════════════╝ -->
+<div id="sc-home" class="vb-screen">
+  <canvas id="homeBgCanvas"></canvas>
+  <div class="home-inner">
+    <div class="header">
+      <div class="header-logo">VinoBianco</div>
+      <div class="xp-badge" id="homeXpBadge">⭐ 0 XP</div>
+    </div>
+    <div class="hero-section">
+      <svg class="hero-glass" viewBox="0 0 160 210" width="140" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="heroBowlClip"><ellipse cx="80" cy="68" rx="56" ry="60"/></clipPath>
+          <clipPath id="heroWineClip"><rect id="heroWineRect" x="24" y="36" width="112" height="140"/></clipPath>
+          <radialGradient id="heroWineGrad" cx="35%" cy="25%" r="75%">
+            <stop offset="0%" stop-color="#C0392B"/>
+            <stop offset="100%" stop-color="#4A0E15"/>
+          </radialGradient>
+        </defs>
+        <ellipse cx="80" cy="68" rx="56" ry="60" fill="#1A0A0D"/>
+        <rect x="24" y="36" width="112" height="140" fill="url(#heroWineGrad)" clip-path="url(#heroBowlClip)"/>
+        <ellipse cx="80" cy="68" rx="56" ry="60" fill="none" stroke="rgba(212,175,55,.6)" stroke-width="1.5"/>
+        <rect x="77" y="126" width="6" height="54" fill="rgba(212,175,55,.3)"/>
+        <ellipse cx="80" cy="182" rx="28" ry="6" fill="none" stroke="rgba(212,175,55,.4)" stroke-width="1.5"/>
+      </svg>
+      <div style="text-align:center">
+        <div class="hero-title">Wine Master</div>
+        <div class="hero-sub" style="margin-top:6px">Escolha seu modo de jogo</div>
+      </div>
+      <div class="modes-grid">
+        <div class="mode-card" onclick="showScreen('quiz')">🍷 Quiz<br><small style="opacity:.7;font-size:.7rem">Perguntas</small></div>
+        <div class="mode-card" onclick="showScreen('casta')">🍇 Castas<br><small style="opacity:.7;font-size:.7rem">Aprenda</small></div>
+        <div class="mode-card" onclick="showScreen('regiao')">🗺️ Regiões<br><small style="opacity:.7;font-size:.7rem">Mapa</small></div>
+        <div class="mode-card" onclick="showScreen('ranking')">🏅 Ranking<br><small style="opacity:.7;font-size:.7rem">Top 10</small></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ╔════════════════╗ -->
+<!-- ║  SCREEN: QUIZ  ║ -->
+<!-- ╚════════════════╝ -->
+<div id="sc-quiz" class="vb-screen">
+  <div class="quiz-shell">
+    <div class="q-header">
+      <button class="q-back" onclick="showScreen('home')">← Início</button>
+      <div class="q-title">🍷 Quiz</div>
+    </div>
+    <div class="lives-row" id="qzLivesRow"></div>
+    <div class="timer-bar-wrap"><div class="timer-bar" id="qzTimerBar"></div></div>
+    <div class="q-score" id="qzScore">Pontuação: 0</div>
+    <div class="q-card">
+      <div class="q-cat" id="qzCat">CATEGORIA</div>
+      <div id="qzText">Carregando...</div>
+    </div>
+    <div class="choices" id="qzChoices"></div>
+    <div class="q-feedback" id="qzFeedback"></div>
+  </div>
+  <div class="end-screen hidden" id="qzEndScreen">
+    <div class="end-trophy" id="qzEndTrophy">🏆</div>
+    <div class="end-title" id="qzEndMsg">Parabéns!</div>
+    <div class="end-xp" id="qzEndXP">+0 XP</div>
+    <button class="btn-restart" onclick="quizRestart()">🔄 Jogar Novamente</button>
+    <button class="btn-restart" onclick="showScreen('home')" style="background:var(--ivory2);color:var(--vinho);border:1.5px solid var(--border);margin-top:-8px;">🏠 Início</button>
+  </div>
+</div>
+
+<!-- ╔══════════════════╗ -->
+<!-- ║  SCREEN: CASTA   ║ -->
+<!-- ╚══════════════════╝ -->
+<div id="sc-casta" class="vb-screen">
+  <div class="header">
+    <button onclick="showScreen('home')" style="background:none;border:1.5px solid var(--border);border-radius:8px;padding:6px 14px;font-family:'Montserrat',sans-serif;font-size:.8rem;color:var(--text2);cursor:pointer;">← Início</button>
+    <h1>🍇 Castas</h1>
+    <div style="font-size:.75rem;color:var(--text2);font-weight:600" id="castaXpLabel">0 XP</div>
+  </div>
+  <div class="page-content" id="castaPageContent">
+    <div class="xp-bar-wrap"><div class="xp-bar" id="castaXpBar" style="width:0%"></div></div>
+    <div class="xp-label" id="castaXpLabelFull">0 / 2000 XP · Nível Iniciante</div>
+    <div id="castaList"></div>
+    <div class="casta-spacer"></div>
+  </div>
+  <div class="casta-toast" id="castaToast"></div>
+  <div class="bottom-nav">
+    <button class="active-nav">🍇 Castas</button>
+    <button onclick="showScreen('regiao')">🗺️ Regiões</button>
+    <button onclick="showScreen('quiz')">🍷 Quiz</button>
+  </div>
+</div>
+
+<!-- ╔══════════════════╗ -->
+<!-- ║  SCREEN: REGIAO  ║ -->
+<!-- ╚══════════════════╝ -->
+<div id="sc-regiao" class="vb-screen">
+  <div class="regiao-shell">
+    <div class="header">
+      <button class="q-back" onclick="showScreen('home')">← Início</button>
+      <h1>🗺️ Regiões</h1>
+    </div>
+    <div class="rv-score" id="rvScore">Acertos: 0 / 0</div>
+    <div class="rv-lives-row" id="rvLivesRow"></div>
+    <div class="rv-question" id="rvQuestion">Localize a região no mapa:</div>
+    <div class="map-container" id="rvMapContainer"></div>
+    <div class="rv-toast" id="rvToast"></div>
+  </div>
+  <div class="rv-overlay hidden" id="rvOverlay">
+    <div class="ov-trophy" id="rvEndTrophy">🏆</div>
+    <div class="ov-title" id="rvEndMsg">Fim de Jogo</div>
+    <div class="ov-xp" id="rvEndXP">+0 XP</div>
+    <button class="ov-btn" onclick="regiaoRestart()">🔄 Jogar Novamente</button>
+    <button class="ov-btn" onclick="showScreen('home')" style="background:var(--ivory2);color:var(--vinho);border:1.5px solid var(--border);">🏠 Início</button>
+  </div>
+</div>
+
+<!-- ╔═══════════════════╗ -->
+<!-- ║  SCREEN: RANKING  ║ -->
+<!-- ╚═══════════════════╝ -->
+<div id="sc-ranking" class="vb-screen">
+  <div class="rk-shell">
+    <div class="rk-header" style="position:relative">
+      <button class="rk-back" onclick="showScreen('home')">← Voltar</button>
+      <div class="rk-title">🏆 Ranking</div>
+      <div class="rk-sub">Wine Masters Brasil</div>
+    </div>
+    <div class="rk-tabs">
+      <div class="rk-tab active" onclick="rkSetTab('brasil',this)">🇧🇷 Brasil</div>
+      <div class="rk-tab" onclick="rkSetTab('global',this)">🌍 Global</div>
+      <div class="rk-tab" onclick="rkSetTab('amigos',this)">👥 Amigos</div>
+    </div>
+    <div class="rk-list" id="rkList"></div>
+    <div class="rk-you-row">
+      <div class="rk-you-pos" id="rkYouPos">#142</div>
+      <div class="rk-you-avatar">🍷</div>
+      <div class="rk-you-info">
+        <div class="rk-you-name">Você</div>
+        <div class="rk-you-titulo" id="rkYouTitulo">Aprendiz do Vinho</div>
+      </div>
+      <div class="rk-you-xp" id="rkYouXP">4.210 XP</div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ════════════════════════════════════════
+   GLOBAL SPA CONTROLLER
+   ════════════════════════════════════════ */
+let quizStarted = false;
+let regiaoStarted = false;
+
+function showScreen(name){
+  document.querySelectorAll('.vb-screen').forEach(s=>s.classList.remove('active'));
+  const el = document.getElementById('sc-'+name);
+  if(el) el.classList.add('active');
+
+  if(name==='home') initHomeCanvas();
+  if(name==='quiz' && !quizStarted){ quizStarted=true; loadQ(); }
+  if(name==='regiao' && !regiaoStarted){ regiaoStarted=true; regiaoInit(); }
+  if(name==='casta') castaRender();
+  if(name==='ranking') rkRender('brasil');
+}
+
+/* ════════════════════════════════════════
+   COVER SCREEN
+   ════════════════════════════════════════ */
+(function(){
+  const canvas = document.getElementById('cvParticleCanvas');
+  const ctx = canvas.getContext('2d');
+  let W,H,particles=[];
+
+  function resize(){
+    W=canvas.width=window.innerWidth;
+    H=canvas.height=window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize',resize);
+
+  for(let i=0;i<60;i++){
+    particles.push({
+      x:Math.random()*window.innerWidth,
+      y:Math.random()*window.innerHeight,
+      r:Math.random()*2+.5,
+      vx:(Math.random()-.5)*.3,
+      vy:(Math.random()-.5)*.3,
+      col:[212,175,55]
+    });
+  }
+
+  function loop(){
+    if(!document.getElementById('sc-cover').classList.contains('active')){
+      requestAnimationFrame(loop);return;
+    }
+    ctx.clearRect(0,0,W,H);
+    particles.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);
+      g.addColorStop(0,`rgba(${p.col[0]},${p.col[1]},${p.col[2]},1)`);
+      g.addColorStop(1,`rgba(${p.col[0]},${p.col[1]},${p.col[2]},0)`);
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,Math.PI*2);
+      ctx.fillStyle=g;ctx.fill();
+    });
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  // Wine fill animation
+  const VB_TOP=36, VB_BOT=176;
+  const rect = document.getElementById('cvWineRect');
+  let cvFill = VB_BOT;
+  const target = VB_TOP + (VB_BOT-VB_TOP)*.38;
+  function animWine(){
+    if(cvFill>target){
+      cvFill = Math.max(target, cvFill-1.5);
+      rect.setAttribute('y', cvFill);
+      rect.setAttribute('height', VB_BOT+140-cvFill);
+      requestAnimationFrame(animWine);
+    }
+  }
+  animWine();
+
+  document.getElementById('cvPlayBtn').addEventListener('click',function(){
+    this.style.opacity='.4';
+    this.style.pointerEvents='none';
+    setTimeout(function(){ showScreen('home'); }, 350);
+  });
+})();
+
+/* ════════════════════════════════════════
+   HOME SCREEN
+   ════════════════════════════════════════ */
+let homeCanvasInit = false;
+function initHomeCanvas(){
+  if(homeCanvasInit) return;
+  homeCanvasInit = true;
+
+  const canvas = document.getElementById('homeBgCanvas');
+  const ctx = canvas.getContext('2d');
+  let W,H,hParticles=[];
+
+  function resize(){
+    W=canvas.width=window.innerWidth;
+    H=canvas.height=window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize',resize);
+
+  for(let i=0;i<80;i++){
+    hParticles.push({
+      x:Math.random()*window.innerWidth,
+      y:Math.random()*window.innerHeight,
+      r:Math.random()*1.5+.3,
+      vx:(Math.random()-.5)*.25,
+      vy:(Math.random()-.5)*.25,
+      col:[212,175,55]
+    });
+  }
+
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    hParticles.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.x<0)p.x=W; if(p.x>W)p.x=0;
+      if(p.y<0)p.y=H; if(p.y>H)p.y=0;
+      const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*3);
+      g.addColorStop(0,`rgba(${p.col[0]},${p.col[1]},${p.col[2]},1)`);
+      g.addColorStop(1,`rgba(${p.col[0]},${p.col[1]},${p.col[2]},0)`);
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r*3,0,Math.PI*2);
+      ctx.fillStyle=g;ctx.fill();
+    });
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  // Update XP badge
+  const xp = parseInt(localStorage.getItem('vb_xp')||'0');
+  document.getElementById('homeXpBadge').textContent = `⭐ ${xp.toLocaleString()} XP`;
+}
+
+/* ════════════════════════════════════════
+   QUIZ SCREEN
+   ════════════════════════════════════════ */
+const PERGUNTAS = [
+  {p:"Qual uva é a base do Champagne Brut Nature?",r:"Chardonnay",e:["Pinot Noir","Meunier","Riesling"],cat:"Espumantes",exp:"Chardonnay, Pinot Noir e Meunier são as três castas clássicas do Champagne, mas o Blanc de Blancs usa exclusivamente Chardonnay.",xp:100},
+  {p:"A região de Barossa Valley é famosa por qual variedade?",r:"Shiraz",e:["Cabernet","Merlot","Grenache"],cat:"Regiões",exp:"Barossa Valley na Austrália é celebrada mundialmente pelos seus Shiraz encorpados e com notas de especiarias.",xp:100},
+  {p:"Qual método é usado para produzir o Prosecco?",r:"Método Charmat",e:["Método Champenoise","Método Ancestral","Método Transfer"],cat:"Espumantes",exp:"O Prosecco utiliza o método Charmat (ou Martinotti), onde a segunda fermentação ocorre em tanques de aço inoxidável.",xp:120},
+  {p:"O Brunello di Montalcino é produzido com qual uva?",r:"Sangiovese Grosso",e:["Nebbiolo","Barbera","Aglianico"],cat:"Itália",exp:"Brunello di Montalcino é feito exclusivamente de Sangiovese Grosso (Brunello), envelhecido no mínimo 5 anos antes da venda.",xp:150},
+  {p:"Qual região francesa é conhecida pelo Sauternes?",r:"Bordeaux",e:["Borgonha","Loire","Alsácia"],cat:"Vinhos Doces",exp:"Sauternes fica no sul de Bordeaux, famoso pelos vinhos doces botritizados, onde o Château d'Yquem reina soberano.",xp:120},
+  {p:"Tempranillo é a uva principal de qual vinho espanhol?",r:"Rioja",e:["Ribera del Duero","Priorat","Albariño"],cat:"Espanha",exp:"A Rioja, no norte da Espanha, usa Tempranillo como base, muitas vezes misturado com Garnacha e Graciano.",xp:100},
+  {p:"Qual mineral é associado ao caráter do Chablis?",r:"Sílex / Pederneira",e:["Granito","Calcário","Argila"],cat:"Terroir",exp:"Chablis (Borgonha) tem solos de Kimmeridgiano, rico em fósseis marinhos e sílex, dando acidez cortante e mineralidade.",xp:130},
+  {p:"O vinho Porto Vintage é declarado em quantos anos é especial?",r:"Apenas nos melhores anos",e:["Todo ano","A cada 5 anos","A cada 10 anos"],cat:"Vinhos Fortificados",exp:"O Vintage Port é declarado apenas em anos excepcionais pelo produtor, sem regra fixa — pode ocorrer 2-3 vezes por década.",xp:140},
+  {p:"Qual é o conteúdo mínimo de álcool para um Amarone?",r:"14%",e:["12%","13%","15%"],cat:"Itália",exp:"Amarone della Valpolicella requer mínimo de 14% ABV, resultado da secagem das uvas (appassimento) que concentra açúcares.",xp:150},
+  {p:"O processo de 'sur lie' refere-se a:",r:"Envelhecimento sobre as borras",e:["Filtração por bentonita","Fermentação em barrica","Maceração pelicular"],cat:"Vinificação",exp:"Sur lie é o contato prolongado do vinho com as leveduras mortas (borras finas), adicionando cremosidade e complexidade.",xp:120},
+  {p:"Gewürztraminer é tipicamente associado a qual estilo?",r:"Aromático e encorpado",e:["Leve e mineral","Tânico e seco","Neutro e fresco"],cat:"Variedades",exp:"Gewürztraminer, especialmente da Alsácia, tem aromas intensos de lichias, rosas e especiarias, com corpo e residual baixo.",xp:110},
+  {p:"Qual país é o maior produtor mundial de vinho?",r:"Itália",e:["França","Espanha","EUA"],cat:"Mercado",exp:"A Itália consistentemente lidera produção mundial em volume, seguida de perto por França e Espanha dependendo do ano.",xp:90},
+  {p:"Nebbiolo é a uva principal de qual vinho?",r:"Barolo",e:["Chianti","Brunello","Amarone"],cat:"Itália",exp:"Barolo e Barbaresco são os grandes vinhos do Piemonte baseados em Nebbiolo, uva de alta acidez e tanino.",xp:120},
+  {p:"Qual temperaduta ideal para servir um Champagne?",r:"6-8°C",e:["10-12°C","4-5°C","14-16°C"],cat:"Serviço",exp:"Espumantes devem ser servidos bem frios, entre 6-8°C, para preservar as borbulhas e a frescura aromática.",xp:100},
+  {p:"Malbec encontrou sua expressão máxima em qual país?",r:"Argentina",e:["França","Chile","Uruguai"],cat:"Novo Mundo",exp:"Embora originalmente da França (Cahors), o Malbec ganhou fama global nos vinhedos de Mendoza, Argentina.",xp:110},
+  {p:"Qual região produz o Vinho Verde?",r:"Noroeste de Portugal",e:["Alentejo","Douro","Setúbal"],cat:"Portugal",exp:"Vinho Verde vem do Minho, no noroeste de Portugal, região de alta pluviosidade que produz vinhos frescos e levemente efervescentes.",xp:110},
+  {p:"O que é um vinho 'biodynamic'?",r:"Produzido segundo princípios agrícolas holísticos",e:["Vinho sem sulfitos","Vinho orgânico certificado","Vinho natural não filtrado"],cat:"Produção",exp:"Biodinâmico vai além do orgânico: considera ciclos lunares, preparados botânicos e trata a vinha como ecossistema vivo.",xp:130},
+  {p:"Qual uva é usada no Viognier?",r:"Viognier",e:["Marsanne","Roussanne","Chardonnay"],cat:"Variedades",exp:"Viognier é uma variedade aromática do Ródano Norte (Condrieu), com aromas de pêssego, damasco e violeta.",xp:100},
+  {p:"Decanting um vinho tinto jovem serve para:",r:"Oxigenar e suavizar taninos",e:["Remover sedimentos","Aquecer o vinho","Reduzir o álcool"],cat:"Serviço",exp:"Decanting permite que o vinho 'respire', suavizando taninos ásperos e desenvolvendo aromas — especialmente útil em vinhos jovens e tânicos.",xp:110},
+  {p:"Qual é o estilo do Riesling Trockenbeerenauslese?",r:"Doce néctar concentrado",e:["Seco e mineral","Meio-seco efervescente","Rosé suave"],cat:"Alemanha",exp:"TBA é o mais alto nível Prädikat alemão: uvas passificadas e botritizadas colhidas grão a grão, criando néctar de altíssima complexidade.",xp:160},
+  {p:"A fermentação malolática transforma:",r:"Ácido málico em lático",e:["Açúcar em álcool","Álcool em ácido","Tanino em glicerol"],cat:"Vinificação",exp:"FML converte ácido málico (mais agressivo, de maçã verde) em ácido lático (mais suave, de leite), amolecendo a acidez.",xp:130},
+  {p:"Qual casta domina os vinhos brancos da Borgonha?",r:"Chardonnay",e:["Pinot Gris","Aligoté","Viognier"],cat:"França",exp:"Chardonnay é a uva branca da Borgonha, das simples Mâcon até os Grand Crus de Montrachet e Meursault.",xp:100},
+  {p:"Terroir em viticultura inclui:",r:"Solo, clima, topografia e microclima",e:["Apenas o solo","Apenas o clima","Técnicas do viticultor"],cat:"Terroir",exp:"Terroir é o conjunto único de fatores naturais: solo, subsolo, clima, altitude, orientação e o ecossistema local que dão identidade ao vinho.",xp:120},
+  {p:"Sangiovese é a base do:",r:"Chianti Classico",e:["Barolo","Rioja","Côtes du Rhône"],cat:"Itália",exp:"Chianti Classico (Toscana) usa Sangiovese como cepa dominante, mínimo 80%, com possível adição de outras variedades locais.",xp:100},
+  {p:"O que significa 'Reserva' em vinhos espanhóis?",r:"Mínimo 3 anos de envelhecimento",e:["Seleção especial de parcela","Vinho de alta altitude","Produção limitada"],cat:"Espanha",exp:"Em Rioja, Reserva exige mínimo 3 anos de envelhecimento (1 em carvalho + 2 em garrafa), garantindo maior complexidade.",xp:130},
+  {p:"Qual é a principal acidez dos vinhos da Loire?",r:"Ácido tartárico e málico",e:["Ácido cítrico","Ácido acético","Ácido succínico"],cat:"França",exp:"Wines from the Loire — Muscadet, Sancerre, Pouilly-Fumé — têm acidez viva com tartárico e málico, resultado do clima fresco.",xp:140},
+  {p:"Phylloxera destruiu os vinhedos europeus no século:",r:"XIX",e:["XVIII","XX","XVII"],cat:"História",exp:"O pulgão Phylloxera vastatrix devastou os vinhedos europeus na segunda metade do séc. XIX, forçando enxertia em porta-enxertos americanos.",xp:120},
+  {p:"Grenache é também conhecida como:",r:"Garnacha",e:["Graciano","Monastrell","Carignan"],cat:"Variedades",exp:"Grenache (Grenache Noir em francês) é a mesma uva chamada Garnacha em Espanha, base de muitos vinhos do Ródano Sul e Priorat.",xp:110},
+  {p:"Qual vinho é produzido na região de Jerez?",r:"Sherry",e:["Porto","Madeira","Marsala"],cat:"Vinhos Fortificados",exp:"Sherry (Jerez/Xerez) é produzido no sul da Espanha com uvas Palomino, Pedro Ximénez e Moscatel, em sistema de Solera.",xp:120},
+  {p:"O que é 'dosage' em Champagne?",r:"Adição de licor de expedição antes do rolhamento",e:["Quantidade de leveduras","Tempo de contato com borras","Volume de borbulhas"],cat:"Espumantes",exp:"Dosage (ou liqueur d'expédition) é a mistura de vinho e açúcar adicionada após o dégorgement, definindo o estilo Brut, Extra-Brut, etc.",xp:140},
+  {p:"Carménère é variedade emblemática de qual país?",r:"Chile",e:["Argentina","Uruguai","Brasil"],cat:"Novo Mundo",exp:"Carménère era considerada extinta na Europa após a Phylloxera, até ser redescoberta no Chile nos anos 1990, onde prosperou.",xp:130},
+  {p:"Qual uva produz o famoso Tokaji Aszú húngaro?",r:"Furmint",e:["Riesling","Gewürztraminer","Chenin Blanc"],cat:"Europa Central",exp:"Furmint é a uva principal do Tokaji, especialmente suscetível à botritis (Botrytis cinerea), que cria o néctar dourado Aszú.",xp:150},
+];
+
+const QZ_MAX_LIVES = 3;
+const QZ_TIMER = 20;
+let quizState = 'idle';
+let qzLives, qzScore, qzIdx, qzOrder, qzTimer, qzInterval, qzCurrentCorrect;
+
+function quizBuildLives(){
+  const row = document.getElementById('qzLivesRow');
+  row.innerHTML='';
+  for(let i=0;i<QZ_MAX_LIVES;i++){
+    const s=document.createElement('span');
+    s.className='life';
+    s.id='qzLife'+i;
+    s.textContent= i<qzLives ? '❤️' : '🖤';
+    row.appendChild(s);
+  }
+}
+
+function quizEndGame(won){
+  clearInterval(qzInterval);
+  quizState='over';
+  const gain = won ? Math.round(qzScore*1.5) : Math.round(qzScore*.5);
+  const total = parseInt(localStorage.getItem('vb_xp')||'0')+gain;
+  localStorage.setItem('vb_xp',''+total);
+
+  document.getElementById('qzEndTrophy').textContent = won?'🏆':'💔';
+  document.getElementById('qzEndMsg').textContent = won? 'Parabéns, Wine Master!' : 'Fim de Jogo!';
+  document.getElementById('qzEndXP').textContent = `+${gain} XP`;
+  document.getElementById('qzEndScreen').classList.remove('hidden');
+}
+
+function quizRestart(){
+  quizState='idle';
+  document.getElementById('qzEndScreen').classList.add('hidden');
+  loadQ();
+}
+
+function loadQ(){
+  qzLives=QZ_MAX_LIVES; qzScore=0; qzIdx=0;
+  qzOrder=[...Array(PERGUNTAS.length).keys()];
+  // Fisher-Yates shuffle
+  for(let i=qzOrder.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [qzOrder[i],qzOrder[j]]=[qzOrder[j],qzOrder[i]];
+  }
+  quizState='playing';
+  quizBuildLives();
+  document.getElementById('qzEndScreen').classList.add('hidden');
+  nextQ();
+}
+
+function nextQ(){
+  if(qzLives<=0){ quizEndGame(false); return; }
+  if(qzIdx>=Math.min(PERGUNTAS.length,20)){ quizEndGame(true); return; }
+
+  const q = PERGUNTAS[qzOrder[qzIdx]];
+  document.getElementById('qzCat').textContent = q.cat;
+  document.getElementById('qzText').textContent = q.p;
+  document.getElementById('qzScore').textContent = `Pontuação: ${qzScore}`;
+  document.getElementById('qzFeedback').textContent='';
+
+  // Shuffle answers
+  const all = [q.r,...q.e].sort(()=>Math.random()-.5);
+  qzCurrentCorrect = q.r;
+
+  const ch = document.getElementById('qzChoices');
+  ch.innerHTML='';
+  all.forEach(ans=>{
+    const btn=document.createElement('button');
+    btn.className='choice-btn';
+    btn.textContent=ans;
+    btn.onclick=()=>qzAnswer(btn,ans,q);
+    ch.appendChild(btn);
+  });
+
+  // Timer
+  clearInterval(qzInterval);
+  let t=QZ_TIMER;
+  const bar=document.getElementById('qzTimerBar');
+  bar.style.width='100%';
+  bar.style.background='var(--vinho)';
+  qzInterval=setInterval(()=>{
+    t--;
+    bar.style.width=(t/QZ_TIMER*100)+'%';
+    if(t<=5) bar.style.background='#E53935';
+    if(t<=0){
+      clearInterval(qzInterval);
+      qzLives--;
+      quizBuildLives();
+      document.getElementById('qzFeedback').textContent=`⏱ Tempo! Resposta: ${q.r}. ${q.exp}`;
+      document.querySelectorAll('.choice-btn').forEach(b=>b.disabled=true);
+      qzIdx++;
+      setTimeout(nextQ,2000);
+    }
+  },1000);
+}
+
+function qzAnswer(btn,ans,q){
+  clearInterval(qzInterval);
+  document.querySelectorAll('.choice-btn').forEach(b=>{
+    b.disabled=true;
+    if(b.textContent===q.r) b.classList.add('correct');
+  });
+  if(ans===q.r){
+    btn.classList.add('correct');
+    qzScore+=q.xp;
+    document.getElementById('qzFeedback').textContent=`✅ Correto! ${q.exp}`;
+  } else {
+    btn.classList.add('wrong');
+    qzLives--;
+    quizBuildLives();
+    document.getElementById('qzFeedback').textContent=`❌ Incorreto. ${q.exp}`;
+  }
+  qzIdx++;
+  setTimeout(nextQ,2200);
+}
+
+/* ════════════════════════════════════════
+   CASTA SCREEN
+   ════════════════════════════════════════ */
+const CASTAS = [
+  {icon:'🍇',nome:'Cabernet Sauvignon',tipo:'Tinta',desc:'Uva mais plantada do mundo. Notas de groselha preta, cedro e ervas. Alta acidez e tanino.',regioes:'Bordeaux, Napa, Coonawarra',xp:200},
+  {icon:'🌹',nome:'Merlot',tipo:'Tinta',desc:'Macia e acessível. Ameixa, chocolate, veludo. Dominante no Pomerol com o Pétrus.',regioes:'Bordeaux, Toscana, Chile',xp:180},
+  {icon:'🫐',nome:'Pinot Noir',tipo:'Tinta',desc:'Delicada e complexa. Cerejas, terra úmida, cogumelos. A alma da Borgonha.',regioes:'Borgonha, Willamette, Marlborough',xp:200},
+  {icon:'🍒',nome:'Sangiovese',tipo:'Tinta',desc:'Acidez vibrante, taninos firmes. Cerejas ácidas, ervas toscanas. Base do Chianti.',regioes:'Toscana, Umbria, Argentina',xp:180},
+  {icon:'🌑',nome:'Nebbiolo',tipo:'Tinta',desc:'Tanino elevado, acidez alta, cor pálida paradoxal. Alcatrão e rosas. Barolo.',regioes:'Piemonte, Lombardia, América do Sul',xp:220},
+  {icon:'🫒',nome:'Tempranillo',tipo:'Tinta',desc:'Taninos suaves, acidez moderada. Frutas vermelhas, couro, baunilha. Espanha.',regioes:'Rioja, Ribera del Duero, Portugal',xp:180},
+  {icon:'🍓',nome:'Grenache',tipo:'Tinta',desc:'Alta graduação alcoólica, frutas vermelhas maduras, baixo tanino. Versátil.',regioes:'Ródano Sul, Priorat, Sardenha',xp:170},
+  {icon:'🖤',nome:'Syrah / Shiraz',tipo:'Tinta',desc:'Pimenta preta, azeitonas, frutas escuras. Ródano Norte é elegante; Austrália potente.',regioes:'Hermitage, Barossa, África do Sul',xp:190},
+  {icon:'💜',nome:'Malbec',tipo:'Tinta',desc:'Ameixa, violeta, chocolate. Na Argentina atingiu sua maior expressão mundial.',regioes:'Mendoza, Cahors, Chile',xp:170},
+  {icon:'🍋',nome:'Chardonnay',tipo:'Branca',desc:'Neutra e camaleônica. Em Borgonha: avelã, manteiga. Em climas quentes: tropical.',regioes:'Borgonha, Napa, Austrália',xp:200},
+  {icon:'🌿',nome:'Sauvignon Blanc',tipo:'Branca',desc:'Ervas cortadas, toranja, maracujá. Loire e Nova Zelândia são os emblemas.',regioes:'Sancerre, Marlborough, Chile',xp:180},
+  {icon:'🍯',nome:'Riesling',tipo:'Branca',desc:'Acidez extraordinária, gasolina, limão. Envelhece décadas. Seco a doce botrítis.',regioes:'Mosel, Alsácia, Austrália',xp:200},
+  {icon:'🌺',nome:'Viognier',tipo:'Branca',desc:'Pêssego, damasco, violeta, especiarias. Encorpado e aromático. Condrieu.',regioes:'Ródano Norte, Languedoc, Califórnia',xp:180},
+  {icon:'🍊',nome:'Gewürztraminer',tipo:'Branca',desc:'Intenso: lichias, rosas, gengibre. Alsácia produz os mais expressivos do mundo.',regioes:'Alsácia, Alemanha, Itália (Alto Adige)',xp:190},
+  {icon:'🥂',nome:'Pinot Grigio / Gris',tipo:'Branca',desc:'Itália: leve, fresco. Alsácia: encorpado, frutado. Dois estilos, uma uva.',regioes:'Friuli, Alsácia, Oregon',xp:170},
+  {icon:'🍈',nome:'Chenin Blanc',tipo:'Branca',desc:'Versatilíssima: seco, doce, espumante. Loire é o berço. Mel, marmelo, nozes.',regioes:'Loire (Vouvray), África do Sul, Argentina',xp:190},
+  {icon:'💚',nome:'Albariño',tipo:'Branca',desc:'Acidez cítrica, pêssago branco, sal marinho. Galiza/Portugal. Parceiro do peixe.',regioes:'Rías Baixas, Vinho Verde, Califórnia',xp:180},
+  {icon:'🌾',nome:'Grüner Veltliner',tipo:'Branca',desc:'Pimenta branca, minerais, ervas. Áustria é o lar. Seco, fresco, gastronômico.',regioes:'Wachau, Kamptal, Kremstal',xp:190},
+  {icon:'🍑',nome:'Muscat / Moscatel',tipo:'Branca',desc:'A uva que cheira a uva. Doce, floral, moscatel. Base de espumantes italianos.',regioes:'Alsácia, Piemonte, Portugal, Grécia',xp:170},
+  {icon:'🫧',nome:'Furmint',tipo:'Branca',desc:'Alta acidez, suscetível à botritis. Cria o lendário Tokaji Aszú húngaro.',regioes:'Tokaj (Hungria), Áustria, Eslovênia',xp:200},
+];
+
+let vbEstudadas = new Set();
+let vbXP = 0;
+
+function castaLoad(){
+  try{
+    const s = localStorage.getItem('vb_estudadas');
+    if(s) vbEstudadas = new Set(JSON.parse(s));
+    vbXP = parseInt(localStorage.getItem('vb_xp')||'0');
+  }catch(e){}
+}
+
+function castaSave(){
+  try{
+    localStorage.setItem('vb_estudadas',JSON.stringify([...vbEstudadas]));
+    localStorage.setItem('vb_xp',''+vbXP);
+  }catch(e){}
+}
+
+function castaShowToast(msg){
+  const t = document.getElementById('castaToast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2000);
+}
+
+function castaToggle(idx){
+  if(vbEstudadas.has(idx)){
+    vbEstudadas.delete(idx);
+    castaShowToast('Marcada para rever 📚');
+  } else {
+    vbEstudadas.add(idx);
+    vbXP += CASTAS[idx].xp;
+    castaShowToast(`+${CASTAS[idx].xp} XP! ⭐`);
+  }
+  castaSave();
+  castaUpdateBar();
+  castaUpdateCard(idx);
+}
+
+function castaUpdateBar(){
+  const pct = Math.min(100,vbXP/3000*100);
+  document.getElementById('castaXpBar').style.width=pct+'%';
+  document.getElementById('castaXpLabelFull').textContent=`${vbXP.toLocaleString()} XP · ${vbEstudadas.size}/${CASTAS.length} castas dominadas`;
+  document.getElementById('castaXpLabel').textContent=`${vbXP.toLocaleString()} XP`;
+}
+
+function castaUpdateCard(idx){
+  const card = document.getElementById('castaCard'+idx);
+  if(!card) return;
+  const studied = vbEstudadas.has(idx);
+  card.classList.toggle('estudada',studied);
+  card.querySelector('.casta-check').textContent = studied ? '✅ Dominada' : '';
+}
+
+function castaRender(){
+  castaLoad();
+  const list = document.getElementById('castaList');
+  list.innerHTML='';
+  CASTAS.forEach((c,i)=>{
+    const studied = vbEstudadas.has(i);
+    const card = document.createElement('div');
+    card.className='casta-card'+(studied?' estudada':'');
+    card.id='castaCard'+i;
+    card.onclick=()=>castaToggle(i);
+    card.innerHTML=`
+      <div class="casta-icon">${c.icon}</div>
+      <div class="casta-info">
+        <div class="casta-tipo">${c.tipo}</div>
+        <div class="casta-nome">${c.nome}</div>
+        <div class="casta-desc">${c.desc}</div>
+        <div class="casta-footer">
+          <div class="casta-regioes">📍 ${c.regioes}</div>
+          <div class="casta-check">${studied?'✅ Dominada':''}</div>
+        </div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+  castaUpdateBar();
+}
+
+/* ════════════════════════════════════════
+   REGIAO SCREEN
+   ════════════════════════════════════════ */
+const REGIOES = [
+  {nome:'Bordeaux',pais:'França',map:'europa',coords:{x:140,y:218},dica:'Famosa pelos blends de Cabernet Sauvignon e Merlot.',xp:150},
+  {nome:'Borgonha',pais:'França',map:'europa',coords:{x:165,y:190},dica:'Pinot Noir e Chardonnay. Grand Crus lendários.',xp:160},
+  {nome:'Champagne',pais:'França',map:'europa',coords:{x:165,y:150},dica:'Único lugar que produz o verdadeiro Champagne.',xp:140},
+  {nome:'Rioja',pais:'Espanha',map:'europa',coords:{x:120,y:195},dica:'Tempranillo no coração do norte espanhol.',xp:140},
+  {nome:'Toscana',pais:'Itália',map:'europa',coords:{x:195,y:205},dica:'Sangiovese, Chianti, Brunello e Supertoscanos.',xp:150},
+  {nome:'Piemonte',pais:'Itália',map:'europa',coords:{x:180,y:185},dica:'Nebbiolo, Barolo e Barbaresco nascem aqui.',xp:160},
+  {nome:'Mosel',pais:'Alemanha',map:'europa',coords:{x:175,y:148},dica:'Riesling em ardósias íngremes às margens do Mosela.',xp:160},
+  {nome:'Douro',pais:'Portugal',map:'europa',coords:{x:95,y:208},dica:'Porto e vinhos tintos encorpados em terraços xistosos.',xp:150},
+  {nome:'Priorat',pais:'Espanha',map:'europa',coords:{x:140,y:205},dica:'Licorella slate, Grenache e Cariñena concentrados.',xp:160},
+  {nome:'Tokaj',pais:'Hungria',map:'europa',coords:{x:225,y:165},dica:'Furmint botrítis produz o lendário Aszú.',xp:170},
+  {nome:'Mendoza',pais:'Argentina',map:'america',coords:{x:180,y:268},dica:'Capital mundial do Malbec. Altitude dos Andes.',xp:150},
+  {nome:'Maipo',pais:'Chile',map:'america',coords:{x:145,y:268},dica:'Cabernet Sauvignon chileno de excelência.',xp:140},
+  {nome:'Barossa',pais:'Austrália',map:'europa',coords:{x:360,y:195},dica:'Shiraz australiano potente e encorpado.',xp:150},
+  {nome:'Napa Valley',pais:'EUA',map:'america',coords:{x:55,y:155},dica:'Cabernet Sauvignon norte-americano mais famoso.',xp:150},
+  {nome:'Willamette',pais:'EUA',map:'america',coords:{x:50,y:125},dica:'Oregon e seu elegante Pinot Noir.',xp:150},
+];
+
+const RV_MAX_LIVES=3, RV_MAX_ROUNDS=10;
+let rvState={lives:RV_MAX_LIVES,score:0,round:0,acertos:0,currentRegiao:null,order:[],answered:false};
+
+const EUROPA_SVG = `<svg viewBox="0 0 420 355" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+  <rect width="420" height="355" fill="#EAF4FB" rx="8"/>
+  <!-- simplified Europe landmass -->
+  <path d="M80,60 Q100,40 130,45 L160,38 Q200,32 240,40 L280,42 Q310,45 330,60 L350,80 Q365,100 360,130 L365,160 Q370,185 355,205 L340,225 Q320,245 290,255 L265,270 Q240,285 210,280 L185,275 Q160,270 140,255 L115,240 Q90,225 80,205 L70,180 Q60,155 65,130 L70,100 Z" fill="#C8D8A8" stroke="#8BA878" stroke-width="1.5"/>
+  <!-- Portugal -->
+  <path d="M88,190 L105,185 L108,215 L95,220 Z" fill="#A0C060" stroke="#6A8A40" stroke-width="1"/>
+  <!-- Spain -->
+  <path d="M105,175 L155,170 L158,215 L108,220 L105,215 Z" fill="#B0CA70" stroke="#7A9A50" stroke-width="1"/>
+  <!-- France -->
+  <path d="M140,150 L200,145 L205,195 L155,200 L140,195 Z" fill="#A8C865" stroke="#78984A" stroke-width="1"/>
+  <!-- Italy -->
+  <path d="M180,178 L205,175 L215,195 L210,240 L195,250 L185,230 L180,200 Z" fill="#B8D070" stroke="#88A850" stroke-width="1"/>
+  <!-- Germany/Moselle -->
+  <path d="M160,130 L200,128 L202,158 L163,160 Z" fill="#A0C060" stroke="#6A8A40" stroke-width="1"/>
+  <!-- Hungary (Tokaj) -->
+  <path d="M210,152 L248,150 L250,175 L212,177 Z" fill="#B0CA70" stroke="#7A9A50" stroke-width="1"/>
+  <!-- Australia placeholder (right side) -->
+  <path d="M320,170 L395,168 L398,225 L322,228 Z" fill="#D4C89A" stroke="#A4986A" stroke-width="1"/>
+  <!-- Labels -->
+  <text x="96" y="208" font-size="7" fill="#3A5A20" font-family="Montserrat,sans-serif" font-weight="600">DOURO</text>
+  <text x="112" y="200" font-size="7" fill="#3A5A20" font-family="Montserrat,sans-serif" font-weight="600">RIOJA</text>
+  <text x="125" y="215" font-size="7" fill="#3A5A20" font-family="Montserrat,sans-serif" font-weight="600">PRIORAT</text>
+  <text x="148" y="185" font-size="7" fill="#3A5A20" font-family="Montserrat,sans-serif" font-weight="600">BORDEAUX</text>
+  <text x="155" y="198" font-size="7" fill="#3A5A20" font-family="Montserrat,sans-serif" font-weight="600">BORGONHA</text>
+  <text x="155" y="155" font-size="7" fill="#3A5A20" font-family="Montserrat,sans-serif" font-weight="600">CHAMPAGNE</text>
+  <text x="165" y="140" font-size="7" fill="#3A5A20" font-family="Montserrat,sans-serif" font-weight="600">MOSEL</text>
+  <text x="182" y="195" font-size="7" fill="#3A5A20" font-family="Montserrat,sans-serif" font-weight="600">PIEMONTE</text>
+  <text x="182" y="208" font-size="7" fill="#3A5A20" font-family="Montserrat,sans-serif" font-weight="600">TOSCANA</text>
+  <text x="218" y="165" font-size="7" fill="#3A5A20" font-family="Montserrat,sans-serif" font-weight="600">TOKAJ</text>
+  <text x="338" y="200" font-size="7" fill="#5A4A2A" font-family="Montserrat,sans-serif" font-weight="600">BAROSSA</text>
+</svg>`;
+
+const AMERICA_SVG = `<svg viewBox="0 0 420 390" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto">
+  <rect width="420" height="390" fill="#EAF4FB" rx="8"/>
+  <!-- North America -->
+  <path d="M20,20 Q80,15 130,25 L160,30 Q190,35 210,50 L220,80 Q225,110 210,130 L195,150 Q175,165 150,168 L120,170 Q90,170 65,155 L40,135 Q20,110 18,80 Z" fill="#C8D8A8" stroke="#8BA878" stroke-width="1.5"/>
+  <!-- South America -->
+  <path d="M100,200 Q150,190 200,200 L230,215 Q255,235 260,270 L255,310 Q245,345 220,365 L185,375 Q155,378 130,360 L108,335 Q90,305 88,270 L90,235 Z" fill="#C0D8A0" stroke="#80A870" stroke-width="1.5"/>
+  <!-- Napa Valley / Oregon markers -->
+  <ellipse cx="55" cy="125" rx="12" ry="8" fill="#A8C865" stroke="#78984A" stroke-width="1"/>
+  <ellipse cx="50" cy="145" rx="10" ry="7" fill="#B0CA70" stroke="#7A9A50" stroke-width="1"/>
+  <!-- Chile / Argentina markers -->
+  <ellipse cx="145" cy="268" rx="12" ry="8" fill="#A8C865" stroke="#78984A" stroke-width="1"/>
+  <ellipse cx="180" cy="270" rx="12" ry="8" fill="#B0CA70" stroke="#7A9A50" stroke-width="1"/>
+  <!-- Labels -->
+  <text x="30" y="122" font-size="8" fill="#3A5A20" font-family="Montserrat,sans-serif" font-weight="600">WILLAMETTE</text>
+  <text x="30" y="142" font-size="8" fill="#3A5A20" font-family="Montserrat,sans-serif" font-weight="600">NAPA</text>
+  <text x="118" y="265" font-size="8" fill="#3A5A20" font-family="Montserrat,sans-serif" font-weight="600">MAIPO</text>
+  <text x="158" y="265" font-size="8" fill="#3A5A20" font-family="Montserrat,sans-serif" font-weight="600">MENDOZA</text>
+</svg>`;
+
+function buildRegiaoLives(){
+  const row=document.getElementById('rvLivesRow');
+  row.innerHTML='';
+  for(let i=0;i<RV_MAX_LIVES;i++){
+    const s=document.createElement('span');s.className='rv-life';
+    s.textContent=i<rvState.lives?'❤️':'🖤';
+    row.appendChild(s);
+  }
+}
+
+function regiaoShowToast(ok,nome){
+  const t=document.getElementById('rvToast');
+  t.className='rv-toast '+(ok?'ok':'err');
+  t.textContent=ok?`✅ Correto! ${nome}`:`❌ Era ${nome}`;
+}
+
+function regiaoHideToast(){
+  document.getElementById('rvToast').className='rv-toast';
+  document.getElementById('rvToast').textContent='';
+}
+
+function regiaoEndGame(){
+  document.getElementById('rvOverlay').classList.remove('hidden');
+  const won = rvState.acertos >= Math.ceil(RV_MAX_ROUNDS*.6);
+  const gain = won? rvState.acertos*120 : rvState.acertos*60;
+  const total = parseInt(localStorage.getItem('vb_xp')||'0')+gain;
+  localStorage.setItem('vb_xp',''+total);
+  document.getElementById('rvEndTrophy').textContent=won?'🏆':'💔';
+  document.getElementById('rvEndMsg').textContent=won?'Cartógrafo do Vinho!':'Fim de Jogo!';
+  document.getElementById('rvEndXP').textContent=`+${gain} XP · ${rvState.acertos}/${rvState.round} acertos`;
+}
+
+function regiaoRestart(){
+  document.getElementById('rvOverlay').classList.add('hidden');
+  rvState={lives:RV_MAX_LIVES,score:0,round:0,acertos:0,currentRegiao:null,order:[],answered:false};
+  regiaoNextRound();
+}
+
+function regiaoNextRound(){
+  if(rvState.lives<=0||rvState.round>=RV_MAX_ROUNDS){regiaoEndGame();return;}
+  regiaoHideToast();
+  if(rvState.order.length===0){
+    rvState.order=[...Array(REGIOES.length).keys()];
+    for(let i=rvState.order.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [rvState.order[i],rvState.order[j]]=[rvState.order[j],rvState.order[i]];
+    }
+  }
+  const idx=rvState.order.pop();
+  rvState.currentRegiao=REGIOES[idx];
+  rvState.answered=false;
+  document.getElementById('rvQuestion').textContent=`Onde fica ${rvState.currentRegiao.nome}?`;
+  document.getElementById('rvScore').textContent=`Acertos: ${rvState.acertos} / ${rvState.round}`;
+  buildRegiaoLives();
+
+  const map = rvState.currentRegiao.map;
+  const mc = document.getElementById('rvMapContainer');
+  mc.innerHTML = map==='america' ? AMERICA_SVG : EUROPA_SVG;
+  mc.querySelectorAll('text,ellipse,path:not(:first-child)').forEach(el=>{
+    const txt=el.textContent||'';
+    const isTarget=txt.trim()===rvState.currentRegiao.nome.toUpperCase();
+    if(isTarget) el.style.cursor='pointer';
+  });
+
+  // Add click targets
+  mc.querySelectorAll('text').forEach(el=>{
+    el.style.cursor='pointer';
+    el.addEventListener('click',()=>clickRegion(el.textContent.trim()));
+  });
+  mc.querySelectorAll('ellipse').forEach(el=>{
+    el.style.cursor='pointer';
+    // find nearest label
+    const cx=parseFloat(el.getAttribute('cx'));
+    const cy=parseFloat(el.getAttribute('cy'));
+    el.addEventListener('click',()=>{
+      // find text label closest to this ellipse
+      let bestLabel='', bestDist=999;
+      mc.querySelectorAll('text').forEach(t=>{
+        const tx=parseFloat(t.getAttribute('x')||0);
+        const ty=parseFloat(t.getAttribute('y')||0);
+        const d=Math.hypot(cx-tx,cy-ty);
+        if(d<bestDist){bestDist=d;bestLabel=t.textContent.trim();}
+      });
+      clickRegion(bestLabel);
+    });
+  });
+}
+
+function clickRegion(label){
+  if(rvState.answered) return;
+  rvState.answered=true;
+  rvState.round++;
+  const target=rvState.currentRegiao.nome.toUpperCase();
+  const ok=label===target;
+  if(ok){
+    rvState.acertos++;
+  } else {
+    rvState.lives--;
+    buildRegiaoLives();
+  }
+  regiaoShowToast(ok,rvState.currentRegiao.nome);
+  setTimeout(regiaoNextRound,1800);
+}
+
+function regiaoInit(){
+  rvState={lives:RV_MAX_LIVES,score:0,round:0,acertos:0,currentRegiao:null,order:[],answered:false};
+  buildRegiaoLives();
+  regiaoNextRound();
+}
+
+/* ════════════════════════════════════════
+   RANKING SCREEN
+   ════════════════════════════════════════ */
+const TOP10_BRASIL = [
+  {pos:1,avatar:'🏆',nome:'Rafael M.',titulo:'Grand Cru Master',xp:18420},
+  {pos:2,avatar:'🍷',nome:'Ana S.',titulo:'Sommelier Pro',xp:15880},
+  {pos:3,avatar:'🌹',nome:'Pedro C.',titulo:'Cave Master',xp:14200},
+  {pos:4,avatar:'🍇',nome:'Carla F.',titulo:'Enófila Expert',xp:12750},
+  {pos:5,avatar:'⭐',nome:'Lucas B.',titulo:'Cru Bourgeois',xp:11300},
+  {pos:6,avatar:'🥂',nome:'Mariana T.',titulo:'Vinhos Clássicos',xp:9840},
+  {pos:7,avatar:'🌿',nome:'João P.',titulo:'Terroir Hunter',xp:8620},
+  {pos:8,avatar:'🌺',nome:'Sofia R.',titulo:'Blanc de Blancs',xp:7450},
+  {pos:9,avatar:'🎯',nome:'André M.',titulo:'Mise en Bouteille',xp:6380},
+  {pos:10,avatar:'🏅',nome:'Beatriz S.',titulo:'Premier Cru',xp:5210},
+];
+const TOP10_GLOBAL = [
+  {pos:1,avatar:'🏆',nome:'Yuki T.',titulo:'Master of Wine',xp:52400},
+  {pos:2,avatar:'🍷',nome:'Henri D.',titulo:'Grand Cru Classé',xp:49200},
+  {pos:3,avatar:'🌹',nome:'Isabella R.',titulo:'Sommelier Elite',xp:43800},
+  {pos:4,avatar:'🍇',nome:'James W.',titulo:'Cellar Master',xp:38500},
+  {pos:5,avatar:'⭐',nome:'Mei L.',titulo:'Wine Scholar',xp:34200},
+  {pos:6,avatar:'🥂',nome:'Rafael M.',titulo:'Grand Cru Master',xp:18420},
+  {pos:7,avatar:'🌿',nome:'Ana S.',titulo:'Sommelier Pro',xp:15880},
+  {pos:8,avatar:'🌺',nome:'Pedro C.',titulo:'Cave Master',xp:14200},
+  {pos:9,avatar:'🎯',nome:'Carla F.',titulo:'Enófila Expert',xp:12750},
+  {pos:10,avatar:'🏅',nome:'Lucas B.',titulo:'Cru Bourgeois',xp:11300},
+];
+
+const currentUser={pos:142,nome:'Você',xp:4210,titulo:'Aprendiz do Vinho'};
+
+let rkActiveTab='brasil';
+function rkSetTab(tab,el){
+  rkActiveTab=tab;
+  document.querySelectorAll('.rk-tab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  rkRender(tab);
+}
+
+function rkRender(tab){
+  const list=document.getElementById('rkList');
+  const data=tab==='brasil'?TOP10_BRASIL:tab==='global'?TOP10_GLOBAL:TOP10_BRASIL.slice(0,5);
+  list.innerHTML='';
+
+  const medal=['🥇','🥈','🥉'];
+  data.forEach((r,i)=>{
+    const row=document.createElement('div');
+    row.className='rk-row';
+    if(i===0) row.style.borderColor='#D4AF37';
+    if(i===1) row.style.borderColor='#B0B0B0';
+    if(i===2) row.style.borderColor='#C07A3A';
+    row.innerHTML=`
+      <div class="rk-pos">${i<3?medal[i]:'#'+r.pos}</div>
+      <div class="rk-avatar">${r.avatar}</div>
+      <div class="rk-info">
+        <div class="rk-name">${r.nome}</div>
+        <div class="rk-titulo">${r.titulo}</div>
+      </div>
+      <div class="rk-xp">${r.xp.toLocaleString()} XP</div>
+    `;
+    list.appendChild(row);
+  });
+
+  // Update user row with real XP
+  const realXP=parseInt(localStorage.getItem('vb_xp')||'0')||currentUser.xp;
+  document.getElementById('rkYouXP').textContent=realXP.toLocaleString()+' XP';
+}
+</script>
