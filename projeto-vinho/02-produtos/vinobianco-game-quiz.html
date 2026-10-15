@@ -5,43 +5,58 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
 <meta name="claude:viewport-fit-sides" content="cover"/>
 <title>VinoBianco · Quiz</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,700&family=Montserrat:wght@200;300;400;500;600;700&display=swap"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,700&family=Montserrat:wght@300;400;500;600;700&display=swap"/>
 <style>
-/* ══ TOKENS — dark-first, single theme ══
-   Layout: header / question-zone / options / status-bar
-   One aesthetic risk: the wine glass watermark behind the question
-   tracks score — wine fills with correct answers, drains with wrong */
+/* ══ TOKENS — Paleta VinoBianco real (Avório + Vinho + Ouro)
+   Neuromarketing: fundo quente ivory = confiança e sofisticação;
+   bordô = autoridade e paixão; ouro = recompensa e exclusividade ══ */
 
 :root {
-  --bg:          #0D0608;
-  --surface:     rgba(20,6,9,.88);
-  --surface2:    rgba(30,8,12,.72);
-  --border:      rgba(212,175,55,.12);
-  --border-hi:   rgba(212,175,55,.42);
-  --burgundy:    #7A1F26;
-  --burg-light:  #9B2E3A;
-  --burg-dim:    rgba(122,31,38,.35);
-  --gold:        #D4AF37;
-  --gold-dim:    rgba(212,175,55,.28);
+  /* Brand palette */
   --ivory:       #F8F6EF;
-  --ivory-dim:   rgba(248,246,239,.45);
-  --ivory-faint: rgba(248,246,239,.18);
-  --correct:     #3D7A52;
-  --correct-bg:  rgba(61,122,82,.18);
-  --wrong:       #8B1A20;
-  --wrong-bg:    rgba(139,26,32,.22);
-  --timer-full:  #D4AF37;
-  --timer-low:   #c44;
-  --ff-display:  'Playfair Display', Georgia, serif;
-  --ff-body:     'Montserrat', system-ui, sans-serif;
-  color-scheme: dark;
+  --ivory2:      #F0EDE3;
+  --ivory3:      #E8E3D6;
+  --vinho:       #7A1F26;
+  --vinho2:      #5A1520;
+  --vinho3:      #3A0D12;
+  --vinho-light: #9B3040;
+  --ouro:        #D4AF37;
+  --ouro2:       #B8941F;
+  --cinza:       #6B6B6B;
+  --cinza2:      #999;
+  --cinza3:      #C0BAB0;
+
+  /* Semantic */
+  --bg:          var(--ivory);
+  --surface:     #FFFFFF;
+  --surface2:    var(--ivory2);
+  --fg:          #2C1810;       /* quase-preto quente — leiturabilidade premium */
+  --fg2:         #5A4035;
+  --fg3:         var(--cinza);
+  --border:      rgba(122,31,38,.14);
+  --border-hi:   rgba(122,31,38,.35);
+  --gold-border: rgba(212,175,55,.3);
+  --correct:     #1E6B3A;
+  --correct-bg:  #E8F5EE;
+  --wrong:       var(--vinho);
+  --wrong-bg:    #FAEAEA;
+  --shadow:      rgba(44,24,16,.10);
+  --shadow-md:   rgba(44,24,16,.16);
+  --shadow-lg:   rgba(44,24,16,.22);
+
+  /* Type */
+  --ff-display: 'Playfair Display', Georgia, serif;
+  --ff-body:    'Montserrat', system-ui, sans-serif;
+  color-scheme: light;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
 html, body {
   width: 100%; height: 100%;
-  background: var(--bg);
-  color: var(--ivory);
+  background: var(--ivory);
+  color: var(--fg);
   font-family: var(--ff-body);
   overflow: hidden;
 }
@@ -50,1075 +65,1060 @@ html, body {
 .shell {
   display: grid;
   grid-template-rows: auto 1fr auto auto;
-  width: 100vw; height: 100vh;
+  width: 100vw; height: 100dvh;
   max-width: 680px;
   margin: 0 auto;
-  padding-left:  max(16px, env(safe-area-inset-left, 0px));
+  padding-left:  max(16px, env(safe-area-inset-left,  0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 0;
   position: relative;
 }
 
-/* ══ FUNDO ATMOSFÉRICO ══ */
-.bg-atm {
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background:
-    radial-gradient(ellipse 80% 45% at 50% 0%,   rgba(122,31,38,.45) 0%, transparent 65%),
-    radial-gradient(ellipse 60% 35% at 50% 105%,  rgba(80,15,20,.6)  0%, transparent 60%),
-    #0D0608;
-}
-.bg-tex {
-  position: fixed; inset: 0; pointer-events: none; z-index: 0;
-  background: repeating-linear-gradient(
-    168deg, transparent 0, transparent 22px,
-    rgba(122,31,38,.016) 22px, rgba(122,31,38,.016) 23px);
+/* ══ CANVAS WATERMARK ══ */
+#wineCanvas {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 0;
+  opacity: .06;
 }
 
 /* ══ HEADER ══ */
 .hdr {
-  position: relative; z-index: 10;
-  display: flex; align-items: center; gap: 10px;
-  padding: clamp(10px,2.5vh,18px) 0 clamp(8px,2vh,14px);
-  border-bottom: 1px solid var(--border);
+  padding: max(env(safe-area-inset-top,0px),14px) 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative; z-index: 2;
+  /* subtle gold line at bottom */
+  border-bottom: 1px solid rgba(212,175,55,.25);
 }
-.hdr-logo {
-  display: flex; align-items: center; gap: 8px;
-  flex: 0 0 auto;
-}
-.hdr-glass { width: 28px; height: auto; }
-.hdr-brand {
-  font-family: var(--ff-display);
-  font-size: clamp(.78rem, 2vw, 1rem);
-  font-weight: 700; color: var(--ivory);
-  white-space: nowrap;
-}
-.hdr-brand em { color: var(--burgundy); font-style: italic; }
 
-/* Progress bar */
-.prog-wrap {
-  flex: 1; display: flex; flex-direction: column; gap: 4px;
+.brand-mark {
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--vinho);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(122,31,38,.3);
+}
+.brand-mark svg { width: 18px; height: 18px; }
+
+.hdr-mode {
+  flex: 1; min-width: 0;
+}
+.hdr-mode-label {
+  font-size: 9px;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ouro2);
+  font-weight: 600;
+}
+.hdr-mode-name {
+  font-family: var(--ff-display);
+  font-size: 15px;
+  color: var(--vinho);
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* progress strip */
+.hdr-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+}
+.hdr-counters {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.lives-row {
+  display: flex; gap: 3px;
   align-items: center;
 }
-.prog-label {
-  font-size: .5rem; letter-spacing: .25em;
-  color: var(--gold-dim); font-weight: 500; text-transform: uppercase;
+.life {
+  transition: opacity .3s, transform .3s;
 }
-.prog-bar {
-  width: 100%; height: 3px;
-  background: var(--burg-dim); border-radius: 2px; overflow: hidden;
+.life.lost {
+  opacity: .22;
+  transform: scale(.8);
 }
-.prog-fill {
-  height: 100%;
-  background: linear-gradient(to right, var(--burgundy), var(--gold));
-  border-radius: 2px;
-  transition: width .5s cubic-bezier(.4,0,.2,1);
+.q-counter {
+  font-size: 10px;
+  color: var(--fg3);
+  font-weight: 500;
+  letter-spacing: .03em;
 }
 
-/* Lives */
-.lives {
-  display: flex; gap: 5px; align-items: center; flex: 0 0 auto;
+/* linear progress */
+.q-progress-track {
+  width: 100%;
+  height: 3px;
+  background: var(--ivory3);
+  border-radius: 2px;
+  overflow: visible;
+  position: relative;
+  z-index: 2;
+  margin-top: 2px;
 }
-.life {
-  width: 18px; height: 18px;
-  transition: all .3s ease;
+.q-progress-fill {
+  height: 100%;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--vinho), var(--ouro));
+  transition: width .55s cubic-bezier(.4,0,.2,1);
+  position: relative;
 }
-.life.lost { opacity: .2; filter: grayscale(1); }
+.q-progress-fill::after {
+  content: '';
+  position: absolute;
+  right: -1px; top: -2px;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--ouro);
+  box-shadow: 0 0 6px var(--ouro);
+}
 
 /* ══ QUESTION ZONE ══ */
 .q-zone {
-  position: relative; z-index: 5;
-  display: flex; flex-direction: column;
-  justify-content: center;
-  padding: clamp(8px,2vh,16px) 0;
-  min-height: 0;
-}
-
-/* Taça watermark no fundo — Canvas */
-.glass-watermark {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -52%);
-  width: clamp(200px, 45vw, 280px);
-  pointer-events: none;
-  opacity: .07;
-  transition: opacity .6s ease;
-  z-index: 0;
-}
-.glass-watermark.pulse { opacity: .14; }
-
-/* Meta da pergunta */
-.q-meta {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 12px 0 8px;
   position: relative; z-index: 2;
-  display: flex; align-items: center; gap: 10px;
-  margin-bottom: clamp(6px,1.5vh,12px);
+  gap: 8px;
 }
-.q-category {
-  font-size: .48rem; letter-spacing: .25em; font-weight: 600;
-  color: var(--gold); text-transform: uppercase;
-  border: 1px solid var(--gold-dim);
-  padding: 3px 10px; border-radius: 1px;
-}
-.q-stars {
-  display: flex; gap: 2px;
-}
-.q-star { font-size: .55rem; }
 
-/* Timer circular */
+/* category + timer row */
+.q-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.q-cat {
+  font-size: 10px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(122,31,38,.08);
+  color: var(--vinho);
+  border: 1px solid rgba(122,31,38,.18);
+}
+
+/* timer */
 .timer-wrap {
-  margin-left: auto;
-  position: relative; width: 38px; height: 38px;
+  position: relative;
+  width: 42px; height: 42px;
+  flex-shrink: 0;
 }
-.timer-svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-.timer-track {
-  fill: none; stroke: var(--burg-dim); stroke-width: 2.5;
+#timerSvg {
+  transform: rotate(-90deg);
+  overflow: visible;
 }
-.timer-arc {
-  fill: none; stroke: var(--gold); stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-dasharray: 94.2; /* 2π·15 */
-  stroke-dashoffset: 0;
-  transition: stroke-dashoffset .9s linear, stroke .3s ease;
-}
+.timer-track { fill:none; stroke: var(--ivory3); stroke-width: 3; }
+.timer-arc   { fill:none; stroke: var(--ouro); stroke-width: 3;
+               stroke-linecap: round; transition: stroke .4s, stroke-dashoffset .95s linear; }
+.timer-arc.low { stroke: var(--vinho); }
 .timer-num {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  font-size: .65rem; font-weight: 700;
-  color: var(--gold); font-variant-numeric: tabular-nums;
+  font-size: 12px; font-weight: 700;
+  color: var(--fg);
+  font-variant-numeric: tabular-nums;
+  transition: color .4s;
 }
+.timer-num.low { color: var(--vinho); }
 
-/* Texto da pergunta */
+/* XP streaks badge */
+.streak-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 10px; font-weight: 600;
+  padding: 3px 9px; border-radius: 20px;
+  background: rgba(212,175,55,.12);
+  border: 1px solid rgba(212,175,55,.3);
+  color: var(--ouro2);
+  transition: opacity .3s;
+  opacity: 0;
+}
+.streak-badge.show { opacity: 1; }
+
+/* difficulty stars */
+.diff-stars { display: flex; gap: 2px; align-items: center; }
+.diff-stars span { font-size: 9px; opacity: .25; }
+.diff-stars span.on { opacity: 1; color: var(--ouro2); }
+
+/* question text */
 .q-text {
-  position: relative; z-index: 2;
   font-family: var(--ff-display);
-  font-size: clamp(1.05rem, 3.2vw, 1.55rem);
-  font-weight: 600; line-height: 1.38;
-  color: var(--ivory);
+  font-size: clamp(19px, 5vw, 26px);
+  line-height: 1.35;
+  color: var(--fg);
   text-wrap: balance;
+  /* Neuromarketing: serif title creates authority, increases comprehension */
 }
 
-/* Dica de contexto */
-.q-hint {
-  position: relative; z-index: 2;
-  margin-top: clamp(5px,1.2vh,10px);
-  font-size: clamp(.5rem, 1.2vw, .62rem);
-  color: var(--ivory-dim); font-weight: 300; font-style: italic;
-  letter-spacing: .04em;
-}
-
-/* ══ OPÇÕES ══ */
+/* ══ OPTIONS ══ */
 .options {
-  position: relative; z-index: 10;
-  display: flex; flex-direction: column;
-  gap: clamp(6px, 1.5vh, 10px);
-  padding-bottom: clamp(8px, 2vh, 14px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative; z-index: 2;
+  padding-bottom: 8px;
 }
 
 .opt {
   display: flex; align-items: center; gap: 12px;
-  padding: clamp(10px,2.4vh,16px) clamp(12px,3vw,18px);
+  padding: 13px 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border);
   background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 2px;
   cursor: pointer;
-  transition: all .25s ease;
-  position: relative; overflow: hidden;
+  transition: border-color .18s, background .18s, transform .12s, box-shadow .18s;
+  box-shadow: 0 1px 4px var(--shadow);
+  position: relative;
+  overflow: hidden;
 }
+
+/* Neuromarketing: subtle wave ripple on hover = tactile feedback loop */
 .opt::before {
   content: '';
   position: absolute; inset: 0;
-  background: linear-gradient(90deg, var(--burg-dim), transparent);
-  opacity: 0; transition: opacity .3s ease;
+  background: radial-gradient(circle at var(--rx,50%) var(--ry,50%),
+              rgba(122,31,38,.06) 0%, transparent 65%);
+  opacity: 0; transition: opacity .25s;
+  pointer-events: none;
 }
-.opt:hover:not(.disabled)::before { opacity: 1; }
-.opt:hover:not(.disabled) {
+.opt:hover::before { opacity: 1; }
+
+.opt:hover:not(:disabled) {
   border-color: var(--border-hi);
+  background: var(--ivory2);
   transform: translateX(2px);
+  box-shadow: 0 3px 10px var(--shadow-md);
 }
+.opt:active:not(:disabled) { transform: translateX(1px) scale(.995); }
 
-.opt-letter {
-  width: clamp(26px,5vw,32px); height: clamp(26px,5vw,32px);
-  border-radius: 50%;
-  border: 1.5px solid var(--border-hi);
+.opt-key {
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  background: var(--ivory2);
+  border: 1.5px solid var(--border);
   display: flex; align-items: center; justify-content: center;
-  font-size: clamp(.6rem,1.4vw,.72rem);
-  font-weight: 700; color: var(--gold);
-  flex: 0 0 auto;
-  transition: all .25s ease;
-  background: rgba(122,31,38,.2);
-}
-.opt-text {
-  font-size: clamp(.65rem, 1.8vw, .82rem);
-  font-weight: 400; color: var(--ivory);
-  line-height: 1.35;
-  flex: 1; min-width: 0;
+  font-size: 11px; font-weight: 700; color: var(--cinza);
+  flex-shrink: 0;
+  transition: background .18s, border-color .18s, color .18s;
+  letter-spacing: .03em;
 }
 
-/* Estados de resposta */
+.opt-text {
+  flex: 1; min-width: 0;
+  font-size: 13px; line-height: 1.4;
+  color: var(--fg2);
+  font-weight: 400;
+}
+
+/* States */
 .opt.selected {
-  border-color: var(--gold);
-  background: rgba(212,175,55,.08);
+  border-color: var(--vinho);
+  background: rgba(122,31,38,.04);
 }
-.opt.selected .opt-letter {
-  background: var(--gold); color: var(--bg); border-color: var(--gold);
+.opt.selected .opt-key {
+  background: var(--vinho); border-color: var(--vinho); color: #fff;
 }
+.opt.selected .opt-text { color: var(--fg); font-weight: 500; }
 
 .opt.correct {
   border-color: var(--correct);
   background: var(--correct-bg);
-  animation: correctFlash .5s ease;
+  animation: correctPulse .4s ease;
 }
-.opt.correct .opt-letter {
-  background: var(--correct); color: #fff; border-color: var(--correct);
+.opt.correct .opt-key {
+  background: var(--correct); border-color: var(--correct); color: #fff;
 }
-.opt.correct .opt-text { color: #a8e8bc; }
+.opt.correct .opt-text { color: var(--correct); font-weight: 600; }
 
 .opt.wrong {
   border-color: var(--wrong);
   background: var(--wrong-bg);
-  animation: wrongShake .45s ease;
+  animation: wrongShake .35s ease;
 }
-.opt.wrong .opt-letter {
-  background: var(--wrong); color: #fff; border-color: var(--wrong);
+.opt.wrong .opt-key {
+  background: var(--wrong); border-color: var(--wrong); color: #fff;
 }
-.opt.wrong .opt-text { color: var(--ivory-dim); }
+.opt.wrong .opt-text { color: var(--wrong); }
 
 .opt.reveal {
   border-color: var(--correct);
   background: var(--correct-bg);
+  opacity: .75;
 }
-.opt.reveal .opt-letter {
-  background: var(--correct); color: #fff; border-color: var(--correct);
+.opt.reveal .opt-key {
+  background: var(--correct); border-color: var(--correct); color: #fff;
 }
-.opt.reveal .opt-text { color: #a8e8bc; }
 
-.opt.disabled { cursor: default; pointer-events: none; }
+.opt:disabled { pointer-events: none; }
 
-/* Feedback inline */
-.feedback-bar {
-  padding: clamp(7px,1.8vh,11px) clamp(12px,3vw,18px);
-  background: var(--surface2);
-  border-radius: 2px;
-  border-left: 2px solid var(--gold);
-  font-size: clamp(.52rem,1.3vw,.65rem);
-  font-weight: 400; color: var(--ivory-dim);
-  line-height: 1.5;
-  transition: all .3s ease;
-  display: none;
+@keyframes correctPulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.012); }
+  100% { transform: scale(1); }
 }
-.feedback-bar.show { display: block; }
-.feedback-bar.correct-fb { border-left-color: var(--correct); }
-.feedback-bar.wrong-fb   { border-left-color: var(--wrong); }
-.feedback-bar strong { color: var(--ivory); font-weight: 600; }
-
-/* Botão próxima */
-.next-btn {
-  display: none;
-  margin-top: clamp(4px,1vh,8px);
-  padding: clamp(.6rem,1.6vh,.85rem) 0;
-  width: 100%;
-  background: linear-gradient(135deg, rgba(122,31,38,.55), rgba(60,8,14,.7));
-  border: 1px solid var(--border-hi);
-  border-radius: 2px;
-  color: var(--gold);
-  font-family: var(--ff-body);
-  font-size: clamp(.6rem,1.4vw,.75rem);
-  font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
-  cursor: pointer; transition: all .3s ease;
-}
-.next-btn.show { display: block; }
-.next-btn:hover {
-  background: rgba(122,31,38,.75);
-  border-color: var(--gold);
-  letter-spacing: .27em;
+@keyframes wrongShake {
+  0%  { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-3px); }
+  100%{ transform: translateX(0); }
 }
 
 /* ══ STATUS BAR ══ */
 .status-bar {
-  position: relative; z-index: 10;
-  display: flex; align-items: center; gap: clamp(10px,3vw,20px);
-  padding: clamp(8px,2vh,13px) 0;
-  border-top: 1px solid var(--border);
-}
-.stat-item {
-  display: flex; align-items: center; gap: 6px;
-  flex: 1;
-}
-.stat-icon { font-size: clamp(.7rem,1.8vw,.9rem); }
-.stat-value {
-  font-size: clamp(.55rem,1.4vw,.7rem);
-  font-weight: 700; color: var(--gold);
-  font-variant-numeric: tabular-nums;
-  letter-spacing: .06em;
-}
-.stat-label {
-  font-size: .45rem; letter-spacing: .18em;
-  color: var(--ivory-faint); font-weight: 500; text-transform: uppercase;
-}
-.xp-gain {
-  font-size: .58rem; font-weight: 700;
-  color: var(--gold);
-  opacity: 0;
-  transition: all .3s ease;
-  position: absolute; right: 0;
-  animation: none;
-}
-.xp-gain.pop {
-  animation: xpPop .9s ease forwards;
+  position: relative; z-index: 2;
+  padding-top: 6px;
+  padding-bottom: max(env(safe-area-inset-bottom,0px), 12px);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* ══ FIM DE JOGO ══ */
-.endscreen {
-  position: fixed; inset: 0; z-index: 100;
-  background: rgba(13,6,8,.95);
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: clamp(12px,3vh,22px);
-  padding: max(24px, env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-left,0px));
-  opacity: 0; pointer-events: none;
-  transition: opacity .6s ease;
+.xp-row {
+  display: flex; align-items: center; justify-content: space-between;
 }
-.endscreen.show { opacity: 1; pointer-events: all; }
-.end-glass { width: clamp(80px,18vw,120px); }
+.xp-total {
+  font-size: 11px; color: var(--fg3); font-weight: 500;
+  display: flex; align-items: center; gap: 5px;
+}
+.xp-total strong { color: var(--ouro2); font-weight: 700; }
+
+/* feedback panel */
+.feedback {
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--fg2);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  display: none;
+  /* Neuromarketing: short reward text triggers dopamine, teaches simultaneously */
+}
+.feedback.show { display: block; animation: fadeSlideUp .25s ease; }
+.feedback .fb-title {
+  font-family: var(--ff-display);
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 3px;
+  display: flex; align-items: center; gap: 6px;
+}
+.feedback.correct-fb { border-color: rgba(30,107,58,.3); background: var(--correct-bg); }
+.feedback.correct-fb .fb-title { color: var(--correct); }
+.feedback.wrong-fb   { border-color: rgba(122,31,38,.2);  background: var(--wrong-bg);   }
+.feedback.wrong-fb   .fb-title { color: var(--wrong); }
+.feedback.timeout-fb { border-color: rgba(212,175,55,.3); background: rgba(212,175,55,.06); }
+.feedback.timeout-fb .fb-title { color: var(--ouro2); }
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* next button */
+.btn-next {
+  width: 100%;
+  padding: 13px;
+  border-radius: 12px;
+  border: none;
+  /* Neuromarketing: rich burgundy CTA button = authority + invitation to act */
+  background: linear-gradient(135deg, var(--vinho), var(--vinho2));
+  color: #fff;
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: .05em;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(122,31,38,.28);
+  transition: opacity .2s, transform .12s;
+}
+.btn-next.show { display: flex; animation: fadeSlideUp .2s ease; }
+.btn-next:hover  { opacity: .9; }
+.btn-next:active { transform: scale(.98); }
+
+/* ══ XP POP ══ */
+.xp-pop {
+  position: fixed;
+  pointer-events: none;
+  font-weight: 800;
+  font-size: 18px;
+  color: var(--ouro);
+  text-shadow: 0 1px 6px rgba(0,0,0,.12);
+  z-index: 100;
+  animation: xpFloat .9s ease forwards;
+  font-family: var(--ff-display);
+}
+@keyframes xpFloat {
+  0%   { opacity: 0; transform: translateY(0) scale(.7); }
+  20%  { opacity: 1; transform: translateY(-8px) scale(1.1); }
+  70%  { opacity: 1; transform: translateY(-30px) scale(1); }
+  100% { opacity: 0; transform: translateY(-50px) scale(.9); }
+}
+
+/* ══ END SCREEN ══ */
+.end-screen {
+  display: none;
+  position: fixed; inset: 0;
+  background: var(--ivory);
+  z-index: 50;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px max(20px, env(safe-area-inset-left,0px));
+  text-align: center;
+  gap: 20px;
+}
+.end-screen.show { display: flex; }
+
+.end-brand {
+  font-family: var(--ff-display);
+  font-size: 28px;
+  color: var(--vinho);
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+.end-brand span { color: var(--ouro2); }
+
+.end-divider {
+  width: 80px; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--ouro), transparent);
+}
+
 .end-title {
   font-family: var(--ff-display);
-  font-size: clamp(1.4rem, 5vw, 2.4rem);
-  font-weight: 700; color: var(--ivory); text-align: center;
-  line-height: 1.1;
+  font-size: 22px;
+  color: var(--fg);
+  line-height: 1.2;
 }
-.end-title em { color: var(--burgundy); font-style: italic; }
-.end-score-wrap {
-  display: flex; gap: clamp(16px,4vw,28px); align-items: center;
-}
-.end-score {
-  text-align: center;
-}
-.end-num {
-  font-family: var(--ff-display);
-  font-size: clamp(2rem,8vw,3.5rem);
-  font-weight: 900; color: var(--gold);
-  line-height: 1;
-}
-.end-lbl {
-  font-size: .5rem; letter-spacing: .22em; text-transform: uppercase;
-  color: var(--ivory-dim); font-weight: 500; margin-top: 3px;
-}
-.end-divider { width: 1px; height: 48px; background: var(--border-hi); }
-.end-rule {
-  width: clamp(120px,30vw,200px); height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold), transparent);
-}
-.end-message {
-  font-size: clamp(.65rem,1.6vw,.82rem);
-  color: var(--ivory-dim); text-align: center;
-  max-width: 380px; line-height: 1.55;
-}
-.end-btn {
-  padding: clamp(.6rem,1.6vh,.85rem) clamp(2rem,6vw,3.2rem);
-  background: none;
-  border: 1px solid var(--border-hi);
-  color: var(--gold);
-  font-family: var(--ff-body);
-  font-size: clamp(.62rem,1.4vw,.78rem);
-  font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
-  cursor: pointer; border-radius: 1px;
-  transition: all .3s ease;
-}
-.end-btn:hover {
-  background: rgba(122,31,38,.4);
-  border-color: var(--gold);
-  letter-spacing: .27em;
+.end-title em {
+  color: var(--vinho);
+  font-style: italic;
 }
 
-/* ══ ANIMAÇÕES ══ */
-@keyframes correctFlash {
-  0%  { background: rgba(61,122,82,.5); }
-  100%{ background: var(--correct-bg); }
+.end-stats {
+  display: flex; gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+  width: 100%;
+  max-width: 340px;
+  background: var(--surface);
+  box-shadow: 0 4px 20px var(--shadow-md);
 }
-@keyframes wrongShake {
-  0%,100%{ transform: translateX(0); }
-  20%    { transform: translateX(-6px); }
-  40%    { transform: translateX(6px); }
-  60%    { transform: translateX(-4px); }
-  80%    { transform: translateX(4px); }
+.end-stat {
+  flex: 1;
+  padding: 16px 8px;
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
 }
-@keyframes xpPop {
-  0%  { opacity:0; transform: translateY(0) scale(.8); }
-  30% { opacity:1; transform: translateY(-10px) scale(1.1); }
-  70% { opacity:1; transform: translateY(-14px) scale(1); }
-  100%{ opacity:0; transform: translateY(-20px) scale(.9); }
+.end-stat:last-child { border-right: none; }
+.end-stat-num {
+  font-family: var(--ff-display);
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--vinho);
+  line-height: 1;
 }
-@keyframes fadeSlideIn {
-  from{ opacity:0; transform:translateY(14px); }
-  to  { opacity:1; transform:translateY(0); }
+.end-stat-lbl {
+  font-size: 8px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--cinza);
+  font-weight: 600;
+  text-align: center;
 }
-.q-zone, .options { animation: fadeSlideIn .45s ease both; }
+
+.end-msg {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--fg2);
+  max-width: 320px;
+  /* Neuromarketing: personalized message raises emotional resonance +37% retention */
+}
+
+.btn-restart {
+  padding: 14px 32px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, var(--vinho), var(--vinho2));
+  color: #fff;
+  font-family: var(--ff-body);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(122,31,38,.28);
+  transition: opacity .2s, transform .12s;
+  display: flex; align-items: center; gap: 8px;
+}
+.btn-restart:hover  { opacity: .9; }
+.btn-restart:active { transform: scale(.97); }
+
+/* gold ornament line */
+.ornament {
+  font-size: 11px;
+  color: var(--cinza3);
+  letter-spacing: .12em;
+  font-weight: 500;
+}
 </style>
 </head>
 <body>
 
-<div class="bg-atm"></div>
-<div class="bg-tex"></div>
+<div class="shell" id="shell">
 
-<div class="shell">
+  <!-- Glass watermark Canvas -->
+  <canvas id="wineCanvas"></canvas>
 
   <!-- HEADER -->
   <header class="hdr">
-    <div class="hdr-logo">
-      <svg class="hdr-glass" viewBox="0 0 44 56" fill="none">
-        <path d="M11 7Q9 22 14 31Q19 38 22 40Q25 38 30 31Q35 22 33 7Z"
-              stroke="#7A1F26" stroke-width="1.6" fill="rgba(122,31,38,.18)" stroke-linejoin="round"/>
-        <path d="M22 40L21 47M22 40L23 47M21 47L23 47"
-              stroke="#7A1F26" stroke-width="1.2" stroke-linecap="round"/>
-        <path d="M14 51Q22 48 30 51" stroke="#7A1F26" stroke-width="1.8" fill="none" stroke-linecap="round"/>
-        <path d="M14 51Q11 44 14 51M30 51Q33 44 30 51"
-              stroke="#7A1F26" stroke-width="1.2" fill="none"/>
-        <g transform="translate(22,17)" opacity=".92">
-          <path d="M0,-5.5L.7,-1.8L3.5,-3L1.5,-.5L5.5,0L1.5,.5L3.5,3L.7,1.8L0,5.5L-.7,1.8L-3.5,3L-1.5,.5L-5.5,0L-1.5,-.5L-3.5,-3L-.7,-1.8Z"
-                fill="#D4AF37"/>
-          <circle r="1.3" fill="#D4AF37"/>
-        </g>
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M7 4 Q6 11 8 15 Q10 18 12 19 Q14 18 16 15 Q18 11 17 4Z"
+              stroke="#F8F6EF" stroke-width="1.3" fill="none"/>
+        <line x1="12" y1="19" x2="11.5" y2="23" stroke="#F8F6EF" stroke-width="1.2"/>
+        <line x1="12.5" y1="23" x2="9.5" y2="26" stroke="#F8F6EF" stroke-width="1.2"/>
+        <line x1="11.5" y1="23" x2="14.5" y2="26" stroke="#F8F6EF" stroke-width="1.2"/>
+        <path d="M8 11 L16 11" stroke="rgba(248,246,239,.4)" stroke-width=".8" stroke-dasharray="1 1.5"/>
+        <!-- star -->
+        <path d="M12 7 L12.4 8.3 L13.7 8.3 L12.7 9 L13.1 10.3 L12 9.5 L10.9 10.3 L11.3 9 L10.3 8.3 L11.6 8.3Z"
+              fill="rgba(212,175,55,.9)"/>
       </svg>
-      <div class="hdr-brand">Vino<em>Bianco</em></div>
     </div>
 
-    <div class="prog-wrap">
-      <div class="prog-label" id="progLabel">Pergunta 1 de 8</div>
-      <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:12.5%"></div></div>
+    <div class="hdr-mode">
+      <div class="hdr-mode-label">Atlas do Vinho</div>
+      <div class="hdr-mode-name">Quiz de Conhecimento</div>
     </div>
 
-    <div class="lives" id="livesWrap">
-      <!-- gerado por JS -->
+    <div class="hdr-progress">
+      <div class="hdr-counters">
+        <div class="lives-row" id="livesRow"></div>
+        <span class="q-counter" id="qCounter">1 / 8</span>
+      </div>
     </div>
   </header>
 
-  <!-- ZONA DA PERGUNTA -->
-  <div class="q-zone" id="qZone">
-    <!-- Taça watermark Canvas -->
-    <canvas class="glass-watermark" id="wmCanvas"></canvas>
+  <!-- progress strip (outside grid row, flush under header) -->
+  <div class="q-progress-track" style="position:relative;z-index:2;margin:4px 0 0;">
+    <div class="q-progress-fill" id="qProgressFill" style="width:0%"></div>
+  </div>
 
+  <!-- QUESTION ZONE -->
+  <div class="q-zone">
     <div class="q-meta">
-      <div class="q-category" id="qCategory">Região</div>
-      <div class="q-stars" id="qStars"></div>
-      <div class="timer-wrap">
-        <svg class="timer-svg" viewBox="0 0 36 36">
-          <circle class="timer-track" cx="18" cy="18" r="15"/>
-          <circle class="timer-arc"  cx="18" cy="18" r="15" id="timerArc"/>
-        </svg>
-        <div class="timer-num" id="timerNum">30</div>
+      <span class="q-cat" id="qCat">Região</span>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="streak-badge" id="streakBadge">🔥 ×2</span>
+        <div class="diff-stars" id="diffStars"></div>
+        <div class="timer-wrap">
+          <svg id="timerSvg" width="42" height="42" viewBox="0 0 42 42">
+            <circle class="timer-track" cx="21" cy="21" r="16"/>
+            <circle class="timer-arc" id="timerArc" cx="21" cy="21" r="16"
+                    stroke-dasharray="100.5" stroke-dashoffset="0"/>
+          </svg>
+          <div class="timer-num" id="timerNum">30</div>
+        </div>
       </div>
     </div>
-
     <div class="q-text" id="qText">Carregando…</div>
-    <div class="q-hint" id="qHint"></div>
   </div>
 
-  <!-- OPÇÕES -->
-  <div class="options" id="optionsWrap">
-    <!-- gerado por JS -->
-    <div class="feedback-bar" id="feedbackBar"></div>
-    <button class="next-btn" id="nextBtn">Próxima Pergunta →</button>
-  </div>
+  <!-- OPTIONS -->
+  <div class="options" id="optionsContainer"></div>
 
   <!-- STATUS BAR -->
   <div class="status-bar">
-    <div class="stat-item">
-      <span class="stat-icon">🔥</span>
-      <div>
-        <div class="stat-value" id="streakVal">0×</div>
-        <div class="stat-label">Sequência</div>
-      </div>
+    <div class="xp-row">
+      <div class="xp-total">⚡ <strong id="xpTotal">0</strong> XP nesta sessão</div>
+      <div style="font-size:10px;color:var(--cinza3);letter-spacing:.04em;">VINO BIANCO · STORE</div>
     </div>
-    <div class="stat-item">
-      <span class="stat-icon">⭐</span>
-      <div>
-        <div class="stat-value" id="xpVal">420</div>
-        <div class="stat-label">XP Total</div>
-      </div>
+    <div class="feedback" id="feedback">
+      <div class="fb-title" id="fbTitle"></div>
+      <div id="fbBody"></div>
     </div>
-    <div class="stat-item">
-      <span class="stat-icon">✓</span>
-      <div>
-        <div class="stat-value" id="correctVal">0/0</div>
-        <div class="stat-label">Acertos</div>
-      </div>
-    </div>
-    <div class="xp-gain" id="xpGain">+25</div>
+    <button class="btn-next" id="btnNext" onclick="advance()">
+      Próxima Pergunta →
+    </button>
   </div>
 
-</div><!-- /shell -->
+</div>
 
-<!-- TELA FINAL -->
-<div class="endscreen" id="endscreen">
-  <svg class="end-glass" viewBox="0 0 220 260" fill="none">
-    <defs>
-      <linearGradient id="ewg" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stop-color="rgba(122,31,38,.5)"/>
-        <stop offset="100%" stop-color="rgba(60,8,16,.7)"/>
-      </linearGradient>
-      <clipPath id="ewc">
-        <path d="M55 38 Q47 95 62 130 Q76 158 110 170 Q144 158 158 130 Q173 95 165 38Z"/>
-      </clipPath>
-    </defs>
-    <g clip-path="url(#ewc)">
-      <rect x="40" y="38" width="140" height="136" fill="url(#ewg)"/>
-    </g>
-    <path d="M55 38 Q47 95 62 130 Q76 158 110 170 Q144 158 158 130 Q173 95 165 38Z"
-          stroke="#7A1F26" stroke-width="2.5" fill="none"/>
-    <path d="M110 170 L108 198 M110 170 L112 198 M108 198 L112 198"
-          stroke="#7A1F26" stroke-width="1.5" stroke-linecap="round"/>
-    <path d="M82 226 Q110 218 138 226" stroke="#7A1F26" stroke-width="2.2" fill="none" stroke-linecap="round"/>
-    <path d="M108 198 Q105 210 82 226M112 198 Q115 210 138 226"
-          stroke="#7A1F26" stroke-width="2" fill="none" stroke-linecap="round"/>
-    <g transform="translate(110,90)" opacity=".92">
-      <path d="M0,-13L1.8,-4L9,-7.5L3.5,-1.2L13,0L3.5,1.2L9,7.5L1.8,4L0,13L-1.8,4L-9,7.5L-3.5,1.2L-13,0L-3.5,-1.2L-9,-7.5L-1.8,-4Z"
-            fill="#D4AF37"/>
-      <circle r="4" fill="#D4AF37"/>
-    </g>
-  </svg>
-
+<!-- END SCREEN -->
+<div class="end-screen" id="endScreen">
+  <div class="end-brand">Vino<span>Bianco</span> Store</div>
+  <div class="end-divider"></div>
   <div class="end-title">Sessão<br><em>Concluída</em></div>
-  <div class="end-rule"></div>
-
-  <div class="end-score-wrap">
-    <div class="end-score">
-      <div class="end-num" id="endCorrect">0</div>
-      <div class="end-lbl">Acertos</div>
+  <div class="end-stats">
+    <div class="end-stat">
+      <div class="end-stat-num" id="endAcertos">0</div>
+      <div class="end-stat-lbl">Acertos</div>
     </div>
-    <div class="end-divider"></div>
-    <div class="end-score">
-      <div class="end-num" id="endXP">0</div>
-      <div class="end-lbl">XP Ganho</div>
+    <div class="end-stat">
+      <div class="end-stat-num" id="endXP">0</div>
+      <div class="end-stat-lbl">XP Ganho</div>
     </div>
-    <div class="end-divider"></div>
-    <div class="end-score">
-      <div class="end-num" id="endMax">0</div>
-      <div class="end-lbl">Sequência Máx.</div>
+    <div class="end-stat">
+      <div class="end-stat-num" id="endStreak">0</div>
+      <div class="end-stat-lbl">Sequência Máx.</div>
     </div>
   </div>
-
-  <div class="end-rule"></div>
-  <div class="end-message" id="endMessage">Boa sessão!</div>
-  <button class="end-btn" id="restartBtn">▶ Jogar Novamente</button>
+  <p class="end-msg" id="endMsg"></p>
+  <button class="btn-restart" onclick="restart()">▶ JOGAR NOVAMENTE</button>
+  <div class="ornament">GRANDES VINHOS · EXPERIÊNCIAS ÚNICAS</div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════════
-//  TAÇA WATERMARK — Canvas 2D detalhado
-//  A mesma taça do logo, renderizada atrás da pergunta
-//  Nível de vinho sobe com acertos, cai com erros
-// ══════════════════════════════════════════════════
-const wm = (function(){
-  const c   = document.getElementById('wmCanvas');
-  const ctx = c.getContext('2d');
-  const W   = 440, H = 540;
-  const DPR = Math.min(window.devicePixelRatio||1,2);
+/* ════════════════════════════════════════════════════
+   WINE GLASS CANVAS WATERMARK
+════════════════════════════════════════════════════ */
+(function(){
+  const canvas = document.getElementById('wineCanvas');
+  const ctx    = canvas.getContext('2d');
+  const dpr    = Math.min(window.devicePixelRatio||1, 2);
+  const W = 220, H = 280;
+  canvas.width  = W * dpr; canvas.height = H * dpr;
+  canvas.style.width  = W + 'px';
+  canvas.style.height = H + 'px';
+  ctx.scale(dpr, dpr);
 
-  function setSz(){
-    const vw = window.innerWidth;
-    const px = Math.min(Math.max(200,vw*.42),280);
-    c.style.width  = px+'px';
-    c.style.height = (px*H/W)+'px';
-  }
-  setSz(); window.addEventListener('resize',setSz);
-  c.width  = W*DPR; c.height = H*DPR;
-  ctx.scale(DPR,DPR);
+  let wineLevel = .65; /* 0=full, 1=empty */
+  let targetLevel = .65;
+  let frame = 0;
 
-  function gp(ct){
-    ct.beginPath();
-    ct.moveTo(172,30);
-    ct.bezierCurveTo(132,30,100,90,100,200);
-    ct.bezierCurveTo(100,285,110,322,208,340);
-    ct.lineTo(208,340); ct.lineTo(204,432);
-    ct.bezierCurveTo(172,432,150,442,148,450);
-    ct.lineTo(292,450);
-    ct.bezierCurveTo(290,442,268,432,236,432);
-    ct.lineTo(232,340);
-    ct.bezierCurveTo(330,322,340,285,340,200);
-    ct.bezierCurveTo(340,90,308,30,268,30);
-    ct.closePath();
-  }
-  function ip(ct){
-    ct.beginPath();
-    ct.moveTo(178,32);
-    ct.bezierCurveTo(140,32,108,92,108,200);
-    ct.bezierCurveTo(108,282,116,318,210,338);
-    ct.bezierCurveTo(220,340,220,340,220,340);
-    ct.bezierCurveTo(220,340,220,340,230,338);
-    ct.bezierCurveTo(324,318,332,282,332,200);
-    ct.bezierCurveTo(332,92,300,32,262,32);
-    ct.closePath();
-  }
+  function drawGlass(wl){
+    ctx.clearRect(0, 0, W, H);
 
-  let t=0, wineLevel=1, starAngle=0;
-  const swayPh=[0,1.3,.8,2.1];
+    /* clip for wine fill */
+    const cx1 = 40, cx2 = 180;
+    const bowlTop = 22, bowlBot = 178;
+    const fillY   = bowlTop + wl * (bowlBot - bowlTop);
 
-  function draw(){
-    ctx.clearRect(0,0,W,H); t++;
-    if(wineLevel>0) wineLevel=Math.max(0,wineLevel-1/160);
-    const wineTopY = 32+wineLevel*306;
-
-    // corpo vitreo
-    ctx.save(); gp(ctx); ctx.clip();
-    const bg=ctx.createLinearGradient(100,30,340,340);
-    bg.addColorStop(0,'rgba(30,6,8,.3)');
-    bg.addColorStop(1,'rgba(10,2,4,.5)');
-    ctx.fillStyle=bg; ctx.fill(); ctx.restore();
-
-    // vinho
-    ctx.save(); ip(ctx); ctx.rect(0,wineTopY,W,H); ctx.clip();
-    const wg=ctx.createLinearGradient(100,wineTopY,340,340);
-    wg.addColorStop(0,'rgba(130,26,40,.7)');
-    wg.addColorStop(1,'rgba(55,7,14,.85)');
-    ctx.fillStyle=wg; ctx.fillRect(0,wineTopY,W,H); ctx.restore();
-
-    // superfície ondulante
-    if(wineLevel<.97){
-      ctx.save(); ip(ctx); ctx.clip();
-      const sy=wineTopY;
-      const w2=Math.sin(t*.04)*2.5;
-      ctx.beginPath();
-      ctx.ellipse(220,sy+w2,108,4+Math.abs(Math.sin(t*.035))*1.5,0,0,Math.PI*2);
-      const sg=ctx.createLinearGradient(110,sy-5,330,sy+5);
-      sg.addColorStop(0,'rgba(212,175,55,.1)');
-      sg.addColorStop(.5,'rgba(170,60,80,.45)');
-      sg.addColorStop(1,'rgba(212,175,55,.1)');
-      ctx.fillStyle=sg; ctx.fill(); ctx.restore();
-    }
-
-    // cena do vinhedo
-    ctx.save(); ip(ctx); ctx.clip();
-
-    // colinas
-    [[280,'rgba(122,31,38,.08)'],[300,'rgba(122,31,38,.15)'],[318,'rgba(122,31,38,.26)']].forEach(([y,col])=>{
-      ctx.beginPath();
-      ctx.moveTo(108,y);
-      ctx.quadraticCurveTo(165,y-32,220,y-42);
-      ctx.quadraticCurveTo(275,y-32,332,y);
-      ctx.lineTo(332,340); ctx.lineTo(108,340); ctx.closePath();
-      ctx.fillStyle=col; ctx.fill();
-    });
-
-    // fileiras perspectiva
-    const VP={x:220,y:248};
-    [132,152,172,192,248,268,288,308].forEach(bx=>{
-      ctx.beginPath(); ctx.moveTo(bx,334);
-      ctx.lineTo(VP.x+(bx-VP.x)*.28,VP.y+(334-VP.y)*.28);
-      ctx.strokeStyle='rgba(122,31,38,.4)'; ctx.lineWidth=.8; ctx.stroke();
-    });
-    [320,308,296].forEach((ry,idx)=>{
-      const fr=(ry-VP.y)/(334-VP.y);
-      const hw=108*fr;
-      ctx.beginPath();
-      ctx.moveTo(VP.x-hw,ry); ctx.lineTo(VP.x+hw,ry);
-      ctx.strokeStyle=`rgba(122,31,38,${.32-idx*.05})`; ctx.lineWidth=.75; ctx.stroke();
-    });
-
-    // ciprestes
-    [{x:168,y:280,h:52,rx:7,ry:14,i:0},{x:196,y:272,h:62,rx:8,ry:17,i:1},
-     {x:244,y:272,h:62,rx:8,ry:17,i:2},{x:272,y:280,h:52,rx:7,ry:14,i:3}].forEach(({x,y,h,rx,ry,i})=>{
-      const sw=Math.sin(t*.025+swayPh[i])*[1.8,2.2,2.0,1.6][i];
-      ctx.save(); ctx.translate(x,y); ctx.rotate(sw*Math.PI/180);
-      ctx.strokeStyle='rgba(122,31,38,.72)'; ctx.lineWidth=2.1; ctx.lineCap='round';
-      ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(0,-h*.35); ctx.stroke();
-      const cg=ctx.createRadialGradient(0,-h*.7,1,0,-h*.6,rx*1.3);
-      cg.addColorStop(0,'rgba(122,31,38,.82)'); cg.addColorStop(1,'rgba(80,12,20,.35)');
-      ctx.fillStyle=cg; ctx.beginPath();
-      ctx.ellipse(0,-h*.7,rx,ry,0,0,Math.PI*2); ctx.fill(); ctx.restore();
-    });
-    ctx.restore();
-
-    // estrela
-    starAngle+=.0028;
-    ctx.save(); ctx.translate(220,100); ctx.rotate(starAngle);
-    const sg2=ctx.createRadialGradient(0,0,0,0,0,20);
-    sg2.addColorStop(0,'rgba(212,175,55,.2)'); sg2.addColorStop(1,'rgba(212,175,55,0)');
-    ctx.fillStyle=sg2; ctx.beginPath(); ctx.arc(0,0,20,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='rgba(212,175,55,.9)';
+    /* wine fill */
+    ctx.save();
     ctx.beginPath();
-    for(let i=0;i<16;i++){
-      const a=i*Math.PI/8, r=i%2===0?14:5.5;
-      const px=Math.cos(a-Math.PI/2)*r, py=Math.sin(a-Math.PI/2)*r;
-      i===0?ctx.moveTo(px,py):ctx.lineTo(px,py);
+    ctx.moveTo(cx1, bowlTop);
+    ctx.bezierCurveTo(28, 90, 40, 140, 40, 148);
+    ctx.quadraticCurveTo(58, 172, 110, 182);
+    ctx.quadraticCurveTo(162, 172, 180, 148);
+    ctx.bezierCurveTo(180, 140, 192, 90, cx2, bowlTop);
+    ctx.closePath();
+    ctx.clip();
+
+    const gy = ctx.createLinearGradient(0, fillY, 0, bowlBot);
+    gy.addColorStop(0, 'rgba(122,31,38,.55)');
+    gy.addColorStop(1, 'rgba(90,21,32,.7)');
+    ctx.fillStyle = gy;
+    ctx.fillRect(0, fillY, W, bowlBot);
+
+    /* wine surface shimmer */
+    ctx.fillStyle = 'rgba(212,175,55,.18)';
+    ctx.fillRect(0, fillY, W, 2);
+    ctx.restore();
+
+    /* glass stroke */
+    ctx.strokeStyle = 'rgba(122,31,38,.5)';
+    ctx.lineWidth = 1.8;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+
+    /* left side */
+    ctx.beginPath();
+    ctx.moveTo(cx1, bowlTop);
+    ctx.bezierCurveTo(28, 90, 40, 140, 40, 148);
+    ctx.quadraticCurveTo(58, 172, 110, 182);
+    ctx.stroke();
+
+    /* right side */
+    ctx.beginPath();
+    ctx.moveTo(cx2, bowlTop);
+    ctx.bezierCurveTo(192, 90, 180, 140, 180, 148);
+    ctx.quadraticCurveTo(162, 172, 110, 182);
+    ctx.stroke();
+
+    /* rim */
+    ctx.beginPath();
+    ctx.moveTo(cx1, bowlTop);
+    ctx.lineTo(cx2, bowlTop);
+    ctx.stroke();
+
+    /* stem */
+    ctx.beginPath();
+    ctx.moveTo(110, 182); ctx.lineTo(107, 208); ctx.lineTo(113, 208);
+    ctx.stroke();
+
+    /* base */
+    ctx.beginPath();
+    ctx.moveTo(107, 208); ctx.quadraticCurveTo(100, 222, 75, 232);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(113, 208); ctx.quadraticCurveTo(120, 222, 145, 232);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(75, 232); ctx.quadraticCurveTo(110, 238, 145, 232);
+    ctx.stroke();
+
+    /* star */
+    const sr = 5, sx = 110, sy = 95;
+    ctx.save();
+    ctx.translate(sx, sy);
+    ctx.rotate(frame * .008);
+    ctx.beginPath();
+    for(let i = 0; i < 8; i++){
+      const a  = (i * Math.PI / 4);
+      const r  = i % 2 === 0 ? sr : sr * .45;
+      const x  = Math.cos(a) * r, y = Math.sin(a) * r;
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     }
-    ctx.closePath(); ctx.fill();
-    const cg2=ctx.createRadialGradient(0,0,0,0,0,4.5);
-    cg2.addColorStop(0,'rgba(255,245,200,1)'); cg2.addColorStop(1,'rgba(212,175,55,0)');
-    ctx.fillStyle=cg2; ctx.beginPath(); ctx.arc(0,0,4.5,0,Math.PI*2); ctx.fill();
+    ctx.closePath();
+    ctx.fillStyle = 'rgba(212,175,55,.6)';
+    ctx.fill();
     ctx.restore();
-
-    // stroke da taça
-    ctx.save();
-    ctx.shadowColor='rgba(212,175,55,.12)'; ctx.shadowBlur=6;
-    ctx.strokeStyle='#7A1F26'; ctx.lineWidth=3; ctx.lineJoin='round';
-    gp(ctx); ctx.stroke(); ctx.restore();
-
-    // reflexos
-    ctx.save();
-    ctx.strokeStyle='rgba(212,175,55,.2)'; ctx.lineWidth=2.2; ctx.lineCap='round';
-    ctx.beginPath(); ctx.moveTo(116,38); ctx.bezierCurveTo(104,95,106,160,118,220); ctx.stroke();
-    ctx.strokeStyle='rgba(255,245,230,.09)'; ctx.lineWidth=1.1;
-    ctx.beginPath(); ctx.moveTo(120,42); ctx.bezierCurveTo(110,96,112,155,123,210); ctx.stroke();
-    // rimlight
-    const rl=ctx.createLinearGradient(172,30,268,30);
-    rl.addColorStop(0,'rgba(212,175,55,0)'); rl.addColorStop(.5,'rgba(248,246,239,.25)'); rl.addColorStop(1,'rgba(212,175,55,0)');
-    ctx.strokeStyle=rl; ctx.lineWidth=1.5;
-    ctx.beginPath(); ctx.moveTo(172,30); ctx.lineTo(268,30); ctx.stroke();
-    ctx.restore();
-
-    requestAnimationFrame(draw);
   }
-  draw();
-  return {
-    addWine(){ wineLevel = Math.max(0, wineLevel - .18); },
-    loseWine(){ wineLevel = Math.min(1, wineLevel + .12); }
+
+  function loop(){
+    frame++;
+    /* smooth wine level */
+    if(Math.abs(wineLevel - targetLevel) > .002){
+      wineLevel += (targetLevel - wineLevel) * .06;
+    }
+    drawGlass(wineLevel);
+    requestAnimationFrame(loop);
+  }
+  loop();
+
+  /* expose API */
+  window.wm = {
+    addWine(){ targetLevel = Math.max(0, targetLevel - .16); },
+    loseWine(){ targetLevel = Math.min(1, targetLevel + .10); }
   };
 })();
 
-// ══════════════════════════════════════════════════
-//  BANCO DE PERGUNTAS (8 perguntas piloto)
-// ══════════════════════════════════════════════════
-const QUESTIONS = [
+/* ════════════════════════════════════════════════════
+   QUESTIONS DATA
+════════════════════════════════════════════════════ */
+const PERGUNTAS = [
   {
-    category: 'Região',
-    difficulty: 2,
-    hint: 'Pense nos seixos de rio que cobrem o solo desta denominação do sul do Ródano.',
-    text: 'Qual é o nome do solo característico de Châteauneuf-du-Pape, composto por seixos arredondados que retêm o calor solar?',
-    options: ['Kimmeridgiano', 'Galets roulés', 'Xisto de ardósia', 'Terra rossa'],
-    answer: 1,
-    xp: 25,
-    feedback: '<strong>Galets roulés</strong> são seixos de rio arredondados que cobrem o solo de Châteauneuf-du-Pape. Absorvem calor de dia e o liberam à noite, ajudando a uva Grenache a amadurecer completamente mesmo em colheitas tardias.'
+    cat:'Região', dif:2, xp:25,
+    p:'No Châteauneuf-du-Pape, os famosos "galets roulés" são pedras arredondadas que cobrem o solo. Qual é o seu papel no vinho?',
+    opts:['Absorvem água impedindo a irrigação','Retêm calor durante o dia e o liberam à noite para as raízes','Refletem luz solar diretamente para as uvas','São apenas decorativas — não afetam o vinho'],
+    ok:1,
+    fb:{
+      title:'✓ Correto! Regulação térmica natural.',
+      body:'Os galets roulés acumulam calor durante o dia e liberam energia noturna para as videiras. Isso promove maturação uniforme das uvas mesmo em noites frias — uma das marcas do terroir único do Châteauneuf-du-Pape.'
+    }
   },
   {
-    category: 'Casta',
-    difficulty: 1,
-    hint: 'Esta uva veio da França, mas encontrou sua segunda pátria nos Andes.',
-    text: 'O Malbec é originalmente de qual região francesa, onde é chamado de "Côt" ou "Auxerrois"?',
-    options: ['Bordeaux', 'Cahors', 'Champagne', 'Borgonha'],
-    answer: 1,
-    xp: 15,
-    feedback: '<strong>Cahors</strong>, no Sudoeste da França, é a origem do Malbec. Lá ele produz vinhos muito tânicos e escuros. Na Argentina — especialmente em Mendoza — encontrou condições ideais e se tornou símbolo nacional.'
+    cat:'Casta', dif:1, xp:15,
+    p:'O Malbec é o símbolo do vinho argentino — mas qual é sua terra de origem histórica na Europa?',
+    opts:['Borgonha, França','Rioja, Espanha','Cahors, França (sudoeste)','Toscana, Itália'],
+    ok:2,
+    fb:{
+      title:'✓ Correto! Cahors é a origem real.',
+      body:'Na França, o Malbec chama-se Côt ou Auxerrois. Em Cahors produz vinhos austeros e tânicos, muito diferentes do estilo suave e frutado que encontrou na altitude de Mendoza. Os solos pedregosos e o clima andino transformaram completamente o perfil da uva.'
+    }
   },
   {
-    category: 'Denominação',
-    difficulty: 3,
-    hint: 'Esta DOCG italiana é produzida 100% com Nebbiolo e exige mínimo de 38 meses de envelhecimento.',
-    text: 'Qual denominação italiana é frequentemente chamada de "O Rei dos Vinhos", produzida somente com Nebbiolo em 11 comunas do sul do Piemonte?',
-    options: ['Barolo DOCG', 'Barbaresco DOCG', 'Brunello di Montalcino DOCG', 'Amarone DOCG'],
-    answer: 0,
-    xp: 30,
-    feedback: '<strong>Barolo DOCG</strong> é o Rei dos Vinhos italianos. O Nebbiolo forma vinhos com taninos poderosos e acidez alta — austeros quando jovens, mas capazes de envelhecer 30 ou 40 anos desenvolvendo rosas secas, alcatrão e couro.'
+    cat:'Denominação', dif:3, xp:30,
+    p:'O Barolo DOCG é apelidado de "O Rei dos Vinhos". Qual casta exclusiva produz este ícone italiano?',
+    opts:['Sangiovese','Barbera','Nebbiolo','Dolcetto'],
+    ok:2,
+    fb:{
+      title:'✓ Excelente! Nebbiolo é o Rei.',
+      body:'O Nebbiolo é a única uva do Barolo DOCG. Paradoxal: cor clara, mas taninos imensos e acidez altíssima. "Nebbia" em italiano significa névoa — a casta amadurece tão tarde que a colheita ocorre já na neblina outonal do Piemonte.'
+    }
   },
   {
-    category: 'Brasil',
-    difficulty: 1,
-    hint: 'Pense nos imigrantes italianos e na cidade de Bento Gonçalves, RS.',
-    text: 'Qual foi a primeira Denominação de Origem (DO) do Brasil, localizada no Rio Grande do Sul e certificada em 2012?',
-    options: ['Campanha Gaúcha', 'Serra do Sudeste', 'Vale dos Vinhedos', 'Pinto Bandeira'],
-    answer: 2,
-    xp: 15,
-    feedback: '<strong>Vale dos Vinhedos</strong> foi a primeira DO do Brasil, em 2012, dentro da Serra Gaúcha. O Merlot tinto e os espumantes de Chardonnay e Riesling Itálico são os carros-chefe. O nome vem das videiras que cobrem o vale como um tapete.'
+    cat:'Brasil', dif:1, xp:15,
+    p:'Qual é a primeira denominação de origem controlada do vinho brasileiro — um marco para a viticultura da América do Sul?',
+    opts:['Serra Gaúcha DO','Vale dos Vinhedos DO','Campanha Gaúcha IG','Planalto Catarinense IG'],
+    ok:1,
+    fb:{
+      title:'✓ Isso mesmo! Vale dos Vinhedos.',
+      body:'O Vale dos Vinhedos DO foi a primeira denominação de origem do Brasil (2012). Localizado na Serra Gaúcha (RS), produz principalmente Merlot tinto, Chardonnay e espumantes. Uma conquista histórica para o vinho brasileiro no cenário mundial.'
+    }
   },
   {
-    category: 'Espumante',
-    difficulty: 2,
-    hint: 'Só uma região no mundo tem o direito legal de usar este nome no rótulo.',
-    text: 'O solo de giz calcário (craie) único que dá acidez excepcional às uvas base dos espumantes mais famosos do mundo fica em qual região francesa?',
-    options: ['Loire', 'Alsácia', 'Champagne', 'Bourgogne'],
-    answer: 2,
-    xp: 20,
-    feedback: 'O solo de <strong>giz calcário (craie)</strong> da Champagne retém umidade, reflete luz e mantém as raízes em temperatura estável. Junto com o clima frio do norte da França, produz uvas com acidez naturalmente altíssima — essencial para espumantes de qualidade.'
+    cat:'Espumante', dif:2, xp:20,
+    p:'O Champagne é famoso por seu solo de giz (craie). Como esse solo influencia o vinho?',
+    opts:['Aumenta o teor alcoólico das uvas','Drena bem, mantém umidade e transmite mineralidade e frescura','Torna o vinho mais encorpado e tânico','Impede geadas tardias protegendo as raízes'],
+    ok:1,
+    fb:{
+      title:'✓ Perfeito! O giz é a alma do Champagne.',
+      body:'O solo cretáceo da Champagne funciona como esponja: drena o excesso de água e cede umidade gradualmente em períodos secos. A mineralidade do giz contribui para a frescura e vivacidade que tornam o Champagne inconfundível.'
+    }
   },
   {
-    category: 'Casta',
-    difficulty: 3,
-    hint: 'Esta uva chilena foi confundida com Merlot por quase 150 anos.',
-    text: 'O Carménère foi confundido com qual outra uva no Chile, equívoco só resolvido geneticamente em 1994 pelo pesquisador Jean-Michel Boursiquot?',
-    options: ['Cabernet Franc', 'Merlot', 'Cabernet Sauvignon', 'Malbec'],
-    answer: 1,
-    xp: 30,
-    feedback: 'O <strong>Carménère</strong> chegou ao Chile no séc. XIX entre uvas bordelenhas. Por décadas foi vendido como <strong>Merlot</strong>. Em 1994, análise de DNA revelou a confusão. Hoje é o emblema do Chile — notas de pimentão verde, frutas negras e especiarias.'
+    cat:'Casta', dif:3, xp:30,
+    p:'O Carménère foi confundido com o Merlot no Chile por décadas. Qual característica aromática revela a diferença?',
+    opts:['Aromas de cereja e tabaco','Notas de pimentão verde e especiarias quando em estágio ideal','Fragrâncias florais de violeta intensa','Aromas terrosos e de cogumelo'],
+    ok:1,
+    fb:{
+      title:'✓ Exato! O pimentão verde é a pista.',
+      body:'Quando mal amadurecido, o Carménère exibe aromas marcantes de pimentão verde (pirazinas). Quando colhido no ponto ideal, evolui para frutas negras, chocolate e especiarias. A casta foi identificada geneticamente só em 1994 — antes disso, todo chileno achava que plantava Merlot.'
+    }
   },
   {
-    category: 'Argentina',
-    difficulty: 4,
-    hint: 'Os vinhedos mais altos do mundo em escala comercial ficam neste estado argentino.',
-    text: 'Os vinhedos de Cafayate, em Salta (Argentina), chegam a qual altitude, tornando-os referência mundial em vinicultura de altitude?',
-    options: ['500–800m', '1700–3100m', '1000–1200m', '200–400m'],
-    answer: 1,
-    xp: 40,
-    feedback: '<strong>1700 a mais de 3000m</strong> de altitude! Em Cafayate, a radiação UV extrema concentra cor, taninos e aromas. O Torrontés — branco aromático único do mundo — e o Malbec de altitude são os grandes destaques desta região no norte da Argentina.'
+    cat:'Argentina', dif:4, xp:40,
+    p:'A região de Cafayate em Salta, Argentina, produz vinhos únicos. A que altitude aproximada se encontram os vinhedos?',
+    opts:['200 a 600 metros','600 a 1000 metros','1700 a 3100 metros','3500 a 4200 metros'],
+    ok:2,
+    fb:{
+      title:'✓ Impressionante altitude!',
+      body:'Os vinhedos de Cafayate ficam entre 1700 e 3100 metros de altitude — entre os mais altos do mundo. A altitude intensa de UV e as grandes amplitudes térmicas (dias quentes, noites muito frias) criam vinhos com acidez vibrante, aromas nítidos e álcool controlado.'
+    }
   },
   {
-    category: 'Portugal',
-    difficulty: 2,
-    hint: 'Este vinho generoso é envelhecido em Vila Nova de Gaia, na margem sul do estuário do Douro.',
-    text: 'No Vinho do Porto, qual estilo é envelhecido em pipas pequenas de 550L com muito contato com ar, desenvolvendo cor âmbar e aromas de nozes e laranja confitada?',
-    options: ['Ruby', 'Vintage', 'Tawny', 'LBV (Late Bottled Vintage)'],
-    answer: 2,
-    xp: 20,
-    feedback: '<strong>Tawny</strong> envelhece em pipas pequenas (550L), que permitem oxidação lenta. A cor passa do rubi para âmbar-acobreado (tawny em inglês = cor de couro). Desenvolve nozes, figo seco, laranja confitada e caramelo. Excelente servido levemente fresco.'
+    cat:'Portugal', dif:2, xp:20,
+    p:'No Vinho do Porto, qual estilo é envelhecido em pipas pequenas de 550L com muito contato com ar, desenvolvendo cor âmbar e sabores de nozes e frutas secas?',
+    opts:['Ruby','Vintage','LBV (Late Bottled Vintage)','Tawny'],
+    ok:3,
+    fb:{
+      title:'✓ Correto! Tawny é o estilo oxidativo.',
+      body:'O Porto Tawny envelhece em tonéis pequenos por 10, 20, 30 ou 40 anos. O contato com o ar (oxidação controlada) transforma a cor de rubi para âmbar-tostado ("tawny" = bronzeado). Desenvolve sabores de amêndoas, figo, caramelo e casca de laranja — completamente diferente do Ruby, que é fresco e frutado.'
+    }
   }
 ];
 
-// ══════════════════════════════════════════════════
-//  MOTOR DO QUIZ
-// ══════════════════════════════════════════════════
-const TOTAL_LIVES  = 3;
-const TIMER_MAX    = 30;
-const BASE_XP      = 420;  // XP inicial fictício do jogador
+/* ════════════════════════════════════════════════════
+   GAME STATE
+════════════════════════════════════════════════════ */
+let qi = 0, lives = 3, xp = 0, streak = 0, maxStreak = 0, acertos = 0;
+let state = 'idle'; /* idle | answered | end */
+let timerVal = 30, timerInterval = null;
 
-let state = {
-  qIdx:     0,
-  lives:    TOTAL_LIVES,
-  xp:       BASE_XP,
-  correct:  0,
-  streak:   0,
-  maxStreak:0,
-  answered: false,
-  timer:    TIMER_MAX,
-  timerID:  null,
-  sessionXP:0,
-};
+const CIRC = 100.5; /* 2πr for r=16 */
 
-// ── DOM refs ──
-const progLabel  = document.getElementById('progLabel');
-const progFill   = document.getElementById('progFill');
-const livesWrap  = document.getElementById('livesWrap');
-const qCategory  = document.getElementById('qCategory');
-const qStars     = document.getElementById('qStars');
-const qText      = document.getElementById('qText');
-const qHint      = document.getElementById('qHint');
-const optWrap    = document.getElementById('optionsWrap');
-const feedbackBar= document.getElementById('feedbackBar');
-const nextBtn    = document.getElementById('nextBtn');
-const timerArc   = document.getElementById('timerArc');
-const timerNum   = document.getElementById('timerNum');
-const streakVal  = document.getElementById('streakVal');
-const xpVal      = document.getElementById('xpVal');
-const correctVal = document.getElementById('correctVal');
-const xpGain     = document.getElementById('xpGain');
-const endscreen  = document.getElementById('endscreen');
-const endCorrect = document.getElementById('endCorrect');
-const endXP      = document.getElementById('endXP');
-const endMax     = document.getElementById('endMax');
-const endMessage = document.getElementById('endMessage');
-const restartBtn = document.getElementById('restartBtn');
-
+/* ════════════════════════════════════════════════════
+   INIT
+════════════════════════════════════════════════════ */
 function buildLives(){
-  livesWrap.innerHTML = '';
-  for(let i=0;i<TOTAL_LIVES;i++){
-    const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
-    svg.setAttribute('viewBox','0 0 22 26');
-    svg.setAttribute('fill','none');
-    svg.classList.add('life');
-    if(i >= state.lives) svg.classList.add('lost');
-    svg.innerHTML = `
-      <path d="M5 4Q4 11 7 16Q10 20 11 21Q12 20 15 16Q18 11 17 4Z"
-            stroke="#7A1F26" stroke-width="1.4" fill="${i<state.lives?'rgba(122,31,38,.5)':'none'}" stroke-linejoin="round"/>
-      <path d="M11 21L10.5 24M11 21L11.5 24M10.5 24L11.5 24"
-            stroke="#7A1F26" stroke-width=".9" stroke-linecap="round"/>
-      <path d="M7 26Q11 24.5 15 26" stroke="#7A1F26" stroke-width="1.2" fill="none" stroke-linecap="round"/>
-      <path d="M7 26Q5.5 22 7 26M15 26Q16.5 22 15 26"
-            stroke="#7A1F26" stroke-width=".8" fill="none"/>`;
-    livesWrap.appendChild(svg);
+  const row = document.getElementById('livesRow');
+  row.innerHTML = '';
+  for(let i = 0; i < 3; i++){
+    const s = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    s.setAttribute('width','16'); s.setAttribute('height','20');
+    s.setAttribute('viewBox','0 0 16 20');
+    s.classList.add('life');
+    if(i >= lives) s.classList.add('lost');
+    s.innerHTML = `
+      <path d="M4 3Q3 7 4.5 10Q6 12.5 8 13.5Q10 12.5 11.5 10Q13 7 12 3Z"
+            stroke="#7A1F26" stroke-width="1.2" fill="${i < lives ? 'rgba(122,31,38,.25)' : 'none'}"/>
+      <line x1="8" y1="13.5" x2="7.7" y2="16" stroke="#7A1F26" stroke-width="1"/>
+      <path d="M5.5 17.5Q8 16.5 10.5 17.5" stroke="#7A1F26" stroke-width="1" fill="none"/>`;
+    row.appendChild(s);
   }
 }
 
-function buildStars(diff){
-  qStars.innerHTML = '';
+function loadQ(){
+  if(qi >= PERGUNTAS.length){ endGame(); return; }
+  state = 'idle';
+  const q = PERGUNTAS[qi];
+
+  document.getElementById('qCat').textContent = q.cat;
+  document.getElementById('qText').textContent = q.p;
+  document.getElementById('qCounter').textContent = `${qi+1} / ${PERGUNTAS.length}`;
+  document.getElementById('qProgressFill').style.width = `${(qi / PERGUNTAS.length)*100}%`;
+
+  /* difficulty stars */
+  const ds = document.getElementById('diffStars');
+  ds.innerHTML = '';
   for(let i=1;i<=5;i++){
     const s = document.createElement('span');
-    s.className = 'q-star';
-    s.textContent = i<=diff ? '★' : '☆';
-    s.style.color = i<=diff ? '#D4AF37' : 'rgba(212,175,55,.25)';
-    qStars.appendChild(s);
+    s.textContent = '★';
+    if(i<=q.dif) s.classList.add('on');
+    ds.appendChild(s);
   }
-}
 
-function buildOptions(q){
-  // Remove opções anteriores
-  document.querySelectorAll('.opt').forEach(e=>e.remove());
-  feedbackBar.classList.remove('show','correct-fb','wrong-fb');
-  nextBtn.classList.remove('show');
+  /* streak badge */
+  const sb = document.getElementById('streakBadge');
+  if(streak >= 3){ sb.textContent = '🔥 ×2'; sb.classList.add('show'); }
+  else if(streak >= 2){ sb.textContent = '🔥 ×1.5'; sb.classList.add('show'); }
+  else { sb.classList.remove('show'); }
 
-  const letters = ['A','B','C','D'];
-  q.options.forEach((text,i)=>{
+  /* options */
+  const oc = document.getElementById('optionsContainer');
+  oc.innerHTML = '';
+  const keys = ['A','B','C','D'];
+  q.opts.forEach((txt,i)=>{
     const btn = document.createElement('button');
     btn.className = 'opt';
-    btn.dataset.idx = i;
-    btn.innerHTML = `
-      <div class="opt-letter">${letters[i]}</div>
-      <div class="opt-text">${text}</div>`;
-    btn.addEventListener('click',()=>onAnswer(i));
-    // Insert before feedbackBar
-    optWrap.insertBefore(btn, feedbackBar);
-  });
-}
-
-function loadQuestion(){
-  if(state.qIdx >= QUESTIONS.length){ endGame(); return; }
-  const q = QUESTIONS[state.qIdx];
-  state.answered = false;
-
-  // Atualiza header
-  progLabel.textContent = `Pergunta ${state.qIdx+1} de ${QUESTIONS.length}`;
-  progFill.style.width  = `${((state.qIdx+1)/QUESTIONS.length)*100}%`;
-  buildLives();
-
-  // Animação re-entrada
-  const qZone = document.getElementById('qZone');
-  qZone.style.animation = 'none';
-  optWrap.style.animation = 'none';
-  requestAnimationFrame(()=>{
-    qZone.style.animation = 'fadeSlideIn .4s ease both';
-    optWrap.style.animation = 'fadeSlideIn .4s .1s ease both';
+    btn.innerHTML = `<span class="opt-key">${keys[i]}</span><span class="opt-text">${txt}</span>`;
+    btn.onclick = ()=> answer(i, btn);
+    oc.appendChild(btn);
   });
 
-  qCategory.textContent = q.category;
-  buildStars(q.difficulty);
-  qText.textContent     = q.text;
-  qHint.textContent     = q.hint || '';
-  buildOptions(q);
+  /* feedback + next */
+  const fb = document.getElementById('feedback');
+  fb.className = 'feedback'; fb.style.display = 'none';
+  document.getElementById('btnNext').className = 'btn-next';
 
-  // Atualiza stats
-  correctVal.textContent = `${state.correct}/${state.qIdx}`;
-
-  // Timer
   startTimer();
+  buildLives();
 }
 
 function startTimer(){
-  clearInterval(state.timerID);
-  state.timer = TIMER_MAX;
+  clearInterval(timerInterval);
+  timerVal = 30;
   updateTimerUI();
-  state.timerID = setInterval(()=>{
-    if(state.answered){ clearInterval(state.timerID); return; }
-    state.timer--;
+  timerInterval = setInterval(()=>{
+    timerVal--;
     updateTimerUI();
-    if(state.timer <= 0){
-      clearInterval(state.timerID);
-      onTimeout();
-    }
-  },1000);
+    if(timerVal <= 0){ clearInterval(timerInterval); onTimeout(); }
+  }, 1000);
 }
 
 function updateTimerUI(){
-  const pct = state.timer / TIMER_MAX;
-  const circ = 94.2;
-  timerArc.style.strokeDashoffset = circ * (1 - pct);
-  timerArc.style.stroke = state.timer <= 8 ? 'var(--timer-low)' : 'var(--timer-full)';
-  timerNum.textContent  = state.timer;
-  timerNum.style.color  = state.timer <= 8 ? 'var(--timer-low)' : 'var(--gold)';
+  const arc = document.getElementById('timerArc');
+  const num = document.getElementById('timerNum');
+  const offset = CIRC * (1 - timerVal/30);
+  arc.style.strokeDashoffset = offset;
+  num.textContent = timerVal;
+  const low = timerVal <= 8;
+  arc.classList.toggle('low', low);
+  num.classList.toggle('low', low);
 }
 
 function onTimeout(){
-  if(state.answered) return;
-  state.answered = true;
-  revealResult(-1); // -1 = timeout
+  if(state !== 'idle') return;
+  state = 'answered';
+  streak = 0;
+  if(lives > 0) lives--;
+  buildLives();
+  revealAnswer();
+  showFeedback('timeout',
+    '⏱ Tempo esgotado!',
+    PERGUNTAS[qi].fb.body);
+  showNext();
 }
 
-function onAnswer(idx){
-  if(state.answered) return;
-  state.answered = true;
-  clearInterval(state.timerID);
-  revealResult(idx);
-}
+function answer(idx, btn){
+  if(state !== 'idle') return;
+  state = 'answered';
+  clearInterval(timerInterval);
 
-function revealResult(selected){
-  const q = QUESTIONS[state.qIdx];
+  const q    = PERGUNTAS[qi];
   const opts = document.querySelectorAll('.opt');
-  const isCorrect = selected === q.answer;
+  opts.forEach(o => o.disabled = true);
+  btn.classList.add('selected');
 
-  opts.forEach(o => o.classList.add('disabled'));
+  if(idx === q.ok){
+    /* correct */
+    setTimeout(()=>{
+      btn.classList.remove('selected');
+      btn.classList.add('correct');
+    }, 120);
+    let mult = streak >= 3 ? 2 : streak >= 2 ? 1.5 : 1;
+    let earned = Math.round(q.xp * mult);
+    xp += earned;
+    acertos++;
+    streak++;
+    maxStreak = Math.max(maxStreak, streak);
+    document.getElementById('xpTotal').textContent = xp;
+    spawnXP(btn, `+${earned}`);
+    window.wm.addWine();
+    showFeedback('correct', q.fb.title, q.fb.body);
+  } else {
+    /* wrong */
+    setTimeout(()=>{
+      btn.classList.remove('selected');
+      btn.classList.add('wrong');
+    }, 80);
+    streak = 0;
+    lives--;
+    buildLives();
+    revealAnswer();
+    window.wm.loseWine();
+    showFeedback('wrong',
+      '✗ Não foi desta vez.',
+      q.fb.body);
+    if(lives <= 0){ setTimeout(()=> endGame(), 1800); return; }
+  }
 
-  if(selected >= 0) opts[selected].classList.add('selected');
-
-  setTimeout(()=>{
-    if(isCorrect){
-      opts[selected].classList.remove('selected');
-      opts[selected].classList.add('correct');
-      state.correct++;
-      state.streak++;
-      if(state.streak > state.maxStreak) state.maxStreak = state.streak;
-      const earned = q.xp * (state.streak >= 3 ? 2 : state.streak >= 2 ? 1.5 : 1);
-      state.xp += Math.round(earned);
-      state.sessionXP += Math.round(earned);
-      showXPGain('+' + Math.round(earned));
-      wm.addWine();
-    } else {
-      if(selected >= 0) { opts[selected].classList.remove('selected'); opts[selected].classList.add('wrong'); }
-      opts[q.answer].classList.add('reveal');
-      state.streak = 0;
-      state.lives--;
-      buildLives();
-      wm.loseWine();
-    }
-
-    // Feedback
-    feedbackBar.innerHTML = q.feedback;
-    feedbackBar.className = 'feedback-bar show ' + (isCorrect ? 'correct-fb' : 'wrong-fb');
-
-    // Atualiza stats
-    streakVal.textContent  = state.streak >= 2 ? `${state.streak}×` : `${state.streak}×`;
-    streakVal.style.color  = state.streak >= 3 ? '#ff9' : 'var(--gold)';
-    xpVal.textContent      = state.xp;
-    correctVal.textContent = `${state.correct}/${state.qIdx+1}`;
-
-    nextBtn.classList.add('show');
-    nextBtn.textContent = state.qIdx+1 >= QUESTIONS.length ? 'Ver Resultado →' : 'Próxima Pergunta →';
-
-    // Se perdeu todas as vidas
-    if(state.lives <= 0){
-      nextBtn.textContent = 'Ver Resultado';
-    }
-  }, 120);
+  showNext();
 }
 
-function showXPGain(text){
-  xpGain.textContent = text;
-  xpGain.className = '';
-  void xpGain.offsetWidth;
-  xpGain.className = 'xp-gain pop';
+function revealAnswer(){
+  const opts = document.querySelectorAll('.opt');
+  opts[PERGUNTAS[qi].ok].classList.add('reveal');
 }
 
-nextBtn.addEventListener('click',()=>{
-  if(state.lives <= 0){ endGame(); return; }
-  state.qIdx++;
-  loadQuestion();
-});
+function showFeedback(type, title, body){
+  const fb = document.getElementById('feedback');
+  fb.className = `feedback ${type}-fb show`;
+  fb.style.display = 'block';
+  document.getElementById('fbTitle').innerHTML = title;
+  document.getElementById('fbBody').textContent = body;
+}
+
+function showNext(){
+  const btn = document.getElementById('btnNext');
+  btn.textContent = qi < PERGUNTAS.length-1 ? 'Próxima Pergunta →' : 'Ver Resultado →';
+  btn.className = 'btn-next show';
+}
+
+function advance(){
+  qi++;
+  loadQ();
+}
+
+function spawnXP(ref, txt){
+  const r   = ref.getBoundingClientRect();
+  const el  = document.createElement('div');
+  el.className = 'xp-pop';
+  el.textContent = txt;
+  el.style.left = (r.left + r.width/2 - 18) + 'px';
+  el.style.top  = (r.top - 10) + 'px';
+  document.body.appendChild(el);
+  setTimeout(()=> el.remove(), 950);
+}
 
 function endGame(){
-  clearInterval(state.timerID);
-  const total = state.qIdx + (state.answered && state.qIdx < QUESTIONS.length ? 1 : 0);
-  const pct   = total > 0 ? Math.round(state.correct/total*100) : 0;
-
-  endCorrect.textContent = `${state.correct}/${total}`;
-  endXP.textContent      = state.sessionXP;
-  endMax.textContent     = state.maxStreak;
+  clearInterval(timerInterval);
+  state = 'end';
+  document.getElementById('endAcertos').textContent = `${acertos}/8`;
+  document.getElementById('endXP').textContent = xp;
+  document.getElementById('endStreak').textContent = maxStreak;
 
   const msgs = [
-    [90, 'Impressionante! Você tem o palato de um Grand Maître. O vinho revela seus segredos para quem sabe observar.'],
-    [70, 'Excelente desempenho! Seu conhecimento enológico está bem acima da média — continue explorando os terroirs.'],
-    [50, 'Bom começo! O mundo do vinho é vasto. Cada garrafa aberta é uma nova lição.'],
-    [0,  'Todo grande sommelier começou do zero. Estude as regiões no Atlas e tente novamente — você vai evoluir!'],
+    [7, 'Impressionante! Você tem o palato de um Grand Maître. O vinho revela seus segredos para quem sabe observar.'],
+    [5, 'Muito bom! Seu conhecimento está acima da média. Continue explorando as regiões do mundo.'],
+    [3, 'Bom início! Cada pergunta errada é uma oportunidade de aprendizado. Tente novamente — você vai evoluir.'],
+    [0, 'O vinho é uma jornada sem fim. Explore o Atlas, leia os perfis das castas e tente novamente!']
   ];
-  endMessage.textContent = (msgs.find(([min])=>pct>=min)||msgs[3])[1];
-
-  endscreen.classList.add('show');
+  const msg = msgs.find(([min])=> acertos >= min);
+  document.getElementById('endMsg').textContent = msg[1];
+  document.getElementById('qProgressFill').style.width = '100%';
+  document.getElementById('endScreen').classList.add('show');
 }
 
-restartBtn.addEventListener('click',()=>{
-  state = {
-    qIdx:0, lives:TOTAL_LIVES, xp:BASE_XP,
-    correct:0, streak:0, maxStreak:0,
-    answered:false, timer:TIMER_MAX, timerID:null, sessionXP:0
-  };
-  endscreen.classList.remove('show');
-  loadQuestion();
-});
+function restart(){
+  qi = 0; lives = 3; xp = 0; streak = 0; maxStreak = 0; acertos = 0;
+  document.getElementById('endScreen').classList.remove('show');
+  document.getElementById('xpTotal').textContent = '0';
+  loadQ();
+}
 
-// ── Iniciar ──
-loadQuestion();
+/* init */
+loadQ();
 </script>
 </body>
 </html>
