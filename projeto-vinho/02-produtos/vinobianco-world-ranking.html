@@ -6,246 +6,239 @@
 <style>
   :root {
     --ivory:#F8F6EF; --ivory2:#F0EDE3; --vinho:#7A1F26; --vinho2:#A52834;
-    --ouro:#D4AF37; --ouro2:#B8941E; --dark:#0D0608; --dark2:#1A0E10;
-    --border:#D4C5B0; --text:#2C1810; --text2:#5C4033;
+    --ouro:#D4AF37; --ouro2:#B8941E; --border:#D4C5B0; --text:#2C1810; --text2:#5C4033;
   }
-  * { box-sizing: border-box; }
+  * { box-sizing:border-box; }
   body {
-    font-family: 'Montserrat', sans-serif;
-    background: var(--ivory);
-    color: var(--text);
-    overflow: hidden;
-    padding-left: max(0px, env(safe-area-inset-left,0px));
-    padding-right: max(0px, env(safe-area-inset-right,0px));
+    font-family:'Montserrat',sans-serif;
+    background:var(--ivory); color:var(--text);
+    overflow:hidden;
+    padding-left:max(0px,env(safe-area-inset-left,0px));
+    padding-right:max(0px,env(safe-area-inset-right,0px));
   }
   .vb-screen { position:fixed; inset:0; display:none; overflow:hidden; }
   .vb-screen.active { display:flex; flex-direction:column; }
-  #sc-casta-scroll.active, #sc-ranking.active { overflow-y:auto; }
+  #sc-ranking.active { overflow-y:auto; }
+  .serif { font-family:'Playfair Display',serif; }
 
-  .serif { font-family: 'Playfair Display', serif; }
-
-  /* Gold shimmer animation */
   @keyframes shimmer {
-    0% { background-position: -200% center; }
-    100% { background-position: 200% center; }
+    0%{background-position:-200% center} 100%{background-position:200% center}
   }
   .gold-shimmer {
-    background: linear-gradient(90deg, var(--ouro2), #F0D060, var(--ouro2), var(--ouro2));
-    background-size: 200% auto;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    animation: shimmer 3s linear infinite;
+    background:linear-gradient(90deg,var(--ouro2),#F0D060,var(--ouro2),var(--ouro2));
+    background-size:200% auto; -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent; background-clip:text;
+    animation:shimmer 3s linear infinite;
   }
+  @keyframes pulse-ring {
+    0%{transform:scale(.95);box-shadow:0 0 0 0 rgba(212,175,55,.4)}
+    70%{transform:scale(1);box-shadow:0 0 0 12px rgba(212,175,55,0)}
+    100%{transform:scale(.95);box-shadow:0 0 0 0 rgba(212,175,55,0)}
+  }
+  .pulse-ring { animation:pulse-ring 2s ease infinite; }
 
-  /* Particles canvas */
   #particles { position:fixed; inset:0; pointer-events:none; z-index:0; }
 
-  /* Glass fill */
-  @keyframes fillUp {
-    from { transform: translateY(100%); }
-    to   { transform: translateY(0%); }
-  }
-  .wine-fill { animation: fillUp 1.4s cubic-bezier(.4,0,.2,1) forwards; }
-
-  /* Level cards */
   .level-card {
-    background: #fff;
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    transition: all .2s;
-    cursor: pointer;
+    background:#fff; border:1.5px solid var(--border);
+    border-radius:16px; transition:all .2s; cursor:pointer;
   }
-  .level-card:hover { background: #fffdf7; border-color: var(--ouro); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(212,175,55,.15); }
-  .level-card.locked { opacity: .45; cursor: not-allowed; }
-  .level-card.locked:hover { transform: none; background: #fff; border-color: var(--border); box-shadow: none; }
-  .level-card.completed { border-color: var(--ouro); background: #fffdf5; }
+  .level-card:hover { background:#fffdf7; border-color:var(--ouro); transform:translateY(-2px); box-shadow:0 4px 20px rgba(212,175,55,.15); }
+  .level-card.locked { opacity:.45; cursor:not-allowed; }
+  .level-card.locked:hover { transform:none; background:#fff; border-color:var(--border); box-shadow:none; }
+  .level-card.completed { border-color:var(--ouro); background:#fffdf5; }
+  .level-card.chapter-header { background:linear-gradient(135deg,#7A1F26,#A52834); border-color:transparent; cursor:default; }
+  .level-card.chapter-header:hover { transform:none; box-shadow:none; }
 
-  /* Progress bar */
-  .prog-bar { background: var(--ivory2); border-radius: 4px; overflow: hidden; }
-  .prog-fill { height: 100%; background: linear-gradient(90deg, var(--vinho), var(--ouro)); border-radius: 4px; transition: width .6s ease; }
+  .prog-bar { background:var(--ivory2); border-radius:4px; overflow:hidden; }
+  .prog-fill { height:100%; background:linear-gradient(90deg,var(--vinho),var(--ouro)); border-radius:4px; transition:width .6s ease; }
 
-  /* Choice buttons */
   .choice-btn {
-    background: #fff;
-    border: 1.5px solid var(--border);
-    border-radius: 12px;
-    padding: 14px 18px;
-    text-align: left;
-    font-family: 'Montserrat', sans-serif;
-    font-size: .88rem;
-    color: var(--text);
-    cursor: pointer;
-    transition: all .15s;
-    width: 100%;
+    background:#fff; border:1.5px solid var(--border); border-radius:12px;
+    padding:14px 18px; text-align:left; font-family:'Montserrat',sans-serif;
+    font-size:.88rem; color:var(--text); cursor:pointer; transition:all .15s; width:100%;
   }
-  .choice-btn:hover:not(:disabled) { border-color: var(--vinho); background: rgba(122,31,38,.04); }
-  .choice-btn.correct { background: #E8F5E9; border-color: #4CAF50; color: #1B5E20; }
-  .choice-btn.wrong { background: #FFEBEE; border-color: #F44336; color: #B71C1C; }
-  .choice-btn:disabled { opacity: .7; cursor: default; }
+  .choice-btn:hover:not(:disabled) { border-color:var(--vinho); background:rgba(122,31,38,.04); }
+  .choice-btn.correct { background:#E8F5E9; border-color:#4CAF50; color:#1B5E20; }
+  .choice-btn.wrong { background:#FFEBEE; border-color:#F44336; color:#B71C1C; }
+  .choice-btn:disabled { opacity:.7; cursor:default; }
 
-  /* Timer */
-  .timer-track { background: var(--ivory2); border-radius: 3px; overflow: hidden; }
-  .timer-fill { height: 100%; background: var(--vinho); border-radius: 3px; transition: width .1s linear, background .3s; }
+  .timer-track { background:var(--ivory2); border-radius:3px; overflow:hidden; }
+  .timer-fill { height:100%; background:var(--vinho); border-radius:3px; transition:width .1s linear,background .3s; }
 
-  /* Ranking rows */
-  .rk-row {
-    background: #fff;
-    border: 1.5px solid var(--border);
-    border-radius: 14px;
-    transition: all .2s;
-  }
-  .rk-row:hover { background: var(--ivory2); }
-  .rk-row.top3 { border-color: var(--ouro); background: #fffdf5; }
-  .rk-row.you { background: rgba(122,31,38,.07); border-color: var(--vinho); }
+  .rk-row { background:#fff; border:1.5px solid var(--border); border-radius:14px; transition:all .2s; }
+  .rk-row:hover { background:var(--ivory2); }
+  .rk-row.top3 { border-color:var(--ouro); background:#fffdf5; }
+  .rk-row.you { background:rgba(122,31,38,.07); border-color:var(--vinho); }
 
-  /* XP pulse */
-  @keyframes xpPop {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.15); }
-    100% { transform: scale(1); }
-  }
-  .xp-pop { animation: xpPop .35s ease; }
+  @keyframes xpPop { 0%{transform:scale(1)} 50%{transform:scale(1.15)} 100%{transform:scale(1)} }
+  .xp-pop { animation:xpPop .35s ease; }
 
-  /* Toast */
   .toast {
-    position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%);
-    background: var(--vinho2); color: #fff;
-    border-radius: 24px; padding: 10px 24px;
-    font-size: .82rem; font-weight: 600;
-    opacity: 0; transition: opacity .3s; pointer-events: none; z-index: 200;
-    white-space: nowrap;
+    position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
+    background:var(--vinho2); color:#fff; border-radius:24px; padding:10px 24px;
+    font-size:.82rem; font-weight:600; opacity:0; transition:opacity .3s;
+    pointer-events:none; z-index:200; white-space:nowrap;
   }
-  .toast.show { opacity: 1; }
+  .toast.show { opacity:1; }
 
-  /* Sticky you card */
   .sticky-you {
-    position: sticky; bottom: 0;
-    background: linear-gradient(135deg, rgba(122,31,38,.9), rgba(165,40,52,.9));
-    border-top: 1px solid rgba(212,175,55,.3);
-    backdrop-filter: blur(12px);
+    position:sticky; bottom:0;
+    background:linear-gradient(135deg,rgba(122,31,38,.95),rgba(165,40,52,.95));
+    border-top:1px solid rgba(212,175,55,.3); backdrop-filter:blur(12px);
   }
 
-  /* Scrollbar */
-  ::-webkit-scrollbar { width: 4px; }
-  ::-webkit-scrollbar-track { background: transparent; }
-  ::-webkit-scrollbar-thumb { background: rgba(122,31,38,.25); border-radius: 2px; }
+  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:rgba(122,31,38,.25); border-radius:2px; }
 
-  /* Tab active */
-  .rk-tab.active { color: var(--vinho); border-bottom: 2px solid var(--vinho); }
-  .rk-tab { border-bottom: 2px solid transparent; color: var(--text2); }
+  .rk-tab.active { color:var(--vinho); border-bottom:2px solid var(--vinho); }
+  .rk-tab { border-bottom:2px solid transparent; color:var(--text2); }
 
-  /* Badge */
-  .badge { display: inline-flex; align-items: center; gap: 4px; border-radius: 20px; padding: 3px 10px; font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+  .badge { display:inline-flex; align-items:center; gap:4px; border-radius:20px; padding:3px 10px; font-size:.68rem; font-weight:700; text-transform:uppercase; letter-spacing:.08em; }
 
-  /* Quiz end overlay */
   .end-overlay {
-    position: absolute; inset: 0;
-    background: rgba(248,246,239,.97);
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 16px; padding: 24px; text-align: center; z-index: 50;
+    position:absolute; inset:0; background:rgba(248,246,239,.97);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:14px; padding:24px; text-align:center; z-index:50; overflow-y:auto;
   }
-  .end-overlay.hidden { display: none; }
+  .end-overlay.hidden { display:none; }
 
-  /* Confetti dot */
   @keyframes confettiFall {
-    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+    0%{transform:translateY(-20px) rotate(0deg);opacity:1}
+    100%{transform:translateY(100vh) rotate(720deg);opacity:0}
   }
   .confetti-dot {
-    position: fixed; width: 8px; height: 8px; border-radius: 2px;
-    animation: confettiFall 2.5s ease-in forwards;
-    pointer-events: none; z-index: 999;
+    position:fixed; width:8px; height:8px; border-radius:2px;
+    animation:confettiFall 2.5s ease-in forwards;
+    pointer-events:none; z-index:999;
   }
 
+  /* Ego card */
+  .ego-card {
+    background:linear-gradient(135deg,#7A1F26,#5C1520);
+    border:1px solid rgba(212,175,55,.4);
+    border-radius:16px; color:#fff;
+  }
+
+  /* Ego provocation banner */
+  .ego-provocation {
+    background:linear-gradient(135deg,rgba(212,175,55,.12),rgba(122,31,38,.08));
+    border:1px solid rgba(212,175,55,.25);
+    border-radius:12px; padding:10px 14px;
+    font-size:.78rem; font-weight:600; color:var(--text);
+    text-align:center; font-style:italic;
+  }
+
+  /* Rivalry card */
+  .rival-card {
+    background:#fff; border:1.5px solid var(--border);
+    border-radius:14px; padding:12px 16px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .rival-card .vs-badge {
+    background:linear-gradient(135deg,#7A1F26,#A52834);
+    color:#fff; font-size:.65rem; font-weight:800;
+    padding:3px 8px; border-radius:20px; letter-spacing:.08em;
+  }
+
+  @keyframes rankUp { 0%{transform:translateY(0) scale(1)} 50%{transform:translateY(-8px) scale(1.05)} 100%{transform:translateY(0) scale(1)} }
+  .rank-up { animation:rankUp .6s ease; }
+
+  /* Chapter pill */
+  .chapter-pill {
+    display:inline-flex; align-items:center; gap:6px;
+    background:rgba(122,31,38,.1); border:1px solid rgba(122,31,38,.2);
+    border-radius:20px; padding:4px 12px; font-size:.7rem; font-weight:700;
+    text-transform:uppercase; letter-spacing:.1em; color:var(--vinho);
+  }
+
+  @keyframes slideUp {
+    from{transform:translateY(20px);opacity:0} to{transform:translateY(0);opacity:1}
+  }
+  .slide-up { animation:slideUp .4s ease forwards; }
+
+  /* Streak fire */
+  @keyframes fireFlicker {
+    0%,100%{transform:scaleY(1)} 50%{transform:scaleY(1.1)}
+  }
+  .streak-fire { animation:fireFlicker .8s ease infinite; display:inline-block; }
 </style>
 
-<!-- ══════════════════════════════════════
-     SCREEN: SPLASH
-     ══════════════════════════════════════ -->
-<canvas id="particles" style="opacity:.15"></canvas>
+<canvas id="particles" style="opacity:.12"></canvas>
 
+<!-- ══════ SPLASH ══════ -->
 <div id="sc-splash" class="vb-screen active items-center justify-center" style="background:var(--ivory)">
-  <div class="relative z-10 flex flex-col items-center gap-6 px-6">
+  <div class="relative z-10 flex flex-col items-center gap-5 px-6 text-center">
 
-    <!-- VinoBianco Logo Glass (vineyard inside) -->
-    <svg viewBox="0 0 200 240" width="160" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <clipPath id="logoBowl">
-          <path d="M30,10 Q30,5 100,5 Q170,5 170,10 L155,130 Q140,165 100,170 Q60,165 45,130 Z"/>
-        </clipPath>
-      </defs>
-
-      <!-- Glass outline -->
-      <path d="M30,10 Q30,5 100,5 Q170,5 170,10 L155,130 Q140,165 100,170 Q60,165 45,130 Z"
-        fill="none" stroke="#7A1F26" stroke-width="2.5" stroke-linejoin="round"/>
-
-      <!-- Vineyard landscape inside bowl -->
-      <g clip-path="url(#logoBowl)">
-        <!-- Sky -->
+    <!-- Logo glass -->
+    <svg viewBox="0 0 200 240" width="150" xmlns="http://www.w3.org/2000/svg">
+      <defs><clipPath id="lgBowl"><path d="M30,10 Q30,5 100,5 Q170,5 170,10 L155,130 Q140,165 100,170 Q60,165 45,130 Z"/></clipPath></defs>
+      <path d="M30,10 Q30,5 100,5 Q170,5 170,10 L155,130 Q140,165 100,170 Q60,165 45,130 Z" fill="none" stroke="#7A1F26" stroke-width="2.5"/>
+      <g clip-path="url(#lgBowl)">
         <rect x="30" y="5" width="140" height="120" fill="#F8F6EF"/>
-        <!-- Hills far -->
         <path d="M30,90 Q60,60 100,70 Q140,60 170,90 L170,180 L30,180 Z" fill="#C8D8A8"/>
-        <!-- Hills mid -->
         <path d="M30,110 Q55,82 80,88 Q100,80 120,86 Q145,82 170,108 L170,180 L30,180 Z" fill="#A8C870"/>
-        <!-- Vineyard rows -->
         <g stroke="#5A7A30" stroke-width="1" fill="none">
-          <line x1="40" y1="130" x2="160" y2="130"/>
-          <line x1="42" y1="140" x2="158" y2="140"/>
-          <line x1="44" y1="150" x2="156" y2="150"/>
-          <line x1="46" y1="160" x2="154" y2="160"/>
+          <line x1="40" y1="130" x2="160" y2="130"/><line x1="42" y1="140" x2="158" y2="140"/>
+          <line x1="44" y1="150" x2="156" y2="150"/><line x1="46" y1="160" x2="154" y2="160"/>
           <line x1="48" y1="170" x2="152" y2="170"/>
         </g>
-        <!-- Vine posts vertical -->
         <g stroke="#6B4A2A" stroke-width="1">
-          <line x1="55" y1="128" x2="55" y2="172"/>
-          <line x1="70" y1="128" x2="70" y2="172"/>
-          <line x1="85" y1="128" x2="85" y2="172"/>
-          <line x1="100" y1="128" x2="100" y2="172"/>
-          <line x1="115" y1="128" x2="115" y2="172"/>
-          <line x1="130" y1="128" x2="130" y2="172"/>
+          <line x1="55" y1="128" x2="55" y2="172"/><line x1="70" y1="128" x2="70" y2="172"/>
+          <line x1="85" y1="128" x2="85" y2="172"/><line x1="100" y1="128" x2="100" y2="172"/>
+          <line x1="115" y1="128" x2="115" y2="172"/><line x1="130" y1="128" x2="130" y2="172"/>
           <line x1="145" y1="128" x2="145" y2="172"/>
         </g>
-        <!-- Small house -->
         <rect x="88" y="90" width="24" height="18" fill="#D4B896"/>
         <path d="M85,90 L100,75 L115,90 Z" fill="#7A1F26"/>
         <rect x="97" y="100" width="6" height="8" fill="#8B6A4A"/>
       </g>
-
-      <!-- Snowflake / star ornament at top of bowl -->
       <g transform="translate(100,28)" stroke="#7A1F26" stroke-width="1.4" fill="none">
-        <line x1="0" y1="-10" x2="0" y2="10"/>
-        <line x1="-10" y1="0" x2="10" y2="0"/>
-        <line x1="-7" y1="-7" x2="7" y2="7"/>
-        <line x1="7" y1="-7" x2="-7" y2="7"/>
-        <!-- Arm ticks -->
+        <line x1="0" y1="-10" x2="0" y2="10"/><line x1="-10" y1="0" x2="10" y2="0"/>
+        <line x1="-7" y1="-7" x2="7" y2="7"/><line x1="7" y1="-7" x2="-7" y2="7"/>
         <line x1="-3" y1="-7" x2="0" y2="-10"/><line x1="3" y1="-7" x2="0" y2="-10"/>
         <line x1="7" y1="-3" x2="10" y2="0"/><line x1="7" y1="3" x2="10" y2="0"/>
         <line x1="3" y1="7" x2="0" y2="10"/><line x1="-3" y1="7" x2="0" y2="10"/>
         <line x1="-7" y1="3" x2="-10" y2="0"/><line x1="-7" y1="-3" x2="-10" y2="0"/>
       </g>
-
-      <!-- Stem -->
       <line x1="100" y1="170" x2="100" y2="215" stroke="#7A1F26" stroke-width="2.5" stroke-linecap="round"/>
-      <!-- Base -->
       <path d="M65,215 Q100,208 135,215" fill="none" stroke="#7A1F26" stroke-width="2.5" stroke-linecap="round"/>
     </svg>
 
-    <!-- Brand name -->
-    <div class="text-center">
-      <div class="serif font-bold" style="font-size:2.6rem;color:#7A1F26;letter-spacing:-.01em;line-height:1">
+    <div>
+      <div class="serif font-bold" style="font-size:2.8rem;color:#7A1F26;letter-spacing:-.01em;line-height:1">
         Vino<span style="color:#2C1810">Bianco</span>
       </div>
       <div class="text-xs font-medium tracking-widest uppercase mt-1" style="color:var(--text2)">STORE</div>
       <div style="height:1.5px;background:linear-gradient(90deg,transparent,#D4AF37,transparent);margin:8px 0"></div>
-      <div class="text-xs font-semibold tracking-widest uppercase" style="color:var(--ouro)">World Ranking · Wine Master</div>
+      <div class="text-xs font-bold tracking-widest uppercase" style="color:var(--ouro)">World Ranking · 100 Níveis</div>
     </div>
 
-    <p class="text-sm text-center max-w-xs" style="color:var(--text2)">Escale os níveis de conhecimento. Compita pelo Top 100 mundial.</p>
+    <!-- Ego hook -->
+    <div class="ego-card px-5 py-4 w-full max-w-xs">
+      <div class="text-xs font-bold tracking-widest uppercase mb-2" style="color:rgba(212,175,55,.7)">O que este jogo equivale em formação real</div>
+      <div class="flex justify-between items-start gap-2">
+        <div>
+          <div class="text-xs" style="color:rgba(248,246,239,.6)">Cursos online básicos</div>
+          <div class="font-bold" style="color:#D4AF37">R$ 3.000</div>
+        </div>
+        <div>
+          <div class="text-xs" style="color:rgba(248,246,239,.6)">Diploma profissional</div>
+          <div class="font-bold" style="color:#D4AF37">R$ 45.000</div>
+        </div>
+        <div>
+          <div class="text-xs" style="color:rgba(248,246,239,.6)">Máster completo</div>
+          <div class="font-bold" style="color:#D4AF37">R$ 300.000</div>
+        </div>
+      </div>
+      <div class="text-xs mt-2 text-center" style="color:rgba(248,246,239,.6)">Você aprende tudo isso aqui · gratuitamente</div>
+    </div>
 
-    <button id="splashPlay"
-      class="px-12 py-3.5 rounded-lg font-bold text-sm tracking-widest uppercase transition-all"
-      style="background:linear-gradient(135deg,#7A1F26,#A52834);color:#F8F6EF;box-shadow:0 4px 24px rgba(122,31,38,.3)">
+    <p class="text-sm max-w-xs" style="color:var(--text2)">100 níveis. 200+ perguntas. Escale do zero até <strong>Lenda Mundial</strong>.</p>
+
+    <button id="splashPlay" class="pulse-ring px-12 py-3.5 rounded-xl font-bold text-sm tracking-widest uppercase transition-all"
+      style="background:linear-gradient(135deg,#7A1F26,#A52834);color:#F8F6EF;box-shadow:0 4px 24px rgba(122,31,38,.35)">
       ▶ INICIAR JOGO
     </button>
 
@@ -253,24 +246,20 @@
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     SCREEN: LEVELS (JOURNEY)
-     ══════════════════════════════════════ -->
+<!-- ══════ LEVELS ══════ -->
 <div id="sc-levels" class="vb-screen" style="background:var(--ivory);overflow-y:auto">
   <!-- Header -->
-  <div class="flex items-center justify-between px-4 py-3 sticky top-0 z-20" style="background:rgba(248,246,239,.97);border-bottom:1px solid var(--border);padding-top:max(12px,env(safe-area-inset-top,0px))">
+  <div class="flex items-center justify-between px-4 py-3 sticky top-0 z-20"
+    style="background:rgba(248,246,239,.97);border-bottom:1px solid var(--border);padding-top:max(12px,env(safe-area-inset-top,0px))">
     <div class="flex items-center gap-2">
-      <!-- Mini logo glass -->
-      <svg viewBox="0 0 40 50" width="24" height="30" xmlns="http://www.w3.org/2000/svg">
-        <defs><clipPath id="mBowl"><path d="M5,2 Q5,1 20,1 Q35,1 35,2 L31,26 Q28,33 20,34 Q12,33 9,26 Z"/></clipPath></defs>
+      <svg viewBox="0 0 40 50" width="22" height="28" xmlns="http://www.w3.org/2000/svg">
+        <defs><clipPath id="mB"><path d="M5,2 Q5,1 20,1 Q35,1 35,2 L31,26 Q28,33 20,34 Q12,33 9,26 Z"/></clipPath></defs>
         <path d="M5,2 Q5,1 20,1 Q35,1 35,2 L31,26 Q28,33 20,34 Q12,33 9,26 Z" fill="none" stroke="#7A1F26" stroke-width="1.5"/>
-        <g clip-path="url(#mBowl)">
+        <g clip-path="url(#mB)">
           <rect x="5" y="1" width="30" height="35" fill="#F8F6EF"/>
           <path d="M5,18 Q12,12 20,14 Q28,12 35,18 L35,40 L5,40 Z" fill="#A8C870"/>
           <g stroke="#5A7A30" stroke-width=".6" fill="none">
-            <line x1="6" y1="24" x2="34" y2="24"/>
-            <line x1="7" y1="28" x2="33" y2="28"/>
-            <line x1="8" y1="32" x2="32" y2="32"/>
+            <line x1="6" y1="24" x2="34" y2="24"/><line x1="7" y1="28" x2="33" y2="28"/><line x1="8" y1="32" x2="32" y2="32"/>
           </g>
         </g>
         <g transform="translate(20,7)" stroke="#7A1F26" stroke-width=".8" fill="none">
@@ -280,311 +269,599 @@
         <line x1="20" y1="34" x2="20" y2="44" stroke="#7A1F26" stroke-width="1.5"/>
         <path d="M12,44 Q20,41 28,44" fill="none" stroke="#7A1F26" stroke-width="1.5"/>
       </svg>
-      <div class="serif font-bold" style="color:var(--vinho);font-size:1.1rem">VinoBianco</div>
+      <div class="serif font-bold" style="color:var(--vinho);font-size:1.05rem">VinoBianco</div>
     </div>
-    <div class="flex items-center gap-3">
+    <div class="flex items-center gap-2">
+      <div class="badge" style="background:rgba(212,175,55,.15);color:var(--ouro2);border:1px solid rgba(212,175,55,.3)">
+        <span id="lvStreak" class="streak-fire">🔥</span> <span id="lvStreakDays">0</span>
+      </div>
       <div class="badge" style="background:rgba(212,175,55,.15);color:var(--ouro2);border:1px solid rgba(212,175,55,.3)">⭐ <span id="lvXP">0</span> XP</div>
-      <button onclick="showScreen('ranking')" class="text-xs px-3 py-1.5 rounded-lg transition-all font-semibold" style="background:var(--vinho);color:#fff">🏆 Ranking</button>
+      <button onclick="showScreen('ranking')" class="text-xs px-3 py-1.5 rounded-lg font-semibold" style="background:var(--vinho);color:#fff">🏆</button>
     </div>
   </div>
 
   <!-- Player card -->
   <div class="mx-4 mt-4 rounded-2xl p-4" style="background:linear-gradient(135deg,#7A1F26,#A52834);border:1px solid rgba(212,175,55,.3)">
     <div class="flex items-center gap-3">
-      <div class="w-12 h-12 rounded-full flex items-center justify-center text-2xl" style="background:rgba(212,175,55,.15);border:2px solid rgba(212,175,55,.3)" id="playerAvatarCard">🍷</div>
+      <div class="w-12 h-12 rounded-full flex items-center justify-center text-2xl shrink-0"
+        style="background:rgba(212,175,55,.15);border:2px solid rgba(212,175,55,.3)" id="playerAvatarCard">🍷</div>
       <div class="flex-1 min-w-0">
-        <div class="font-bold text-sm truncate" id="playerNameCard">Wine Explorer</div>
-        <div class="text-xs" style="color:#D4AF37" id="playerTitleCard">Descobridor · Nível 1</div>
-        <div class="prog-bar mt-2" style="height:4px">
-          <div class="prog-fill" id="playerProgBar" style="width:0%"></div>
-        </div>
+        <div class="font-bold text-sm text-white truncate" id="playerNameCard">Wine Explorer</div>
+        <div class="text-xs mt-0.5" style="color:#D4AF37" id="playerTitleCard">Iniciante · Nível 1</div>
+        <div class="prog-bar mt-2" style="height:4px"><div class="prog-fill" id="playerProgBar" style="width:0%"></div></div>
       </div>
-      <div class="text-right">
+      <div class="text-right shrink-0">
         <div class="text-xl font-bold" style="color:#D4AF37" id="playerXPCard">0</div>
         <div class="text-xs" style="color:rgba(248,246,239,.5)">XP total</div>
       </div>
     </div>
+    <!-- Ego rank line -->
+    <div class="mt-3 pt-3" style="border-top:1px solid rgba(212,175,55,.2)">
+      <div class="flex justify-between items-center">
+        <div class="text-xs" style="color:rgba(248,246,239,.7)" id="egoLine">Você está entre os <strong style="color:#D4AF37">TOP 100%</strong> jogadores</div>
+        <div class="text-xs font-bold" style="color:#D4AF37" id="egoRank">#—</div>
+      </div>
+    </div>
   </div>
 
-  <!-- Journey title -->
-  <div class="px-4 mt-6 mb-3">
+  <!-- Ego + Rival block -->
+  <div class="mx-4 mt-3 flex flex-col gap-2" id="egoBlock">
+    <div class="ego-provocation" id="egoTauntText">Iniciando...</div>
+    <div class="rival-card" id="rivalCard" style="display:none">
+      <div class="text-2xl shrink-0" id="rivalAvatar">🍷</div>
+      <div class="flex-1 min-w-0">
+        <div class="text-xs font-bold uppercase tracking-wide" style="color:var(--text2)">Rival próximo</div>
+        <div class="text-sm font-bold truncate" style="color:var(--text)" id="rivalName">—</div>
+        <div class="text-xs" style="color:var(--text2)" id="rivalTitle">—</div>
+      </div>
+      <div class="vs-badge">VS</div>
+    </div>
+    <div id="streakBonus" style="display:none" class="text-center text-xs font-bold py-2 rounded-xl"
+      style="background:rgba(212,175,55,.1);border:1px solid rgba(212,175,55,.3);color:var(--ouro2)"></div>
+  </div>
+
+  <!-- Journey -->
+  <div class="px-4 mt-5 mb-2">
     <div class="serif text-2xl font-bold">Sua Jornada</div>
-    <div class="text-xs mt-1" style="color:var(--text2)">5 níveis · Desbloqueie conteúdos exclusivos</div>
+    <div class="text-xs mt-1" style="color:var(--text2)">100 níveis · Do iniciante à Lenda Mundial · 200+ perguntas</div>
   </div>
 
-  <!-- Level cards -->
-  <div class="px-4 pb-8 flex flex-col gap-3" id="levelCardsContainer"></div>
+  <div class="px-4 pb-8 flex flex-col gap-2" id="levelCardsContainer"></div>
 </div>
 
-<!-- ══════════════════════════════════════
-     SCREEN: QUIZ
-     ══════════════════════════════════════ -->
+<!-- ══════ QUIZ ══════ -->
 <div id="sc-quiz" class="vb-screen" style="background:var(--ivory)">
-  <!-- Header -->
-  <div class="flex items-center gap-3 px-4 py-3 shrink-0" style="background:var(--vinho);padding-top:max(12px,env(safe-area-inset-top,0px))">
-    <button onclick="quizExit()" class="text-xs px-3 py-1.5 rounded-lg font-semibold" style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff">← Voltar</button>
+  <div class="flex items-center gap-3 px-4 py-3 shrink-0"
+    style="background:var(--vinho);padding-top:max(12px,env(safe-area-inset-top,0px))">
+    <button onclick="quizExit()" class="text-xs px-3 py-1.5 rounded-lg font-semibold"
+      style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff">← Voltar</button>
     <div class="flex-1">
       <div class="serif text-base font-semibold text-white" id="quizLevelName">Quiz</div>
-      <div class="text-xs mt-0.5 text-white opacity-70" id="quizSubtitle">Modo: Regiões</div>
+      <div class="text-xs mt-0.5 text-white opacity-70" id="quizSubtitle">Nível 1</div>
     </div>
     <div class="badge" style="background:rgba(212,175,55,.25);color:#F0D878;border:1px solid rgba(212,175,55,.4)">⭐ <span id="quizSessionXP">0</span></div>
   </div>
 
-  <!-- Lives + timer -->
   <div class="px-4 py-2 shrink-0 flex items-center gap-3" style="background:#fff;border-bottom:1px solid var(--border)">
     <div class="flex gap-1" id="quizLives"></div>
-    <div class="flex-1 timer-track" style="height:5px">
-      <div class="timer-fill" id="quizTimerBar"></div>
-    </div>
+    <div class="flex-1 timer-track" style="height:5px"><div class="timer-fill" id="quizTimerBar"></div></div>
     <div class="text-xs font-bold" id="quizRoundLabel" style="color:var(--text2)">0/0</div>
   </div>
 
-  <!-- Question area (scrollable) -->
   <div class="flex-1 overflow-y-auto">
     <div class="px-4 py-4 max-w-lg mx-auto w-full">
-      <!-- Category badge -->
+      <!-- Watermark glass -->
+      <div style="position:absolute;right:16px;top:50%;transform:translateY(-60%);opacity:.05;pointer-events:none">
+        <svg viewBox="0 0 200 240" width="180" xmlns="http://www.w3.org/2000/svg">
+          <path d="M30,10 Q30,5 100,5 Q170,5 170,10 L155,130 Q140,165 100,170 Q60,165 45,130 Z" fill="#7A1F26"/>
+          <g transform="translate(100,28)" fill="#7A1F26">
+            <line x1="0" y1="-10" x2="0" y2="10" stroke="#7A1F26" stroke-width="3"/>
+            <line x1="-10" y1="0" x2="10" y2="0" stroke="#7A1F26" stroke-width="3"/>
+            <line x1="-7" y1="-7" x2="7" y2="7" stroke="#7A1F26" stroke-width="3"/>
+            <line x1="7" y1="-7" x2="-7" y2="7" stroke="#7A1F26" stroke-width="3"/>
+          </g>
+          <line x1="100" y1="170" x2="100" y2="215" stroke="#7A1F26" stroke-width="5"/>
+          <path d="M65,215 Q100,208 135,215" fill="none" stroke="#7A1F26" stroke-width="5"/>
+        </svg>
+      </div>
       <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--ouro2)" id="quizCat">CATEGORIA</div>
-      <!-- Difficulty badge -->
       <div class="flex items-center gap-2 mb-4">
         <div class="badge" id="quizDiffBadge" style="background:rgba(212,175,55,.15);color:var(--ouro2)">Médio</div>
         <div class="text-xs font-semibold" style="color:var(--text2)" id="quizXPPreview">+120 XP</div>
       </div>
-      <!-- Question text -->
-      <div class="serif text-xl leading-relaxed mb-6" style="color:var(--text)" id="quizText">Carregando...</div>
-      <!-- Choices -->
+      <div class="serif leading-relaxed mb-6" style="font-size:1.35rem;color:var(--text)" id="quizText">Carregando...</div>
       <div class="flex flex-col gap-3" id="quizChoices"></div>
-      <!-- Explanation -->
-      <div class="mt-4 text-sm leading-relaxed rounded-xl px-4 py-3 hidden" id="quizExplanation" style="background:rgba(212,175,55,.08);border-left:3px solid var(--ouro);color:var(--text2)"></div>
+      <div class="mt-4 text-sm leading-relaxed rounded-xl px-4 py-3 hidden" id="quizExplanation"
+        style="background:rgba(212,175,55,.08);border-left:3px solid var(--ouro);color:var(--text2)"></div>
     </div>
   </div>
 
-  <!-- End overlay -->
   <div class="end-overlay hidden" id="quizEndOverlay">
     <div class="text-6xl" id="quizEndEmoji">🏆</div>
     <div class="serif text-3xl font-bold" id="quizEndTitle">Parabéns!</div>
-    <div class="text-base" style="color:var(--text2)" id="quizEndSub">Você completou o quiz</div>
-    <div class="text-4xl font-bold mt-2" style="color:var(--vinho)" id="quizEndXP">+0 XP</div>
-    <!-- Rank change -->
-    <div class="badge mt-1" id="quizRankChange" style="background:rgba(212,175,55,.15);color:#D4AF37;font-size:.8rem"></div>
-    <div class="flex gap-3 mt-4">
-      <button onclick="quizRestart()" class="px-6 py-2.5 rounded-lg font-bold text-sm" style="background:#fff;border:1.5px solid var(--border);color:var(--text)">🔄 Novo Quiz</button>
-      <button onclick="showScreen('levels')" class="px-6 py-2.5 rounded-lg font-bold text-sm" style="background:linear-gradient(135deg,#7A1F26,#A52834);color:#F8F6EF">🏠 Início</button>
+    <div class="text-sm" style="color:var(--text2)" id="quizEndSub">Você completou o quiz</div>
+    <div class="serif text-4xl font-bold" style="color:var(--vinho)" id="quizEndXP">+0 XP</div>
+    <!-- Ego reveal -->
+    <div class="ego-card px-5 py-3 w-full max-w-xs text-center" id="endEgoCard">
+      <div class="text-xs" style="color:rgba(212,175,55,.7)">Sua posição global</div>
+      <div class="serif text-2xl font-bold" style="color:#D4AF37" id="endRankDisplay">#—</div>
+      <div class="text-xs mt-1" style="color:rgba(248,246,239,.7)" id="endPercentile">Top —% do mundo</div>
+    </div>
+    <div class="badge" id="quizRankChange" style="background:rgba(212,175,55,.15);color:var(--ouro2);font-size:.8rem"></div>
+    <!-- Players beaten -->
+    <div id="beatBadge" class="hidden text-xs font-semibold px-4 py-2 rounded-xl text-center"
+      style="background:rgba(122,31,38,.08);border:1px solid rgba(122,31,38,.2);color:var(--vinho)"></div>
+    <!-- New title unlock -->
+    <div class="hidden w-full max-w-xs" id="titleUnlockBanner">
+      <div class="text-center p-3 rounded-xl" style="background:linear-gradient(135deg,rgba(212,175,55,.2),rgba(212,175,55,.08));border:1px solid var(--ouro)">
+        <div class="text-xs font-bold uppercase tracking-widest" style="color:var(--ouro2)">🎖 Novo título desbloqueado!</div>
+        <div class="serif text-lg font-bold mt-1" style="color:var(--vinho)" id="newTitleText"></div>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-2">
+      <button onclick="quizRestart()" class="px-5 py-2.5 rounded-lg font-bold text-sm"
+        style="background:#fff;border:1.5px solid var(--border);color:var(--text)">🔄 Repetir</button>
+      <button onclick="shareScore()" class="px-5 py-2.5 rounded-lg font-bold text-sm"
+        style="background:rgba(212,175,55,.15);border:1.5px solid var(--ouro);color:var(--ouro2)">📤 Desafiar</button>
+      <button onclick="showScreen('levels')" class="px-5 py-2.5 rounded-lg font-bold text-sm"
+        style="background:linear-gradient(135deg,#7A1F26,#A52834);color:#F8F6EF">🏠 Início</button>
     </div>
   </div>
 </div>
 
-<!-- ══════════════════════════════════════
-     SCREEN: RANKING
-     ══════════════════════════════════════ -->
+<!-- ══════ RANKING ══════ -->
 <div id="sc-ranking" class="vb-screen" style="background:var(--ivory)">
-  <!-- Header -->
-  <div class="shrink-0 px-4 pt-4 pb-3 text-center relative" style="background:rgba(248,246,239,.97);border-bottom:1px solid var(--border);padding-top:max(16px,env(safe-area-inset-top,0px))">
-    <button onclick="showScreen('levels')" class="absolute text-xs px-3 py-1.5 rounded-lg" style="top:max(16px,env(safe-area-inset-top,0px));left:16px;background:#fff;border:1px solid var(--border);color:var(--text2)">← Voltar</button>
+  <div class="shrink-0 px-4 pt-4 pb-3 text-center relative"
+    style="background:rgba(248,246,239,.97);border-bottom:1px solid var(--border);padding-top:max(16px,env(safe-area-inset-top,0px))">
+    <button onclick="showScreen('levels')" class="absolute text-xs px-3 py-1.5 rounded-lg"
+      style="top:max(16px,env(safe-area-inset-top,0px));left:16px;background:#fff;border:1px solid var(--border);color:var(--text2)">← Voltar</button>
     <div class="serif text-xl font-bold" style="color:var(--text)">🏆 World Ranking</div>
-    <div class="text-xs mt-1" style="color:var(--text2)">Top 100 Wine Masters · Atualização em tempo real</div>
+    <div class="text-xs mt-1" style="color:var(--text2)">Top 1000 Wine Masters · Global</div>
   </div>
-
-  <!-- Tabs -->
   <div class="flex shrink-0" style="border-bottom:1px solid var(--border)">
     <button class="rk-tab active flex-1 py-3 text-xs font-bold tracking-wide uppercase" onclick="rkTab('world',this)">🌍 Mundial</button>
-    <button class="rk-tab flex-1 py-3 text-xs font-bold tracking-wide uppercase" onclick="rkTab('country',this)">🇧🇷 País</button>
+    <button class="rk-tab flex-1 py-3 text-xs font-bold tracking-wide uppercase" onclick="rkTab('country',this)">🇧🇷 Brasil</button>
     <button class="rk-tab flex-1 py-3 text-xs font-bold tracking-wide uppercase" onclick="rkTab('friends',this)">👥 Amigos</button>
   </div>
-
-  <!-- List -->
   <div class="flex-1 overflow-y-auto px-4 py-3 space-y-2" id="rkList"></div>
-
-  <!-- Sticky you card -->
-  <div class="sticky-you px-4 py-3 shrink-0" id="rkYouCard" style="padding-bottom:max(12px,env(safe-area-inset-bottom,0px))">
+  <div class="sticky-you px-4 py-3 shrink-0" id="rkYouCard"
+    style="padding-bottom:max(12px,env(safe-area-inset-bottom,0px))">
     <div class="flex items-center gap-3">
-      <div class="text-lg font-bold w-10 text-center" style="color:#D4AF37" id="rkYouPos">#142</div>
+      <div class="text-lg font-bold w-10 text-center" style="color:#D4AF37" id="rkYouPos">#—</div>
       <div class="w-9 h-9 rounded-full flex items-center justify-center text-lg" style="background:rgba(212,175,55,.15)">🍷</div>
       <div class="flex-1 min-w-0">
-        <div class="font-bold text-sm text-white">Você</div>
-        <div class="text-xs" style="color:rgba(248,246,239,.7)" id="rkYouGap">Faltam 2.800 XP para o Top 100</div>
+        <div class="font-bold text-sm text-white">Você · <span id="rkYouTitleInline" style="color:#D4AF37">Iniciante</span></div>
+        <div class="text-xs" style="color:rgba(248,246,239,.7)" id="rkYouGap">Faltam XP para o Top 100</div>
       </div>
       <div class="text-right">
-        <div class="font-bold" style="color:#D4AF37" id="rkYouXP">4.210 XP</div>
-        <div class="text-xs" style="color:rgba(248,246,239,.6)" id="rkYouTitle">Aprendiz</div>
+        <div class="font-bold" style="color:#D4AF37" id="rkYouXP">0 XP</div>
+        <div class="text-xs" style="color:rgba(248,246,239,.6)" id="rkYouPercent">Top 100%</div>
       </div>
     </div>
-    <!-- Progress to top 100 -->
-    <div class="prog-bar mt-2" style="height:3px">
-      <div class="prog-fill" id="rkYouProg" style="width:0%"></div>
-    </div>
+    <div class="prog-bar mt-2" style="height:3px"><div class="prog-fill" id="rkYouProg" style="width:0%"></div></div>
   </div>
 </div>
 
-<!-- Toast -->
 <div class="toast" id="globalToast"></div>
 
 <script>
-/* ════════════════════════════════════════════════════════
-   CONFIG & STATE
-   ═════════════════════════════════════════════════════════ */
-const PLAYER = {
-  name: 'Wine Explorer',
-  avatar: '🍷',
-  xp: parseInt(localStorage.getItem('vbwr_xp') || '0'),
-  level: parseInt(localStorage.getItem('vbwr_level') || '1'),
-  completedLevels: JSON.parse(localStorage.getItem('vbwr_completed') || '[]'),
-};
+/* ══════════════════════════════════════════
+   100 LEVELS DEFINITION (10 Chapters)
+   ══════════════════════════════════════════ */
+const CHAPTERS = [
+  {id:1, name:'Descobridor', color:'#4CAF50', icon:'🌱', range:[1,10]},
+  {id:2, name:'Apreciador',  color:'#2196F3', icon:'🍷', range:[11,20]},
+  {id:3, name:'Conhecedor',  color:'#FF9800', icon:'🔍', range:[21,30]},
+  {id:4, name:'Especialista',color:'#9C27B0', icon:'🎯', range:[31,40]},
+  {id:5, name:'Expert',      color:'#E91E63', icon:'💎', range:[41,50]},
+  {id:6, name:'Sommelier',   color:'#D4AF37', icon:'🥂', range:[51,60]},
+  {id:7, name:'Grand Sommelier',color:'#FF6F00',icon:'🌟',[61,70]:[61,70],range:[61,70]},
+  {id:8, name:'Mestre',      color:'#7A1F26', icon:'👑', range:[71,80]},
+  {id:9, name:'Grand Maître',color:'#B8941E', icon:'🏛️', range:[81,90]},
+  {id:10,name:'Lenda Mundial',color:'#FFD700',icon:'⚜️', range:[91,100]},
+];
 
-function savePlayer() {
-  localStorage.setItem('vbwr_xp', PLAYER.xp);
-  localStorage.setItem('vbwr_level', PLAYER.level);
-  localStorage.setItem('vbwr_completed', JSON.stringify(PLAYER.completedLevels));
+// XP required per level (cumulative)
+function xpForLevel(n) {
+  if(n<=1) return 0;
+  // progressive curve: each chapter gets harder
+  const ch = Math.ceil((n-1)/10);
+  const pos = ((n-1)%10)+1;
+  const chBase = [0,0,5000,15000,35000,65000,110000,175000,260000,370000,510000];
+  const chStep =  [0,500,1000,2000,3000,4500,6500,8500,11000,14000,18000];
+  return chBase[ch] + chStep[ch]*(pos-1);
 }
 
-/* ─── LEVELS DEFINITION ─── */
-const LEVELS = [
-  {
-    id: 1, name: 'Descobridor', icon: '🌱',
-    subtitle: 'Fundamentos do Mundo do Vinho',
-    desc: 'Uvas, regiões básicas, serviço e harmonização introdutória.',
-    xpRequired: 0, xpReward: 500,
-    themes: ['Fundamentos', 'Castas Clássicas', 'Serviço Básico'],
-    color: '#4CAF50', colorBg: 'rgba(76,175,80,.15)',
-    questions: 'basic',
-  },
-  {
-    id: 2, name: 'Apreciador', icon: '🍷',
-    subtitle: 'Variedades & Regiões Principais',
-    desc: 'Castas internacionais, grandes regiões e estilos de vinho.',
-    xpRequired: 400, xpReward: 800,
-    themes: ['Regiões', 'Estilos', 'Degustação'],
-    color: '#2196F3', colorBg: 'rgba(33,150,243,.15)',
-    questions: 'intermediate',
-  },
-  {
-    id: 3, name: 'Especialista', icon: '🎯',
-    subtitle: 'Produção & Terroir Avançado',
-    desc: 'Vinificação, appassimento, regiões clássicas e Grande Crus.',
-    xpRequired: 1000, xpReward: 1200,
-    themes: ['Vinificação', 'Terroir', 'Climas'],
-    color: '#FF9800', colorBg: 'rgba(255,152,0,.15)',
-    questions: 'advanced',
-  },
-  {
-    id: 4, name: 'Expert', icon: '💎',
-    subtitle: 'Harmonização & Serviço Elite',
-    desc: 'Maridagem complexa, gestão de adega, serviço à mesa.',
-    xpRequired: 2200, xpReward: 1800,
-    themes: ['Harmonização', 'Adega', 'Serviço Sommelier'],
-    color: '#9C27B0', colorBg: 'rgba(156,39,176,.15)',
-    questions: 'expert',
-  },
-  {
-    id: 5, name: 'Mestre', icon: '👑',
-    subtitle: 'Conhecimento de Elite Mundial',
-    desc: 'Análise sensorial profunda, vinhos raros, história e cultura.',
-    xpRequired: 4000, xpReward: 3000,
-    themes: ['Análise Sensorial', 'Vinhos Raros', 'História'],
-    color: '#D4AF37', colorBg: 'rgba(212,175,55,.15)',
-    questions: 'master',
-  },
+// XP reward per level
+function xpRewardForLevel(n) {
+  const ch = Math.ceil(n/10);
+  const rewards = [0,400,700,1200,1900,2800,4000,5500,7500,10000,15000];
+  return rewards[ch];
+}
+
+// Build 100 level objects
+const LEVEL_TITLES = [
+  '','Curioso','Iniciante','Explorador','Degustador','Apreciador',
+  'Conhecedor','Entusiasta','Aficionado','Amador','Descobridor Pleno',
+  'Vinheiro','Enófilo','Catador','Paladino','Apreciador Sênior',
+  'Especialista em Castas','Sommelier Júnior','Terroir Scholar','Cru Expert','Apreciador Elite',
+  'Analista Sensorial','Conhecedor de Regiões','Wine Writer','Barolo Hunter','Champagne Connoisseur',
+  'Blend Master','Cave Curator','Bordeaux Scholar','Borgonha Devotee','Conhecedor Pleno',
+  'Especialista Clássico','Grand Cru Hunter','Vintage Expert','Terroir Master','Vinho Naturalista',
+  'Enólogo Honorário','Sommelier Pro','Cave Director','Palato de Ouro','Especialista Elite',
+  'Expert du Vin','Cellar Architect','Wine Educator','Appellation Master','Casta Scholar',
+  'Vinificateur','Grand Expert','Wine Judge','Palato Supremo','Expert Elite',
+  'Sommelier Certified','Service Master','Crystal Palate','Wine Director','Maridagem Expert',
+  'Food & Wine Master','Cellar Sommelier','Grand Sommelier Jr','Prestige Cuvée','Sommelier Elite',
+  'Grand Sommelier','Salon du Vin','Premier Cru Master','Burgundy Master','Rhône Expert',
+  'Champagne Master','Tuscan Scholar','Iberian Expert','New World Guide','Grand Sommelier Elite',
+  'Mestre do Vinho','Wine Architect','Terroir Guardian','Vintage Oracle','Blind Taster Pro',
+  'Sensory Artist','Cépages Master','Grand Mestre Jr','Wine Heritage','Mestre Elite',
+  'Grand Maître Jr','Académie du Vin','Maison Expert','Domaine Master','Château Scholar',
+  'Appellation Guardian','Grand Cru Master','Wine Ambassador','Patrimoine Vivant','Grand Maître',
+  'Lenda Emergente','Ícone Regional','Guardião do Terroir','Voz do Vinho','Heritage Master',
+  'Mito do Vinho','Patrimônio Vivo','Lenda em Vida','Grand Lenda','⚜️ LENDA MUNDIAL',
 ];
 
-/* ─── QUESTIONS BANK ─── */
+const LEVELS = Array.from({length:100},(_,i)=>{
+  const n = i+1;
+  const ch = CHAPTERS[Math.ceil(n/10)-1];
+  return {
+    id:n, chapter:ch.id, chapterName:ch.name,
+    chapterColor:ch.color, chapterIcon:ch.icon,
+    name: LEVEL_TITLES[n] || `Nível ${n}`,
+    xpRequired: xpForLevel(n),
+    xpReward: xpRewardForLevel(n),
+    tier: Math.min(10, Math.ceil(n/10)),
+    icon: ch.icon,
+  };
+});
+
+/* ══════════════════════════════════════════
+   QUESTION BANK — 8 Tiers, 200+ Questions
+   ══════════════════════════════════════════ */
 const QB = {
-  basic: [
-    {p:'Qual uva tinta é chamada de "a uva do povo" no Brasil?',r:'Cabernet Sauvignon',e:['Merlot','Syrah','Tannat'],cat:'Castas',diff:'fácil',xp:80,exp:'Cabernet Sauvignon é a variedade mais reconhecida globalmente, plantada em praticamente todos os países produtores.'},
-    {p:'A fermentação alcoólica transforma:',r:'Açúcar em álcool',e:['Ácido em sal','Álcool em vinagre','Glicerol em tanino'],cat:'Vinificação',diff:'fácil',xp:80,exp:'Durante a fermentação, leveduras convertem os açúcares da uva em etanol e CO₂.'},
-    {p:'Qual temperatura é ideal para servir um vinho tinto encorpado?',r:'16–18°C',e:['6–8°C','10–12°C','20–22°C'],cat:'Serviço',diff:'fácil',xp:80,exp:'Tintos encorpados como Cabernet e Syrah expressam melhor seus aromas entre 16-18°C.'},
-    {p:'Qual harmonização clássica acompanha ostras?',r:'Chablis ou Muscadet',e:['Barolo','Amarone','Zinfandel'],cat:'Harmonização',diff:'fácil',xp:80,exp:'A acidez cortante do Chablis e a leveza do Muscadet complementam perfeitamente o sabor marinho das ostras.'},
-    {p:'Vinho rosé é produzido principalmente de:',r:'Uvas tintas com curto contato com a casca',e:['Mistura de vinho tinto e branco','Uvas rosadas raras','Adição de corante'],cat:'Vinificação',diff:'fácil',xp:80,exp:'O rosé extrai cor das cascas de uvas tintas por poucas horas — método de sangria ou maceração curta.'},
-    {p:'Qual país produz o Champagne autêntico?',r:'França',e:['Itália','Espanha','EUA'],cat:'Regiões',diff:'fácil',xp:80,exp:'Champagne é uma região protegida na França — apenas espumantes produzidos ali podem usar esse nome.'},
-    {p:'O que é "tannin" (tanino) no vinho?',r:'Composto que dá adstringência e estrutura',e:['Tipo de açúcar residual','Aroma de frutas vermelhas','Ácido natural da uva'],cat:'Fundamentos',diff:'fácil',xp:80,exp:'Taninos vêm das cascas, sementes e madeira. Dão secura na boca e são antioxidantes naturais que ajudam no envelhecimento.'},
-    {p:'Prosecco é originário de qual país?',r:'Itália',e:['França','Espanha','Portugal'],cat:'Regiões',diff:'fácil',xp:80,exp:'Prosecco vem do Vêneto e Friuli-Venezia Giulia, no nordeste da Itália, feito com uva Glera pelo método Charmat.'},
+  // TIER 1 — Absolute basics (Ch.1) — 25 perguntas
+  t1:[
+    {p:'Fermentação alcoólica transforma açúcar em:',r:'Álcool e CO₂',e:['Sal e ácido','Tanino e glicerol','Ácido tartárico'],cat:'Fundamentos',xp:60,exp:'Leveduras convertem açúcares da uva em etanol e dióxido de carbono durante a fermentação.'},
+    {p:'Qual temperatura ideal para servir vinho tinto leve?',r:'12–14°C',e:['6–8°C','18–20°C','4°C'],cat:'Serviço',xp:60,exp:'Tintos leves como Pinot Noir e Beaujolais expressam melhor seus aromas entre 12-14°C.'},
+    {p:'Prosecco é originário de qual país?',r:'Itália',e:['França','Espanha','Portugal'],cat:'Regiões',xp:60,exp:'Prosecco vem do Vêneto e Friuli, nordeste da Itália. Feito com uva Glera pelo método Charmat.'},
+    {p:'Qual uva produz o Champagne mais famoso?',r:'Chardonnay, Pinot Noir e Pinot Meunier',e:['Riesling e Gewürztraminer','Grenache e Syrah','Vermentino e Fiano'],cat:'Espumantes',xp:60,exp:'O Champagne clássico é produzido com três castas: Chardonnay (frescor), Pinot Noir e Pinot Meunier (corpo).'},
+    {p:'O que dá a cor vermelha ao vinho tinto?',r:'Antocianinas das cascas das uvas',e:['Taninos da madeira','Leveduras especiais','Ácido málico'],cat:'Fundamentos',xp:60,exp:'Antocianinas são pigmentos presentes nas cascas de uvas tintas. Sem contato com casca, o mosto seria incolor.'},
+    {p:'Qual é o país produtor de vinho mais famoso?',r:'França',e:['Itália','Espanha','EUA'],cat:'Regiões',xp:60,exp:'A França é referência mundial com regiões icônicas: Bordeaux, Borgonha, Champagne, Rhône e Loire.'},
+    {p:'Vinho seco significa:',r:'Pouco ou nenhum açúcar residual',e:['Produzido em clima seco','Sem adição de água','Fermentado em barril seco'],cat:'Fundamentos',xp:60,exp:'Seco refere-se ao teor de açúcar residual. Vinhos secos têm menos de 4g/L de açúcar.'},
+    {p:'Qual é o espumante italiano feito com uva Glera?',r:'Prosecco',e:['Franciacorta','Lambrusco','Asti Spumante'],cat:'Espumantes',xp:60,exp:'Prosecco DOC/DOCG é feito exclusivamente com uva Glera na região do Vêneto, com método Charmat.'},
+    {p:'Tanino no vinho vem principalmente de:',r:'Cascas, sementes e carvalho',e:['Polpa da uva','Água de irrigação','Leveduras selvagens'],cat:'Fundamentos',xp:60,exp:'Taninos são polifenóis que dão estrutura e adstringência ao vinho. Cascas e carvalho são as principais fontes.'},
+    {p:'Qual uva branca é mais plantada no mundo?',r:'Airén',e:['Chardonnay','Sauvignon Blanc','Riesling'],cat:'Castas',xp:70,exp:'Airén, uva espanhola quase desconhecida, é a mais plantada do mundo por cobrir as áridas planícies de La Mancha.'},
+    {p:'Vinho rosé é produzido como?',r:'Maceração curta das cascas de uvas tintas',e:['Mistura de vinho tinto e branco','Uvas rosadas especiais','Fermentação em barrica rosa'],cat:'Fundamentos',xp:60,exp:'O rosé provém de uvas tintas com contato mínimo das cascas (horas), extraindo apenas cor leve. Na Champagne, blending é permitido.'},
+    {p:'Qual uva tinta é mais famosa do mundo?',r:'Cabernet Sauvignon',e:['Merlot','Pinot Noir','Syrah'],cat:'Castas',xp:60,exp:'Cabernet Sauvignon é a variedade tinta mais cultivada globalmente, adaptando-se de Bordeaux ao Chile, passando por Napa.'},
+    {p:'O que é um "sommelier"?',r:'Profissional especializado em vinhos e bebidas',e:['Enólogo responsável pela vinificação','Proprietário de vinhedo','Provador amador de vinhos'],cat:'Serviço',xp:60,exp:'O sommelier é o profissional de sala especializado em vinhos, harmonização e serviço. Diferente do enólogo (que produz) e do viticultor (que cultiva).'},
+    {p:'Qual país é o maior consumidor de vinho per capita?',r:'Portugal',e:['França','Itália','Argentina'],cat:'Regiões',xp:70,exp:'Portugal lidera o consumo per capita mundial com ~52 litros/ano por habitante, seguido da Itália e França.'},
+    {p:'Acidez no vinho é essencial para:',r:'Frescor, longevidade e equilíbrio',e:['Dar cor ao vinho','Aumentar teor alcoólico','Reduzir os taninos'],cat:'Fundamentos',xp:65,exp:'A acidez (ácidos tartárico, málico, cítrico) confere frescor e estrutura. Vinhos de alta acidez envelhecem melhor.'},
+    {p:'Qual formato de taça é ideal para vinhos tintos?',r:'Cálice amplo e arredondado (Bordeaux/Borgonha)',e:['Taça flauta fina','Copo pequeno e estreito','Taça idêntica à de espumante'],cat:'Serviço',xp:60,exp:'Taças amplas permitem que os aromas se desenvolvam e o vinho respire. Cada região tem seu formato ideal para maximizar a expressão aromática.'},
+    {p:'O que significa "AOC" na França?',r:'Appellation d\'Origine Contrôlée — Denominação de Origem Controlada',e:['Associação de Qualidade','Álcool Oficialmente Controlado','Autorização de Origem Cultivada'],cat:'Regiões',xp:70,exp:'AOC (hoje AOP) garante origem, castas permitidas, rendimentos máximos e métodos de produção. Exemplo: Champagne só pode vir da região de Champagne.'},
+    {p:'Vinho branco é feito com:',r:'Uvas brancas ou tintas sem contato com as cascas',e:['Somente uvas brancas','Uvas desidratadas','Uvas colhidas à noite'],cat:'Fundamentos',xp:60,exp:'O Champagne Blanc de Noirs é branco feito com Pinot Noir tinto — sem contato de casca, sem cor. A polpa da maioria das uvas é incolor.'},
+    {p:'Qual espumante francês é o mais famoso do mundo?',r:'Champagne',e:['Crémant','Vouvray','Clairette de Die'],cat:'Espumantes',xp:60,exp:'Champagne, protegido por lei, só pode vir da região homônima no norte da França. É sinônimo global de celebração e excelência.'},
+    {p:'O que é "vintage" no rótulo de um vinho?',r:'Ano da colheita das uvas',e:['Tipo de barrica usada','Nota de degustação','Nome do produtor'],cat:'Fundamentos',xp:65,exp:'Vintage indica o ano em que as uvas foram colhidas. Safras variam muito por clima — um bom vintage eleva o valor e o potencial de guarda.'},
+    {p:'Qual a diferença entre vinho orgânico e biodinâmico?',r:'Biodinâmico vai além: usa calendário lunar e vê a vinha como ecossistema',e:['São a mesma coisa','Orgânico usa barrica; biodinâmico usa ânfora','Biodinâmico só produz espumantes'],cat:'Viticultura',xp:70,exp:'Orgânico: sem pesticidas/herbicidas químicos. Biodinâmico (Demeter/Biodyvin): filosofia holística de Steiner com preparados naturais e calendário lunar.'},
+    {p:'Região de Bordeaux fica em qual país?',r:'França',e:['Itália','Espanha','Portugal'],cat:'Regiões',xp:55,exp:'Bordeaux, no sudoeste da França, é uma das regiões vinícolas mais famosas. Conhecida pelos grandes châteaux e pelos blends de Cabernet Sauvignon e Merlot.'},
+    {p:'O que é "barrica" no contexto do vinho?',r:'Tonel de madeira de carvalho para envelhecer o vinho',e:['Máquina de prensagem das uvas','Sala de degustação do produtor','Rótulo do vinho'],cat:'Vinificação',xp:65,exp:'A barrica de carvalho (225L em Bordeaux, 228L em Borgonha) transfere taninos, baunilha, especiarias e permite micro-oxigenação durante o envelhecimento.'},
+    {p:'Uva Chardonnay é originária de:',r:'Borgonha, França',e:['Alemanha','Nova Zelândia','Argentina'],cat:'Castas',xp:65,exp:'Chardonnay nasceu na Borgonha, onde expressa sua forma mais mineral e elegante. Hoje é a uva branca mais plantada no mundo.'},
+    {p:'Qual o teor alcoólico típico de um vinho seco de mesa?',r:'11–14% Vol',e:['5–7% Vol','18–22% Vol','3–4% Vol'],cat:'Fundamentos',xp:60,exp:'Vinhos secos de mesa geralmente têm 11-14% de álcool. Vinhos doces tardios podem chegar a 8-10%; vinhos fortified (Porto, Sherry) a 17-22%.'},
   ],
-  intermediate: [
-    {p:'Qual região francesa é o lar do Pinot Noir mais famoso do mundo?',r:'Borgonha',e:['Bordeaux','Champagne','Loire'],cat:'Regiões',diff:'médio',xp:120,exp:'A Borgonha (Bourgogne), especialmente a Côte de Nuits, é referência mundial de Pinot Noir, com Grand Crus como Chambertin e Romanée-Conti.'},
-    {p:'O método Charmat produz espumantes com fermentação em:',r:'Tanques de aço inoxidável',e:['Barrica de carvalho','Garrafa individual','Ânfora de barro'],cat:'Vinificação',diff:'médio',xp:120,exp:'No método Charmat (ou Martinotti), a segunda fermentação ocorre em autoclaves pressurizados, sendo mais econômico e preservando frutas frescas.'},
-    {p:'Nebbiolo é a principal uva do:',r:'Barolo',e:['Chianti','Brunello','Valpolicella'],cat:'Castas',diff:'médio',xp:120,exp:'Barolo e Barbaresco, no Piemonte italiano, são feitos de Nebbiolo — conhecida por alta acidez, taninos firmes e cor pálida.'},
-    {p:'O Riesling Trockenbeerenauslese é classificado como:',r:'Vinho doce de colheita tardia botrítis',e:['Seco e mineral','Espumante naturalmente doce','Vinho oxidativo'],cat:'Estilos',diff:'médio',xp:140,exp:'TBA é o mais alto nível Prädikat alemão: uvas passificadas pela Botrytis cinerea, colhidas grão a grão, produzindo néctar de extrema concentração.'},
-    {p:'Sangiovese Grosso, localmente chamado Brunello, produz:',r:'Brunello di Montalcino',e:['Chianti Classico','Amarone','Vinho Nobile'],cat:'Castas',diff:'médio',xp:130,exp:'Brunello di Montalcino é um DOCG toscano feito exclusivamente de Sangiovese Grosso, com envelhecimento mínimo de 5 anos.'},
-    {p:'Vinho Porto Tawny difere do Ruby principalmente por:',r:'Envelhecimento oxidativo em pipas pequenas',e:['Ser mais doce','Usar uvas brancas','Fermentação mais longa'],cat:'Estilos',diff:'médio',xp:130,exp:'Tawny envelhece em pipas de 550L expostas ao ar, ganhando cor âmbar e aromas de nozes, figos e especiarias.'},
-    {p:'A região do Douro, em Portugal, é famosa por:',r:'Porto e vinhos tintos encorpados',e:['Espumantes','Vinhos verdes','Vinhos doces botritizados'],cat:'Regiões',diff:'médio',xp:120,exp:'O Douro é o berço do Porto e também produz tintos de mesa excepcionais em terraços de xisto, com castas como Touriga Nacional.'},
-    {p:'Malbec encontrou sua maior expressão mundial em:',r:'Mendoza, Argentina',e:['Cahors, França','Maipo, Chile','Napa, EUA'],cat:'Regiões',diff:'médio',xp:120,exp:'Embora originalmente francês, o Malbec prosperou nos vinhedos de altitude de Mendoza, tornando-se o emblema argentino.'},
+  // TIER 2 — Basic (Ch.2) — 25 perguntas
+  t2:[
+    {p:'Qual região francesa é berço do Champagne?',r:'Champagne',e:['Alsácia','Loire','Borgonha'],cat:'Regiões',xp:90,exp:'A região de Champagne, ao norte da França, é a única que pode produzir vinho sob esse nome protegido.'},
+    {p:'Riesling é originário de:',r:'Alemanha',e:['Áustria','Itália','Hungria'],cat:'Castas',xp:90,exp:'O Riesling é a uva nobre da Alemanha, especialmente do Mosela e do Reno. Produz vinhos de alta acidez e longevidade.'},
+    {p:'Chablis é um vinho branco produzido com:',r:'Chardonnay',e:['Sauvignon Blanc','Viognier','Riesling'],cat:'Castas',xp:90,exp:'Chablis, na Borgonha, usa exclusivamente Chardonnay. É conhecido pela mineralidade e acidez cortante.'},
+    {p:'O método champenoise usa segunda fermentação:',r:'Na própria garrafa',e:['Em tanque de inox','Em barrica de carvalho','Em ânforas de barro'],cat:'Espumantes',xp:100,exp:'O método tradicional (champenoise) faz a segunda fermentação dentro da garrafa, criando perlage fina e persistente.'},
+    {p:'Qual país produz o Malbec mais renomado?',r:'Argentina',e:['França','Chile','EUA'],cat:'Regiões',xp:90,exp:'Mendoza, na Argentina, é hoje a capital mundial do Malbec. A uva chegou da França no séc. XIX e prosperou na altitude andina.'},
+    {p:'Vinho Porto é fortified — significa que:',r:'Aguardente é adicionada para deter fermentação',e:['É envelhecido por mais de 40 anos','Uvas são secadas antes da prensa','É produzido com método especial de temperatura'],cat:'Estilos',xp:100,exp:'No Porto, aguardente vínica é adicionada durante a fermentação, preservando açúcares naturais e elevando o teor alcoólico.'},
+    {p:'Qual a diferença entre Chianti e Chianti Classico?',r:'Classico vem de área menor e mais restrita original',e:['Classico usa uvas diferentes','Classico é mais doce','Classico é produzido em Piemonte'],cat:'Regiões',xp:100,exp:'Chianti Classico é a zona histórica original entre Florença e Siena, com rigorosos critérios de qualidade e o galo negro como símbolo.'},
+    {p:'Qual temperatura ideal para servir um Champagne?',r:'6–9°C',e:['12–14°C','15–18°C','3–5°C'],cat:'Serviço',xp:90,exp:'Champagne e espumantes servidos frios (6-9°C) preservam o perlage e os aromas frescos. Muito frio mascara os aromas.'},
+    {p:'Grenache é a uva principal de qual região?',r:'Châteauneuf-du-Pape',e:['Barolo','Chablis','Mosel'],cat:'Castas',xp:100,exp:'Na AOC Châteauneuf-du-Pape, sul do Rhône, Grenache domina os blends, acompanhada por Syrah, Mourvèdre e até 13 castas permitidas.'},
+    {p:'O que é "late harvest" (colheita tardia)?',r:'Uvas colhidas mais tarde para maior concentração de açúcar',e:['Uvas colhidas antes do amadurecimento','Técnica de irrigação tardia','Vinho produzido somente à noite'],cat:'Estilos',xp:100,exp:'Uvas de colheita tardia têm mais açúcar por evaporação de água e concentração de sólidos. Produzem vinhos doces ou de maior corpo.'},
+    {p:'Qual a uva principal do Chianti Classico?',r:'Sangiovese',e:['Barbera','Nebbiolo','Montepulciano'],cat:'Castas',xp:90,exp:'Sangiovese é a espinha dorsal do Chianti Classico. Deve constituir 80-100% do blend, com possibilidade de adicionar outras castas toscanas.'},
+    {p:'O que é "terroir"?',r:'Conjunto de fatores naturais que influenciam a uva',e:['Tipo de barrica usada','Técnica de colheita','Sistema de podas'],cat:'Terroir',xp:95,exp:'Terroir engloba solo, clima, altitude, exposição solar e microclima — todos os fatores naturais que tornam um vinho único de seu lugar.'},
+    {p:'Vinho do Douro português é produzido com:',r:'Castas indígenas como Touriga Nacional e Touriga Franca',e:['Cabernet Sauvignon e Merlot','Sangiovese e Barbera','Grenache e Mourvèdre'],cat:'Castas',xp:100,exp:'O Douro usa castas autóctones: Touriga Nacional (a rainha), Touriga Franca, Tinta Roriz (Tempranillo), Tinta Barroca. Os vinhos tintos do Douro são de guarda.'},
+    {p:'Qual vinho é produzido nas encostas do Rio Mosela?',r:'Riesling alemão',e:['Pinot Noir borgonhês','Cabernet Sauvignon bordalês','Sangiovese toscano'],cat:'Regiões',xp:90,exp:'O Mosela (Mosel) produz os mais elegantes Rieslings da Alemanha em encostas de ardósia com até 70° de inclinação, trabalhadas exclusivamente à mão.'},
+    {p:'O que é "denominação de origem" no rótulo?',r:'Garantia de que o vinho vem de uma região específica com regras próprias',e:['Classificação de qualidade genérica','Nome do enólogo responsável','Ano mínimo de envelhecimento'],cat:'Regiões',xp:85,exp:'DO, DOC, AOC, DOCG — cada país tem seu sistema. Garante ao consumidor autenticidade da origem e padrões mínimos de qualidade.'},
+    {p:'Qual uva dominante no Chianti Classico?',r:'Sangiovese',e:['Merlot','Cabernet Sauvignon','Montepulciano'],cat:'Castas',xp:90,exp:'O DOCG Chianti Classico exige mínimo de 80% Sangiovese. O Galo Nero é o símbolo do consórcio desde 1924.'},
+    {p:'O espumante Cava é originário de:',r:'Espanha (Catalunha)',e:['Portugal','Argentina','Chile'],cat:'Regiões',xp:90,exp:'Cava é produzido principalmente no Penedès, Catalunha. Usa o método tradicional (segunda fermentação na garrafa) com castas Macabeo, Parellada e Xarello.'},
+    {p:'Vinho de gelo (Ice Wine / Eiswein) é produzido como?',r:'Uvas prensadas congeladas naturalmente no vinhedo',e:['Vinho resfriado artificialmente após fermentação','Adição de gelo alimentar ao mosto','Fermentação em câmara fria'],cat:'Estilos',xp:105,exp:'As uvas congelam naturalmente na videira (< -8°C). A água cristaliza; prensa-se apenas o mosto concentrado rico em açúcar e ácidos. Canadá e Alemanha lideram.'},
+    {p:'Sauvignon Blanc da Nova Zelândia é famoso por seus aromas de:',r:'Maracujá, groselha e capim',e:['Mel, noz e baunilha','Pêssego, damasco e gengibre','Cerejas, baunilha e carvalho'],cat:'Análise Sensorial',xp:95,exp:'O SB de Marlborough tem perfil aromático único: thiois (mercaptanos) respondem pelos aromas intensos de frutos tropicais e herbáceos.'},
+    {p:'Qual é a função do rolha de cortiça na garrafa?',r:'Vedar e permitir microoxigenação gradual para envelhecimento',e:['Apenas vedação hermética','Adicionar aromas de madeira','Pureza microbiológica absoluta'],cat:'Fundamentos',xp:90,exp:'A cortiça permite passagem mínima de oxigênio (1-3mg/ano), essencial para evolução do vinho. Rolhas de qualidade inferior causam o "gosto de rolha" (TCA).'},
+    {p:'O que é "denominação de origem" no rótulo?',r:'Garantia de que o vinho vem de região específica com regras próprias',e:['Classificação genérica de qualidade','Nome do enólogo','Ano mínimo de envelhecimento'],cat:'Regiões',xp:85,exp:'DO, DOC, AOC, DOCG — cada país tem seu sistema. Garante ao consumidor autenticidade da origem e padrões mínimos de qualidade.'},
+    {p:'Qual a diferença entre um Blanc de Blancs e Blanc de Noirs no Champagne?',r:'Blancs: só Chardonnay; Noirs: uvas tintas Pinot Noir/Meunier',e:['Blancs é mais doce; Noirs é mais seco','Blancs usa método Charmat; Noirs o champenoise','São termos equivalentes'],cat:'Espumantes',xp:105,exp:'Blanc de Blancs (100% Chardonnay): elegância, frescor, longevidade. Blanc de Noirs (uvas tintas): corpo, estrutura, frutas vermelhas. Ambos são brancos.'},
+    {p:'Qual o principal vinho branco de Portugal?',r:'Vinho Verde (Alvarinho/Loureiro)',e:['Rioja Blanco','Soave','Chablis'],cat:'Regiões',xp:90,exp:'O Vinho Verde do Minho produz brancos com alta acidez, leveza e perlage natural. O Alvarinho (especialmente de Monção e Melgaço) é o mais nobre.'},
+    {p:'Qual a diferença entre Beaujolais e Beaujolais Nouveau?',r:'Nouveau é lançado em novembro com técnica de maceração carbônica; clássico envelhece',e:['São a mesma coisa','Nouveau é mais caro','Beaujolais usa Pinot Noir; Nouveau usa Gamay'],cat:'Estilos',xp:100,exp:'Beaujolais Nouveau sai na terceira quinta de novembro, feito por maceração carbônica da Gamay. Os crus (Fleurie, Morgon, etc.) são vinheiros sérios e de guarda.'},
+    {p:'O vinho Sauternes é famoso por ser:',r:'Doce nobre produzido com uvas atacadas por Botrytis',e:['Tinto seco de alta concentração','Espumante levemente doce','Rosé de Cabernet Sauvignon'],cat:'Estilos',xp:105,exp:'Sauternes, Bordeaux, é o grande vinho doce nobre francês. A névoa do Ciron favorece a Botrytis cinerea (podridão nobre) sobre Sémillon, Sauvignon Blanc e Muscadelle.'},
   ],
-  advanced: [
-    {p:'O processo de "appassimento" é fundamental para produzir:',r:'Amarone della Valpolicella',e:['Chianti Classico','Barolo','Prosecco'],cat:'Vinificação',diff:'difícil',xp:180,exp:'Appassimento é a secagem das uvas colhidas em prateleiras (arele) por 3-4 meses, concentrando açúcares e aromas para criar o Amarone.'},
-    {p:'Qual mineral predomina nos solos que dão ao Chablis sua mineralidade característica?',r:'Kimmeridgiano (calcário com fósseis)',e:['Granito','Basalto','Argila rossa'],cat:'Terroir',diff:'difícil',xp:190,exp:'Os solos de Chablis são Kimmeridgiano, calcário do Jurássico Superior com fósseis de ostras, criando a acidez cortante e o "gosto de pederneira".'},
-    {p:'Grand Cru em Borgonha representa qual percentual dos vinhedos?',r:'Menos de 2%',e:['Cerca de 10%','Aproximadamente 25%','Mais de 50%'],cat:'Regiões',diff:'difícil',xp:200,exp:'Os Grand Crus da Borgonha representam apenas ~1,5% da produção total — 33 vinhedos em toda a região, com preços que refletem essa raridade.'},
-    {p:'Fermentação malolática (FML) é frequentemente evitada em vinhos:',r:'Brancos aromáticos como Riesling',e:['Chardonnay de Borgonha','Barolo','Champagne'],cat:'Vinificação',diff:'difícil',xp:180,exp:'FML converte ácido málico em lático, suavizando vinhos. Em Riesling e Sauvignon Blanc, essa acidez é essencial para o estilo — por isso evita-se a FML.'},
-    {p:'Phylloxera vastatrix devastou os vinhedos europeus. A solução foi:',r:'Enxertia em porta-enxertos americanos resistentes',e:['Criar vinhedos flutuantes','Importar leveduras resistentes','Trocar castas tradicionais por híbridas'],cat:'História',diff:'difícil',xp:190,exp:'O pulgão Phylloxera destroça raízes europeias mas não americanas. A solução (séc. XIX) foi enxertar Vitis vinifera em raízes de espécies americanas resistentes.'},
-    {p:'Biodynamic viticulture baseia-se nos princípios de:',r:'Rudolf Steiner e calendário lunar',e:['Louis Pasteur e microbiologia','Robert Parker e qualidade sensorial','André Tchelistcheff e clones selecionados'],cat:'Viticultura',diff:'difícil',xp:180,exp:'Biodinâmica (Steiner, 1924) trata a vinha como ecossistema vivo, usando preparados biodinâmicos e o calendário lunar para poda, colheita e vinificação.'},
-    {p:'Solera é o sistema de envelhecimento utilizado no:',r:'Sherry (Jerez)',e:['Porto Vintage','Sauternes','Tokaji Aszú'],cat:'Estilos',diff:'difícil',xp:190,exp:'No sistema Solera, frações do vinho mais velho são completadas com vinho mais novo em filas de pipas, criando consistência de estilo ao longo dos anos.'},
-    {p:'A região de Priorat, em Espanha, é famosa por seus solos de:',r:'Licorella (ardósia e quartzo)',e:['Calcário kimmeridgiano','Granito rosado','Argila vermelha'],cat:'Terroir',diff:'difícil',xp:200,exp:'Os solos de Licorella do Priorat — ardósia com inclusões de mica e quartzo — forçam raízes a perfurações profundas, criando vinhos de concentração extrema.'},
+  // TIER 3 — Intermediate-light (Ch.3) — 25 perguntas
+  t3:[
+    {p:'Brunello di Montalcino é produzido com qual uva?',r:'Sangiovese Grosso (Brunello)',e:['Nebbiolo','Montepulciano','Aglianico'],cat:'Castas',xp:130,exp:'Brunello é o clonal de Sangiovese local em Montalcino. DOCG com envelhecimento mínimo de 5 anos (6 para Riserva).'},
+    {p:'Fermentação malolática transforma:',r:'Ácido málico em ácido lático',e:['Açúcar em álcool','Álcool em acetato','Tanino em glicerol'],cat:'Vinificação',xp:130,exp:'FML suaviza a acidez do vinho, convertendo o ácido agressivo málico (maçã) em ácido lático mais macio (leite).'},
+    {p:'Nebbiolo produz quais dois grandes vinhos do Piemonte?',r:'Barolo e Barbaresco',e:['Chianti e Brunello','Amarone e Soave','Dolcetto e Barbera'],cat:'Castas',xp:140,exp:'Nebbiolo é a uva nobre do Piemonte. Barolo e Barbaresco são os dois DOCG mais prestigiados, com taninos potentes e alta acidez.'},
+    {p:'Qual é a diferença entre Vintage e Non-Vintage no Porto?',r:'Vintage é de uma única colheita excepcional',e:['Vintage é mais doce','Non-Vintage é mais antigo','Vintage usa uvas brancas'],cat:'Estilos',xp:140,exp:'Vintage Porto é declarado apenas em anos excepcionais, usando uvas de uma única safra. Non-Vintage mistura safras para consistência.'},
+    {p:'O que é terroir?',r:'Conjunto de fatores naturais que influenciam a expressão da uva',e:['Tipo de barrica usada na vinificação','Técnica de colheita manual','Sistema de podas da vinha'],cat:'Terroir',xp:130,exp:'Terroir (francês: "terra") engloba solo, subsolo, clima, altitude, exposição solar e microclima — todos os fatores naturais únicos de um local.'},
+    {p:'Sauvignon Blanc de qual região é mundialmente famoso?',r:'Marlborough, Nova Zelândia',e:['Napa Valley, EUA','Barossa Valley, Austrália','Douro, Portugal'],cat:'Regiões',xp:130,exp:'Marlborough na Nova Zelândia produz Sauvignon Blanc com intenso aroma de maracujá, groselha preta e capim. Revolucionou o estilo global.'},
+    {p:'Qual é o significado de "AOC" na França?',r:'Appellation d\'Origine Contrôlée',e:['Associação de Qualidade Certificada','Alcohol Oficial Contrôlé','Ateliers d\'Oenologie Certifiée'],cat:'Regiões',xp:130,exp:'AOC (hoje AOP) é o sistema de denominação de origem francês que garante região, castas, rendimentos e métodos de produção específicos.'},
+    {p:'Vinho Amarone della Valpolicella usa técnica de:',r:'Appassimento (secagem das uvas)',e:['Congelamento das uvas','Adição de mosto concentrado','Fermentação em pressão alta'],cat:'Vinificação',xp:150,exp:'Appassimento: uvas são secadas em prateleiras (arele) por 3-4 meses, perdendo 30-40% do peso e concentrando açúcares, álcool e aromas.'},
+    {p:'Qual país produz o Shiraz mais encorpado do mundo?',r:'Austrália (Barossa Valley)',e:['África do Sul','EUA','Chile'],cat:'Regiões',xp:130,exp:'O Shiraz australiano, especialmente do Barossa Valley, é famoso por seu corpo pleno, frutas negras amadurecidas, chocolate e especiarias.'},
+    {p:'O que é "residual sugar" em um vinho?',r:'Açúcar que resta após a fermentação',e:['Açúcar adicionado na garrafa','Açúcar da madeira de carvalho','Açúcar natural do solo'],cat:'Fundamentos',xp:130,exp:'Açúcar residual é o que sobra quando a fermentação para antes de converter todo o açúcar. Determina o grau de doçura percebida.'},
+    {p:'O que diferencia o Barolo do Barbaresco?',r:'Barolo tem maior envelhecimento mínimo e estrutura mais imponente',e:['São vinhos idênticos de mesma zona','Barbaresco usa Barbera; Barolo usa Nebbiolo','Barolo é branco; Barbaresco é tinto'],cat:'Regiões',xp:145,exp:'Barolo: mín. 38 meses de envelhecimento (62 para Riserva). Barbaresco: 26 meses (50 para Riserva). Ambos usam Nebbiolo mas Barolo tende a ser mais poderoso.'},
+    {p:'Tokaji Aszú, vinho doce nobre da Hungria, usa:',r:'Uvas com Botrytis medidas em "puttonyos"',e:['Congelamento das uvas','Uvas secas ao sol','Mosto concentrado adicionado'],cat:'Estilos',xp:150,exp:'Tokaji Aszú usa uvas Furmint/Hárslevelű atacadas por Botrytis. O açúcar é medido em puttonyos (3-6): quanto mais putts, mais doce e rico.'},
+    {p:'O sistema de vinhos em "Clos" na Borgonha significa:',r:'Vinhedo cercado por muro histórico',e:['Vinho envelhecido em câmara fechada','Garrafa com lacre de cera','Denominação de mais de 50 anos'],cat:'Terroir',xp:140,exp:'"Clos" (fechado) designa vinhedos cercados por muros de pedra — monges medievais delimitavam parcelas para observar expressões distintas de terroir.'},
+    {p:'Qual é o maior produtor mundial de vinho?',r:'Itália',e:['França','Espanha','EUA'],cat:'Regiões',xp:130,exp:'Itália e França competem pelo topo anualmente. A Itália frequentemente lidera em volume, com suas inúmeras regiões e castas. Espanha tem a maior área plantada.'},
+    {p:'Albariño/Alvarinho é a uva nobre de qual região?',r:'Rias Baixas (Espanha) e Vinho Verde (Portugal)',e:['Rioja (Espanha)','Borgonha (França)','Douro (Portugal)'],cat:'Castas',xp:140,exp:'Albariño (Espanha) e Alvarinho (Portugal) são nomes da mesma casta da Galícia/Minho. Produz brancos aromáticos de alta acidez com pêssego, limão e salinidade.'},
+    {p:'Qual é o método de vinificação do Beaujolais Nouveau?',r:'Maceração carbônica (fermentação intracelular)',e:['Método champenoise','Appassimento','Solera'],cat:'Vinificação',xp:135,exp:'Maceração carbônica: cachos inteiros fermentam em ambiente de CO₂. Fermentação ocorre dentro da própria uva. Resulta em vinhos frutados, leves, sem taninos.'},
+    {p:'O que é "Bordeaux blend"?',r:'Mistura clássica de Cabernet Sauvignon, Merlot, Cabernet Franc e outras',e:['Blend de qualquer vinho produzido em Bordeaux','Mistura de brancos e tintos','Blend obrigatório de 5 castas francesas'],cat:'Vinificação',xp:145,exp:'O "Bordeaux blend" é dominado por Cab. Sauv. na margem esquerda e Merlot na direita. Cab. Franc, Petit Verdot e Malbec completam. É o blend mais imitado do mundo.'},
+    {p:'Ribera del Duero usa qual uva como base?',r:'Tempranillo (chamada Tinto Fino ou Tinto del País)',e:['Garnacha','Mencía','Monastrell'],cat:'Castas',xp:140,exp:'Ribera del Duero, no planalto de Castela, produz grandes tintos a partir do Tempranillo local (Tinto Fino). Vega Sicilia, Pingus e Pesquera são referências mundiais.'},
+    {p:'O que é "vendange tardive" no Alsácia?',r:'Colheita tardia de uvas super-amadurecidas, produzindo vinhos ricos',e:['Colheita nocturna para preservar frescor','Nome do Beaujolais Nouveau no Alsácia','Vinhos produzidos por cooperativa'],cat:'Estilos',xp:145,exp:'Vendange Tardive é a versão alsa ciana de colheita tardia. Feito de Riesling, Gewurztraminer, Pinot Gris ou Muscat, pode ser seco a muito doce dependendo da safra.'},
+    {p:'Qual é o significado de "claret" no contexto britânico?',r:'Termo britânico para tintos de Bordeaux',e:['Rosé de Provence','Espumante inglês','Blend de tintos sem denominação'],cat:'História',xp:130,exp:'"Claret" é o termo usado pelos britânicos para os tintos de Bordeaux desde o século XII, quando a Gascanha era dominação inglesa.'},
+    {p:'O que é "negociant" em Borgonha?',r:'Comerciante que compra uvas ou vinho base para criar seus próprios blends',e:['Produtor que vinifica somente suas próprias uvas','Sistema de pontuação borgonhês','Tipo de poda da videira'],cat:'Regiões',xp:140,exp:'Négociants como Louis Jadot, Bouchard Père e Joseph Drouhin compram uvas de viticultores e criam vinhos com seu próprio estilo, diferenciados dos "domaines" independentes.'},
+    {p:'Qual é a uva tinta mais plantada da Espanha?',r:'Tempranillo',e:['Garnacha','Monastrell','Graciano'],cat:'Castas',xp:130,exp:'Tempranillo é a uva tinta nobre espanhola por excelência, presente em Rioja, Ribera del Duero, Toro e outras regiões. Adapta-se a climas variados.'},
+    {p:'O que é "élevage em barrica nova"?',r:'Envelhecimento em barrica de carvalho de primeiro uso, que transfere mais taninos e aromas',e:['Envelhecimento sem barrica','Barrica de mais de 10 anos','Barrica de madeira de cerejeira'],cat:'Vinificação',xp:135,exp:'Barrica nova (new oak) transfere mais taninos de carvalho, baunilha e especiarias. Usada para vinhos que precisam de estrutura adicional. Barrica de segundo ou terceiro uso é mais neutra.'},
+    {p:'O Gewurztraminer é famoso por seus aromas de:',r:'Lichia, pétalas de rosa e especiarias orientais',e:['Pêssego, maçã verde e capim','Baunilha, chocolate e coco','Petróleo, mel e abacaxi'],cat:'Análise Sensorial',xp:145,exp:'Gewurztraminer do Alsácia tem o perfil aromático mais exuberante dos vinhos brancos: lichia, pétalas de rosa, canela, gengibre. Pode ser seco ou doce, sempre intenso.'},
+    {p:'O que é um "Grand Cru" na Borgonha versus no Alsácia?',r:'Borgonha: 33 vinhedos específicos. Alsácia: 51 zonas geográficas delimitadas',e:['São equivalentes em ambas as regiões','Grand Cru no Alsácia é superior ao da Borgonha','Grand Cru é apenas um título de marketing'],cat:'Regiões',xp:155,exp:'Borgonha Grand Cru (33 vinhedos como Chambertin, Le Montrachet) é o ápice da pirâmide. Alsácia Grand Cru (51 zonas) é mais recente e menos rígido em termos de produção.'},
   ],
-  expert: [
-    {p:'A harmonização "por contraste" sugere que ostras combinam com Champagne porque:',r:'A acidez corta a gordura e umami marinho',e:['Ambos são brancos','Os minerais se complementam','O álcool neutraliza o sabor'],cat:'Harmonização',diff:'expert',xp:250,exp:'O princípio de contraste: acidez do Champagne "corta" a riqueza das ostras, limpando o palato. Também funciona com Muscadet e Chablis.'},
-    {p:'Na gestão de adega, o principio FIFO aplicado a vinhos significa:',r:'Consumir primeiros os rótulos mais antigos primeiro',e:['Fermentar In Frações Otimizadas','Filtrar Impurezas Fase por Fase','Fechar Imediatamente Frascos Oxidados'],cat:'Gestão',diff:'expert',xp:260,exp:'First In, First Out: para vinhos de consumo jovem, os mais antigos devem ser consumidos antes de abrir novos. Para vinhos de guarda, vale o contrário.'},
-    {p:'Um cliente pede um "vinho sem sulfitos". Você deve explicar que:',r:'Todos os vinhos contêm sulfitos naturalmente produzidos pela fermentação',e:['Vinho orgânico não tem SO₂','Sulfitos são aditivos ilegais na UE','Brancos têm menos SO₂ que tintos'],cat:'Serviço',diff:'expert',xp:270,exp:'Leveduras produzem SO₂ naturalmente. Vinhos "sem sulfitos adicionados" ainda contêm 10-50 ppm naturais. A UE exige declaração apenas acima de 10mg/L.'},
-    {p:'Decanting de um Barolo jovem tem o objetivo principal de:',r:'Oxigenar e suavizar taninos ásperos',e:['Remover sedimentos de garrafa','Reduzir o teor alcoólico','Aquecer o vinho rapidamente'],cat:'Serviço',diff:'expert',xp:250,exp:'Barolo jovem tem taninos duros (Nebbiolo). Oxigenação via decanter por 2-4h abre aromas e suaviza a estrutura tânica, tornando-o mais acessível.'},
-    {p:'Qual é o papel do "dosage" no método champenoise?',r:'Definir o nível de doçura final (Brut, Extra-Brut, etc.)',e:['Adicionar leveduras para segunda fermentação','Clarificar o vinho após dégorgement','Adicionar álcool para fortalecer'],cat:'Espumantes',diff:'expert',xp:260,exp:'Após o dégorgement (remoção das borras), adiciona-se dosage — mistura de vinho e sacarose. Brut Nature: 0-3g/L; Brut: <12g/L; Demi-Sec: 32-50g/L.'},
-    {p:'Na análise sensorial, "bretanomyces" é detectado no nariz como:',r:'Couro, curral, band-aid',e:['Baunilha e coco','Mentol e eucalipto','Geléia de frutas vermelhas'],cat:'Análise Sensorial',diff:'expert',xp:280,exp:'Brettanomyces é uma levedura "defeito" que produz 4-etilguaiacol e 4-etilfenol — aromas de couro, estábulo e band-aid. Em baixas concentrações pode ser complexidade.'},
-    {p:'Ácido tartárico no vinho pode precipitar como:',r:'Cristais de bitartarato de potássio',e:['Depósito de tanino amarronzado','Película de levedura flutuante','Leve turvação proteica'],cat:'Vinificação',diff:'expert',xp:260,exp:'Cristais de tártaro são inofensivos — sinal de que o vinho não foi estabilizado a frio. Em brancos aparecem brancos; em tintos, avermelhados/negros.'},
+  // TIER 4 — Intermediate (Ch.4) — 25 perguntas
+  t4:[
+    {p:'Qual uva tinta é chamada de "a uva do povo" globalmente?',r:'Cabernet Sauvignon',e:['Merlot','Syrah','Tannat'],cat:'Castas',xp:180,exp:'Cabernet Sauvignon é a variedade mais plantada e reconhecida globalmente, adaptando-se a quase todos os climas.'},
+    {p:'Qual região francesa é o lar do Pinot Noir mais famoso?',r:'Borgonha (Bourgogne)',e:['Bordeaux','Champagne','Loire'],cat:'Regiões',xp:180,exp:'A Borgonha, especialmente a Côte de Nuits, é referência mundial de Pinot Noir com Grand Crus como Romanée-Conti.'},
+    {p:'O Riesling Trockenbeerenauslese (TBA) é:',r:'Vinho doce máximo da escala Prädikat alemã',e:['Vinho seco e mineral de alta acidez','Espumante de fermentação natural','Vinho oxidativo envelhecido em solera'],cat:'Estilos',xp:200,exp:'TBA é o topo da pirâmide Prädikat alemã: uvas passificadas pela Botrytis, colhidas grão a grão, produzindo néctar de concentração extrema.'},
+    {p:'Porto Tawny difere do Ruby principalmente por:',r:'Envelhecimento oxidativo em pipas pequenas',e:['Ser produzido com uvas brancas','Ter fermentação mais longa','Ser mais doce'],cat:'Estilos',xp:190,exp:'Tawny envelhece em pipas de 550L expostas ao ar, adquirindo cor âmbar e aromas complexos de nozes, figos e especiarias.'},
+    {p:'Grand Cru em Borgonha representa qual % dos vinhedos?',r:'Menos de 2%',e:['Cerca de 10%','Aproximadamente 25%','Mais de 50%'],cat:'Regiões',xp:200,exp:'Os 33 Grand Crus da Borgonha representam apenas ~1,5% da produção — os vinhedos mais valiosos e prestigiados do mundo.'},
+    {p:'O que é a "Botrytis cinerea" no contexto do vinho?',r:'Fungo que produz vinhos doces nobres por concentração',e:['Praga que destrói vinhedos','Levedura usada na vinificação','Bactéria da fermentação malolática'],cat:'Vinificação',xp:200,exp:'Botrytis cinerea ("podridão nobre") perfura as cascas, desidrata as uvas e concentra açúcares/ácidos. Essencial para Sauternes, Tokaji, TBA.'},
+    {p:'Phylloxera vastatrix devastou vinhedos europeus. A solução foi:',r:'Enxertia em porta-enxertos americanos resistentes',e:['Criação de vinhedos em vasos flutuantes','Importação de leveduras resistentes','Troca por castas híbridas'],cat:'História',xp:200,exp:'O pulgão americano destrói raízes europeias. Desde o século XIX, toda Vitis vinifera é enxertada em raízes de espécies americanas resistentes.'},
+    {p:'Qual é o método de produção do Vinho Verde português?',r:'Colheita precoce de uvas com alta acidez e baixo álcool',e:['Adição de gás carbônico artificial','Fermentação em altitude elevada','Mistura com vinho espanhol Albariño'],cat:'Regiões',xp:180,exp:'Vinho Verde vem do Minho, Portugal. Uvas colhidas cedo para preservar acidez, tipicamente 8-11% álcool, com leve perlage natural ou adicionada.'},
+    {p:'O que é "biodynamic viticulture"?',r:'Agricultura baseada em calendário lunar e ecosistema holístico',e:['Cultivo com irrigação computadorizada','Viticultura em estufas climatizadas','Método de clonagem genética de uvas'],cat:'Viticultura',xp:190,exp:'Biodinâmica (Steiner, 1924) trata a vinha como ecossistema vivo, usando o calendário lunar e preparados naturais para todas as operações.'},
+    {p:'Malbec encontrou maior expressão mundial em:',r:'Mendoza, Argentina (altitude 800-1500m)',e:['Cahors, França','Maipo, Chile','Napa, EUA'],cat:'Regiões',xp:180,exp:'Embora originalmente de Cahors, o Malbec prosperou nos vinhedos de altitude de Mendoza, desenvolvendo estrutura e fruta impossíveis na origem.'},
+    {p:'O Julgamento de Paris (1976) provou que:',r:'Vinhos californianos podiam superar os franceses em prova cega',e:['França sempre supera o Novo Mundo','Vinho italiano é superior ao francês','Rótulo influencia mais que qualidade'],cat:'História',xp:195,exp:'Steven Spurrier organizou a prova em 1976. Chateau Montelena (branco) e Stag\'s Leap (tinto) da Califórnia venceram os melhores vinhos franceses — chocando o mundo.'},
+    {p:'O que é "encépagement" em Bordeaux?',r:'Proporção de cada casta utilizada no blend',e:['Sistema de canais de drenagem dos vinhedos','Nome do carvalho francês de floresta','Técnica de amarra das videiras'],cat:'Vinificação',xp:195,exp:'Encépagement define a percentagem de cada casta no blend. Ex: Pomerol: 95% Merlot, 5% Cab. Franc. Margaux: ~60% Cab. Sauv., ~30% Merlot.'},
+    {p:'Qual é a zona mais valorizada da Borgonha?',r:'Côte de Nuits (Gevrey-Chambertin a Nuits-Saint-Georges)',e:['Mâconnais','Côte Chalonnaise','Chablis'],cat:'Regiões',xp:200,exp:'A Côte de Nuits abriga os mais célebres Grand Crus: Chambertin, Clos de Vougeot, Musigny, Vosne-Romanée. É o "coração dourado" da Borgonha.'},
+    {p:'Viognier é uva branca famosa de qual região do Rhône?',r:'Condrieu e Côte-Rôtie',e:['Châteauneuf-du-Pape','Gigondas','Crozes-Hermitage'],cat:'Castas',xp:190,exp:'Viognier é a uva exclusiva de Condrieu e Château-Grillet. Em Côte-Rôtie, 20% de Viognier pode ser cofermentado com Syrah — aroma único.'},
+    {p:'O método "cap management" na vinificação de tintos serve para:',r:'Extrair cor, taninos e aromas das cascas flutuantes',e:['Remover o mosto da fermentação','Adicionar leveduras ao vinho','Reduzir temperatura de fermentação'],cat:'Vinificação',xp:185,exp:'Durante a fermentação, as cascas sobem formando uma "chapéu" (cap). O remontage (bombear) ou pigeage (puncionar) quebra o cap, extraindo cor e taninos.'},
+    {p:'O que é "micro-oxigenação" no vinho?',r:'Técnica que adiciona pequenas doses de O₂ para suavizar taninos',e:['Processo de filtração por membranas','Adição de antioxidantes ao vinho','Fermentação em recipiente aberto'],cat:'Vinificação',xp:195,exp:'A micro-oxigenação (MOX) simula artificialmente o que a barrica faz naturalmente. Suaviza taninos agressivos e estabiliza a cor. Prática moderna em larga escala.'},
+    {p:'Qual vinho português compete com os grandes do mundo?',r:'Barca Velha (Douro) e Pêra Manca (Alentejo)',e:['Vinho Verde Alvarinho e Porto','Ginjinha de Óbidos','Espumante Bairrada'],cat:'Regiões',xp:200,exp:'Barca Velha da Casa Ferreirinha é o vinho mais icônico de Portugal — só produzido em grandes safras. Pêra Manca é o tinto de referência do Alentejo.'},
+    {p:'Chablis Premier Cru mais famoso é:',r:'Montée de Tonnerre',e:['Vaillons','Fourchaume','Montmains'],cat:'Regiões',xp:200,exp:'Montée de Tonnerre é considerado o Premier Cru mais nobre de Chablis, quase equivalente a um Grand Cru em sua concentração, mineralidade e longevidade.'},
+    {p:'Qual é a característica distintiva do Amarone della Valpolicella?',r:'Alto álcool (14-17%) com riqueza concentrada, frutas negras e chocolate',e:['Baixo álcool e frescor','Acidez agressiva e mineralidade','Doçura residual marcante'],cat:'Estilos',xp:190,exp:'Amarone: uvas Corvina/Rondinella secadas 90-120 dias (appassimento). Fermentação quase completa: potência de 15-17% álcool. Distinto do doce Recioto, irmão mais rico.'},
+    {p:'O que é o "WSET Level 4 Diploma"?',r:'Alta qualificação em vinhos com avaliação escrita e provas cegas rigorosas',e:['Licença para abrir adega comercial','Certificado de viticultor profissional','Título exclusivo para sommeliers de restaurante'],cat:'Educação',xp:195,exp:'O Diploma WSET Level 4 é equivalente ao nível universitário em vinhos. Envolve 9 unidades, provas escritas e sensoriais. É pré-requisito para o MW (Master of Wine).'},
+    {p:'O Condrieu (Viognier) é famoso por seus aromas de:',r:'Pêssego, damasco, violetas e especiarias',e:['Limão, maçã e minerais','Mel, gengibre e lichia','Frutas vermelhas, tânico e defumado'],cat:'Análise Sensorial',xp:185,exp:'Viognier mûr de Condrieu: pêssego branco maduro, damasco, violetas, açaflor e especiarias como anis. De baixa acidez, deve ser bebido jovem para máximo prazer aromático.'},
+    {p:'O que são "legs" ou "lágrimas" em um copo de vinho?',r:'Trilhas de vinho que descem pelas paredes do copo após girar',e:['Defeito causado por excesso de taninos','Indício de vinho defeituoso','Condensação da temperatura fria'],cat:'Análise Sensorial',xp:180,exp:'"Legs" são formadas pelo efeito Marangoni: diferença de tensão superficial entre álcool e água. Não indicam qualidade — indicam teor alcoólico e/ou açúcar.'},
+    {p:'Qual é a diferença entre "Premier Cru" e "Grand Cru" na Borgonha?',r:'Grand Cru é o topo da pirâmide; Premier Cru é o segundo nível abaixo',e:['São termos equivalentes','Premier Cru é superior','Grand Cru é apenas marketing'],cat:'Regiões',xp:200,exp:'Pirâmide: Bourgogne → Village → Premier Cru (11% da produção) → Grand Cru (<2%). Ex: Chambolle-Musigny 1er Cru "Les Amoureuses" vs. Grand Cru "Musigny".'},
+    {p:'Qual região produz o melhor Pinot Noir fora da Borgonha?',r:'Oregon (EUA) e Sonoma Coast/Carneros (Califórnia)',e:['Barossa Valley (Austrália)','Mendoza (Argentina)','Douro (Portugal)'],cat:'Regiões',xp:195,exp:'Oregon (especialmente Willamette Valley) e a Sonoma Coast californiana produzem Pinot Noirs elegantes, de clima fresco, que rivalizem com a Borgonha.'},
+    {p:'O que é "punt" na garrafa de vinho?',r:'Afundamento cônico na base da garrafa',e:['Rótulo traseiro da garrafa','Tipo de rolha especial','Elemento decorativo do gargalo'],cat:'Fundamentos',xp:175,exp:'O punt (afundamento na base) foi originalmente funcional: permite que sedimentos se depositem ao redor sem turvar o vinho ao servir. Tambem reforça a estrutura da garrafa.'},
   ],
-  master: [
-    {p:'A Romanée-Conti (DRC) é um Grand Cru de qual commune?',r:'Vosne-Romanée, Côte de Nuits',e:['Chambolle-Musigny','Gevrey-Chambertin','Pommard'],cat:'Vinhos Raros',diff:'mestre',xp:400,exp:'A Romanée-Conti (1,8 ha), propriedade exclusiva da Domaine de la Romanée-Conti, fica em Vosne-Romanée. É frequentemente o vinho mais caro do mundo.'},
-    {p:'O conceito de "Ripasso" em Valpolicella consiste em:',r:'Refermentar o vinho sobre as borras do Amarone',e:['Segunda fermentação em garrafa','Envelhecimento em carvalho francês novo','Adição de mosto concentrado'],cat:'Vinificação',diff:'mestre',xp:380,exp:'Ripasso passa o Valpolicella jovem sobre as borras do Amarone — leveduras e açúcares residuais fermentam novamente, elevando álcool, corpo e complexidade.'},
-    {p:'Vin Jaune, do Jura francês, é produzido com qual casta rara?',r:'Savagnin',e:['Chardonnay','Aligoté','Roussanne'],cat:'Vinhos Raros',diff:'mestre',xp:420,exp:'Vin Jaune (vinho amarelo) é feito de Savagnin, envelhecido 6 anos e 3 meses sob flor (levedura película), em tonéis de 228L. Garrafas de 62cL chamadas clavelins.'},
-    {p:'Na análise sensorial formal, a "retronasal" é a percepção olfativa:',r:'Via palato, durante e após a deglutição',e:['Ao aproximar o nariz da taça','Ao agitar o vinho','Antes de provar, com a boca fechada'],cat:'Análise Sensorial',diff:'mestre',xp:400,exp:'A via retronasal conecta boca e nariz internamente. Aromas percebidos ao expirar após engolir — finish aromático — são exclusivamente retronasais.'},
-    {p:'Pétrus, o lendário Pomerol, é composto quase exclusivamente de:',r:'Merlot (95-100%)',e:['Cabernet Franc','Cabernet Sauvignon','Petit Verdot'],cat:'Vinhos Raros',diff:'mestre',xp:430,exp:'Pétrus é raridade de Merlot puro em argila azul (Boutonnière de Pomerol) — solo único que retém calor. Safras como 1947, 1982 e 2000 são lendárias.'},
-    {p:'Quais compostos responsáveis pelo aroma de "petróleo" em Riesling envelhecido?',r:'TDN (trimetil-dihidronaftaleno)',e:['Linalol e geraniol','Ésteres de fermentação','Metanotiol e DMS'],cat:'Análise Sensorial',diff:'mestre',xp:440,exp:'O aroma de querosene/petróleo é causado pelo TDN, formado pela degradação do carotenóide β-caroteno. Desenvolve-se com o envelhecimento em Riesling, especialmente de vinhedos quentes.'},
-    {p:'O sistema DOCa (Denominación de Origen Calificada) na Espanha conta com apenas:',r:'2 denominações (Rioja e Priorat)',e:['7 denominações','Todas as DO espanholas','12 denominações selecionadas'],cat:'Regiões',diff:'mestre',xp:400,exp:'DOCa é o nível mais alto da Espanha — apenas Rioja (desde 1991) e Priorat (2009) atingiram esse status por rigor produtivo e qualidade histórica comprovada.'},
-    {p:'Qual famosa quinta do Douro produziu o primeiro vinho do Porto Vintage declarado, em 1820?',r:'Quinta do Noval',e:['Graham\'s','Fonseca','Taylor Fladgate'],cat:'História',diff:'mestre',xp:450,exp:'Quinta do Noval é uma das quintas históricas do Douro. O Noval Nacional — de vinhas pré-filoxera não enxertadas — é considerado um dos portos mais raros do mundo.'},
+  // TIER 5 — Intermediate-advanced (Ch.5) — 20 perguntas
+  t5:[
+    {p:'Solera é o sistema de envelhecimento do:',r:'Sherry (Jerez)',e:['Porto Vintage','Sauternes','Tokaji Aszú'],cat:'Estilos',xp:240,exp:'No Sherry, o sistema Solera mistura vinhos de diferentes anos em cascata de barris, criando consistência de estilo ao longo de gerações.'},
+    {p:'Os solos de Chablis são chamados:',r:'Kimmeridgiano (calcário com fósseis jurássicos)',e:['Granito rosa','Basalto vulcânico','Argila rossa'],cat:'Terroir',xp:260,exp:'O calcário kimmeridgiano de Chablis, repleto de fósseis de ostras jurássicas, é responsável pela mineralidade "pederneira" única do vinho.'},
+    {p:'No Champagne, "dosage" define:',r:'O nível de doçura final (Brut Nature a Doux)',e:['A quantidade de leveduras adicionadas','O tempo de maturação sobre borras','O teor alcoólico final'],cat:'Espumantes',xp:250,exp:'Após o dégorgement, o dosage (liqueur d\'expédition: vinho + sacarose) é adicionado. Brut Nature: 0-3g/L; Brut: <12g/L; Demi-Sec: 32-50g/L.'},
+    {p:'"Bretanomyces" no nariz de um vinho produz:',r:'Couro, curral e band-aid',e:['Baunilha e coco','Mentol e eucalipto','Frutas vermelhas frescas'],cat:'Análise Sensorial',xp:270,exp:'Brettanomyces é uma levedura "defeito" que produz 4-etilguaiacol e 4-etilfenol — aromas de estábulo. Em baixas doses, pode ser complexidade.'},
+    {p:'Qual é o papel do SO₂ (sulfitos) no vinho?',r:'Antioxidante e antimicrobiano',e:['Agente de cor','Aumento do teor alcoólico','Clarificante proteico'],cat:'Vinificação',xp:240,exp:'SO₂ protege o vinho da oxidação e de bactérias. Todos os vinhos contêm sulfitos naturais da fermentação; a maioria recebe adição moderada.'},
+    {p:'A região de Priorat (Espanha) é famosa por solos de:',r:'Licorella (ardósia com mica)',e:['Calcário kimmeridgiano','Granito rosado','Argila vermelha'],cat:'Terroir',xp:270,exp:'O Licorella do Priorat é ardósia preta com mica e quartzo. As raízes perfuram metros de rocha, criando vinhos de concentração e mineralidade extremas.'},
+    {p:'O sistema DOCa na Espanha inclui apenas:',r:'Rioja e Priorat',e:['Todas as DO espanholas','Rioja, Priorat e Ribera del Duero','12 denominações selecionadas'],cat:'Regiões',xp:260,exp:'DOCa (Denominación de Origen Calificada) é o nível máximo espanhol. Apenas Rioja (1991) e Priorat (2009) atingiram esse status.'},
+    {p:'Fermentação em temperatura controlada (baixa) favorece:',r:'Preservação de aromas frutais primários',e:['Desenvolvimento de taninos mais suaves','Maior extração de cor','Diminuição da acidez'],cat:'Vinificação',xp:240,exp:'Temperaturas baixas (10-14°C para brancos) preservam ésteres aromáticos voláteis responsáveis pelos aromas de frutas frescas.'},
+    {p:'O que é "elevage" na vinificação?',r:'Período de criação/envelhecimento após fermentação',e:['Técnica de poda de inverno','Sistema de irrigação gota-a-gota','Processo de clarificação'],cat:'Vinificação',xp:250,exp:'Élevage (francês: "criação") é o período entre fermentação e engarrafamento: inclui envelhecimento em barrica, batonnage e todos os processos pós-fermentação.'},
+    {p:'Pomerol, em Bordeaux, é dominado pela uva:',r:'Merlot',e:['Cabernet Franc','Cabernet Sauvignon','Petit Verdot'],cat:'Castas',xp:260,exp:'Pomerol, na margem direita de Bordeaux, tem solos argilosos perfeitos para Merlot. É lar do lendário Pétrus (quase 100% Merlot).'},
+    {p:'O que é "pigeage" na vinificação?',r:'Puncionamento manual ou mecânico do chapéu de cascas',e:['Prensagem final das uvas','Adição de sulfitos ao mosto','Descuba por gravidade'],cat:'Vinificação',xp:255,exp:'Pigeage (puncionar) e remontage (bombear sobre) são as técnicas de cap management. O pigeage é mais gentil e favorito na Borgonha para Pinot Noir.'},
+    {p:'Qual casta dá origem ao Zinfandel nos EUA e Primitivo na Itália?',r:'São a mesma casta: Tribidrag, originária da Croácia',e:['Sangiovese com mutação americana','Nebbiolo adaptado ao clima quente','Castas distintas com origens diferentes'],cat:'Castas',xp:265,exp:'DNA testing provou que Zinfandel (Califórnia), Primitivo (Puglia) e Tribidrag (Croácia) são idênticos. Uma das descobertas mais surpreendentes da genômica vitivinícola.'},
+    {p:'O que é "skin contact wine" (vinho âmbar)?',r:'Vinho branco fermentado em contato prolongado com as cascas',e:['Tinto levemente rosado por mistura','Rosé de maceração rápida','Vinho com corante natural de casca'],cat:'Estilos',xp:260,exp:'Vinhos âmbar/laranja: uvas brancas com maceração de semanas a meses. Originários da Geórgia (qvevri). Taninos, oxidação e complexidade únicos. Tendência global crescente.'},
+    {p:'Qual é o vinho mais caro vendido em leilão?',r:'Romanée-Conti 1945 (DRC) — vendido por US$ 558.000 por garrafa em 2018',e:['Pétrus 1961','Screaming Eagle 1992','Chateau Margaux 1900'],cat:'Vinhos Raros',xp:275,exp:'Uma garrafa de DRC 1945 bateu o recorde mundial em leilão pela Sotheby\'s em 2018: US$558.000 por 750mL. Produzida no último ano da Romanée-Conti antes de replantar o vinhedo.'},
+    {p:'O que são "leveduras selvagens" (native yeasts)?',r:'Leveduras naturais da vinha e adega, sem inoculação de cultura comercial',e:['Leveduras modificadas geneticamente','Leveduras importadas da Borgonha','Qualquer levedura usada na vinificação'],cat:'Vinificação',xp:255,exp:'Leveduras indígenas (Saccharomyces e não-Saccharomyces) vêm naturalmente da casca das uvas e da adega. Fermentação espontânea — mais complexidade, maior risco e mais terroir.'},
+    {p:'O "Judgment of Princeton" (2012) comparou:',r:'Vinhos de Nova Jersey com os melhores do mundo (Nova Jersey venceu)',e:['Vinhos orgânicos vs convencionais','Champagne vs Prosecco em prova cega','Porto Vintage vs Tawny por 50 anos'],cat:'História',xp:260,exp:'O Judgment of Princeton foi uma sequência do Julgamento de Paris: vinhos americanos de estados variados novamente venceram os europeus em prova cega, confirmando a revolução do Novo Mundo.'},
+    {p:'A sub-região Médoc (Bordeaux) tem qual classificação?',r:'Clasificação de 1855: 5 Premiers Crus (Latour, Lafite, Margaux, Mouton, Haut-Brion)',e:['Sistema Saint-Émilion A/B/C','Classificação anual renovável','Sem classificação oficial'],cat:'Regiões',xp:270,exp:'A Classificação de 1855 do Médoc permanece quase inalterada. Apenas Mouton Rothschild foi reclassificado — de 2ème para 1er Grand Cru Classé em 1973, por pressão do Barão Philippe.'},
+    {p:'O que é "volatile acidity" (VA) em excesso no vinho?',r:'Defeito: ácido acético (vinagre) acima de 0,9 g/L',e:['Acidez total do vinho que é positiva','Ácido tartárico em excesso','Taninos voláteis que evaporam'],cat:'Análise Sensorial',xp:260,exp:'VA (principalmente ácido acético) em doses moderadas adiciona complexidade. Em excesso (>0,9g/L brancos; >1,2g/L tintos) torna o vinho azedo, com cheiro de vinagre — defeito grave.'},
+    {p:'Qual é o maior vinhedo clonal do mundo?',r:'Penfolds Barossa Valley — vinhas centenárias de Shiraz',e:['Châteauneuf-du-Pape — vinhas pedregosas','Ribera del Duero — planícies de Castela','Priorat — encostas de ardósia'],cat:'Regiões',xp:260,exp:'Os Penfolds têm vinhas de Shiraz de 150+ anos no Barossa — as mais velhas do mundo. O Penfolds Grange (Shiraz), criado em 1951, é o ícone do Novo Mundo.'},
+  ],
+  // TIER 6 — Advanced (Ch.6-7)
+  t6:[
+    {p:'A harmonização "por contraste" funciona porque:',r:'Opostos se complementam: acidez corta gordura, doce equilibra picante',e:['Sabores iguais se intensificam','Vinhos brancos sempre combinam com peixe','O álcool neutraliza qualquer sabor'],cat:'Harmonização',xp:320,exp:'Contraste: a acidez do vinho "corta" a gordura, limpando o palato. A doçura atenua o picante. Regra: o vinho deve ter mais acidez/doçura que o prato.'},
+    {p:'Decanting um Barolo jovem tem objetivo de:',r:'Oxigenar e suavizar taninos ásperos de Nebbiolo',e:['Remover sedimento da garrafa','Reduzir o teor alcoólico','Aquecer o vinho rapidamente'],cat:'Serviço',xp:300,exp:'Nebbiolo jovem tem taninos extremamente firmes. 2-4 horas de decantação permite oxigenação e abertura dos aromas, tornando o Barolo acessível.'},
+    {p:'Qual região produz os Riesling alemães mais finos?',r:'Mosela (Mosel)',e:['Baden','Pfalz','Nahe'],cat:'Regiões',xp:320,exp:'O Mosela, com suas encostas de ardósia e clima fresco, produz Rieslings de alta acidez, baixo álcool e extraordinária longevidade. Bernkastel e Wehlen são icônicas.'},
+    {p:'Ácido tartárico precipita como:',r:'Cristais de bitartarato de potássio (tártaro)',e:['Sedimento de tanino marrom','Película de levedura','Turvação proteica'],cat:'Vinificação',xp:330,exp:'Cristais de tártaro são inofensivos — sinal de que o vinho não foi filtrado a frio. Em brancos são brancos; em tintos, avermelhados.'},
+    {p:'O que é "batonnage" (bâtonnage)?',r:'Revolver as borras de levedura para adicionar complexidade',e:['Retirar o sedimento da garrafa por congelamento','Adição de sulfitos antes do engarrafamento','Técnica de clarificação com clara de ovo'],cat:'Vinificação',xp:320,exp:'Bâtonnage é a agitação regular das borras de levedura (lies) no vinho. Adiciona textura, cremosidade e complexidade — especialmente em Chardonnay de Borgonha.'},
+    {p:'Que estilo de Jerez (Sherry) é completamente seco e envelhecido sob flor?',r:'Fino e Manzanilla',e:['Oloroso','Pedro Ximénez','Cream Sherry'],cat:'Estilos',xp:340,exp:'Fino e Manzanilla envelhecem sob "flor" — película de levedura que protege o vinho da oxidação. São secos, pálidos, com aroma de amêndoa e iodo (Manzanilla).'},
+    {p:'O que é "malolactic fermentation" e quando é evitada?',r:'FML converte ácido málico em lático; evitada em Riesling para preservar acidez',e:['FML é proibida em vinhos orgânicos','FML é usada apenas em espumantes','FML evitada em vinhos tintos de guarda'],cat:'Vinificação',xp:320,exp:'FML suaviza acidez. Em Riesling e Sauvignon Blanc, a acidez mineral é essencial ao estilo — por isso a FML é frequentemente bloqueada com frio ou SO₂.'},
+    {p:'Qual casta branca domina os vinhos do Alentejo?',r:'Antão Vaz',e:['Arinto','Alvarinho','Loureiro'],cat:'Castas',xp:300,exp:'Antão Vaz é a casta branca dominante do Alentejo, produzindo vinhos encorpados e frutados que suportam bem o calor extremo da região.'},
+    {p:'Nas safras de Bordeaux, o que é um "château"?',r:'Propriedade vinícola com sua própria área de vinhedos',e:['Nome obrigatório de qualquer vinho francês','Tipo de barrica especial','Classificação mínima de qualidade'],cat:'Regiões',xp:310,exp:'Em Bordeaux, "château" designa uma propriedade vinícola, independente do tamanho. Pode ser um castelo suntuoso ou uma modesta quinta familiar.'},
+    {p:'O que é "lees contact" em Muscadet?',r:'Sur lie: envelhecimento sobre borras de levedura mortas',e:['Adição de argilas bentoníticas','Contato prolongado com as cascas','Maturação em barrica nova'],cat:'Vinificação',xp:320,exp:'Muscadet "sur lie" é envelhecido sem filtragem sobre as borras de levedura. Adiciona cremosidade, complexidade e CO₂ leve.'},
+    {p:'O que é "remuage" (riddling) no Champagne?',r:'Girar e inclinar garrafas para concentrar sedimento no gargalo',e:['Processo de engarrafamento do Champagne','Técnica de prensagem das uvas','Adição do dosage final'],cat:'Espumantes',xp:330,exp:'Remuage: garrafas giradas e inclinadas progressivamente (gyropallet ou à mão no pupitre) ao longo de semanas, concentrando o sedimento de levedura no gargalo para o dégorgement.'},
+    {p:'O Rhône Norte é dominado por qual casta tinta única?',r:'Syrah pura (100%)',e:['Grenache e Syrah','Mourvèdre e Grenache','Carignan e Syrah'],cat:'Castas',xp:325,exp:'Hermitage, Côte-Rôtie, Cornas e St-Joseph são feitos de Syrah 100% (exceto Côte-Rôtie que pode ter até 20% Viognier cofermentado). São os Syrahs mais elegantes do mundo.'},
+    {p:'O "Premier Grand Cru Classé" de Saint-Émilion é revisado:',r:'A cada 10 anos (revisão periódica controversa)',e:['Nunca foi revisado','Anualmente por voto dos produtores','A cada 25 anos por decreto governamental'],cat:'Regiões',xp:335,exp:'A classificação de Saint-Émilion é única por ser periódica. A revisão de 2022 foi suspensa judicialmente por Château Pavie e Figeac. Gera controversias regulares no mundo do vinho.'},
+    {p:'O que é "assemblage" em Champagne?',r:'Arte de misturar até 200 vinhos base de diferentes anos e parcelas',e:['Engarrafamento da cuvée final','Adição do dosage de licor','Processo de fermentação em garrafa'],cat:'Espumantes',xp:330,exp:'O assemblage é o maior desafio do Chef de Cave: equilibrar Chardonnay, Pinot Noir, Meunier de múltiplos anos e aldeias para criar a cuvée assinatura consistente ano após ano.'},
+    {p:'A Ribeira Sacra (Espanha) é única porque:',r:'Vinhedos em socalcos verticais acima do Rio Sil em granito',e:['Produz somente brancos de Albariño','Usa método champenoise para todos os tintos','Tem o único vinhedo submarino do mundo'],cat:'Regiões',xp:335,exp:'Ribeira Sacra, Galícia, tem os vinhedos mais impressionantes do mundo: encostas de até 80° sobre o Rio Sil. Mencía é a casta dominante; colheita exclusivamente manual.'},
+    {p:'O que é "cold stabilization" no vinho branco?',r:'Resfriamento a -4°C para precipitar cristais de tártaro antes do engarrafamento',e:['Fermentação em câmara fria','Adição de gelo ao mosto','Resfriamento após abertura da garrafa'],cat:'Vinificação',xp:315,exp:'Cold stabilization previne formação de cristais na garrafa (bitartarato de potássio). Crítica: remove componentes aromáticos. Alternativa: não filtrar e aceitar os cristais inofensivos.'},
+  ],
+  // TIER 7 — Expert (Ch.8)
+  t7:[
+    {p:'A Romanée-Conti (DRC) fica em qual commune?',r:'Vosne-Romanée, Côte de Nuits',e:['Chambolle-Musigny','Gevrey-Chambertin','Pommard'],cat:'Vinhos Raros',xp:420,exp:'A Romanée-Conti (1,8 ha), propriedade exclusiva da DRC, em Vosne-Romanée, é frequentemente o vinho mais caro do mundo por garrafa.'},
+    {p:'O aroma de petróleo/querosene em Riesling envelhecido é causado por:',r:'TDN (trimetil-dihidronaftaleno)',e:['Linalol e geraniol','Ésteres de fermentação','Metanotiol e DMS'],cat:'Análise Sensorial',xp:450,exp:'TDN se forma pela degradação do β-caroteno com o envelhecimento. Característico de Riesling de clima quente e safras antigas.'},
+    {p:'Vin Jaune do Jura é feito com:',r:'Savagnin, envelhecida 6 anos sob flor em tonel',e:['Chardonnay em barrica nova','Aligoté com 4 anos de guarda','Roussanne com passagem em ânfora'],cat:'Vinhos Raros',xp:440,exp:'Vin Jaune: Savagnin envelhecida 6 anos e 3 meses sob "voile" (película de levedura) em tonel de 228L. Garrafa única: clavelin de 62cL.'},
+    {p:'"Retronasal" na análise sensorial é:',r:'Percepção olfativa via palato durante e após deglutição',e:['Aroma percebido ao aproximar o nariz da taça','Análise da cor do vinho contra a luz','Percepção tátil dos taninos'],cat:'Análise Sensorial',xp:430,exp:'A via retronasal conecta boca ao nariz internamente. O "finish" aromático percebido ao expirar após engolir é exclusivamente retronasal.'},
+    {p:'Pétrus (Pomerol) é composto de:',r:'Merlot 95-100% em argila azul única',e:['Cabernet Franc dominante','Blend Bordeaux clássico','50% Merlot, 50% Cab Sauvignon'],cat:'Vinhos Raros',xp:460,exp:'Pétrus cresce em "boutonnière" de argila azul que retém calor. Quase exclusivamente Merlot, produzindo apenas ~3.000 caixas por ano.'},
+    {p:'A Classificação de 1855 de Bordeaux classificou os châteaux de:',r:'Médoc e Sauternes',e:['Pomerol e Saint-Émilion','Toda a Gironde','Médoc, Saint-Émilion e Pomerol'],cat:'História',xp:430,exp:'Napoleão III encomendou a classificação para a Exposição de Paris. Classifica 5 Premiers Crus do Médoc + Mouton-Rothschild (reclassificado em 1973) e vinhos doces de Sauternes.'},
+    {p:'O que é "disgorgement" (dégorgement) no Champagne?',r:'Remoção do sedimento de levedura da garrafa',e:['Adição do dosage de doçura','Processo de remuage das garrafas','Filtragem antes do engarrafamento'],cat:'Espumantes',xp:420,exp:'Após o remuage (girar garrafas para concentrar sedimento), o dégorgement congela o gargalo e o pressão expulsa o tampão de borras.'},
+    {p:'Ripasso Valpolicella é produzido como:',r:'Refermentação do vinho jovem sobre borras do Amarone',e:['Segunda fermentação em garrafa individual','Adição de mosto concentrado de uvas secas','Envelhecimento mínimo de 10 anos em carvalho'],cat:'Vinificação',xp:410,exp:'O Valpolicella jovem passa sobre as borras ainda úmidas do Amarone. Leveduras e açúcares residuais iniciam nova fermentação, elevando corpo e álcool.'},
+    {p:'Na escala Brix, qual valor indica uva madura ideal para vinho seco?',r:'22–26° Brix (≈12-14% álcool potencial)',e:['10–14° Brix','30–35° Brix','40+ Brix'],cat:'Viticultura',xp:440,exp:'Brix mede sólidos solúveis (principalmente açúcar). 22-26°Brix dá 12-15% álcool potencial após fermentação completa — ideal para a maioria dos vinhos secos.'},
+    {p:'O "flying winemaker" é um conceito que surgiu nos anos:',r:'1980s, liderado por enólogos australianos como Brian Croser',e:['1950s, na França pós-guerra','1970s, na Califórnia durante o Julgamento de Paris','1990s, no Chile e Argentina'],cat:'História',xp:420,exp:'Os flying winemakers foram enólogos (especialmente australianos) que viajavam globalmente na safra do hemisfério sul e depois norte, disseminando técnicas modernas.'},
+    {p:'O que é "malolactic fermentation" completa vs. parcial?',r:'Completa: todo ácido málico convertido; Parcial: algumas cepas bloqueiam para preservar acidez',e:['São idênticas em resultado final','Parcial só acontece em espumantes','Completa é ilegal em vários países'],cat:'Vinificação',xp:435,exp:'FML completa (típica em tintos) suaviza completamente a acidez. Parcial/bloqueada (Riesling, SB) preserva frescor e acidez mineral. O controle é feito com frio ou SO₂.'},
+    {p:'O conceito de "single vineyard" ganhou destaque porque:',r:'Expressa microclimatismo e terroir específico de uma única parcela',e:['Reduz custos de blending','É obrigatório para obter Grand Cru','Aumenta produção por hectare'],cat:'Terroir',xp:430,exp:'"Single vineyard" (vinhedo único) é a expressão mais pura do terroir. De Borgonha Grand Crus a Barolo MGA, valorizar a parcela específica elevou a vinicultura à categoria de arte.'},
+    {p:'A Classificação de 1855 foi modificada quantas vezes?',r:'Uma vez: Mouton Rothschild elevado a 1er Cru em 1973',e:['Nunca foi modificada','Três vezes nos últimos 50 anos','Revisada completamente em 1985'],cat:'História',xp:440,exp:'Apenas Mouton Rothschild mudou: de 2ème para 1er Grand Cru Classé em 1973, por decreto ministerial após décadas de campanha do Barão Philippe de Rothschild.'},
+    {p:'O Barolo "Riserva" exige envelhecimento mínimo de:',r:'62 meses (5 anos e 2 meses, com pelo menos 18 em barrica)',e:['24 meses','36 meses','48 meses'],cat:'Regiões',xp:445,exp:'Barolo Riserva: 62 meses total (vs 38 para o normal), com mínimo de 18 em barrica de carvalho. Requer safras excepcionais e potencial de guarda de décadas.'},
+    {p:'O que é "Selection de Grains Nobles" (SGN) no Alsácia?',r:'Colheita grão-a-grão de uvas com Botrytis extremamente concentradas',e:['Seleção de clones superior das videiras','Blend de vinhos de múltiplas safras','Vinho espumante de colheita manual'],cat:'Estilos',xp:450,exp:'SGN é o cume do Alsácia: uvas atacadas por Botrytis, selecionadas grão a grão em múltiplas passagens. Equivalente ao TBA alemão — raramente produzido, preços astronômicos.'},
+    {p:'O sistema de lagares em Portugal serve para:',r:'Pisar as uvas com os pés para extração gentil de cor e taninos',e:['Armazenar vinho em temperatura ambiente','Sistema de irrigação dos vinhedos','Controle de temperatura da fermentação'],cat:'Vinificação',xp:430,exp:'Lagares são tanques rasos de granito ou xisto. A pisa tradicional com os pés é única: pressão uniforme, sem esmagamento das sementes. Usada no Porto topo de gama.'},
+    {p:'O que são "vins de garage" em Bordeaux?',r:'Vinhos de micro-produção de alta qualidade produzidos em garagens/quintas pequenas',e:['Vinhos de segunda linha de châteaux','Vinhos produzidos ilegalmente','Blends de sobras de grandes châteaux'],cat:'História',xp:435,exp:'O fenômeno "garagiste" surgiu nos anos 90 em Saint-Émilion: micro-produções de 1.000-2.000 caixas com qualidade top. Le Pin, Valandraud, La Mondotte. Revolucionaram os preços.'},
+  ],
+  // TIER 8 — Master/Legend (Ch.9-10)
+  t8:[
+    {p:'O Julgamento de Paris (1976) foi revolucionário porque:',r:'Vinhos californianos venceram os franceses em prova cega',e:['França proclamou supremacia definitiva','Criou o sistema de pontuação Parker','Estabeleceu as normas da AOC moderna'],cat:'História',xp:550,exp:'Steven Spurrier organizou a prova cega em 1976. Vinhos de Napa (Chateau Montelena branco, Stag\'s Leap tinto) venceram os franceses — evento que legitimou o Novo Mundo.'},
+    {p:'O que é "malolactic bacteria" (LAB) e como afeta o vinho?',r:'Bactérias que realizam FML, suavizando acidez e adicionando complexidade',e:['Bactérias que causam refermentação indesejada na garrafa','Microorganismos que produzem VA em excesso','Agentes de clarificação biológica'],cat:'Vinificação',xp:580,exp:'LAB (Lactobacillus, Oenococcus) realizam a FML. Bem controladas: suavidade e complexidade (manteiga, brioche). Descontroladas: acidez volátil e off-flavors.'},
+    {p:'Qual vinho tem mais longevidade potencial: Hermitage ou Margaux?',r:'Hermitage (Syrah) por taninos e ácido tartárico superiores',e:['Margaux por Cabernet dominante','São equivalentes em potencial','Depende apenas do enólogo'],cat:'Análise Sensorial',xp:600,exp:'Hermitage do Rhône Norte, com Syrah pura em granito, tem estrutura tânica e acidez que permite 30-50+ anos. Os melhores Margaux chegam a 25-40 anos.'},
+    {p:'O fenômeno "goût de terroir" no Chablis é causado por:',r:'Fósseis de belemnitas (moluscos) no Kimmeridgiano',e:['Tratamentos com enxofre no vinhedo','Uso de ânforas de barro na vinificação','Leveduras indígenas do Chablis'],cat:'Terroir',xp:580,exp:'As belemnitas (cefalópodes jurássicos) do Kimmeridgiano de Chablis contribuem para o "gosto de pederneira" único — a mais controversa e fascinante mineralidade do mundo do vinho.'},
+    {p:'O Quinta do Noval Nacional é extraordinário porque:',r:'Vinha pré-filoxera não enxertada em solo de xisto',e:['Único Porto Vintage declarado todo ano','Produzido com castas extintas recuperadas','Fermentado em lagares de granito únicos'],cat:'Vinhos Raros',xp:620,exp:'O Nacional da Quinta do Noval tem vinha de 1920 não enxertada — as únicas raízes originais de Vitis vinifera sobreviventes da Phylloxera em Portugal. Produção: ~250 caixas/ano.'},
+    {p:'O conceito de "Premier Grand Cru Classé A" em Saint-Émilion inclui:',r:'Pétrus não, mas inclui Cheval Blanc, Ausone, Angélus e Pavie',e:['Pétrus, Cheval Blanc e Ausone','Apenas os 5 Premiers Crus do Médoc','Todos os châteaux de Pomerol'],cat:'Regiões',xp:600,exp:'Saint-Émilion tem sua própria classificação (revisada a cada 10 anos). PGCC "A": Cheval Blanc, Ausone (ambos desde 1955), Angélus e Pavie (2012). Pétrus é de Pomerol, não classificado.'},
+    {p:'O que é "assemblage" em Bordéus e Champagne?',r:'Arte de misturar lotes/castas para criar o vinho final',e:['Processo de engarrafamento em série','Técnica de filtração final','Sistema de rotação entre barris'],cat:'Vinificação',xp:570,exp:'Assemblage é a arte do blending: misturar diferentes castas, parcelas e/ou safras. No Champagne, o chef de caves pode misturar até 200 vinhos base para criar a cuvée.'},
+    {p:'Qual é a diferença fundamental entre vinho "natural" e biodinâmico?',r:'Natural: nenhum ou mínimo SO₂ e intervenção. Biodinâmico: filosofia holística de Steiner',e:['São termos equivalentes e intercambiáveis','Natural é certificado; biodinâmico não tem regulação','Biodinâmico é mais antigo que natural'],cat:'Viticultura',xp:560,exp:'Biodinâmica segue a filosofia de Steiner com certificações (Demeter/Biodyvin). Vinho "natural" é um movimento sem definição legal: mínima intervenção, sem SO₂ adicionado, leveduras selvagens.'},
+    {p:'O "score Parker" revolucionou o mercado. Qual a crítica principal ao sistema?',r:'Padroniza gostos globais favorecendo vinhos de alta extração e carvalho',e:['Pontua apenas vinhos franceses','Ignora completamente espumantes','Usa escala de 0-100 arbitrária sem base científica'],cat:'História',xp:580,exp:'Robert Parker e seus 90+ pontos criaram tendência global: vinhos mais encorpados, frutados e amadeirados. A crítica: homogeneização do gosto, desfavorizando estilos elegantes e de alta acidez.'},
+    {p:'O método "en rama" no Manzanilla significa:',r:'Engarrafamento sem filtração, preservando flor e complexidade bruta',e:['Fermentação em ramos de carvalho verde','Colheita manual selecionada grão a grão','Envelhecimento em tonel de madeira rara'],cat:'Estilos',xp:600,exp:'Manzanilla "en rama" é engarrafada diretamente do barril, sem filtração nem clarificação. Preserva a película de flor intacta, criando textura e complexidade impossíveis no Manzanilla clássico.'},
+    {p:'O Vosne-Romanée é a commune mais valiosa da Borgonha porque:',r:'Abriga Romanée-Conti, Richebourg, La Tâche, Grands Échézeaux e mais 6 Grand Crus',e:['Tem a maior área de Grand Crus','Produz apenas vinhos brancos exclusivos','É a mais antiga da Côte de Nuits'],cat:'Vinhos Raros',xp:620,exp:'Vosne-Romanée abriga mais Grand Crus do que qualquer commune: RC, La Tâche, Richebourg, La Romanée, Romanée-Saint-Vivant, Grands/Petits Échézeaux. ~30 ha de Grand Cru puro.'},
+    {p:'Qual é o efeito do "brett" em baixas concentrações vs. altas?',r:'Baixas: complexidade (couro, especiarias). Altas: defeito (curral, band-aid)',e:['Sempre positivo em qualquer concentração','Apenas defeito em qualquer concentração','Indetectável em qualquer concentração'],cat:'Análise Sensorial',xp:610,exp:'Brettanomyces é controversa: sommeliers dividem-se. Em baixíssimas doses (< limiar de detecção), pode adicionar complexidade. Acima de 400ppb de 4-EP, é definitivo defeito.'},
+    {p:'O que é o "MW" (Master of Wine)?',r:'Qualificação máxima em vinhos — apenas ~420 pessoas no mundo a possuem',e:['Título honorário dado por regiões vinícolas','Certificação básica de introdução ao vinho','Diploma equivalente ao WSET Diploma'],cat:'Educação',xp:630,exp:'O MW (Institute of Masters of Wine, 1953) é o título mais difícil do mundo do vinho. ~420 detentores globais. Exige teoria, análise sensorial e dissertação original de pesquisa.'},
+    {p:'A "Grande Rue" de Vosne-Romanée foi promovida a Grand Cru em:',r:'1992 (adquirida pela família Lamarche em monopole)',e:['1936 (fundação da AOC)','1855 (junto à Classificação de Bordeaux)','1973 (com Mouton Rothschild)'],cat:'Vinhos Raros',xp:640,exp:'La Grande Rue foi adquirida por François Lamarche em 1933, mas promovida a Grand Cru apenas em 1992 após décadas de pressão. Localizada entre La Tâche e Romanée-Conti.'},
+    {p:'O que é "reductive winemaking"?',r:'Vinificação em ambiente sem oxigênio, preservando aromas primários',e:['Fermentação com leveduras reduzidas','Adição de agentes redutores ao vinho','Colheita em condições anaeróbicas'],cat:'Vinificação',xp:615,exp:'Vinificação redutiva: mínimo contato com O₂ (inox, gás inerte, fechamento hermético). Preserva aromas frutais e varietais. Oposto ao estilo oxidativo (barrica, micro-ox).'},
+    {p:'O "Champagne" sem safra (NV) mantém consistência através de:',r:'Adição de vinho reserva de safras anteriores (até 40-50% do blend)',e:['Fermentação em temperatura constante','Uso exclusivo de Chardonnay','Dosage uniforme de 12g/L'],cat:'Espumantes',xp:600,exp:'O vinho reserva (de safras anteriores estocadas em inox/barrica) é a chave da consistência NV. Krug, Bollinger e outros têm reservas de décadas. Alguns usam perpetual reserves (solera).'},
+    {p:'O conceito de "noble grapes" (castas nobres) inclui originalmente:',r:'Cabernet Sauvignon, Merlot, Pinot Noir, Chardonnay, Sauvignon Blanc, Riesling',e:['Todas as castas de denominações de origem','Apenas castas com 100+ anos de cultivo','Castas com pontuação Parker de 95+'],cat:'Castas',xp:590,exp:'Émile Peynaud definiu as 6 "castas nobres" pela capacidade de expressar terroir, longevidade e complexidade. Hoje o conceito é expandido para incluir Nebbiolo, Syrah, Riesling entre outros.'},
+    {p:'O "Terroir" vs. "Cépage" é o debate central da Borgonha vs. Bordeaux porque:',r:'Borgonha: uma casta, múltiplos terroirs. Bordeaux: um terroir, múltiplas castas em blend',e:['São filosofias idênticas','Bordeaux usa monocastas; Borgonha usa blends','O debate não existe — ambos valorizam o blend'],cat:'Terroir',xp:620,exp:'Borgonha exalta o terroir sobre a casta: Pinot Noir de Chambolle vs. Gevrey são mundos diferentes. Bordeaux exalta o blend: assemblage equilibra safra e expressa o estilo do château.'},
   ],
 };
 
-/* ─── GLOBAL RANKING DATA ─── */
-const RANKING_WORLD = [
-  {pos:1,avatar:'🏆',nome:'Yuki T.',pais:'🇯🇵',titulo:'Grand Maître du Vin',xp:124500},
-  {pos:2,avatar:'🌹',nome:'Henri D.',pais:'🇫🇷',titulo:'Master of Wine Elite',xp:118200},
-  {pos:3,avatar:'💎',nome:'Isabella R.',pais:'🇮🇹',titulo:'Sommelier Supreme',xp:104800},
-  {pos:4,avatar:'👑',nome:'James W.',pais:'🇬🇧',titulo:'Cellar Grand Master',xp:98500},
-  {pos:5,avatar:'🍷',nome:'Mei L.',pais:'🇨🇳',titulo:'Wine Scholar Elite',xp:89200},
-  {pos:6,avatar:'⭐',nome:'Rafael M.',pais:'🇧🇷',titulo:'Grand Cru Master',xp:84200},
-  {pos:7,avatar:'🥂',nome:'Ana S.',pais:'🇧🇷',titulo:'Sommelier Pro',xp:72880},
-  {pos:8,avatar:'🌺',nome:'Pedro C.',pais:'🇵🇹',titulo:'Cave Master',xp:68200},
-  {pos:9,avatar:'🍇',nome:'Carla F.',pais:'🇧🇷',titulo:'Enófila Expert',xp:62750},
-  {pos:10,avatar:'🎯',nome:'Lucas B.',pais:'🇧🇷',titulo:'Cru Bourgeois',xp:57300},
-  {pos:11,avatar:'🔮',nome:'Sofia K.',pais:'🇩🇪',titulo:'Riesling Master',xp:52100},
-  {pos:12,avatar:'🍒',nome:'André M.',pais:'🇦🇷',titulo:'Malbec Expert',xp:48600},
-  {pos:13,avatar:'🌿',nome:'Beatriz S.',pais:'🇧🇷',titulo:'Premier Cru',xp:44800},
-  {pos:14,avatar:'🫐',nome:'Thomas B.',pais:'🇦🇺',titulo:'Barossa Master',xp:41200},
-  {pos:15,avatar:'🎵',nome:'Liu W.',pais:'🇨🇳',titulo:'Terroir Scholar',xp:38700},
+/* ══════════════════════════════════════════
+   EGO PROVOCATION DATA
+   ══════════════════════════════════════════ */
+const EGO_TAUNTS = [
+  // Chapter 1-2 (níveis 1-20)
+  {minLvl:1,  maxLvl:10,  txt:'98% das pessoas nem chegam ao Nível 10. Você chegou.', rival:'Lucas B. (Nível 9) está logo atrás de você.'},
+  {minLvl:11, maxLvl:20,  txt:'Você já sabe mais de vinho que 85% dos brasileiros.', rival:'Ana S. (Nível 18) perdeu para você há 2 dias.'},
+  // Chapter 3-4 (níveis 21-40)
+  {minLvl:21, maxLvl:30,  txt:'Só 12% chegam aqui. Você está no grupo de elite.', rival:'Carla F. (Nível 29) está empatada com você.'},
+  {minLvl:31, maxLvl:40,  txt:'Seu professor de vinho provavelmente não sabe o que você sabe.', rival:'Pedro C. (Nível 37) está 2 níveis abaixo.'},
+  // Chapter 5-6 (níveis 41-60)
+  {minLvl:41, maxLvl:50,  txt:'Você conhece Burgundy melhor que 99% dos enófilos do Brasil.', rival:'Rafael M. (Nível 49) está te perseguindo.'},
+  {minLvl:51, maxLvl:60,  txt:'Um sommelier de restaurante 5 estrelas chegaria até aqui. Você passou.', rival:'Sofia K. (Alemanha, Nível 58) está logo atrás.'},
+  // Chapter 7-8 (níveis 61-80)
+  {minLvl:61, maxLvl:70,  txt:'Você domina o que custa R$ 50.000 em cursos presenciais.', rival:'André M. (Argentina, Nível 67) tenta te alcançar.'},
+  {minLvl:71, maxLvl:80,  txt:'TOP 0.1% dos enófilos do planeta. Seu palato é uma raridade.', rival:'James W. (UK, Nível 79) está quase empatado.'},
+  // Chapter 9-10 (níveis 81-100)
+  {minLvl:81, maxLvl:90,  txt:'Só 42 brasileiros chegaram neste nível. Um deles é você.', rival:'Henri D. (França, Nível 87) não te alcança.'},
+  {minLvl:91, maxLvl:100, txt:'⚜️ LENDA MUNDIAL. Menos de 0.001% do planeta.', rival:'Yuki T. (Japão, #1 Mundial) vê seu nome subindo.'},
 ];
-// Generate 85 more for Top 100
-for(let i=16;i<=100;i++){
+
+// Chapter unlock ego messages shown in chapter headers
+const CHAPTER_EGO = [
+  '🌱 O início de uma lenda',
+  '🍷 Sua reputação começa aqui',
+  '🔍 Os amadores param aqui. Você não.',
+  '📚 Saber como um especialista',
+  '💡 O conhecimento que vale R$ 30.000',
+  '🥂 Seu palato supera 99% dos brasileiros',
+  '🌟 Território de Sommeliers Profissionais',
+  '👑 O que R$ 100.000 em formação ensina',
+  '🏛️ Lendas são feitas aqui',
+  '⚜️ Apenas os melhores do mundo chegam aqui',
+];
+
+function getEgoTaunt(lvl) {
+  return EGO_TAUNTS.find(t => lvl >= t.minLvl && lvl <= t.maxLvl) || EGO_TAUNTS[0];
+}
+
+// Streak multiplier
+function streakMultiplier() {
+  if(PLAYER.streak >= 10) return 2.0;
+  if(PLAYER.streak >= 7)  return 1.75;
+  if(PLAYER.streak >= 5)  return 1.5;
+  if(PLAYER.streak >= 3)  return 1.25;
+  return 1.0;
+}
+
+/* ══════════════════════════════════════════
+   PLAYER STATE
+   ══════════════════════════════════════════ */
+const PLAYER = {
+  name: localStorage.getItem('vbwr_name') || 'Wine Explorer',
+  avatar: localStorage.getItem('vbwr_avatar') || '🍷',
+  xp: parseInt(localStorage.getItem('vbwr_xp')||'0'),
+  completedLevels: JSON.parse(localStorage.getItem('vbwr_completed')||'[]'),
+  streak: parseInt(localStorage.getItem('vbwr_streak')||'0'),
+  peakRank: parseInt(localStorage.getItem('vbwr_peakRank')||'99999'),
+};
+
+function savePlayer(){
+  localStorage.setItem('vbwr_xp', PLAYER.xp);
+  localStorage.setItem('vbwr_name', PLAYER.name);
+  localStorage.setItem('vbwr_avatar', PLAYER.avatar);
+  localStorage.setItem('vbwr_completed', JSON.stringify(PLAYER.completedLevels));
+  localStorage.setItem('vbwr_streak', PLAYER.streak);
+  localStorage.setItem('vbwr_peakRank', PLAYER.peakRank);
+}
+
+function getCurrentLevel(){
+  let lvl = 1;
+  for(let i=0;i<LEVELS.length;i++){
+    if(PLAYER.xp >= LEVELS[i].xpRequired) lvl = LEVELS[i].id;
+    else break;
+  }
+  return lvl;
+}
+
+function getTitleForXP(xp){
+  const lvl = getCurrentLevelFromXP(xp);
+  return LEVEL_TITLES[lvl] || 'Iniciante';
+}
+
+function getCurrentLevelFromXP(xp){
+  let lvl = 1;
+  for(let i=0;i<LEVELS.length;i++){
+    if(xp >= LEVELS[i].xpRequired) lvl = LEVELS[i].id;
+    else break;
+  }
+  return lvl;
+}
+
+/* ══════════════════════════════════════════
+   RANKING DATA — 1000 global players
+   ══════════════════════════════════════════ */
+const RANKING_WORLD = [
+  {pos:1,avatar:'🏆',nome:'Yuki Tanaka',pais:'🇯🇵',titulo:'⚜️ LENDA MUNDIAL',xp:850000},
+  {pos:2,avatar:'🌹',nome:'Henri Dubois',pais:'🇫🇷',titulo:'Grand Maître',xp:720000},
+  {pos:3,avatar:'💎',nome:'Isabella Rossi',pais:'🇮🇹',titulo:'Grand Maître',xp:680000},
+  {pos:4,avatar:'👑',nome:'James Windsor',pais:'🇬🇧',titulo:'Lenda em Vida',xp:590000},
+  {pos:5,avatar:'🍷',nome:'Mei Lin',pais:'🇨🇳',titulo:'Mito do Vinho',xp:540000},
+  {pos:6,avatar:'⭐',nome:'Rafael Monteiro',pais:'🇧🇷',titulo:'Lenda Emergente',xp:498000},
+  {pos:7,avatar:'🥂',nome:'Ana Silveira',pais:'🇧🇷',titulo:'Mestre Elite',xp:442000},
+  {pos:8,avatar:'🌺',nome:'Pedro Carvalho',pais:'🇵🇹',titulo:'Mestre do Vinho',xp:398000},
+  {pos:9,avatar:'🍇',nome:'Carla Ferreira',pais:'🇧🇷',titulo:'Mestre do Vinho',xp:362000},
+  {pos:10,avatar:'🎯',nome:'Lucas Barros',pais:'🇧🇷',titulo:'Grand Sommelier Elite',xp:328000},
+  {pos:11,avatar:'🔮',nome:'Sofia Keller',pais:'🇩🇪',titulo:'Grand Sommelier',xp:295000},
+  {pos:12,avatar:'🍒',nome:'André Müller',pais:'🇦🇷',titulo:'Grand Sommelier',xp:268000},
+  {pos:13,avatar:'🌿',nome:'Beatriz Santos',pais:'🇧🇷',titulo:'Sommelier Elite',xp:245000},
+  {pos:14,avatar:'🫐',nome:'Thomas Brown',pais:'🇦🇺',titulo:'Sommelier Certified',xp:222000},
+  {pos:15,avatar:'🎵',nome:'Liu Wei',pais:'🇨🇳',titulo:'Sommelier Pro',xp:200000},
+];
+
+// Generate 985 more
+for(let i=16;i<=1000;i++){
+  const xpMax = RANKING_WORLD[14].xp; // 200000
+  const xp = Math.round(xpMax * Math.pow(1-(i-15)/1200, 1.4));
+  const ch = Math.min(10, Math.ceil(getCurrentLevelFromXP(xp)/10));
   RANKING_WORLD.push({
     pos:i, avatar:'🍷',
     nome:`Player ${i}`,
-    pais:'🌍',
-    titulo:i<=30?'Expert':i<=60?'Especialista':'Apreciador',
-    xp:Math.round(38700*(1-(i-15)/170)),
+    pais: i%7===0?'🇧🇷':i%5===0?'🇵🇹':i%4===0?'🇦🇷':i%3===0?'🇫🇷':'🌍',
+    titulo: LEVEL_TITLES[getCurrentLevelFromXP(xp)] || 'Apreciador',
+    xp: Math.max(100, xp),
   });
 }
-const TOP100_MIN_XP = RANKING_WORLD[99].xp;
+
+const TOP100_XP = RANKING_WORLD[99].xp;
+const TOP10_XP = RANKING_WORLD[9].xp;
 
 const RANKING_COUNTRY = RANKING_WORLD.filter(r=>r.pais==='🇧🇷').map((r,i)=>({...r,pos:i+1}));
 const RANKING_FRIENDS = [
-  {pos:1,avatar:'🍇',nome:'Carla F.',pais:'🇧🇷',titulo:'Enófila Expert',xp:62750},
-  {pos:2,avatar:'🎯',nome:'Lucas B.',pais:'🇧🇷',titulo:'Cru Bourgeois',xp:57300},
-  {pos:3,avatar:'🌿',nome:'Beatriz S.',pais:'🇧🇷',titulo:'Premier Cru',xp:44800},
-  {pos:4,avatar:'🍷',nome:'João P.',pais:'🇧🇷',titulo:'Apreciador',xp:12400},
+  {pos:1,avatar:'🍇',nome:'Carla F.',pais:'🇧🇷',titulo:'Mestre',xp:362000},
+  {pos:2,avatar:'🎯',nome:'Lucas B.',pais:'🇧🇷',titulo:'Grand Sommelier',xp:328000},
+  {pos:3,avatar:'🌿',nome:'Beatriz S.',pais:'🇧🇷',titulo:'Sommelier',xp:245000},
+  {pos:4,avatar:'🍷',nome:'João P.',pais:'🇧🇷',titulo:'Especialista',xp:52000},
   {pos:5,avatar:'🍷',nome:'Você',pais:'🇧🇷',titulo:'',xp:PLAYER.xp,isYou:true},
 ];
 
-/* ════════════════════════════════════════════════════════
+/* ══════════════════════════════════════════
    PARTICLES
-   ═════════════════════════════════════════════════════════ */
+   ══════════════════════════════════════════ */
 (function(){
-  const c=document.getElementById('particles');
-  const ctx=c.getContext('2d');
-  let W,H;
-  const pts=[];
+  const c=document.getElementById('particles'), ctx=c.getContext('2d');
+  let W,H; const pts=[];
   function resize(){W=c.width=innerWidth;H=c.height=innerHeight;}
   resize(); window.addEventListener('resize',resize);
   for(let i=0;i<50;i++) pts.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.5+.3,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,col:[212,175,55]});
@@ -595,7 +872,7 @@ const RANKING_FRIENDS = [
       if(p.x<0)p.x=W; if(p.x>W)p.x=0;
       if(p.y<0)p.y=H; if(p.y>H)p.y=0;
       const g=ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*4);
-      g.addColorStop(0,`rgba(${p.col[0]},${p.col[1]},${p.col[2]},.8)`);
+      g.addColorStop(0,`rgba(${p.col[0]},${p.col[1]},${p.col[2]},.7)`);
       g.addColorStop(1,`rgba(${p.col[0]},${p.col[1]},${p.col[2]},0)`);
       ctx.beginPath(); ctx.arc(p.x,p.y,p.r*4,0,Math.PI*2);
       ctx.fillStyle=g; ctx.fill();
@@ -605,9 +882,9 @@ const RANKING_FRIENDS = [
   loop();
 })();
 
-/* ════════════════════════════════════════════════════════
-   SPA NAVIGATION
-   ═════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   NAVIGATION
+   ══════════════════════════════════════════ */
 function showScreen(name){
   document.querySelectorAll('.vb-screen').forEach(s=>s.classList.remove('active'));
   const el=document.getElementById('sc-'+name);
@@ -616,107 +893,178 @@ function showScreen(name){
   if(name==='ranking') rkRender(rkCurrentTab);
 }
 
-/* ════════════════════════════════════════════════════════
-   SPLASH
-   ═════════════════════════════════════════════════════════ */
 document.getElementById('splashPlay').addEventListener('click',function(){
   this.disabled=true; this.style.opacity='.5';
   setTimeout(()=>showScreen('levels'),300);
 });
 
-/* ════════════════════════════════════════════════════════
-   LEVELS SCREEN
-   ═════════════════════════════════════════════════════════ */
-function getTitleForXP(xp){
-  if(xp>=20000) return 'Grand Maître du Vin';
-  if(xp>=12000) return 'Master of Wine';
-  if(xp>=7000)  return 'Expert du Vin';
-  if(xp>=3500)  return 'Especialista';
-  if(xp>=1500)  return 'Apreciador';
-  if(xp>=500)   return 'Entusiasta';
-  return 'Descobridor';
+/* ══════════════════════════════════════════
+   LEVEL SCREEN
+   ══════════════════════════════════════════ */
+function estimateRank(xp){
+  for(let i=0;i<RANKING_WORLD.length;i++){
+    if(xp >= RANKING_WORLD[i].xp) return RANKING_WORLD[i].pos;
+  }
+  const minXP = RANKING_WORLD[RANKING_WORLD.length-1].xp;
+  return 1000 + Math.round((minXP-xp)/20);
+}
+
+function getPercentile(rank){
+  // out of 1 million estimated global players
+  const pct = (rank/1000000)*100;
+  if(pct < 0.01) return 'TOP 0.01%';
+  if(pct < 0.1) return 'TOP 0.1%';
+  if(pct < 1) return `TOP ${pct.toFixed(1)}%`;
+  if(pct < 10) return `TOP ${Math.round(pct)}%`;
+  return `TOP ${Math.min(99,Math.round(pct))}%`;
 }
 
 function renderLevels(){
-  // Update header XP
-  document.getElementById('lvXP').textContent = PLAYER.xp.toLocaleString();
-  document.getElementById('playerXPCard').textContent = PLAYER.xp.toLocaleString();
+  const xp = PLAYER.xp;
+  const rank = estimateRank(xp);
+  const pct = getPercentile(rank);
+  const title = getTitleForXP(xp);
+  const lvl = getCurrentLevel();
 
-  // Current title
-  const title = getTitleForXP(PLAYER.xp);
-  const lvl = PLAYER.level;
+  document.getElementById('lvXP').textContent = xp.toLocaleString('pt-BR');
+  document.getElementById('lvStreakDays').textContent = PLAYER.streak;
+  document.getElementById('playerXPCard').textContent = xp.toLocaleString('pt-BR');
   document.getElementById('playerTitleCard').textContent = `${title} · Nível ${lvl}`;
   document.getElementById('playerNameCard').textContent = PLAYER.name;
+  document.getElementById('egoLine').innerHTML = `Você está entre os <strong style="color:#D4AF37">${pct} do mundo</strong>`;
+  document.getElementById('egoRank').textContent = `#${rank.toLocaleString('pt-BR')}`;
 
-  // Progress to next level
+  // Progress bar to next level
   const nextLvl = LEVELS[lvl] || null;
-  if(nextLvl){
-    const currentLvl = LEVELS[lvl-1];
-    const range = nextLvl.xpRequired - currentLvl.xpRequired;
-    const progress = PLAYER.xp - currentLvl.xpRequired;
-    document.getElementById('playerProgBar').style.width = Math.min(100, (progress/range*100))+'%';
+  const curLvl = LEVELS[lvl-1];
+  if(nextLvl && curLvl){
+    const range = nextLvl.xpRequired - curLvl.xpRequired;
+    const prog = xp - curLvl.xpRequired;
+    document.getElementById('playerProgBar').style.width = Math.min(100,(prog/range*100))+'%';
   } else {
     document.getElementById('playerProgBar').style.width='100%';
   }
 
-  // Render level cards
+  // Ego provocation
+  const taunt = getEgoTaunt(lvl);
+  document.getElementById('egoTauntText').textContent = taunt.txt;
+
+  // Rival card
+  const rivalEl = document.getElementById('rivalCard');
+  if(taunt.rival) {
+    rivalEl.style.display='flex';
+    document.getElementById('rivalName').textContent = taunt.rival.split('(')[0].trim();
+    const rmatch = taunt.rival.match(/\(([^)]+)\)/);
+    document.getElementById('rivalTitle').textContent = rmatch ? rmatch[1] : '';
+  } else {
+    rivalEl.style.display='none';
+  }
+
+  // Streak multiplier display
+  const mult = streakMultiplier();
+  const streakBonusEl = document.getElementById('streakBonus');
+  if(PLAYER.streak >= 3) {
+    streakBonusEl.style.display='block';
+    streakBonusEl.style.background='rgba(212,175,55,.1)';
+    streakBonusEl.style.border='1px solid rgba(212,175,55,.3)';
+    streakBonusEl.style.color='var(--ouro2)';
+    streakBonusEl.textContent = `🔥 STREAK x${PLAYER.streak} — Multiplicador de XP: ×${mult.toFixed(2)}!`;
+  } else {
+    streakBonusEl.style.display='none';
+  }
+
   const container = document.getElementById('levelCardsContainer');
   container.innerHTML='';
+  let lastChapter = 0;
 
-  LEVELS.forEach((lv,i)=>{
-    const unlocked = PLAYER.xp >= lv.xpRequired;
+  LEVELS.forEach((lv)=>{
+    // Chapter header
+    if(lv.chapter !== lastChapter){
+      lastChapter = lv.chapter;
+      const ch = CHAPTERS[lv.chapter-1];
+      const chHeader = document.createElement('div');
+      chHeader.className='mt-3 mb-1';
+      const chUnlocked = xp >= lv.xpRequired;
+      const chEgoMsg = CHAPTER_EGO[ch.id-1] || '';
+      chHeader.innerHTML=`
+        <div class="flex items-center gap-2 px-1">
+          <span class="chapter-pill" style="${chUnlocked?'background:rgba('+hexToRgb(ch.color)+',.12);border-color:rgba('+hexToRgb(ch.color)+',.3);color:'+ch.color:''}">${ch.icon} Capítulo ${ch.id}: ${ch.name}</span>
+          <div style="flex:1;height:1px;background:var(--border)"></div>
+          <span class="text-xs" style="color:var(--text2)">Nív. ${ch.range[0]}–${ch.range[1]}</span>
+        </div>
+        ${chUnlocked?`<div class="text-xs px-1 mt-0.5" style="color:var(--ouro2);font-style:italic">${chEgoMsg}</div>`:''}
+        `;
+      container.appendChild(chHeader);
+    }
+
+    const unlocked = xp >= lv.xpRequired;
     const completed = PLAYER.completedLevels.includes(lv.id);
     const card = document.createElement('div');
-    card.className='level-card p-4 '+(completed?'completed':'')+(unlocked?'':' locked');
+    card.className='level-card p-3'+(completed?' completed':'')+(unlocked?'':' locked');
 
-    const themeBadges = lv.themes.map(t=>`<span class="text-xs px-2 py-0.5 rounded-full mr-1" style="background:var(--ivory2);color:var(--text2);border:1px solid var(--border)">${t}</span>`).join('');
+    const progressPct = !unlocked ? Math.min(100,(xp/lv.xpRequired*100)) : 100;
 
     card.innerHTML=`
-      <div class="flex items-start gap-4">
-        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shrink-0" style="background:${lv.colorBg};border:1px solid ${lv.color}33">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl flex items-center justify-center text-xl shrink-0"
+          style="background:rgba(${unlocked?hexToRgb(lv.chapterColor):hexToRgb('#888')},.12);border:1px solid rgba(${unlocked?hexToRgb(lv.chapterColor):hexToRgb('#888')},.3)">
           ${unlocked?lv.icon:'🔒'}
         </div>
         <div class="flex-1 min-w-0">
-          <div class="flex items-center gap-2 mb-0.5">
-            <div class="font-bold text-base" style="color:${unlocked?lv.color:'var(--border)'}">Nível ${lv.id}: ${lv.name}</div>
-            ${completed?'<span class="badge" style="background:rgba(212,175,55,.2);color:#D4AF37">✓ Completo</span>':''}
+          <div class="flex items-center gap-1.5 mb-0.5">
+            <div class="font-bold text-sm" style="color:${unlocked?lv.chapterColor:'var(--border)'}">${lv.id}. ${lv.name}</div>
+            ${completed?'<span class="badge" style="background:rgba(212,175,55,.15);color:var(--ouro2);font-size:.6rem">✓</span>':''}
           </div>
-          <div class="text-xs mb-1" style="color:var(--text2)">${lv.subtitle}</div>
-          <div class="text-xs mb-2" style="color:var(--text2);opacity:.7">${lv.desc}</div>
-          <div class="flex flex-wrap gap-1 mb-3">${themeBadges}</div>
-          ${!unlocked?`<div class="flex items-center gap-2"><div class="prog-bar flex-1" style="height:3px"><div class="prog-fill" style="width:${Math.min(100,(PLAYER.xp/lv.xpRequired*100))}%"></div></div><span class="text-xs" style="color:var(--text2)">${lv.xpRequired.toLocaleString()} XP necessário</span></div>`:''}
+          <div class="text-xs" style="color:var(--text2)">${lv.chapterName}</div>
+          ${!unlocked?`<div class="flex items-center gap-2 mt-1.5"><div class="prog-bar flex-1" style="height:2px"><div class="prog-fill" style="width:${progressPct}%"></div></div><span class="text-xs" style="color:var(--text2)">${Math.round(lv.xpRequired/1000)}k XP</span></div>`:''}
         </div>
         <div class="text-right shrink-0">
-          <div class="text-xs font-bold" style="color:${lv.color}">+${lv.xpReward.toLocaleString()}</div>
-          <div class="text-xs" style="color:var(--text2)">XP máx</div>
+          <div class="text-xs font-bold" style="color:${lv.chapterColor}">+${(lv.xpReward/1000).toFixed(1)}k</div>
+          <div class="text-xs" style="color:var(--text2)">XP</div>
         </div>
-      </div>
-    `;
+      </div>`;
 
-    if(unlocked){
-      card.addEventListener('click',()=>startQuiz(lv));
-    }
+    if(unlocked) card.addEventListener('click',()=>startQuiz(lv));
     container.appendChild(card);
   });
 }
 
-/* ════════════════════════════════════════════════════════
-   QUIZ
-   ═════════════════════════════════════════════════════════ */
-const QUIZ_TIMER_SEC = 25;
+function hexToRgb(hex){
+  const r=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  return r?`${parseInt(r[1],16)},${parseInt(r[2],16)},${parseInt(r[3],16)}`:'122,31,38';
+}
+
+/* ══════════════════════════════════════════
+   QUIZ ENGINE
+   ══════════════════════════════════════════ */
+const QUIZ_TIMER_SEC = 28;
 const QUIZ_LIVES = 3;
 let qState={level:null,questions:[],idx:0,lives:3,sessionXP:0,correct:0,timer:null,answered:false};
 
+function getQuestionsForLevel(lv){
+  // Map tier to question pool
+  const tierMap = {1:'t1',2:'t1',3:'t2',4:'t2',5:'t3',6:'t3',7:'t4',8:'t4',9:'t5',10:'t5',
+                   11:'t4',12:'t4',13:'t5',14:'t5',15:'t5',16:'t5',17:'t6',18:'t6',19:'t6',20:'t6',
+                   21:'t5',22:'t5',23:'t6',24:'t6',25:'t6',26:'t6',27:'t6',28:'t7',29:'t7',30:'t7',
+                   31:'t6',32:'t6',33:'t7',34:'t7',35:'t7',36:'t7',37:'t7',38:'t7',39:'t7',40:'t7',
+                   41:'t6',42:'t7',43:'t7',44:'t7',45:'t7',46:'t7',47:'t7',48:'t8',49:'t8',50:'t8'};
+  const tierKey = tierMap[lv.id] || (lv.id <= 60 ? 't7' : lv.id <= 80 ? 't8' : 't8');
+  // Mix tiers for variety
+  let pool = [...(QB[tierKey]||QB.t4)];
+  // Add some from adjacent tiers
+  const tierNum = parseInt(tierKey.replace('t',''));
+  if(tierNum > 1 && QB['t'+(tierNum-1)]) pool = pool.concat(QB['t'+(tierNum-1)].slice(0,4));
+  if(QB['t'+(tierNum+1)]) pool = pool.concat(QB['t'+(tierNum+1)].slice(0,3));
+  // Shuffle
+  for(let i=pool.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[pool[i],pool[j]]=[pool[j],pool[i]];}
+  return pool.slice(0,10);
+}
+
 function startQuiz(level){
-  const qs = [...QB[level.questions]];
-  // Fisher-Yates shuffle
-  for(let i=qs.length-1;i>0;i--){
-    const j=Math.floor(Math.random()*(i+1));
-    [qs[i],qs[j]]=[qs[j],qs[i]];
-  }
-  qState={level,questions:qs.slice(0,8),idx:0,lives:QUIZ_LIVES,sessionXP:0,correct:0,timer:null,answered:false};
+  const qs = getQuestionsForLevel(level);
+  qState={level,questions:qs,idx:0,lives:QUIZ_LIVES,sessionXP:0,correct:0,timer:null,answered:false};
   document.getElementById('quizLevelName').textContent=`Nível ${level.id}: ${level.name}`;
-  document.getElementById('quizSubtitle').textContent=level.subtitle;
+  document.getElementById('quizSubtitle').textContent=`${level.chapterName} · ${level.chapterIcon}`;
   document.getElementById('quizEndOverlay').classList.add('hidden');
   showScreen('quiz');
   renderQuestion();
@@ -731,23 +1079,21 @@ function renderQuestion(){
   const q=qState.questions[qState.idx];
   if(!q){ endQuiz(); return; }
   qState.answered=false;
-
   document.getElementById('quizRoundLabel').textContent=`${qState.idx+1}/${qState.questions.length}`;
-  document.getElementById('quizSessionXP').textContent=qState.sessionXP;
+  document.getElementById('quizSessionXP').textContent=qState.sessionXP.toLocaleString('pt-BR');
   document.getElementById('quizCat').textContent=q.cat;
   document.getElementById('quizText').textContent=q.p;
   document.getElementById('quizExplanation').classList.add('hidden');
-
-  // Difficulty badge
-  const diffColors={fácil:'rgba(76,175,80,.2)',médio:'rgba(33,150,243,.2)',difícil:'rgba(255,152,0,.2)',expert:'rgba(156,39,176,.2)',mestre:'rgba(212,175,55,.2)'};
-  const diffTextColors={fácil:'#80CBC4',médio:'#64B5F6',difícil:'#FFCC80',expert:'#CE93D8',mestre:'#D4AF37'};
-  const db=document.getElementById('quizDiffBadge');
-  db.textContent=q.diff.charAt(0).toUpperCase()+q.diff.slice(1);
-  db.style.background=diffColors[q.diff]||diffColors.médio;
-  db.style.color=diffTextColors[q.diff]||diffTextColors.médio;
   document.getElementById('quizXPPreview').textContent=`+${q.xp} XP`;
 
-  // Lives
+  const diffMap={fácil:'rgba(76,175,80,.2)',médio:'rgba(33,150,243,.2)',difícil:'rgba(255,152,0,.2)',expert:'rgba(156,39,176,.2)',mestre:'rgba(212,175,55,.2)'};
+  const diffTxt={fácil:'#388E3C',médio:'#1565C0',difícil:'#E65100',expert:'#6A1B9A',mestre:'var(--ouro2)'};
+  const db=document.getElementById('quizDiffBadge');
+  const diff=q.diff||'médio';
+  db.textContent=diff.charAt(0).toUpperCase()+diff.slice(1);
+  db.style.background=diffMap[diff]||diffMap.médio;
+  db.style.color=diffTxt[diff]||diffTxt.médio;
+
   const livesEl=document.getElementById('quizLives');
   livesEl.innerHTML='';
   for(let i=0;i<QUIZ_LIVES;i++){
@@ -756,19 +1102,16 @@ function renderQuestion(){
     livesEl.appendChild(s);
   }
 
-  // Choices
   const all=[q.r,...q.e].sort(()=>Math.random()-.5);
   const ch=document.getElementById('quizChoices');
   ch.innerHTML='';
   all.forEach(ans=>{
     const btn=document.createElement('button');
-    btn.className='choice-btn';
-    btn.textContent=ans;
+    btn.className='choice-btn'; btn.textContent=ans;
     btn.addEventListener('click',()=>answerQ(btn,ans,q));
     ch.appendChild(btn);
   });
 
-  // Timer
   clearInterval(qState.timer);
   let t=QUIZ_TIMER_SEC;
   const bar=document.getElementById('quizTimerBar');
@@ -776,51 +1119,33 @@ function renderQuestion(){
   qState.timer=setInterval(()=>{
     t--;
     bar.style.width=(t/QUIZ_TIMER_SEC*100)+'%';
-    if(t<=7) bar.style.background='#F44336';
-    if(t<=0){
-      clearInterval(qState.timer);
-      if(!qState.answered) timeOut(q);
-    }
+    if(t<=8) bar.style.background='#F44336';
+    if(t<=0){ clearInterval(qState.timer); if(!qState.answered) timeOut(q); }
   },1000);
 }
 
 function timeOut(q){
-  qState.answered=true;
-  qState.lives--;
-  document.querySelectorAll('.choice-btn').forEach(b=>{
-    b.disabled=true;
-    if(b.textContent===q.r) b.classList.add('correct');
-  });
-  showExplanation(`⏱ Tempo! Resposta: ${q.r}. ${q.exp}`);
-  updateLives();
-  qState.idx++;
+  qState.answered=true; qState.lives--;
+  document.querySelectorAll('.choice-btn').forEach(b=>{b.disabled=true; if(b.textContent===q.r) b.classList.add('correct');});
+  showExplanation(`⏱ Tempo esgotado! Resposta: ${q.r}. ${q.exp}`);
+  updateLives(); qState.idx++;
   if(qState.lives<=0){ setTimeout(endQuiz,2000); return; }
   setTimeout(renderQuestion,2400);
 }
 
 function answerQ(btn,ans,q){
   if(qState.answered) return;
-  qState.answered=true;
-  clearInterval(qState.timer);
-
-  document.querySelectorAll('.choice-btn').forEach(b=>{
-    b.disabled=true;
-    if(b.textContent===q.r) b.classList.add('correct');
-  });
-
+  qState.answered=true; clearInterval(qState.timer);
+  document.querySelectorAll('.choice-btn').forEach(b=>{b.disabled=true; if(b.textContent===q.r) b.classList.add('correct');});
   if(ans===q.r){
     btn.classList.add('correct');
-    qState.sessionXP+=q.xp;
-    qState.correct++;
-    document.getElementById('quizSessionXP').textContent=qState.sessionXP;
+    qState.sessionXP+=q.xp; qState.correct++;
+    document.getElementById('quizSessionXP').textContent=qState.sessionXP.toLocaleString('pt-BR');
     showExplanation(`✅ ${q.exp}`);
   } else {
-    btn.classList.add('wrong');
-    qState.lives--;
-    updateLives();
+    btn.classList.add('wrong'); qState.lives--; updateLives();
     showExplanation(`❌ Incorreto. ${q.exp}`);
   }
-
   qState.idx++;
   if(qState.lives<=0){ setTimeout(endQuiz,2200); return; }
   if(qState.idx>=qState.questions.length){ setTimeout(endQuiz,2200); return; }
@@ -833,159 +1158,172 @@ function showExplanation(txt){
 }
 
 function updateLives(){
-  const livesEl=document.getElementById('quizLives');
-  livesEl.innerHTML='';
+  const el=document.getElementById('quizLives'); el.innerHTML='';
   for(let i=0;i<QUIZ_LIVES;i++){
-    const s=document.createElement('span');
-    s.className='text-lg'; s.textContent=i<qState.lives?'❤️':'🖤';
-    livesEl.appendChild(s);
+    const s=document.createElement('span'); s.className='text-lg';
+    s.textContent=i<qState.lives?'❤️':'🖤'; el.appendChild(s);
   }
 }
 
 function endQuiz(){
   clearInterval(qState.timer);
-  const won = qState.correct >= Math.ceil(qState.questions.length*.6);
-  const gain = won ? qState.sessionXP : Math.round(qState.sessionXP*.4);
+  const won = qState.correct >= Math.ceil(qState.questions.length*.55);
+  const mult = won ? streakMultiplier() : 1.0;
+  const gain = won ? Math.round(qState.sessionXP * mult) : Math.round(qState.sessionXP*.35);
 
-  // Update player XP
-  const oldXP = PLAYER.xp;
-  PLAYER.xp += gain;
+  const oldXP=PLAYER.xp, oldRank=estimateRank(oldXP);
+  PLAYER.xp+=gain;
 
-  // Check level up
-  LEVELS.forEach(lv=>{
-    if(PLAYER.xp>=lv.xpRequired && !PLAYER.completedLevels.includes(lv.id) && lv.id===qState.level.id){
-      PLAYER.completedLevels.push(lv.id);
-    }
-    if(PLAYER.xp>=lv.xpRequired && PLAYER.level < lv.id+1){
-      PLAYER.level = Math.min(5, lv.id+1);
-    }
-  });
+  // Check level completion
+  const newLvl=getCurrentLevel();
+  if(!PLAYER.completedLevels.includes(qState.level.id) && won){
+    PLAYER.completedLevels.push(qState.level.id);
+  }
+
+  // Streak
+  PLAYER.streak = won ? PLAYER.streak+1 : 0;
+
+  // Peak rank
+  const newRank=estimateRank(PLAYER.xp);
+  if(newRank < PLAYER.peakRank) PLAYER.peakRank=newRank;
+
   savePlayer();
 
-  // Rank change estimate
-  const estimatedRank = estimateRank(PLAYER.xp);
-  const oldRank = estimateRank(oldXP);
-  const rankChange = oldRank - estimatedRank;
+  const rankChange=oldRank-newRank;
+  const pct=getPercentile(newRank);
+  const oldPct=getPercentile(oldRank);
 
-  document.getElementById('quizEndEmoji').textContent = won?'🏆':'💔';
-  document.getElementById('quizEndTitle').textContent = won?'Excelente performance!':'Continue praticando!';
-  document.getElementById('quizEndSub').textContent = `${qState.correct}/${qState.questions.length} acertos · Nível ${qState.level.name}`;
-  document.getElementById('quizEndXP').textContent = `+${gain.toLocaleString()} XP`;
+  document.getElementById('quizEndEmoji').textContent=won?'🏆':'💔';
+  const multLabel = won && mult > 1 ? ` · 🔥 ×${mult.toFixed(2)} streak!` : '';
+  document.getElementById('quizEndTitle').textContent=won?'Excelente!':'Continue praticando!';
+  document.getElementById('quizEndSub').textContent=`${qState.correct}/${qState.questions.length} acertos · ${qState.level.chapterName}${multLabel}`;
+  document.getElementById('quizEndXP').textContent=`+${gain.toLocaleString('pt-BR')} XP`;
+  document.getElementById('endRankDisplay').textContent=`#${newRank.toLocaleString('pt-BR')}`;
+  document.getElementById('endPercentile').textContent=`${pct} do planeta`;
 
-  const rc = document.getElementById('quizRankChange');
+  const rc=document.getElementById('quizRankChange');
   if(rankChange>0){
-    rc.textContent=`↑ +${rankChange} posições no ranking`;
+    rc.textContent=`↑ Subiu ${rankChange} posições!`;
     rc.style.background='rgba(76,175,80,.15)'; rc.style.color='#2E7D32';
   } else {
-    rc.textContent=`Posição estimada: #${estimatedRank.toLocaleString()}`;
-    rc.style.background='rgba(212,175,55,.15)'; rc.style.color='var(--ouro2)';
+    rc.textContent=`🌍 ${pct} dos enófilos mundiais`;
+    rc.style.background='rgba(212,175,55,.12)'; rc.style.color='var(--ouro2)';
+  }
+
+  // Title unlock check
+  const newTitle=getTitleForXP(PLAYER.xp);
+  const oldTitle=getTitleForXP(oldXP);
+  const banner=document.getElementById('titleUnlockBanner');
+  if(newTitle !== oldTitle && won){
+    document.getElementById('newTitleText').textContent=newTitle;
+    banner.classList.remove('hidden');
+  } else {
+    banner.classList.add('hidden');
+  }
+
+  // "Você superou X jogadores" ego message
+  const beatBadge = document.getElementById('beatBadge');
+  if(won && rankChange > 0){
+    beatBadge.classList.remove('hidden');
+    beatBadge.textContent = `🏅 Você superou ${rankChange} jogadores nesta partida!`;
+  } else if(won) {
+    const approxBeaten = Math.round(1000000 * (1 - newRank/1000000));
+    beatBadge.classList.remove('hidden');
+    beatBadge.textContent = `🌍 Você está acima de ~${approxBeaten.toLocaleString('pt-BR')} enófilos no mundo`;
+  } else {
+    beatBadge.classList.add('hidden');
   }
 
   if(won) spawnConfetti();
   document.getElementById('quizEndOverlay').classList.remove('hidden');
 }
 
-function estimateRank(xp){
-  // Binary search in ranking data
-  for(let i=0;i<RANKING_WORLD.length;i++){
-    if(xp >= RANKING_WORLD[i].xp) return RANKING_WORLD[i].pos;
-  }
-  const top100xp = TOP100_MIN_XP;
-  if(xp<top100xp){
-    return 100+Math.round((top100xp-xp)/50);
-  }
-  return RANKING_WORLD.length+1;
-}
-
 function quizRestart(){
   document.getElementById('quizEndOverlay').classList.add('hidden');
   qState.idx=0; qState.lives=QUIZ_LIVES; qState.sessionXP=0; qState.correct=0;
-  // re-shuffle
-  const qs=[...QB[qState.level.questions]];
-  for(let i=qs.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[qs[i],qs[j]]=[qs[j],qs[i]];}
-  qState.questions=qs.slice(0,8);
+  qState.questions=getQuestionsForLevel(qState.level);
   renderQuestion();
 }
 
-/* ════════════════════════════════════════════════════════
+function shareScore(){
+  const title=getTitleForXP(PLAYER.xp);
+  const rank=estimateRank(PLAYER.xp);
+  const pct=getPercentile(rank);
+  const msg=`🍷 VinoBianco World Ranking\nSou ${title} · #${rank.toLocaleString('pt-BR')} global\n${pct} dos enófilos do planeta!\nVoce consegue me superar? 🏆`;
+  try{
+    navigator.clipboard.writeText(msg).then(()=>showToast('📋 Copiado! Cole e desafie seus amigos'));
+  }catch(e){ showToast('📤 Desafie seus amigos!'); }
+}
+
+/* ══════════════════════════════════════════
    RANKING SCREEN
-   ═════════════════════════════════════════════════════════ */
+   ══════════════════════════════════════════ */
 let rkCurrentTab='world';
 
-function rkTab(tab, el){
+function rkTab(tab,el){
   rkCurrentTab=tab;
-  document.querySelectorAll('.rk-tab').forEach(t=>{
-    t.classList.remove('active');
-    t.style.color='';
-  });
+  document.querySelectorAll('.rk-tab').forEach(t=>{t.classList.remove('active');t.style.color='';});
   el.classList.add('active');
-  el.style.color='';
   rkRender(tab);
 }
 
 function rkRender(tab){
-  const data = tab==='world' ? RANKING_WORLD : tab==='country' ? RANKING_COUNTRY : RANKING_FRIENDS;
+  const data=tab==='world'?RANKING_WORLD:tab==='country'?RANKING_COUNTRY:RANKING_FRIENDS;
   const list=document.getElementById('rkList');
   list.innerHTML='';
-
   const medals=['🥇','🥈','🥉'];
-  data.slice(0,100).forEach((r,i)=>{
-    const isYou = r.isYou || false;
-    const isTop3 = i<3;
-    const isTop10 = i<10;
+  const showMax=tab==='world'?100:data.length;
+
+  data.slice(0,showMax).forEach((r,i)=>{
+    const isYou=r.isYou||false;
+    const isTop3=i<3; const isTop10=i<10;
     const row=document.createElement('div');
-    row.className='rk-row flex items-center gap-3 p-3 '+(isTop3?'top3 ':' ')+(isYou?'you':'');
-
-    const posDisplay = i<3 ? medals[i] : `#${r.pos}`;
-    const xpDisplay = r.xp.toLocaleString()+' XP';
-    const titleDisplay = isYou ? getTitleForXP(PLAYER.xp) : r.titulo;
-
+    row.className='rk-row flex items-center gap-3 p-3 slide-up '+(isTop3?'top3 ':'')+(isYou?'you':'');
+    row.style.animationDelay=(i*0.03)+'s';
+    const posDisplay=i<3?medals[i]:`#${r.pos}`;
+    const titleDisplay=isYou?getTitleForXP(PLAYER.xp):r.titulo;
     row.innerHTML=`
       <div class="w-8 text-center font-bold text-sm" style="color:${isTop10?'var(--ouro)':'var(--text2)'}">${isYou?'⚡':posDisplay}</div>
       <div class="w-9 h-9 rounded-full flex items-center justify-center text-lg shrink-0" style="background:var(--ivory2);border:1px solid var(--border)">${r.avatar}</div>
       <div class="flex-1 min-w-0">
-        <div class="flex items-center gap-2">
+        <div class="flex items-center gap-1.5">
           <div class="font-semibold text-sm truncate" style="color:${isYou?'var(--vinho)':'var(--text)'}">${r.nome} ${r.pais||''}</div>
-          ${isTop3?`<span class="badge" style="background:rgba(212,175,55,.15);color:var(--ouro2)">Elite</span>`:''}
+          ${isTop3?`<span class="badge" style="background:rgba(212,175,55,.15);color:var(--ouro2);font-size:.6rem">Elite</span>`:''}
         </div>
-        <div class="text-xs truncate" style="color:var(--text2)">${isYou?getTitleForXP(PLAYER.xp):r.titulo}</div>
+        <div class="text-xs truncate" style="color:var(--text2)">${isYou?getTitleForXP(PLAYER.xp):titleDisplay}</div>
       </div>
       <div class="text-right shrink-0">
-        <div class="font-bold text-sm" style="color:${isTop10?'var(--ouro)':'var(--text)'}">${isYou?PLAYER.xp.toLocaleString()+' XP':xpDisplay}</div>
-      </div>
-    `;
+        <div class="font-bold text-sm" style="color:${isTop10?'var(--ouro)':'var(--text)'}">${isYou?PLAYER.xp.toLocaleString('pt-BR'):r.xp.toLocaleString('pt-BR')}</div>
+        <div class="text-xs" style="color:var(--text2)">XP</div>
+      </div>`;
     list.appendChild(row);
   });
 
-  // Update sticky you card
-  const myXP = PLAYER.xp;
-  const myRank = estimateRank(myXP);
-  document.getElementById('rkYouPos').textContent = `#${myRank.toLocaleString()}`;
-  document.getElementById('rkYouXP').textContent = myXP.toLocaleString()+' XP';
-  document.getElementById('rkYouTitle').textContent = getTitleForXP(myXP);
+  // Sticky you card
+  const myXP=PLAYER.xp, myRank=estimateRank(myXP), pct=getPercentile(myRank);
+  document.getElementById('rkYouPos').textContent=`#${myRank.toLocaleString('pt-BR')}`;
+  document.getElementById('rkYouXP').textContent=myXP.toLocaleString('pt-BR')+' XP';
+  document.getElementById('rkYouTitleInline').textContent=getTitleForXP(myXP);
+  document.getElementById('rkYouPercent').textContent=pct;
 
-  const inTop100 = myXP >= TOP100_MIN_XP;
-  if(inTop100){
-    document.getElementById('rkYouGap').textContent='✅ Você está no Top 100!';
-    document.getElementById('rkYouGap').style.color='#80CBC4';
+  if(myXP>=TOP100_XP){
+    document.getElementById('rkYouGap').textContent='✅ Você está no Top 100 Mundial!';
+    document.getElementById('rkYouGap').style.color='rgba(212,175,55,.9)';
     document.getElementById('rkYouProg').style.width='100%';
   } else {
-    const gap = TOP100_MIN_XP - myXP;
-    document.getElementById('rkYouGap').textContent=`Faltam ${gap.toLocaleString()} XP para o Top 100`;
+    const gap=TOP100_XP-myXP;
+    document.getElementById('rkYouGap').textContent=`Faltam ${gap.toLocaleString('pt-BR')} XP para o Top 100 Mundial`;
     document.getElementById('rkYouGap').style.color='rgba(248,246,239,.7)';
-    document.getElementById('rkYouProg').style.width=Math.min(99,(myXP/TOP100_MIN_XP*100))+'%';
+    document.getElementById('rkYouProg').style.width=Math.min(99,(myXP/TOP100_XP*100))+'%';
   }
-
-  // Show/hide sticky card (always shown outside top 100)
-  document.getElementById('rkYouCard').style.display=inTop100?'none':'block';
 }
 
-/* ════════════════════════════════════════════════════════
-   CONFETTI
-   ═════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   CONFETTI & TOAST
+   ══════════════════════════════════════════ */
 function spawnConfetti(){
-  const colors=['#D4AF37','#F8F6EF','#7A1F26','#A52834','#E8D060','#80CBC4'];
-  for(let i=0;i<40;i++){
+  const colors=['#D4AF37','#F8F6EF','#7A1F26','#A52834','#E8D060','#4CAF50'];
+  for(let i=0;i<50;i++){
     setTimeout(()=>{
       const dot=document.createElement('div');
       dot.className='confetti-dot';
@@ -996,16 +1334,13 @@ function spawnConfetti(){
       dot.style.animationDelay=Math.random()*.5+'s';
       document.body.appendChild(dot);
       setTimeout(()=>dot.remove(),4000);
-    },i*30);
+    },i*25);
   }
 }
 
-/* ════════════════════════════════════════════════════════
-   TOAST
-   ═════════════════════════════════════════════════════════ */
 function showToast(msg){
   const t=document.getElementById('globalToast');
   t.textContent=msg; t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2200);
+  setTimeout(()=>t.classList.remove('show'),2500);
 }
 </script>
